@@ -795,5 +795,29 @@
       "prompt": "content"
     },
     "folder": "python"
+  },
+  "openhermes_10w": {
+    "file_name": "Openhermes_train.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "mmlu_valid_cot": {
+    "file_name": "MMLU_valid_cot.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "mmlu_test": {
+    "file_name": "MMLUSubset_test.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
   }
 }

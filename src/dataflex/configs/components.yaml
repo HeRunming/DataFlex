@@ -70,6 +70,166 @@ selectors:
       seed: 42
       replacement: false
 
+  spec_gcs:
+    name: spec_gcs
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_output
+      gradient_type: adam_diag
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.5
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: logdet
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+
+  spec_gcs_logdet:
+    name: spec_gcs_logdet
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_output
+      gradient_type: adam_diag
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.5
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: logdet
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+
+  spec_gcs_score:
+    name: spec_gcs_score
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_score_output
+      gradient_type: adam_diag
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.5
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: score
+
+  spec_gcs_diverse:
+    name: spec_gcs_diverse
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_diverse_output
+      gradient_type: adam_diag
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.5
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: diverse
+      prefilter_ratio: 5.0
+
+  # === Opt-GCS Main Method (recommended) ===
+  opt_gcs_logdet:
+    name: opt_gcs_logdet
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_output
+      gradient_type: adam_diag
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.5
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: logdet
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+
+  # === Opt-GCS Ablation: unwhitened (β=0) ===
+  opt_gcs_unwhitened:
+    name: opt_gcs_logdet
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_unwhitened_output
+      gradient_type: adam_diag
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.0
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: logdet
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+
+  # === Opt-GCS Ablation: raw SGD gradient (no optimizer preconditioning) ===
+  opt_gcs_raw_sgd:
+    name: opt_gcs_logdet
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_raw_sgd_output
+      gradient_type: sgd
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.5
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: logdet
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+
+  # === Opt-GCS Ablation: full Adam (LESS-style) ===
+  opt_gcs_adam_full:
+    name: opt_gcs_logdet
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_adam_full_output
+      gradient_type: adam
+      proj_dim: 4096
+      seed: 42
+      save_interval: 16
+      rank_method: effective
+      whitening_beta: 0.5
+      length_norm_alpha: 0.5
+      clipping_method: adaptive
+      selection_method: logdet
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+
+  # === FisherSFT Baseline ===
+  fisher_sft:
+    name: fisher_sft
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/fisher_sft_output
+      seed: 42
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+      embedding_batch_size: 4
+
+  # === Negative Controls ===
+  random_subspace_logdet:
+    name: random_subspace_logdet
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/random_subspace_logdet_output
+      proj_dim: 4096
+      subspace_dim: 50
+      seed: 42
+      logdet_eps: 0.001
+      prefilter_ratio: 5.0
+      length_norm_alpha: 0.5
+
+  grad_norm_topk:
+    name: grad_norm_topk
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/grad_norm_topk_output
+      seed: 42
+      length_norm_alpha: 0.5
+
   custom:
     name: custom
     params:

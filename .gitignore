@@ -4,3 +4,8 @@ output.txt
 **/.ipynb_checkpoints/
 /examples/train_lora/develop/
 /examples/zzytest/
+
+# Large data files (download via scripts/download_data.sh)
+data/Openhermes_train.json
+data/MMLU_valid_cot.json
+data/MMLUSubset_test.json
