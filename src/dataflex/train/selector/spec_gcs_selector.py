@@ -72,6 +72,8 @@ class IndexedDataset(Dataset):
 @register_selector('opt_gcs_unwhitened')
 @register_selector('opt_gcs_raw_sgd')
 @register_selector('opt_gcs_adam_full')
+@register_selector('opt_gcs_rank50')
+@register_selector('opt_gcs_rank100')
 # Keep backward-compatible names
 @register_selector('spec_gcs_logdet')
 @register_selector('spec_gcs_diverse')
@@ -111,6 +113,9 @@ class OptGCSSelector(Selector):
         selection_method: str = "logdet",  # "score" | "diverse" | "logdet"
         logdet_eps: float = 1e-3,
         prefilter_ratio: float = 5.0,
+        # === Whitening safety ===
+        whitening_eigen_floor: float = 1e-6,
+        whitening_max_weight: float = 100.0,
         # === Optional (not used for selection, may be passed by trainer) ===
         eval_dataset=None,
         **kwargs,
@@ -130,6 +135,8 @@ class OptGCSSelector(Selector):
         self.selection_method = selection_method
         self.logdet_eps = logdet_eps
         self.prefilter_ratio = prefilter_ratio
+        self.whitening_eigen_floor = whitening_eigen_floor
+        self.whitening_max_weight = whitening_max_weight
 
         self.device = self.accelerator.device
         self.dtype = torch.float16
@@ -500,7 +507,11 @@ class OptGCSSelector(Selector):
         if self.clipping_method == "fixed":
             tau = self.clipping_threshold if self.clipping_threshold > 0 else norms.median().item() * 3
         elif self.clipping_method == "adaptive":
-            tau = float(torch.quantile(norms[norms > 1e-12], 0.95).item())
+            positive_norms = norms[norms > 1e-12]
+            if len(positive_norms) == 0:
+                logger.warning("[OptGCS] All gradient norms are zero; skip clipping.")
+                return h
+            tau = float(torch.quantile(positive_norms, 0.95).item())
         else:
             return h
 
@@ -588,9 +599,10 @@ class OptGCSSelector(Selector):
         # Project to eigenspace
         projections = h @ U_r  # [n, r]
 
-        # Apply whitening
+        # Apply whitening with eigenvalue floor and weight cap
         if beta > 0:
-            whiten_weights = eigenvalues.clamp(min=1e-10).pow(-beta / 2)
+            whiten_weights = eigenvalues.clamp(min=self.whitening_eigen_floor).pow(-beta / 2)
+            whiten_weights = whiten_weights.clamp(max=self.whitening_max_weight)
             projections = projections * whiten_weights.unsqueeze(0)
 
         scores = (projections ** 2).sum(dim=1)
@@ -768,12 +780,13 @@ class OptGCSSelector(Selector):
             else:
                 raise ValueError(f"Unknown selection_method: {self.selection_method}")
 
-            # Compute final logdet diagnostic
+            # Compute final logdet diagnostic (slogdet for numerical stability)
             A_diag = self.logdet_eps * torch.eye(rank)
             for idx in selected_indices:
                 x = projections[idx]
                 A_diag += torch.outer(x, x)
-            final_logdet = float(torch.logdet(A_diag.float()).item())
+            sign, logabsdet = torch.linalg.slogdet(A_diag.float())
+            final_logdet = float(logabsdet.item()) if sign > 0 else float("nan")
 
             metric_payload = {
                 "selection_method": self.selection_method,

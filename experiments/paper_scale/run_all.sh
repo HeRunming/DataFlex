@@ -162,7 +162,7 @@ update_step: $update_step_calc
 update_times: 2
 
 ### eval
-$(if [ "$needs_eval" = "yes" ]; then echo "eval_dataset: mmlu_valid_cot"; fi)
+eval_dataset: mmlu_valid_cot
 per_device_eval_batch_size: 1
 metric_for_best_model: eval_loss
 greater_is_better: false
