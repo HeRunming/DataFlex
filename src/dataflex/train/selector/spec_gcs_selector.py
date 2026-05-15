@@ -28,6 +28,8 @@ Gradient representation variants:
 import os
 import glob
 import math
+import hashlib
+import json as _json
 from typing import List, Dict, Optional, Tuple
 
 import torch
@@ -148,10 +150,7 @@ class OptGCSSelector(Selector):
         num_params = 0
         for p in model.parameters():
             if p.requires_grad:
-                if hasattr(p, 'ds_numel'):
-                    num_params += p.ds_numel
-                else:
-                    num_params += p.numel()
+                num_params += p.ds_numel if hasattr(p, 'ds_numel') else p.numel()
         if self.accelerator.is_main_process:
             logger.info(f"[OptGCS] Trainable parameters: {num_params:,}")
         return num_params
@@ -193,12 +192,9 @@ class OptGCSSelector(Selector):
                           m: Optional[torch.Tensor] = None,
                           v: Optional[torch.Tensor] = None) -> torch.Tensor:
         """
-        Compute per-sample update feature based on gradient_type:
-        - "sgd": raw gradient g_i
-        - "adam_diag": D_t * g_i where D_t = diag(1/(sqrt(v_t)+eps))
-        - "adam": full frozen-state AdamW surrogate (β₁·m + (1-β₁)·g) / (sqrt(v)+eps)
+        Compute per-sample update feature. All requires_grad params are included;
+        None grads are filled with zeros to keep alignment with optimizer state.
         """
-        # Forward + backward to get raw gradient
         if self.accelerator.state.deepspeed_plugin is not None:
             from deepspeed.utils import safe_get_full_grad
             loss = model(**batch).loss
@@ -207,14 +203,16 @@ class OptGCSSelector(Selector):
             for p in model.parameters():
                 if p.requires_grad:
                     g = safe_get_full_grad(p)
+                    numel = p.ds_numel if hasattr(p, 'ds_numel') else p.numel()
                     if g is not None:
                         grads.append(g.contiguous().view(-1))
-            vectorized_grads = torch.cat(grads) if grads else torch.zeros(1, device=self.device)
+                    else:
+                        grads.append(torch.zeros(numel, device=self.device, dtype=self.dtype))
+            vectorized_grads = torch.cat(grads)
         else:
             with self.accelerator.no_sync(model):
                 loss = model(**batch).loss
                 self.accelerator.backward(loss)
-            # Collect gradients for ALL requires_grad params, filling zeros for None
             grads_list = []
             for p in model.parameters():
                 if p.requires_grad:
@@ -226,20 +224,13 @@ class OptGCSSelector(Selector):
 
         # Apply optimizer-induced transformation
         if gradient_type == "sgd" or m is None or v is None:
-            # Raw gradient — no transformation
             pass
         elif gradient_type == "adam_diag":
-            # Diagonal AdamW preconditioning: u_i = g_i / (sqrt(v_t) + eps)
-            # This is the theoretically recommended "frozen-state local update feature"
-            # Clamp v to avoid division by near-zero (especially during early warmup)
             eps = 1e-08
             denom = v.clamp(min=1e-16).sqrt().add_(eps)
             vectorized_grads = vectorized_grads / denom
-            # Clamp result to avoid extreme values from immature optimizer state
             vectorized_grads = vectorized_grads.clamp(-1e4, 1e4)
         elif gradient_type == "adam":
-            # Full frozen-state AdamW surrogate (LESS-style):
-            # u_i = (β₁·m + (1-β₁)·g_i) / (sqrt(β₂·v + (1-β₂)·g_i²) + eps)
             beta1, beta2, eps = 0.9, 0.999, 1e-08
             denom = v.mul(beta2)
             denom.addcmul_(vectorized_grads, vectorized_grads, value=(1 - beta2))
@@ -271,16 +262,6 @@ class OptGCSSelector(Selector):
                 logger.info("[OptGCS] Using BasicProjector (CudaProjector unavailable).")
         return projector
 
-    def _get_max_saved_index(self, save_dir: str) -> int:
-        """Find max saved sample index for resume."""
-        if not os.path.exists(save_dir) or not self.accelerator.is_main_process:
-            return -1
-        files = [f for f in os.listdir(save_dir) if f.startswith("grads") and f.endswith(".pt")]
-        if not files:
-            return -1
-        indices = [int(f.split('.')[0].split('-')[1]) for f in files]
-        return max(indices) if indices else -1
-
     # ========================================================================
     # Core: Gradient Collection
     # ========================================================================
@@ -308,14 +289,37 @@ class OptGCSSelector(Selector):
 
         m, v = self._prepare_optimizer_state(model, optimizer_state)
 
-        # Log optimizer state diagnostics
+        # Log optimizer state diagnostics + save to file
         if self.accelerator.is_main_process:
             opt_found = m is not None and v is not None
+            diag = {
+                "optimizer_state_found": opt_found,
+                "gradient_type": gradient_type,
+            }
+            if opt_found:
+                diag.update({
+                    "m_norm": float(m.norm().item()),
+                    "v_mean": float(v.mean().item()),
+                    "v_min": float(v.min().item()),
+                    "v_max": float(v.max().item()),
+                })
             logger.info(
                 f"[OptGCS] Optimizer state: found={opt_found}, gradient_type={gradient_type}"
-                + (f", m_norm={m.norm():.4f}, v_mean={v.mean():.6f}, v_min={v.min():.6f}"
+                + (f", m_norm={diag['m_norm']:.4f}, v_mean={diag['v_mean']:.6f}, v_min={diag['v_min']:.6f}"
                    if opt_found else ", FALLING BACK TO RAW SGD")
             )
+            diag_path = os.path.join(save_dir, "optimizer_state_diagnostics.json")
+            with open(diag_path, "w") as f:
+                _json.dump(diag, f, indent=2)
+
+        # Clean old chunks before starting fresh (no fake resume)
+        if self.accelerator.is_main_process:
+            old_chunks = glob.glob(os.path.join(save_dir, "grads-*-rank*.pt"))
+            if old_chunks:
+                logger.info(f"[OptGCS] Cleaning {len(old_chunks)} old chunk files for fresh computation")
+                for f in old_chunks:
+                    os.remove(f)
+        self.accelerator.wait_for_everyone()
 
         indexed_dataset = IndexedDataset(dataset_to_use)
 
@@ -333,12 +337,6 @@ class OptGCSSelector(Selector):
             collate_fn=indexed_collator_wrapper,
         )
         dataloader = self.accelerator.prepare(dataloader)
-
-        # Resume support
-        max_index = self._get_max_saved_index(save_dir)
-        if self.accelerator.is_main_process and max_index > 0:
-            logger.info(f"[OptGCS] Resuming gradient computation from index {max_index + 1}")
-        self.accelerator.wait_for_everyone()
 
         total_samples_in_loader = len(dataloader)
         model_device = next(model.parameters()).device
@@ -359,7 +357,6 @@ class OptGCSSelector(Selector):
             indices = data['indices']
             batch = data['batch']
 
-            # Compute token length
             labels = batch.get('labels', None)
             if labels is not None:
                 token_len = (labels != -100).sum().item()
@@ -420,9 +417,48 @@ class OptGCSSelector(Selector):
         torch.save(final_lengths, output_lengths)
         logger.info(f"[OptGCS] Saved merged gradients: {final_grads.shape} to {output_grads}")
 
-        # Clean up chunk files
         for f in files:
             os.remove(f)
+
+    # ========================================================================
+    # Unified Preprocessing (shared by eigenspace estimation & projection)
+    # ========================================================================
+
+    def _preprocess_grads(self, grads: torch.Tensor, lengths: torch.Tensor
+                          ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """
+        Unified preprocessing pipeline: NaN/Inf→0, length norm, clip, L2 norm.
+        Both _estimate_eigenspace and _project_to_eigenspace use this to ensure
+        the eigenspace and the candidate projections are in the SAME geometry.
+
+        Returns:
+            h: [n, d] preprocessed (L2-normalized) gradient features
+            valid_mask: [n] boolean mask of valid (non-zero) samples
+        """
+        n, d = grads.shape
+
+        # Step 1: Replace NaN/Inf
+        h = grads.clone()
+        bad = ~torch.isfinite(h)
+        if bad.any():
+            h[bad] = 0.0
+
+        # Step 2: Length normalization
+        alpha = self.length_norm_alpha
+        if alpha > 0:
+            h = h / lengths.float().pow(alpha).unsqueeze(1).clamp(min=1.0)
+
+        # Step 3: Clipping BEFORE L2 normalization
+        h = self._apply_clipping(h)
+
+        # Step 4: Compute norms → valid mask → L2 normalize
+        norms = h.norm(dim=1, keepdim=True)
+        valid_mask = (norms.squeeze() > 1e-8) & torch.isfinite(norms.squeeze())
+        # Zero out invalid rows (they'll have score=0 and won't be selected)
+        h_out = torch.zeros_like(h)
+        h_out[valid_mask] = h[valid_mask] / norms[valid_mask].clamp(min=1e-12)
+
+        return h_out, valid_mask
 
     # ========================================================================
     # Core: Spectral Analysis with Whitening
@@ -435,30 +471,22 @@ class OptGCSSelector(Selector):
         if len(eigenvalues) == 0:
             return 1
 
-        MIN_RANK = 10  # never go below this to avoid overly narrow coverage
+        MIN_RANK = 10
 
         if self.rank_method == "fixed":
             return min(self.fixed_rank, len(eigenvalues))
-
         elif self.rank_method == "effective":
             r_eff = eigenvalues.sum() / eigenvalues[0]
-            r = max(MIN_RANK, math.ceil(r_eff.item()))  # ceil, not floor
-            return min(r, len(eigenvalues))
-
+            return min(max(MIN_RANK, math.ceil(r_eff.item())), len(eigenvalues))
         elif self.rank_method == "eigengap":
             for j in range(len(eigenvalues) - 1):
-                ratio = eigenvalues[j] / eigenvalues[j + 1]
-                if ratio > self.eigengap_threshold:
+                if eigenvalues[j] / eigenvalues[j + 1] > self.eigengap_threshold:
                     return max(MIN_RANK, j + 1)
             return min(50, len(eigenvalues))
-
         elif self.rank_method == "entropy":
             p = eigenvalues / eigenvalues.sum()
-            entropy = -(p * torch.log(p + 1e-12)).sum()
-            r_ent = torch.exp(entropy)
-            r = max(MIN_RANK, math.ceil(r_ent.item()))
-            return min(r, len(eigenvalues))
-
+            r_ent = torch.exp(-(p * torch.log(p + 1e-12)).sum())
+            return min(max(MIN_RANK, math.ceil(r_ent.item())), len(eigenvalues))
         else:
             raise ValueError(f"Unknown rank_method: {self.rank_method}")
 
@@ -467,18 +495,16 @@ class OptGCSSelector(Selector):
         if self.clipping_method == "none":
             return h
 
-        norms = h.norm(dim=1)  # [n]
+        norms = h.norm(dim=1)
 
         if self.clipping_method == "fixed":
             tau = self.clipping_threshold if self.clipping_threshold > 0 else norms.median().item() * 3
         elif self.clipping_method == "adaptive":
-            # Use 95th percentile as threshold
-            tau = float(torch.quantile(norms, 0.95).item())
+            tau = float(torch.quantile(norms[norms > 1e-12], 0.95).item())
         else:
             return h
 
-        # Clip: h_i = h_i * min(1, tau / ||h_i||)
-        scale = torch.clamp(tau / norms.clamp(min=1e-12), max=1.0)  # [n]
+        scale = torch.clamp(tau / norms.clamp(min=1e-12), max=1.0)
         h = h * scale.unsqueeze(1)
         if self.accelerator.is_main_process:
             n_clipped = (norms > tau).sum().item()
@@ -488,10 +514,7 @@ class OptGCSSelector(Selector):
     def _estimate_eigenspace(self, grads: torch.Tensor, lengths: torch.Tensor
                              ) -> Tuple[torch.Tensor, torch.Tensor, int]:
         """
-        Estimate principal update subspace.
-
-        Pipeline (CORRECTED ORDER):
-            NaN/Inf replace → length normalize → clip → L2 normalize → SVD
+        Estimate principal update subspace using unified preprocessing.
 
         Returns:
             U_r: [proj_dim, r] top-r eigenvectors
@@ -501,64 +524,36 @@ class OptGCSSelector(Selector):
         n, d = grads.shape
         logger.info(f"[OptGCS] Estimating eigenspace from {n} samples, dim={d}")
 
-        # Step 1: Replace NaN/Inf in raw grads BEFORE anything
-        nan_inf_mask = ~torch.isfinite(grads)
-        if nan_inf_mask.any():
-            n_bad_elements = nan_inf_mask.sum().item()
-            logger.warning(f"[OptGCS] Found {n_bad_elements} NaN/Inf elements in gradients, replacing with 0")
-            grads = grads.clone()
-            grads[nan_inf_mask] = 0.0
+        # Unified preprocessing
+        h, valid_mask = self._preprocess_grads(grads, lengths)
+        h_valid = h[valid_mask]
+        n_valid = h_valid.shape[0]
 
-        # Step 2: Length normalization
-        alpha = self.length_norm_alpha
-        if alpha > 0:
-            length_factors = lengths.float().pow(alpha).unsqueeze(1)
-            h = grads / length_factors
-        else:
-            h = grads.clone()
+        if n_valid == 0:
+            logger.error("[OptGCS] No valid samples! Returning trivial eigenspace.")
+            return torch.eye(d)[:, :1], torch.ones(1), 1
 
-        # Step 3: Apply clipping BEFORE L2 normalization (Bug fix: was after L2 norm)
-        # This ensures outlier gradient magnitudes are properly controlled
-        h = self._apply_clipping(h)
+        n_invalid = n - n_valid
+        if n_invalid > 0:
+            logger.warning(f"[OptGCS] Using {n_valid}/{n} valid samples for eigenspace estimation")
 
-        # Step 4: Remove zero-norm rows, then L2 normalize
-        norms = h.norm(dim=1, keepdim=True)
-        valid_mask = (norms.squeeze() > 1e-8) & torch.isfinite(norms.squeeze())
-        if not valid_mask.all():
-            n_invalid = (~valid_mask).sum().item()
-            logger.warning(f"[OptGCS] Removing {n_invalid}/{n} samples with zero/invalid norms")
-            h = h[valid_mask]
-            norms = norms[valid_mask]
-            n = h.shape[0]
-            if n == 0:
-                logger.error("[OptGCS] No valid samples remaining! Returning trivial eigenspace.")
-                return torch.eye(d)[:, :1], torch.ones(1), 1
-
-        h = h / norms.clamp(min=1e-12)
-        h = self._apply_clipping(h)
-
-        # Step 5: Eigendecomposition via randomized SVD (faster + more stable than eigh)
-        # svd_lowrank computes top-q singular vectors efficiently
-        max_rank = min(200, n - 1, d)  # cap at 200 for efficiency
-        logger.info(f"[OptGCS] Computing randomized SVD (n={n}, d={d}, q={max_rank})...")
+        # Eigendecomposition via randomized SVD
+        max_rank = min(200, n_valid - 1, d)
+        logger.info(f"[OptGCS] Computing randomized SVD (n={n_valid}, d={d}, q={max_rank})...")
         try:
-            U_svd, S_svd, V_svd = torch.svd_lowrank(h, q=max_rank, niter=5)
-            # eigenvalues of covariance = S² / n
-            eigenvalues = (S_svd ** 2) / n
-            eigenvectors = V_svd  # [d, q]
+            U_svd, S_svd, V_svd = torch.svd_lowrank(h_valid, q=max_rank, niter=5)
+            eigenvalues = (S_svd ** 2) / n_valid
+            eigenvectors = V_svd
         except Exception as e:
-            logger.warning(f"[OptGCS] svd_lowrank failed: {e}. Falling back to full SVD on smaller matrix.")
-            # Fallback: subsample to make it tractable
-            if n > 10000:
-                perm = torch.randperm(n)[:10000]
-                h_sub = h[perm]
+            logger.warning(f"[OptGCS] svd_lowrank failed: {e}. Falling back.")
+            if n_valid > 10000:
+                h_sub = h_valid[torch.randperm(n_valid)[:10000]]
             else:
-                h_sub = h
-            U_svd, S_svd, Vt_svd = torch.linalg.svd(h_sub, full_matrices=False)
+                h_sub = h_valid
+            _, S_svd, Vt_svd = torch.linalg.svd(h_sub, full_matrices=False)
             eigenvalues = (S_svd ** 2) / len(h_sub)
             eigenvectors = Vt_svd.T
 
-        # Step 6: Determine rank
         pos_eigenvalues = eigenvalues[eigenvalues > 1e-10]
         rank = self._auto_rank(pos_eigenvalues)
 
@@ -568,10 +563,7 @@ class OptGCSSelector(Selector):
             f"top-{rank} explains {pos_eigenvalues[:rank].sum()/pos_eigenvalues.sum()*100:.1f}%"
         )
 
-        U_r = eigenvectors[:, :rank]
-        top_eigenvalues = eigenvalues[:rank]
-
-        return U_r, top_eigenvalues, rank
+        return eigenvectors[:, :rank], eigenvalues[:rank], rank
 
     # ========================================================================
     # Core: Whitened Projection (KEY CONTRIBUTION)
@@ -581,47 +573,27 @@ class OptGCSSelector(Selector):
                                 U_r: torch.Tensor, eigenvalues: torch.Tensor
                                 ) -> Tuple[torch.Tensor, torch.Tensor]:
         """
-        Project candidates into the whitened eigenspace.
-
-        x_i^(β) = Λ_r^{-β/2} · U_r^T · h_i
-
-        β=0: unwhitened (preserves original variance, biases toward dominant directions)
-        β=1: fully whitened (equal weight to all directions, maximum coverage)
-        β∈(0,1): partial whitening (coverage-agreement tradeoff)
+        Project all candidates into the whitened eigenspace using the SAME
+        preprocessing as _estimate_eigenspace.
 
         Returns:
             projections: [n, r] whitened projections
             scores: [n] = ||x_i^(β)||²
         """
-        alpha = self.length_norm_alpha
         beta = self.whitening_beta
 
-        # Length normalization
-        if alpha > 0:
-            length_factors = lengths.float().pow(alpha).unsqueeze(1)
-            h = grads / length_factors
-        else:
-            h = grads.clone()
+        # Use same unified preprocessing
+        h, _ = self._preprocess_grads(grads, lengths)
 
-        # L2 normalize
-        norms = h.norm(dim=1, keepdim=True).clamp(min=1e-12)
-        h = h / norms
+        # Project to eigenspace
+        projections = h @ U_r  # [n, r]
 
-        # Handle NaN/Inf
-        invalid = ~torch.isfinite(h).all(dim=1)
-        if invalid.any():
-            h[invalid] = 0.0
-
-        # Project to eigenspace: [n, r]
-        projections = h @ U_r
-
-        # Apply whitening: x_i^(β) = Λ^{-β/2} * (U_r^T h_i)
+        # Apply whitening
         if beta > 0:
-            # Whitening weights: λ_j^{-β/2}
-            whiten_weights = eigenvalues.clamp(min=1e-10).pow(-beta / 2)  # [r]
-            projections = projections * whiten_weights.unsqueeze(0)  # [n, r]
+            whiten_weights = eigenvalues.clamp(min=1e-10).pow(-beta / 2)
+            projections = projections * whiten_weights.unsqueeze(0)
 
-        scores = (projections ** 2).sum(dim=1)  # [n]
+        scores = (projections ** 2).sum(dim=1)
         return projections, scores
 
     # ========================================================================
@@ -631,59 +603,46 @@ class OptGCSSelector(Selector):
     def _select_by_score(self, scores: torch.Tensor, num_samples: int) -> List[int]:
         """Simple top-k by whitened projection score."""
         k = min(num_samples, len(scores))
-        topk = torch.topk(scores, k=k, largest=True)
-        return topk.indices.tolist()
+        return torch.topk(scores, k=k, largest=True).indices.tolist()
 
     def _select_by_diverse(self, projections: torch.Tensor, scores: torch.Tensor,
                             num_samples: int) -> List[int]:
         """Top-qk by score, then k-center greedy in whitened projection space."""
         n = len(scores)
         k = min(num_samples, n)
-        q = self.prefilter_ratio
-        prefilter_k = min(int(q * k), n)
+        prefilter_k = min(int(self.prefilter_ratio * k), n)
 
         topk = torch.topk(scores, k=prefilter_k, largest=True)
         candidate_indices = topk.indices
-        candidate_projections = projections[candidate_indices]
+        cand_proj = projections[candidate_indices]
 
-        # K-center greedy
         selected_local = [0]
         if k == 1:
             return [candidate_indices[0].item()]
 
-        min_distances = torch.cdist(
-            candidate_projections, candidate_projections[0:1]
-        ).squeeze(1)
+        min_distances = torch.cdist(cand_proj, cand_proj[0:1]).squeeze(1)
         min_distances[0] = -1
 
         for _ in range(1, k):
             next_idx = min_distances.argmax().item()
             selected_local.append(next_idx)
             min_distances[next_idx] = -1
-            new_distances = torch.cdist(
-                candidate_projections, candidate_projections[next_idx:next_idx+1]
-            ).squeeze(1)
-            min_distances = torch.minimum(min_distances, new_distances)
+            new_d = torch.cdist(cand_proj, cand_proj[next_idx:next_idx+1]).squeeze(1)
+            min_distances = torch.minimum(min_distances, new_d)
             for s in selected_local:
                 min_distances[s] = -1
 
-        selected_original = candidate_indices[torch.tensor(selected_local)].tolist()
-        return selected_original
+        return candidate_indices[torch.tensor(selected_local)].tolist()
 
     def _select_by_logdet(self, projections: torch.Tensor, scores: torch.Tensor,
                            num_samples: int) -> List[int]:
         """
-        Greedy whitened log-det maximization:
-        max_{|S|=k} log det(εI + Σ_{i∈S} x_i^(β) (x_i^(β))^T)
-
-        The whitening β is already applied in projections.
-        Uses Sherman-Morrison for efficient r×r A^{-1} updates.
+        Greedy whitened log-det maximization with Sherman-Morrison updates.
         """
         n, r = projections.shape
         k = min(num_samples, n)
         eps = self.logdet_eps
 
-        # Prefilter to top-scoring candidates
         prefilter_k = min(int(self.prefilter_ratio * k), n)
         if prefilter_k < n:
             topk = torch.topk(scores, k=prefilter_k, largest=True)
@@ -700,7 +659,6 @@ class OptGCSSelector(Selector):
         available = torch.ones(num_candidates, dtype=torch.bool)
 
         for t in range(k):
-            # Marginal gain: x_i^T A^{-1} x_i
             gains = (X @ A_inv * X).sum(dim=1)
             gains[~available] = -float('inf')
 
@@ -708,37 +666,34 @@ class OptGCSSelector(Selector):
             selected_local.append(best_local)
             available[best_local] = False
 
-            # Sherman-Morrison update
             x = X[best_local]
             Ax = A_inv @ x
-            denom = 1.0 + x @ Ax
-            A_inv -= torch.outer(Ax, Ax) / denom
+            A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
 
             if (t + 1) % 500 == 0:
                 logger.info(f"[OptGCS-LogDet] Selected {t+1}/{k}, gain={gains[best_local]:.4f}")
 
-        selected_original = candidate_indices[torch.tensor(selected_local)].tolist()
-        return selected_original
+        return candidate_indices[torch.tensor(selected_local)].tolist()
 
     # ========================================================================
     # Main Entry Point
     # ========================================================================
 
-    def select(self, model, step_id: int, num_samples: int, **kwargs) -> List[int]:
-        """
-        Select num_samples training examples using spectral update-space analysis.
+    def _make_grad_cache_path(self, step_id: int) -> str:
+        """Build gradient cache path with hash to avoid stale cache reuse."""
+        grad_cfg = dict(
+            step_id=step_id,
+            gradient_type=self.gradient_type,
+            proj_dim=self.proj_dim,
+            projector_seed=self.seed,
+            dataset_size=len(self.dataset),
+        )
+        grad_hash = hashlib.md5(_json.dumps(grad_cfg, sort_keys=True).encode()).hexdigest()[:10]
+        return os.path.join(self.cache_dir, "gradients", f"step_{step_id}_{grad_hash}")
 
-        Full pipeline:
-        1. Compute optimizer-induced update features for all data → TRAK projection
-        2. Length normalize + clip → estimate covariance eigenspace
-        3. Apply spectral whitening → project all candidates
-        4. Select via score/diverse/logdet
-        """
-        os.makedirs(self.cache_dir, exist_ok=True)
-
-        # Build config-aware cache key to prevent cross-experiment contamination
-        import hashlib, json as _json
-        cfg_for_hash = dict(
+    def _make_selection_cache_path(self, step_id: int, num_samples: int) -> str:
+        """Build selection cache path with full config hash."""
+        cfg = dict(
             step_id=step_id,
             num_samples=num_samples,
             gradient_type=self.gradient_type,
@@ -753,8 +708,17 @@ class OptGCSSelector(Selector):
             prefilter_ratio=self.prefilter_ratio,
             dataset_size=len(self.dataset),
         )
-        cfg_hash = hashlib.md5(_json.dumps(cfg_for_hash, sort_keys=True).encode()).hexdigest()[:10]
-        save_path = os.path.join(self.cache_dir, f"step_{step_id}_k{num_samples}_{cfg_hash}.json")
+        cfg_hash = hashlib.md5(_json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:10]
+        return os.path.join(self.cache_dir, f"step_{step_id}_k{num_samples}_{cfg_hash}.json")
+
+    def select(self, model, step_id: int, num_samples: int, **kwargs) -> List[int]:
+        """
+        Select num_samples training examples using spectral update-space analysis.
+        """
+        os.makedirs(self.cache_dir, exist_ok=True)
+
+        # Check selection cache
+        save_path = self._make_selection_cache_path(step_id, num_samples)
         if os.path.exists(save_path):
             if self.accelerator.is_main_process:
                 cached_indices, _ = load_cached_selection(save_path)
@@ -765,12 +729,12 @@ class OptGCSSelector(Selector):
                 dist.broadcast_object_list(obj, src=0)
             return obj[0] or []
 
-        # Paths
-        grad_save_dir = os.path.join(self.cache_dir, "gradients", str(step_id))
+        # Gradient cache paths (with hash)
+        grad_save_dir = self._make_grad_cache_path(step_id)
         grads_path = os.path.join(grad_save_dir, "all_projected_grads.pt")
         lengths_path = os.path.join(grad_save_dir, "all_token_lengths.pt")
 
-        # Step 1: Compute gradients (all ranks participate)
+        # Step 1: Compute gradients (all ranks)
         if not os.path.exists(grads_path):
             os.makedirs(grad_save_dir, exist_ok=True)
             optimizer_state = kwargs.get('optimizer_state', None)
@@ -788,13 +752,9 @@ class OptGCSSelector(Selector):
             grads = torch.load(grads_path, map_location="cpu")
             lengths = torch.load(lengths_path, map_location="cpu")
 
-            # Estimate eigenspace
             U_r, eigenvalues, rank = self._estimate_eigenspace(grads, lengths)
-
-            # Whitened projection
             projections, scores = self._project_to_eigenspace(grads, lengths, U_r, eigenvalues)
 
-            # Selection
             logger.info(
                 f"[OptGCS] Selecting {num_samples} samples via '{self.selection_method}' "
                 f"(β={self.whitening_beta}, rank={rank})"
@@ -808,7 +768,13 @@ class OptGCSSelector(Selector):
             else:
                 raise ValueError(f"Unknown selection_method: {self.selection_method}")
 
-            # Save with full diagnostic metadata
+            # Compute final logdet diagnostic
+            A_diag = self.logdet_eps * torch.eye(rank)
+            for idx in selected_indices:
+                x = projections[idx]
+                A_diag += torch.outer(x, x)
+            final_logdet = float(torch.logdet(A_diag.float()).item())
+
             metric_payload = {
                 "selection_method": self.selection_method,
                 "gradient_type": self.gradient_type,
@@ -822,6 +788,7 @@ class OptGCSSelector(Selector):
                 "effective_rank": float(eigenvalues[eigenvalues > 1e-10].sum() / eigenvalues[0]) if eigenvalues[0] > 0 else 0,
                 "scores_selected_mean": float(scores[torch.tensor(selected_indices)].mean()),
                 "scores_all_mean": float(scores.mean()),
+                "final_logdet": final_logdet,
                 "length_norm_alpha": self.length_norm_alpha,
                 "clipping_method": self.clipping_method,
                 "prefilter_ratio": self.prefilter_ratio,
@@ -831,16 +798,14 @@ class OptGCSSelector(Selector):
             logger.info(
                 f"[OptGCS] Selected {len(selected_indices)} samples. "
                 f"Rank={rank}, β={self.whitening_beta}, "
+                f"logdet={final_logdet:.2f}, "
                 f"score_selected={metric_payload['scores_selected_mean']:.4f}, "
                 f"score_all={metric_payload['scores_all_mean']:.4f}"
             )
         else:
             selected_indices = None
 
-        # Broadcast to all ranks
         obj = [selected_indices]
         if dist.is_available() and dist.is_initialized():
             dist.broadcast_object_list(obj, src=0)
-        selected_indices = obj[0] or []
-
-        return selected_indices
+        return obj[0] or []

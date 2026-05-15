@@ -5,22 +5,20 @@ These selectors serve as critical negative controls to verify that
 Opt-GCS's performance comes from the SPECTRAL EIGENSPACE, not just from:
 1. Any random low-dimensional projection + logdet diversity
 2. Gradient norm magnitude alone
-3. LogDet diversity in any subspace
 
 Controls:
 - random_subspace_logdet: random orthogonal projection + logdet (tests if eigenspace matters)
 - grad_norm_topk: simple gradient norm top-k (tests if GCS is just picking high-norm samples)
-- shuffled_eigen_logdet: uses OptGCS eigenspace but shuffles eigenvalue ordering (tests whitening)
 """
 
 import os
 import glob
+import hashlib
+import json as _json
 from typing import List, Optional
 
 import torch
 import torch.distributed as dist
-from torch.utils.data import DataLoader
-from tqdm import tqdm
 
 from dataflex.core.registry import register_selector
 from dataflex.utils.logging import logger
@@ -28,16 +26,27 @@ from dataflex.utils.selector_io import load_cached_selection, save_selection
 from .base_selector import Selector
 
 
+def _find_gradient_cache(parent_dir: str, step_id: int) -> Optional[str]:
+    """Search sibling cache directories for existing gradient files."""
+    if not os.path.exists(parent_dir):
+        return None
+    for sibling in os.listdir(parent_dir):
+        grad_dir = os.path.join(parent_dir, sibling, "gradients")
+        if not os.path.isdir(grad_dir):
+            continue
+        for sub in os.listdir(grad_dir):
+            if sub.startswith(f"step_{step_id}"):
+                candidate = os.path.join(grad_dir, sub, "all_projected_grads.pt")
+                if os.path.exists(candidate):
+                    return candidate
+    return None
+
+
 @register_selector('random_subspace_logdet')
 class RandomSubspaceLogDetSelector(Selector):
     """
     Negative Control: LogDet selection in a RANDOM subspace.
-
-    Instead of using the top eigenvectors of gradient covariance,
-    projects gradients onto a random orthogonal subspace then does logdet.
-
-    If this performs similarly to OptGCS, it means the eigenspace discovery
-    is not contributing — just the diversity-in-any-subspace is sufficient.
+    If this performs similarly to OptGCS, the eigenspace discovery is not contributing.
     """
 
     def __init__(
@@ -47,7 +56,7 @@ class RandomSubspaceLogDetSelector(Selector):
         data_collator,
         cache_dir: str,
         proj_dim: int = 4096,
-        subspace_dim: int = 50,  # dimension of random subspace
+        subspace_dim: int = 50,
         seed: int = 42,
         logdet_eps: float = 1e-3,
         prefilter_ratio: float = 5.0,
@@ -64,12 +73,16 @@ class RandomSubspaceLogDetSelector(Selector):
         self.length_norm_alpha = length_norm_alpha
         self.device = self.accelerator.device
         os.makedirs(self.cache_dir, exist_ok=True)
-        logger.info(f"[RandomSubspaceLogDet] Negative control: random {subspace_dim}-dim subspace + logdet")
 
     def select(self, model, step_id: int, num_samples: int, **kwargs) -> List[int]:
-        """Project gradients to random subspace, then logdet select."""
         os.makedirs(self.cache_dir, exist_ok=True)
-        save_path = os.path.join(self.cache_dir, f"step_{step_id}.json")
+
+        # Config-aware cache key
+        cfg = dict(step_id=step_id, num_samples=num_samples, subspace_dim=self.subspace_dim,
+                   seed=self.seed, logdet_eps=self.logdet_eps, prefilter_ratio=self.prefilter_ratio,
+                   length_norm_alpha=self.length_norm_alpha, dataset_size=len(self.dataset))
+        cfg_hash = hashlib.md5(_json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:10]
+        save_path = os.path.join(self.cache_dir, f"step_{step_id}_k{num_samples}_{cfg_hash}.json")
 
         if os.path.exists(save_path):
             if self.accelerator.is_main_process:
@@ -81,62 +94,45 @@ class RandomSubspaceLogDetSelector(Selector):
                 dist.broadcast_object_list(obj, src=0)
             return obj[0] or []
 
-        # Try to load cached gradients from OptGCS (reuse if available)
-        # Look for any existing gradient cache
-        possible_grad_paths = [
-            os.path.join(self.cache_dir, "gradients", str(step_id), "all_projected_grads.pt"),
-        ]
-        # Also check opt_gcs caches
+        # Find gradient cache from OptGCS or other selectors
         parent = os.path.dirname(self.cache_dir)
-        for sibling in os.listdir(parent) if os.path.exists(parent) else []:
-            p = os.path.join(parent, sibling, "gradients", str(step_id), "all_projected_grads.pt")
-            if os.path.exists(p):
-                possible_grad_paths.insert(0, p)
+        grads_path = _find_gradient_cache(parent, step_id)
 
-        grads_path = None
-        lengths_path = None
-        for p in possible_grad_paths:
-            if os.path.exists(p):
-                grads_path = p
-                lengths_path = p.replace("all_projected_grads.pt", "all_token_lengths.pt")
-                break
-
-        if grads_path is None or not self.accelerator.is_main_process:
-            # If no cached gradients, we need to compute them
-            # For simplicity, reuse OptGCS's gradient computation
-            logger.warning("[RandomSubspaceLogDet] No cached gradients found. Run OptGCS first to generate gradient cache.")
-            # Fallback to random selection
-            import random
-            random.seed(self.seed + step_id)
-            selected_indices = random.sample(range(len(self.dataset)), min(num_samples, len(self.dataset)))
+        if grads_path is None:
+            logger.warning("[RandomSubspaceLogDet] No cached gradients found. Falling back to random.")
+            if self.accelerator.is_main_process:
+                import random
+                random.seed(self.seed + step_id)
+                selected_indices = random.sample(range(len(self.dataset)), min(num_samples, len(self.dataset)))
+            else:
+                selected_indices = None
             obj = [selected_indices]
             if dist.is_available() and dist.is_initialized():
                 dist.broadcast_object_list(obj, src=0)
-            return obj[0]
+            return obj[0] or []
 
         if self.accelerator.is_main_process:
             grads = torch.load(grads_path, map_location="cpu")
+            lengths_path = grads_path.replace("all_projected_grads.pt", "all_token_lengths.pt")
             lengths = torch.load(lengths_path, map_location="cpu") if os.path.exists(lengths_path) else torch.ones(len(grads))
 
             n, d = grads.shape
 
-            # Length normalize + L2 normalize
+            # Preprocess same as OptGCS
+            h = grads.clone()
+            h[~torch.isfinite(h)] = 0.0
             alpha = self.length_norm_alpha
             if alpha > 0:
-                h = grads / lengths.float().pow(alpha).unsqueeze(1)
-            else:
-                h = grads
+                h = h / lengths.float().pow(alpha).unsqueeze(1).clamp(min=1.0)
             norms = h.norm(dim=1, keepdim=True).clamp(min=1e-12)
             h = h / norms
 
-            # Generate RANDOM orthogonal subspace (not data-driven!)
-            torch.manual_seed(self.seed + 9999)  # different seed to avoid correlation
+            # Random orthogonal subspace (NOT data-driven)
+            torch.manual_seed(self.seed + 9999)
             r = min(self.subspace_dim, d)
-            random_matrix = torch.randn(d, r)
-            Q, _ = torch.linalg.qr(random_matrix)  # orthogonal [d, r]
+            Q, _ = torch.linalg.qr(torch.randn(d, r))
 
-            # Project to random subspace
-            projections = h @ Q  # [n, r]
+            projections = h @ Q
             scores = (projections ** 2).sum(dim=1)
 
             # LogDet greedy
@@ -146,16 +142,15 @@ class RandomSubspaceLogDetSelector(Selector):
 
             if prefilter_k < n:
                 topk = torch.topk(scores, k=prefilter_k, largest=True)
-                candidate_indices = topk.indices
-                X = projections[candidate_indices].clone()
+                cand_idx = topk.indices
+                X = projections[cand_idx].clone()
             else:
-                candidate_indices = torch.arange(n)
+                cand_idx = torch.arange(n)
                 X = projections.clone()
 
-            num_candidates = len(X)
             A_inv = torch.eye(r, dtype=X.dtype) / eps
             selected_local = []
-            available = torch.ones(num_candidates, dtype=torch.bool)
+            available = torch.ones(len(X), dtype=torch.bool)
 
             for t in range(k):
                 gains = (X @ A_inv * X).sum(dim=1)
@@ -167,15 +162,11 @@ class RandomSubspaceLogDetSelector(Selector):
                 Ax = A_inv @ x
                 A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
 
-            selected_indices = candidate_indices[torch.tensor(selected_local)].tolist()
+            selected_indices = cand_idx[torch.tensor(selected_local)].tolist()
 
-            metric_payload = {
-                "selection_method": "random_subspace_logdet",
-                "subspace_dim": r,
-                "negative_control": True,
-            }
-            save_selection(save_path, selected_indices, metric_payload, self.accelerator)
-            logger.info(f"[RandomSubspaceLogDet] Selected {len(selected_indices)} samples (negative control)")
+            save_selection(save_path, selected_indices,
+                           {"selection_method": "random_subspace_logdet", "subspace_dim": r, "negative_control": True},
+                           self.accelerator)
         else:
             selected_indices = None
 
@@ -189,9 +180,7 @@ class RandomSubspaceLogDetSelector(Selector):
 class GradNormTopKSelector(Selector):
     """
     Negative Control: Simple gradient norm top-k selection.
-
-    Selects samples with the largest gradient norms. If OptGCS ≈ grad_norm_topk,
-    it means the spectral analysis is just finding high-norm samples.
+    If OptGCS ≈ grad_norm_topk, it means the spectral analysis is just finding high-norm samples.
     """
 
     def __init__(
@@ -210,12 +199,14 @@ class GradNormTopKSelector(Selector):
         self.length_norm_alpha = length_norm_alpha
         self.device = self.accelerator.device
         os.makedirs(self.cache_dir, exist_ok=True)
-        logger.info("[GradNormTopK] Negative control: gradient norm top-k")
 
     def select(self, model, step_id: int, num_samples: int, **kwargs) -> List[int]:
-        """Select samples with highest gradient norms."""
         os.makedirs(self.cache_dir, exist_ok=True)
-        save_path = os.path.join(self.cache_dir, f"step_{step_id}.json")
+
+        cfg = dict(step_id=step_id, num_samples=num_samples, seed=self.seed,
+                   length_norm_alpha=self.length_norm_alpha, dataset_size=len(self.dataset))
+        cfg_hash = hashlib.md5(_json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:10]
+        save_path = os.path.join(self.cache_dir, f"step_{step_id}_k{num_samples}_{cfg_hash}.json")
 
         if os.path.exists(save_path):
             if self.accelerator.is_main_process:
@@ -227,50 +218,38 @@ class GradNormTopKSelector(Selector):
                 dist.broadcast_object_list(obj, src=0)
             return obj[0] or []
 
-        # Look for cached gradients
         parent = os.path.dirname(self.cache_dir)
-        grads_path = None
-        lengths_path = None
-        for sibling in os.listdir(parent) if os.path.exists(parent) else []:
-            p = os.path.join(parent, sibling, "gradients", str(step_id), "all_projected_grads.pt")
-            if os.path.exists(p):
-                grads_path = p
-                lengths_path = p.replace("all_projected_grads.pt", "all_token_lengths.pt")
-                break
+        grads_path = _find_gradient_cache(parent, step_id)
 
         if self.accelerator.is_main_process and grads_path and os.path.exists(grads_path):
             grads = torch.load(grads_path, map_location="cpu")
-            lengths = torch.load(lengths_path, map_location="cpu") if lengths_path and os.path.exists(lengths_path) else torch.ones(len(grads))
+            lengths_path = grads_path.replace("all_projected_grads.pt", "all_token_lengths.pt")
+            lengths = torch.load(lengths_path, map_location="cpu") if os.path.exists(lengths_path) else torch.ones(len(grads))
 
-            # Length normalize
+            h = grads.clone()
+            h[~torch.isfinite(h)] = 0.0
             alpha = self.length_norm_alpha
             if alpha > 0:
-                h = grads / lengths.float().pow(alpha).unsqueeze(1)
-            else:
-                h = grads
+                h = h / lengths.float().pow(alpha).unsqueeze(1).clamp(min=1.0)
 
-            # Compute norms
             norms = h.norm(dim=1)
-
-            # Top-k by norm
             k = min(num_samples, len(norms))
             topk = torch.topk(norms, k=k, largest=True)
             selected_indices = topk.indices.tolist()
 
-            metric_payload = {
-                "selection_method": "grad_norm_topk",
-                "negative_control": True,
-                "mean_norm_selected": float(norms[topk.indices].mean()),
-                "mean_norm_all": float(norms.mean()),
-            }
-            save_selection(save_path, selected_indices, metric_payload, self.accelerator)
-            logger.info(f"[GradNormTopK] Selected {len(selected_indices)} samples by gradient norm")
+            save_selection(save_path, selected_indices,
+                           {"selection_method": "grad_norm_topk", "negative_control": True,
+                            "mean_norm_selected": float(norms[topk.indices].mean()),
+                            "mean_norm_all": float(norms.mean())},
+                           self.accelerator)
         else:
             if self.accelerator.is_main_process:
                 logger.warning("[GradNormTopK] No cached gradients. Falling back to random.")
-            import random
-            random.seed(self.seed + step_id)
-            selected_indices = random.sample(range(len(self.dataset)), min(num_samples, len(self.dataset)))
+                import random
+                random.seed(self.seed + step_id)
+                selected_indices = random.sample(range(len(self.dataset)), min(num_samples, len(self.dataset)))
+            else:
+                selected_indices = None
 
         obj = [selected_indices if self.accelerator.is_main_process else None]
         if dist.is_available() and dist.is_initialized():
