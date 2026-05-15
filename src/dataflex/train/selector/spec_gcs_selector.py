@@ -66,6 +66,10 @@ class IndexedDataset(Dataset):
 @register_selector('opt_gcs_diverse')
 @register_selector('opt_gcs_score')
 @register_selector('opt_gcs')
+# Ablation variants (same class, different params via components.yaml)
+@register_selector('opt_gcs_unwhitened')
+@register_selector('opt_gcs_raw_sgd')
+@register_selector('opt_gcs_adam_full')
 # Keep backward-compatible names
 @register_selector('spec_gcs_logdet')
 @register_selector('spec_gcs_diverse')
@@ -221,18 +225,22 @@ class OptGCSSelector(Selector):
         elif gradient_type == "adam_diag":
             # Diagonal AdamW preconditioning: u_i = g_i / (sqrt(v_t) + eps)
             # This is the theoretically recommended "frozen-state local update feature"
+            # Clamp v to avoid division by near-zero (especially during early warmup)
             eps = 1e-08
-            denom = v.sqrt().add_(eps)
+            denom = v.clamp(min=1e-16).sqrt().add_(eps)
             vectorized_grads = vectorized_grads / denom
+            # Clamp result to avoid extreme values from immature optimizer state
+            vectorized_grads = vectorized_grads.clamp(-1e4, 1e4)
         elif gradient_type == "adam":
             # Full frozen-state AdamW surrogate (LESS-style):
             # u_i = (β₁·m + (1-β₁)·g_i) / (sqrt(β₂·v + (1-β₂)·g_i²) + eps)
             beta1, beta2, eps = 0.9, 0.999, 1e-08
             denom = v.mul(beta2)
             denom.addcmul_(vectorized_grads, vectorized_grads, value=(1 - beta2))
-            denom.sqrt_().add_(eps)
+            denom.clamp_(min=1e-16).sqrt_().add_(eps)
             vectorized_grads.mul_(1 - beta1).add_(m, alpha=beta1)
             vectorized_grads.div_(denom)
+            vectorized_grads = vectorized_grads.clamp(-1e4, 1e4)
             del denom
         else:
             raise ValueError(f"Unknown gradient_type: {gradient_type}")
@@ -473,7 +481,15 @@ class OptGCSSelector(Selector):
         n, d = grads.shape
         logger.info(f"[OptGCS] Estimating eigenspace from {n} samples, dim={d}")
 
-        # Step 1: Length normalization
+        # Step 1: Replace NaN/Inf in raw grads BEFORE normalization
+        nan_inf_mask = ~torch.isfinite(grads)
+        if nan_inf_mask.any():
+            n_bad_elements = nan_inf_mask.sum().item()
+            logger.warning(f"[OptGCS] Found {n_bad_elements} NaN/Inf elements in gradients, replacing with 0")
+            grads = grads.clone()
+            grads[nan_inf_mask] = 0.0
+
+        # Step 2: Length normalization
         alpha = self.length_norm_alpha
         if alpha > 0:
             length_factors = lengths.float().pow(alpha).unsqueeze(1)
@@ -481,31 +497,44 @@ class OptGCSSelector(Selector):
         else:
             h = grads.clone()
 
-        # Step 2: L2 normalize (direction matters)
-        norms = h.norm(dim=1, keepdim=True).clamp(min=1e-12)
-        h = h / norms
-
-        # Step 3: Remove NaN/Inf
-        valid_mask = torch.isfinite(h).all(dim=1)
+        # Step 3: L2 normalize (direction matters)
+        norms = h.norm(dim=1, keepdim=True)
+        # Remove zero-norm rows (samples with all-zero or all-Inf gradients)
+        valid_mask = (norms.squeeze() > 1e-8) & torch.isfinite(norms.squeeze())
         if not valid_mask.all():
             n_invalid = (~valid_mask).sum().item()
-            logger.warning(f"[OptGCS] Removing {n_invalid} samples with NaN/Inf")
+            logger.warning(f"[OptGCS] Removing {n_invalid}/{n} samples with zero/invalid norms")
             h = h[valid_mask]
+            norms = norms[valid_mask]
             n = h.shape[0]
+            if n == 0:
+                logger.error("[OptGCS] No valid samples remaining! Returning trivial eigenspace.")
+                return torch.eye(d)[:, :1], torch.ones(1), 1
+
+        h = h / norms.clamp(min=1e-12)
 
         # Step 4: Apply clipping
         h = self._apply_clipping(h)
 
-        # Step 5: Eigendecomposition
-        logger.info(f"[OptGCS] Computing eigendecomposition (n={n}, d={d})...")
-        if n >= d:
-            cov = (h.T @ h) / n
-            eigenvalues, eigenvectors = torch.linalg.eigh(cov)
-            eigenvalues = eigenvalues.flip(0)
-            eigenvectors = eigenvectors.flip(1)
-        else:
-            U_svd, S_svd, Vt_svd = torch.linalg.svd(h, full_matrices=False)
+        # Step 5: Eigendecomposition via randomized SVD (faster + more stable than eigh)
+        # svd_lowrank computes top-q singular vectors efficiently
+        max_rank = min(200, n - 1, d)  # cap at 200 for efficiency
+        logger.info(f"[OptGCS] Computing randomized SVD (n={n}, d={d}, q={max_rank})...")
+        try:
+            U_svd, S_svd, V_svd = torch.svd_lowrank(h, q=max_rank, niter=5)
+            # eigenvalues of covariance = S² / n
             eigenvalues = (S_svd ** 2) / n
+            eigenvectors = V_svd  # [d, q]
+        except Exception as e:
+            logger.warning(f"[OptGCS] svd_lowrank failed: {e}. Falling back to full SVD on smaller matrix.")
+            # Fallback: subsample to make it tractable
+            if n > 10000:
+                perm = torch.randperm(n)[:10000]
+                h_sub = h[perm]
+            else:
+                h_sub = h
+            U_svd, S_svd, Vt_svd = torch.linalg.svd(h_sub, full_matrices=False)
+            eigenvalues = (S_svd ** 2) / len(h_sub)
             eigenvectors = Vt_svd.T
 
         # Step 6: Determine rank

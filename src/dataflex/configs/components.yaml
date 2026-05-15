@@ -152,7 +152,7 @@ selectors:
 
   # === Opt-GCS Ablation: unwhitened (β=0) ===
   opt_gcs_unwhitened:
-    name: opt_gcs_logdet
+    name: opt_gcs_unwhitened
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_unwhitened_output
       gradient_type: adam_diag
@@ -169,7 +169,7 @@ selectors:
 
   # === Opt-GCS Ablation: raw SGD gradient (no optimizer preconditioning) ===
   opt_gcs_raw_sgd:
-    name: opt_gcs_logdet
+    name: opt_gcs_raw_sgd
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_raw_sgd_output
       gradient_type: sgd
@@ -186,7 +186,7 @@ selectors:
 
   # === Opt-GCS Ablation: full Adam (LESS-style) ===
   opt_gcs_adam_full:
-    name: opt_gcs_logdet
+    name: opt_gcs_adam_full
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_adam_full_output
       gradient_type: adam
