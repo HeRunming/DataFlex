@@ -26,18 +26,26 @@ from dataflex.utils.selector_io import load_cached_selection, save_selection
 from .base_selector import Selector
 
 
-def _find_gradient_cache(parent_dir: str, step_id: int) -> Optional[str]:
-    """Search sibling cache directories for existing gradient files."""
-    if not os.path.exists(parent_dir):
-        return None
-    for sibling in os.listdir(parent_dir):
-        grad_dir = os.path.join(parent_dir, sibling, "gradients")
+def _find_gradient_cache(search_dirs: List[str], step_id: int) -> Optional[str]:
+    """Search specified directories for existing gradient files.
+
+    Args:
+        search_dirs: Explicit list of directories to search for gradients.
+                     Each should be a selector cache_dir that may contain a gradients/ subfolder.
+        step_id: Training step to look for.
+
+    Returns:
+        Path to all_projected_grads.pt if found, else None.
+    """
+    for search_dir in search_dirs:
+        grad_dir = os.path.join(search_dir, "gradients")
         if not os.path.isdir(grad_dir):
             continue
         for sub in os.listdir(grad_dir):
             if sub.startswith(f"step_{step_id}"):
                 candidate = os.path.join(grad_dir, sub, "all_projected_grads.pt")
                 if os.path.exists(candidate):
+                    logger.info(f"[NegativeControl] Found gradient cache: {candidate}")
                     return candidate
     return None
 
@@ -61,6 +69,7 @@ class RandomSubspaceLogDetSelector(Selector):
         logdet_eps: float = 1e-3,
         prefilter_ratio: float = 5.0,
         length_norm_alpha: float = 0.5,
+        source_grad_dirs: Optional[List[str]] = None,
         eval_dataset=None,
         **kwargs,
     ):
@@ -71,6 +80,7 @@ class RandomSubspaceLogDetSelector(Selector):
         self.logdet_eps = logdet_eps
         self.prefilter_ratio = prefilter_ratio
         self.length_norm_alpha = length_norm_alpha
+        self.source_grad_dirs = source_grad_dirs or []
         self.device = self.accelerator.device
         os.makedirs(self.cache_dir, exist_ok=True)
 
@@ -94,9 +104,16 @@ class RandomSubspaceLogDetSelector(Selector):
                 dist.broadcast_object_list(obj, src=0)
             return obj[0] or []
 
-        # Find gradient cache from OptGCS or other selectors
+        # Find gradient cache — use explicit source dirs, fall back to sibling scan
+        search_dirs = list(self.source_grad_dirs)
+        # Also search siblings of cache_dir as fallback
         parent = os.path.dirname(self.cache_dir)
-        grads_path = _find_gradient_cache(parent, step_id)
+        if os.path.exists(parent):
+            for sibling in os.listdir(parent):
+                sib_path = os.path.join(parent, sibling)
+                if os.path.isdir(sib_path) and sib_path not in search_dirs:
+                    search_dirs.append(sib_path)
+        grads_path = _find_gradient_cache(search_dirs, step_id)
 
         if grads_path is None:
             logger.warning("[RandomSubspaceLogDet] No cached gradients found. Falling back to random.")
@@ -191,12 +208,14 @@ class GradNormTopKSelector(Selector):
         cache_dir: str,
         seed: int = 42,
         length_norm_alpha: float = 0.5,
+        source_grad_dirs: Optional[List[str]] = None,
         eval_dataset=None,
         **kwargs,
     ):
         super().__init__(dataset, accelerator, data_collator, cache_dir)
         self.seed = seed
         self.length_norm_alpha = length_norm_alpha
+        self.source_grad_dirs = source_grad_dirs or []
         self.device = self.accelerator.device
         os.makedirs(self.cache_dir, exist_ok=True)
 

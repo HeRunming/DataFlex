@@ -77,14 +77,7 @@ class IndexedDataset(Dataset):
 # Hybrid variants (score + coverage)
 @register_selector('opt_gcs_hybrid_add')
 @register_selector('opt_gcs_hybrid_mul')
-@register_selector('opt_gcs_hybrid_add_lambda0.25')
-@register_selector('opt_gcs_hybrid_add_lambda0.5')
-@register_selector('opt_gcs_hybrid_add_lambda1.0')
-@register_selector('opt_gcs_hybrid_add_lambda2.0')
-@register_selector('opt_gcs_hybrid_mul_gamma0.25')
-@register_selector('opt_gcs_hybrid_mul_gamma0.5')
-@register_selector('opt_gcs_hybrid_mul_gamma1.0')
-# Score ablations
+# Score/LogDet ablation names
 @register_selector('opt_gcs_score_beta0')
 @register_selector('opt_gcs_score_beta0.25')
 @register_selector('opt_gcs_logdet_pref20')
@@ -642,7 +635,7 @@ class OptGCSSelector(Selector):
         """Top-qk by score, then k-center greedy in whitened projection space."""
         n = len(scores)
         k = min(num_samples, n)
-        prefilter_k = min(int(self.prefilter_ratio * k), n)
+        prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
 
         topk = torch.topk(scores, k=prefilter_k, largest=True)
         candidate_indices = topk.indices
@@ -675,7 +668,7 @@ class OptGCSSelector(Selector):
         k = min(num_samples, n)
         eps = self.logdet_eps
 
-        prefilter_k = min(int(self.prefilter_ratio * k), n)
+        prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
         if prefilter_k < n:
             topk = torch.topk(scores, k=prefilter_k, largest=True)
             candidate_indices = topk.indices
@@ -712,18 +705,18 @@ class OptGCSSelector(Selector):
         """
         Hybrid Additive: log-det coverage + spectral importance scoring.
 
-        gain_i = log(1 + x_i^T A^{-1} x_i) + lambda * log(s_i + eps)
+        gain_i = z_cov(log(1 + x_i^T A^{-1} x_i)) + lambda * z_score(log(s_i))
 
-        Balances coverage (logdet) with importance (spectral score).
-        lambda=0 reduces to pure logdet; lambda->inf reduces to pure score.
+        Both terms are z-score normalized so lambda is an interpretable
+        coverage-vs-importance weight. lambda=0 → pure coverage; lambda→inf → pure score.
         """
         n, r = projections.shape
         k = min(num_samples, n)
         eps = self.logdet_eps
         lam = self.hybrid_lambda
 
-        # Prefilter by score (same as logdet)
-        prefilter_k = min(int(self.prefilter_ratio * k), n)
+        # Prefilter by score
+        prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
         if prefilter_k < n:
             topk = torch.topk(scores, k=prefilter_k, largest=True)
             candidate_indices = topk.indices
@@ -737,24 +730,31 @@ class OptGCSSelector(Selector):
         num_candidates = len(X)
         A_inv = torch.eye(r, dtype=X.dtype) / eps
 
-        # Precompute log-score term (constant across iterations)
+        # Precompute normalized log-score term
         log_scores = torch.log(S + 1e-10)
+        score_mean = log_scores.mean()
+        score_std = log_scores.std().clamp(min=1e-6)
+        score_z = (log_scores - score_mean) / score_std
 
         selected_local = []
         available = torch.ones(num_candidates, dtype=torch.bool)
 
         for t in range(k):
-            # Coverage gain: x_i^T A^{-1} x_i
+            # Coverage gain
             coverage_gains = (X @ A_inv * X).sum(dim=1)
-            # Full gain: log(1 + coverage) + lambda * log(score)
-            gains = torch.log1p(coverage_gains) + lam * log_scores
+            log_cov = torch.log1p(coverage_gains)
+            # Normalize coverage to same scale as score
+            cov_mean = log_cov[available].mean() if available.any() else log_cov.mean()
+            cov_std = log_cov[available].std().clamp(min=1e-6) if available.any() else log_cov.std().clamp(min=1e-6)
+            cov_z = (log_cov - cov_mean) / cov_std
+
+            gains = cov_z + lam * score_z
             gains[~available] = -float('inf')
 
             best_local = gains.argmax().item()
             selected_local.append(best_local)
             available[best_local] = False
 
-            # Sherman-Morrison update
             x = X[best_local]
             Ax = A_inv @ x
             A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
@@ -769,16 +769,19 @@ class OptGCSSelector(Selector):
         """
         Hybrid Multiplicative: coverage gain weighted by spectral importance.
 
-        gain_i = (x_i^T A^{-1} x_i) * (s_i + eps)^gamma
+        gain_i = log(1 + x_i^T A^{-1} x_i) * (s_i / s_mean)^gamma
 
-        gamma=0 reduces to pure logdet gain; gamma=1 weights linearly by score.
+        Uses log-coverage (not raw) to avoid first-step degeneracy where
+        raw coverage ∝ score, making it pure score^(1+gamma).
+        Score is mean-normalized so gamma controls relative importance.
+        gamma=0 reduces to pure logdet; gamma→inf reduces to pure score.
         """
         n, r = projections.shape
         k = min(num_samples, n)
         eps = self.logdet_eps
         gamma = self.hybrid_gamma
 
-        prefilter_k = min(int(self.prefilter_ratio * k), n)
+        prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
         if prefilter_k < n:
             topk = torch.topk(scores, k=prefilter_k, largest=True)
             candidate_indices = topk.indices
@@ -792,15 +795,15 @@ class OptGCSSelector(Selector):
         num_candidates = len(X)
         A_inv = torch.eye(r, dtype=X.dtype) / eps
 
-        # Precompute score weights (constant across iterations)
-        score_weights = (S + 1e-10).pow(gamma)
+        # Precompute normalized score weights
+        score_weights = (S / S.mean().clamp(min=1e-10)).clamp(min=1e-6).pow(gamma)
 
         selected_local = []
         available = torch.ones(num_candidates, dtype=torch.bool)
 
         for t in range(k):
             coverage_gains = (X @ A_inv * X).sum(dim=1)
-            gains = coverage_gains * score_weights
+            gains = torch.log1p(coverage_gains) * score_weights
             gains[~available] = -float('inf')
 
             best_local = gains.argmax().item()
@@ -841,14 +844,18 @@ class OptGCSSelector(Selector):
             proj_dim=self.proj_dim,
             rank_method=self.rank_method,
             fixed_rank=self.fixed_rank,
+            eigengap_threshold=self.eigengap_threshold,
             whitening_beta=self.whitening_beta,
             length_norm_alpha=self.length_norm_alpha,
             clipping_method=self.clipping_method,
+            clipping_threshold=self.clipping_threshold,
             selection_method=self.selection_method,
             logdet_eps=self.logdet_eps,
             prefilter_ratio=self.prefilter_ratio,
             hybrid_lambda=self.hybrid_lambda,
             hybrid_gamma=self.hybrid_gamma,
+            whitening_eigen_floor=self.whitening_eigen_floor,
+            whitening_max_weight=self.whitening_max_weight,
             dataset_size=len(self.dataset),
         )
         cfg_hash = hashlib.md5(_json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:10]

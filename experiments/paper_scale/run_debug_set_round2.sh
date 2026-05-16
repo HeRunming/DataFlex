@@ -32,6 +32,24 @@ BUDGET=5000
 cd "$WORK_DIR"
 mkdir -p "$SAVE_DIR/logs" "$SAVE_DIR/configs"
 
+# Generate round2-specific components.yaml with cache_dir overrides
+# This ensures gradient/selection caches are isolated per round
+ROUND2_COMPONENTS="$SAVE_DIR/configs/components_round2.yaml"
+/jizhicfs/karonhe/miniconda_karonhe/envs/spec_gcs/bin/python - "$SAVE_DIR" << 'PYEOF'
+import sys, yaml
+save_dir = sys.argv[1]
+with open("src/dataflex/configs/components.yaml") as f:
+    cfg = yaml.safe_load(f)
+# Override cache_dir for all selectors to be under the round2 save directory
+for sname, sconf in cfg.get("selectors", {}).items():
+    if "params" in sconf and "cache_dir" in sconf["params"]:
+        sconf["params"]["cache_dir"] = f"{save_dir}/cache/{sname}"
+out_path = f"{save_dir}/configs/components_round2.yaml"
+with open(out_path, "w") as f:
+    yaml.dump(cfg, f, default_flow_style=False, allow_unicode=True)
+print(f"Generated round2 components: {out_path}")
+PYEOF
+
 echo "============================================="
 echo "Opt-GCS Debug Set Round 2"
 echo "============================================="
@@ -41,9 +59,10 @@ echo "Budget: $BUDGET"
 echo "Save: $SAVE_DIR"
 echo ""
 
-TRAIN_STEPS=1250
 WARMUP_CALC=10
-UPDATE_STEP_CALC=$((BUDGET / NPROC))
+UPDATE_STEP_CALC=$((BUDGET / NPROC))  # 5000/8=625
+UPDATE_TIMES=2
+TRAIN_STEPS=$((WARMUP_CALC + UPDATE_STEP_CALC * UPDATE_TIMES))  # 10+625*2=1260
 EVAL_STEPS=$((TRAIN_STEPS / 3))
 
 # =============================================================================
@@ -125,11 +144,11 @@ ddp_timeout: 180000000
 
 ### DataFlex
 train_type: dynamic_select
-components_cfg_file: src/dataflex/configs/components.yaml
+components_cfg_file: $ROUND2_COMPONENTS
 component_name: $component
 warmup_step: $WARMUP_CALC
 update_step: $UPDATE_STEP_CALC
-update_times: 2
+update_times: $UPDATE_TIMES
 
 ### eval
 eval_dataset: mmlu_valid_cot

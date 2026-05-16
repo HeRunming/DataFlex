@@ -444,7 +444,7 @@ selectors:
       clipping_method: adaptive
       selection_method: logdet
       logdet_eps: 0.001
-      prefilter_ratio: 100.0
+      prefilter_ratio: -1
 
   # === Random subspace multi-seed ===
   random_subspace_logdet_seed1:
