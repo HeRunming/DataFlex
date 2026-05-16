@@ -238,7 +238,13 @@ class GradNormTopKSelector(Selector):
             return obj[0] or []
 
         parent = os.path.dirname(self.cache_dir)
-        grads_path = _find_gradient_cache(parent, step_id)
+        search_dirs = list(self.source_grad_dirs)
+        if os.path.exists(parent):
+            for sibling in os.listdir(parent):
+                sib_path = os.path.join(parent, sibling)
+                if os.path.isdir(sib_path) and sib_path not in search_dirs:
+                    search_dirs.append(sib_path)
+        grads_path = _find_gradient_cache(search_dirs, step_id)
 
         if self.accelerator.is_main_process and grads_path and os.path.exists(grads_path):
             grads = torch.load(grads_path, map_location="cpu")

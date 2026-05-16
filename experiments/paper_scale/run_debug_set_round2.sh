@@ -44,6 +44,12 @@ with open("src/dataflex/configs/components.yaml") as f:
 for sname, sconf in cfg.get("selectors", {}).items():
     if "params" in sconf and "cache_dir" in sconf["params"]:
         sconf["params"]["cache_dir"] = f"{save_dir}/cache/{sname}"
+# Inject source_grad_dirs for random_subspace seeds and grad_norm_topk
+# They should look for gradients in the score_beta0 cache (which runs first)
+grad_source = f"{save_dir}/cache/opt_gcs_score_beta0"
+for sname, sconf in cfg.get("selectors", {}).items():
+    if sname.startswith("random_subspace_logdet_seed") or sname == "grad_norm_topk":
+        sconf["params"]["source_grad_dirs"] = [grad_source]
 out_path = f"{save_dir}/configs/components_round2.yaml"
 with open(out_path, "w") as f:
     yaml.dump(cfg, f, default_flow_style=False, allow_unicode=True)
@@ -70,12 +76,17 @@ EVAL_STEPS=$((TRAIN_STEPS / 3))
 # Priority order: random_subspace seeds first, then hybrids
 # =============================================================================
 METHODS=(
-    # Random subspace multi-seed (highest priority)
+    # First: generate gradient cache that random_subspace seeds will reuse
+    "score_beta0:opt_gcs_score_beta0"
+    # Random subspace multi-seed (highest priority experiment)
+    # These reuse gradients from score_beta0 via sibling scan
     "rsub_seed1:random_subspace_logdet_seed1"
     "rsub_seed2:random_subspace_logdet_seed2"
     "rsub_seed3:random_subspace_logdet_seed3"
     "rsub_seed4:random_subspace_logdet_seed4"
     "rsub_seed5:random_subspace_logdet_seed5"
+    # Score ablation (reuses score_beta0 gradients where step_id matches)
+    "score_beta025:opt_gcs_score_beta0.25"
     # Hybrid additive lambda sweep
     "hybrid_add_l025:opt_gcs_hybrid_add_lambda0.25"
     "hybrid_add_l05:opt_gcs_hybrid_add_lambda0.5"
@@ -85,9 +96,6 @@ METHODS=(
     "hybrid_mul_g025:opt_gcs_hybrid_mul_gamma0.25"
     "hybrid_mul_g05:opt_gcs_hybrid_mul_gamma0.5"
     "hybrid_mul_g10:opt_gcs_hybrid_mul_gamma1.0"
-    # Score ablations
-    "score_beta0:opt_gcs_score_beta0"
-    "score_beta025:opt_gcs_score_beta0.25"
     # LogDet ablations
     "logdet_pref20:opt_gcs_logdet_pref20"
     "logdet_nopref:opt_gcs_logdet_no_prefilter"
