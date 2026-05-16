@@ -74,6 +74,21 @@ class IndexedDataset(Dataset):
 @register_selector('opt_gcs_adam_full')
 @register_selector('opt_gcs_rank50')
 @register_selector('opt_gcs_rank100')
+# Hybrid variants (score + coverage)
+@register_selector('opt_gcs_hybrid_add')
+@register_selector('opt_gcs_hybrid_mul')
+@register_selector('opt_gcs_hybrid_add_lambda0.25')
+@register_selector('opt_gcs_hybrid_add_lambda0.5')
+@register_selector('opt_gcs_hybrid_add_lambda1.0')
+@register_selector('opt_gcs_hybrid_add_lambda2.0')
+@register_selector('opt_gcs_hybrid_mul_gamma0.25')
+@register_selector('opt_gcs_hybrid_mul_gamma0.5')
+@register_selector('opt_gcs_hybrid_mul_gamma1.0')
+# Score ablations
+@register_selector('opt_gcs_score_beta0')
+@register_selector('opt_gcs_score_beta0.25')
+@register_selector('opt_gcs_logdet_pref20')
+@register_selector('opt_gcs_logdet_no_prefilter')
 # Keep backward-compatible names
 @register_selector('spec_gcs_logdet')
 @register_selector('spec_gcs_diverse')
@@ -110,9 +125,12 @@ class OptGCSSelector(Selector):
         clipping_method: str = "adaptive",  # "none" | "fixed" | "adaptive"
         clipping_threshold: float = 0.0,  # for "fixed"; "adaptive" uses percentile_95
         # === Selection strategy ===
-        selection_method: str = "logdet",  # "score" | "diverse" | "logdet"
+        selection_method: str = "logdet",  # "score" | "diverse" | "logdet" | "hybrid_add" | "hybrid_mul"
         logdet_eps: float = 1e-3,
         prefilter_ratio: float = 5.0,
+        # === Hybrid params (score + coverage combination) ===
+        hybrid_lambda: float = 0.5,   # additive: gain = log(1 + x'A^{-1}x) + lambda * log(s + eps)
+        hybrid_gamma: float = 0.5,    # multiplicative: gain = (x'A^{-1}x) * (s + eps)^gamma
         # === Whitening safety ===
         whitening_eigen_floor: float = 1e-6,
         whitening_max_weight: float = 100.0,
@@ -135,6 +153,8 @@ class OptGCSSelector(Selector):
         self.selection_method = selection_method
         self.logdet_eps = logdet_eps
         self.prefilter_ratio = prefilter_ratio
+        self.hybrid_lambda = hybrid_lambda
+        self.hybrid_gamma = hybrid_gamma
         self.whitening_eigen_floor = whitening_eigen_floor
         self.whitening_max_weight = whitening_max_weight
 
@@ -687,6 +707,115 @@ class OptGCSSelector(Selector):
 
         return candidate_indices[torch.tensor(selected_local)].tolist()
 
+    def _select_by_hybrid_add(self, projections: torch.Tensor, scores: torch.Tensor,
+                               num_samples: int) -> List[int]:
+        """
+        Hybrid Additive: log-det coverage + spectral importance scoring.
+
+        gain_i = log(1 + x_i^T A^{-1} x_i) + lambda * log(s_i + eps)
+
+        Balances coverage (logdet) with importance (spectral score).
+        lambda=0 reduces to pure logdet; lambda->inf reduces to pure score.
+        """
+        n, r = projections.shape
+        k = min(num_samples, n)
+        eps = self.logdet_eps
+        lam = self.hybrid_lambda
+
+        # Prefilter by score (same as logdet)
+        prefilter_k = min(int(self.prefilter_ratio * k), n)
+        if prefilter_k < n:
+            topk = torch.topk(scores, k=prefilter_k, largest=True)
+            candidate_indices = topk.indices
+            X = projections[candidate_indices].clone()
+            S = scores[candidate_indices].clone()
+        else:
+            candidate_indices = torch.arange(n)
+            X = projections.clone()
+            S = scores.clone()
+
+        num_candidates = len(X)
+        A_inv = torch.eye(r, dtype=X.dtype) / eps
+
+        # Precompute log-score term (constant across iterations)
+        log_scores = torch.log(S + 1e-10)
+
+        selected_local = []
+        available = torch.ones(num_candidates, dtype=torch.bool)
+
+        for t in range(k):
+            # Coverage gain: x_i^T A^{-1} x_i
+            coverage_gains = (X @ A_inv * X).sum(dim=1)
+            # Full gain: log(1 + coverage) + lambda * log(score)
+            gains = torch.log1p(coverage_gains) + lam * log_scores
+            gains[~available] = -float('inf')
+
+            best_local = gains.argmax().item()
+            selected_local.append(best_local)
+            available[best_local] = False
+
+            # Sherman-Morrison update
+            x = X[best_local]
+            Ax = A_inv @ x
+            A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
+
+            if (t + 1) % 500 == 0:
+                logger.info(f"[OptGCS-HybridAdd] Selected {t+1}/{k}, gain={gains[best_local]:.4f}")
+
+        return candidate_indices[torch.tensor(selected_local)].tolist()
+
+    def _select_by_hybrid_mul(self, projections: torch.Tensor, scores: torch.Tensor,
+                               num_samples: int) -> List[int]:
+        """
+        Hybrid Multiplicative: coverage gain weighted by spectral importance.
+
+        gain_i = (x_i^T A^{-1} x_i) * (s_i + eps)^gamma
+
+        gamma=0 reduces to pure logdet gain; gamma=1 weights linearly by score.
+        """
+        n, r = projections.shape
+        k = min(num_samples, n)
+        eps = self.logdet_eps
+        gamma = self.hybrid_gamma
+
+        prefilter_k = min(int(self.prefilter_ratio * k), n)
+        if prefilter_k < n:
+            topk = torch.topk(scores, k=prefilter_k, largest=True)
+            candidate_indices = topk.indices
+            X = projections[candidate_indices].clone()
+            S = scores[candidate_indices].clone()
+        else:
+            candidate_indices = torch.arange(n)
+            X = projections.clone()
+            S = scores.clone()
+
+        num_candidates = len(X)
+        A_inv = torch.eye(r, dtype=X.dtype) / eps
+
+        # Precompute score weights (constant across iterations)
+        score_weights = (S + 1e-10).pow(gamma)
+
+        selected_local = []
+        available = torch.ones(num_candidates, dtype=torch.bool)
+
+        for t in range(k):
+            coverage_gains = (X @ A_inv * X).sum(dim=1)
+            gains = coverage_gains * score_weights
+            gains[~available] = -float('inf')
+
+            best_local = gains.argmax().item()
+            selected_local.append(best_local)
+            available[best_local] = False
+
+            x = X[best_local]
+            Ax = A_inv @ x
+            A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
+
+            if (t + 1) % 500 == 0:
+                logger.info(f"[OptGCS-HybridMul] Selected {t+1}/{k}, gain={gains[best_local]:.4f}")
+
+        return candidate_indices[torch.tensor(selected_local)].tolist()
+
     # ========================================================================
     # Main Entry Point
     # ========================================================================
@@ -718,6 +847,8 @@ class OptGCSSelector(Selector):
             selection_method=self.selection_method,
             logdet_eps=self.logdet_eps,
             prefilter_ratio=self.prefilter_ratio,
+            hybrid_lambda=self.hybrid_lambda,
+            hybrid_gamma=self.hybrid_gamma,
             dataset_size=len(self.dataset),
         )
         cfg_hash = hashlib.md5(_json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:10]
@@ -777,6 +908,10 @@ class OptGCSSelector(Selector):
                 selected_indices = self._select_by_diverse(projections, scores, num_samples)
             elif self.selection_method == "logdet":
                 selected_indices = self._select_by_logdet(projections, scores, num_samples)
+            elif self.selection_method == "hybrid_add":
+                selected_indices = self._select_by_hybrid_add(projections, scores, num_samples)
+            elif self.selection_method == "hybrid_mul":
+                selected_indices = self._select_by_hybrid_mul(projections, scores, num_samples)
             else:
                 raise ValueError(f"Unknown selection_method: {self.selection_method}")
 
@@ -806,6 +941,8 @@ class OptGCSSelector(Selector):
                 "clipping_method": self.clipping_method,
                 "prefilter_ratio": self.prefilter_ratio,
                 "logdet_eps": self.logdet_eps,
+                "hybrid_lambda": self.hybrid_lambda,
+                "hybrid_gamma": self.hybrid_gamma,
             }
             save_selection(save_path, selected_indices, metric_payload, self.accelerator)
             logger.info(
