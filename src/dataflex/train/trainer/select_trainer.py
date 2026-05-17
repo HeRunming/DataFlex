@@ -235,16 +235,26 @@ class SelectTrainer(CustomSeq2SeqTrainer):
     def __init__(self, finetuning_args, processor=None, gen_kwargs=None, **kwargs):
         # 初始化父类
         super().__init__(finetuning_args=finetuning_args, processor=processor, gen_kwargs=gen_kwargs, **kwargs)
-        name = finetuning_args.component_name
+        component_key = finetuning_args.component_name
         # 取该 selector 的 params（可替换 ${output_dir}）
         sel_params = load_component(
             'selectors',
             finetuning_args.components_cfg_file,
-            name,
+            component_key,
             runtime_vars={}
         )
-            
-        # 统一提供“动态运行期依赖”，静态类会自动忽略
+
+        # Resolve the registry name: use the YAML's “name” field if it differs
+        # from the component key. This allows components.yaml to map multiple
+        # component keys (e.g. “opt_gcs_hybrid_add_lambda0.25”) to the same
+        # registered selector class (e.g. “opt_gcs_hybrid_add”).
+        import yaml
+        with open(finetuning_args.components_cfg_file, “r”) as _f:
+            _root = yaml.safe_load(_f) or {}
+        _entry = (_root.get(“selectors”) or {}).get(component_key, {})
+        registry_name = _entry.get(“name”, component_key)
+
+        # 统一提供”动态运行期依赖”，静态类会自动忽略
         runtime = dict(
             dataset=self.train_dataset,
             eval_dataset=self.eval_dataset,
@@ -253,9 +263,9 @@ class SelectTrainer(CustomSeq2SeqTrainer):
         )
 
         # 实例化（无任何 if/else）
-        self.selector = REGISTRY.build("selector", name, runtime=runtime, cfg=sel_params)
-        logger.info(f"[SelectTrainer] selector={name}, params={sel_params}")
-        logger.info("[Dataflex] SelectTrainer initialized")
+        self.selector = REGISTRY.build(“selector”, registry_name, runtime=runtime, cfg=sel_params)
+        logger.info(f”[SelectTrainer] selector={registry_name} (component={component_key}), params={sel_params}”)
+        logger.info(“[Dataflex] SelectTrainer initialized”)
 
     @override
     def _get_train_sampler(self, train_dataset) -> Optional[torch.utils.data.Sampler]:
