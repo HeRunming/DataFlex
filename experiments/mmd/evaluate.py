@@ -186,18 +186,91 @@ def compute_redundancy(selected_embeddings: np.ndarray) -> float:
 # ─── Experiment Loading ──────────────────────────────────────────────────────
 
 
+def _find_step_files(directory: Path) -> List[Path]:
+    """Find all step_*.json files in a directory and return sorted by step number."""
+    step_files = list(directory.glob("step_*.json"))
+    # Sort by step number (extract integer from filename)
+    def step_number(p: Path) -> int:
+        try:
+            return int(p.stem.split("_")[1])
+        except (IndexError, ValueError):
+            return -1
+    step_files.sort(key=step_number)
+    return step_files
+
+
+def _load_step_file(fpath: Path) -> Optional[np.ndarray]:
+    """Load indices from a step_*.json file saved by save_selection.
+
+    Expected format: {"indices": [...], "metric": {...}}
+    """
+    try:
+        with open(fpath) as f:
+            data = json.load(f)
+        if isinstance(data, dict) and "indices" in data:
+            indices = data["indices"]
+            if isinstance(indices, list) and len(indices) > 0:
+                return np.array(indices)
+    except (json.JSONDecodeError, IOError):
+        pass
+    return None
+
+
 def find_selected_indices(experiment_dir: str) -> Optional[np.ndarray]:
-    """Find and load selected indices from an experiment output directory."""
+    """Find and load selected indices from an experiment output directory.
+
+    Searches for step_*.json files produced by the MMDSelector's save_selection
+    utility. The format is: {"indices": [...], "metric": {...}}.
+
+    If multiple step files exist, uses the last one (highest step number).
+    Also searches common cache paths like ../dataflex_saves/{method}_output/.
+    """
     exp_path = Path(experiment_dir)
 
-    # Look for common patterns of saved indices
-    possible_files = [
+    # Strategy 1: Look for step_*.json directly in the experiment directory
+    step_files = _find_step_files(exp_path)
+    if step_files:
+        # Use the last (highest step number) file
+        result = _load_step_file(step_files[-1])
+        if result is not None:
+            return result
+
+    # Strategy 2: Search recursively for step_*.json in subdirectories
+    all_step_files = list(exp_path.rglob("step_*.json"))
+    if all_step_files:
+        def step_number(p: Path) -> int:
+            try:
+                return int(p.stem.split("_")[1])
+            except (IndexError, ValueError):
+                return -1
+        all_step_files.sort(key=step_number)
+        result = _load_step_file(all_step_files[-1])
+        if result is not None:
+            return result
+
+    # Strategy 3: Look in common cache paths relative to the experiment dir
+    # e.g., ../dataflex_saves/{method}_output/step_*.json
+    parent = exp_path.parent
+    method_name = exp_path.name
+    common_cache_patterns = [
+        parent / "dataflex_saves" / f"{method_name}_output",
+        parent.parent / "dataflex_saves" / f"{method_name}_output",
+        exp_path / "dataflex_saves",
+    ]
+    for cache_path in common_cache_patterns:
+        if cache_path.is_dir():
+            step_files = _find_step_files(cache_path)
+            if step_files:
+                result = _load_step_file(step_files[-1])
+                if result is not None:
+                    return result
+
+    # Strategy 4: Legacy fallback - look for old format files
+    legacy_files = [
         exp_path / "selected_indices.npy",
         exp_path / "selected_indices.json",
-        exp_path / "trainer_state.json",
     ]
-
-    for fpath in possible_files:
+    for fpath in legacy_files:
         if fpath.exists():
             if fpath.suffix == ".npy":
                 return np.load(str(fpath))
@@ -206,26 +279,23 @@ def find_selected_indices(experiment_dir: str) -> Optional[np.ndarray]:
                     data = json.load(f)
                 if isinstance(data, list):
                     return np.array(data)
+                elif "indices" in data:
+                    return np.array(data["indices"])
                 elif "selected_indices" in data:
                     return np.array(data["selected_indices"])
-
-    # Search recursively for any selected_indices files
-    for npy_file in exp_path.rglob("selected_indices*.npy"):
-        return np.load(str(npy_file))
-
-    for json_file in exp_path.rglob("selected_indices*.json"):
-        with open(json_file) as f:
-            data = json.load(f)
-        if isinstance(data, list):
-            return np.array(data)
-        elif "selected_indices" in data:
-            return np.array(data["selected_indices"])
 
     return None
 
 
 def discover_experiments(results_dir: str) -> Dict[str, List[str]]:
-    """Discover all experiment directories organized by method and seed."""
+    """Discover all experiment directories organized by method and seed.
+
+    Supports multiple directory structures:
+      - results_dir/method_name/seed_*/ (standard)
+      - results_dir/method_name/lambda_*/ (hyperparameter sweep)
+      - results_dir/method_name/ (single run, no seed subdirs)
+      - results_dir/dataflex_saves/method_output/ (cache-style output)
+    """
     results_path = Path(results_dir)
     experiments = {}
 
@@ -238,12 +308,30 @@ def discover_experiments(results_dir: str) -> Dict[str, List[str]]:
         method_name = method_dir.name
         seed_dirs = []
         for seed_dir in sorted(method_dir.iterdir()):
-            if seed_dir.is_dir() and seed_dir.name.startswith("seed_"):
-                seed_dirs.append(str(seed_dir))
-            elif seed_dir.is_dir() and seed_dir.name.startswith("lambda_"):
+            if seed_dir.is_dir() and (
+                seed_dir.name.startswith("seed_")
+                or seed_dir.name.startswith("lambda_")
+                or seed_dir.name.startswith("run_")
+            ):
                 seed_dirs.append(str(seed_dir))
         if seed_dirs:
             experiments[method_name] = seed_dirs
+        else:
+            # Check if the method directory itself contains step files or results
+            step_files = list(method_dir.glob("step_*.json"))
+            if step_files:
+                experiments[method_name] = [str(method_dir)]
+
+    # Also check for dataflex_saves pattern
+    saves_dir = results_path / "dataflex_saves"
+    if saves_dir.is_dir():
+        for output_dir in sorted(saves_dir.iterdir()):
+            if output_dir.is_dir() and output_dir.name.endswith("_output"):
+                method_name = output_dir.name.replace("_output", "")
+                if method_name not in experiments:
+                    step_files = list(output_dir.glob("step_*.json"))
+                    if step_files:
+                        experiments[method_name] = [str(output_dir)]
 
     return experiments
 
@@ -378,7 +466,8 @@ def main():
     experiments = discover_experiments(args.results_dir)
     if not experiments:
         print(f"\nNo experiments found in {args.results_dir}")
-        print("Make sure experiment outputs exist with selected_indices files.")
+        print("Make sure experiment outputs exist with step_*.json files.")
+        print("(These are created by MMDSelector's save_selection utility.)")
         return
 
     print(f"\nDiscovered {len(experiments)} methods:")
@@ -387,6 +476,7 @@ def main():
 
     # Evaluate each method
     all_results = {}
+    skipped_methods = []
 
     for method, exp_dirs in experiments.items():
         method_metrics = []
@@ -410,7 +500,11 @@ def main():
             avg_metrics["num_runs"] = len(method_metrics)
             all_results[method] = avg_metrics
         else:
-            print(f"  WARNING: No valid results for method '{method}'")
+            skipped_methods.append(method)
+            print(f"  SKIPPING: No valid results for method '{method}' (no step_*.json found)")
+
+    if skipped_methods:
+        print(f"\n  Skipped {len(skipped_methods)} method(s) without results: {', '.join(skipped_methods)}")
 
     # Print comparison table
     print_comparison_table(all_results)

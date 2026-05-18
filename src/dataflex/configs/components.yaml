@@ -40,20 +40,43 @@ selectors:
       seed: 123
       save_interval: 16
 
-  mmd:
+  mmd_emb_rbf:
     name: mmd
     params:
-      cache_dir: ../dataflex_saves/mmd_output
-      kernel_type: emb_rbf         # choices: [emb_rbf, grad_rbf, grad_cov]
-      lambda_redundancy: 0.5       # weight for selected-set redundancy penalty
-      sigma: null                  # RBF bandwidth; null = median heuristic (auto)
-      candidate_embeddings_path: null  # .npy path (required for emb_rbf)
-      target_embeddings_path: null     # .npy path (required for emb_rbf)
-      proj_dim: 4096               # gradient projection dimension
-      gradient_type: sgd           # choices: [sgd, adam]
+      cache_dir: ../dataflex_saves/mmd_emb_rbf_output
+      kernel_type: emb_rbf
+      sigma: null
+      candidate_embeddings_path: null
+      target_embeddings_path: null
+      proj_dim: 4096
+      gradient_type: sgd
       save_interval: 16
       seed: 42
-      candidate_subsample: -1      # subsample size for gradient kernels (-1 = all)
+      candidate_subsample: -1
+
+  mmd_grad_rbf:
+    name: mmd
+    params:
+      cache_dir: ../dataflex_saves/mmd_grad_rbf_output
+      kernel_type: grad_rbf
+      sigma: null
+      proj_dim: 4096
+      gradient_type: sgd
+      save_interval: 16
+      seed: 42
+      candidate_subsample: -1
+
+  mmd_grad_cov:
+    name: mmd
+    params:
+      cache_dir: ../dataflex_saves/mmd_grad_cov_output
+      kernel_type: grad_cov
+      sigma: null
+      proj_dim: 4096
+      gradient_type: sgd
+      save_interval: 16
+      seed: 42
+      candidate_subsample: -1
 
   loss:
     name: loss

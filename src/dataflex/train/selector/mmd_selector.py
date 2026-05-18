@@ -1,8 +1,7 @@
 """
 MMD-based Functional Coreset Selector for Targeted Instruction Tuning.
 
-Implements greedy coreset selection using Maximum Mean Discrepancy (MMD)
-with three kernel variants:
+Implements exact marginal greedy MMD minimization with three kernel variants:
   - emb_rbf: RBF kernel over pre-computed embeddings (fast, offline-dependent)
   - grad_rbf: RBF kernel over gradient features (online, model-aware)
   - grad_cov: Degree-2 polynomial kernel over gradients (online, model-aware)
@@ -11,12 +10,17 @@ Reference:
   Functional Coreset Selection for Targeted Instruction Tuning
   (see functional_coreset_mmd_targeted_sft_proposal.md)
 
-The core idea: select a subset S from candidate pool C to minimize
-MMD_k(S, T) where T is a target set, which naturally decomposes into:
-  - Target relevance: r_T(x) = (1/|T|) sum_z k(x, z)
-  - Selected-set redundancy: r_S(x) = (1/|S|) sum_s k(x, s)
+Core algorithm:
+  MMD²(S, T) = (1/|S|²) ΣΣ k(s,s') - (2/|S||T|) ΣΣ k(s,t) + const(T)
 
-Greedy score: score(x | S) = r_T(x) - lambda * r_S(x)
+  Exact marginal greedy: at each step select
+      x* = argmin_{x ∉ S} MMD²(S ∪ {x}, T)
+
+  This is equivalent to selecting x* = argmax Δ(x) where:
+      Δ(x) = (2/(m+1)) * [ r_T(x) - (1/(m+1)) * (r_S(x) + k(x,x)/2) ]
+  with m = |S|, r_T(x) = mean_t k(x,t), r_S(x) = sum_{s∈S} k(x,s)
+
+  Simplified: select x* that minimizes the new MMD² objective directly.
 """
 
 import os
@@ -50,26 +54,23 @@ class IndexedDataset(Dataset):
 @register_selector("mmd")
 class MMDSelector(Selector):
     """
-    MMD-based coreset selector with three kernel variants for targeted instruction tuning.
+    MMD-based coreset selector using exact marginal greedy minimization.
 
     Kernel types:
-      - emb_rbf: RBF kernel on pre-computed embeddings. Fast selection (no model forward),
-                 requires offline embedding computation.
-      - grad_rbf: RBF kernel on projected gradient features. Matches target gradient
-                  distribution rather than just mean gradient direction.
-      - grad_cov: Degree-2 polynomial kernel on gradients (k(x,y) = <g(x),g(y)>^2).
-                  Preserves target gradient covariance / update subspace.
+      - emb_rbf: RBF kernel on pre-computed embeddings.
+      - grad_rbf: RBF kernel on projected gradient features.
+      - grad_cov: Degree-2 polynomial kernel (k(x,y) = <g(x),g(y)>²).
 
     Parameters (from components.yaml):
         kernel_type: str - "emb_rbf", "grad_rbf", or "grad_cov"
-        lambda_redundancy: float - weight for selected-set redundancy penalty (default: 0.5)
-        sigma: float or None - RBF bandwidth; None = median heuristic (auto)
+        lambda_redundancy: float - NOT USED in exact marginal mode (kept for ablation)
+        sigma: float or None - RBF bandwidth; None = median heuristic
         candidate_embeddings_path: str - .npy path for candidate embeddings (emb_rbf only)
         target_embeddings_path: str - .npy path for target embeddings (emb_rbf only)
         proj_dim: int - gradient projection dimension (default: 4096)
         gradient_type: str - "sgd" or "adam" (default: "sgd")
         save_interval: int - gradient chunk save interval (default: 16)
-        seed: int - random seed for projections (default: 42)
+        seed: int - random seed (default: 42)
         candidate_subsample: int - subsample candidates for gradient kernels (-1 = all)
     """
 
@@ -81,7 +82,7 @@ class MMDSelector(Selector):
         cache_dir,
         eval_dataset=None,
         kernel_type: str = "emb_rbf",
-        lambda_redundancy: float = 0.5,
+        lambda_redundancy: float = 0.5,  # kept for ablation only
         sigma: float = None,
         candidate_embeddings_path: str = None,
         target_embeddings_path: str = None,
@@ -113,13 +114,20 @@ class MMDSelector(Selector):
         self._target_embs = None
         self._target_relevance_cache = None
 
+        # Validate: gradient kernels require a target dataset
+        if self.kernel_type in ("grad_rbf", "grad_cov") and self.eval_dataset is None:
+            raise ValueError(
+                f"[MMDSelector] kernel_type='{self.kernel_type}' requires a target dataset. "
+                f"Set 'eval_dataset' in your training config (this is used as the MMD target set, "
+                f"NOT for evaluation metrics)."
+            )
+
         if self.kernel_type == "emb_rbf":
             self._init_embedding_mode()
 
         os.makedirs(self.cache_dir, exist_ok=True)
         logger.info(
-            f"[MMDSelector] Initialized: kernel={kernel_type}, lambda={lambda_redundancy}, "
-            f"sigma={sigma}, proj_dim={proj_dim}"
+            f"[MMDSelector] Initialized: kernel={kernel_type}, sigma={sigma}, proj_dim={proj_dim}"
         )
 
     # ═══════════════════════════════════════════════════════════════════════
@@ -163,13 +171,9 @@ class MMDSelector(Selector):
 
     def select(self, model, step_id: int, num_samples: int, **kwargs) -> List[int]:
         """
-        Select samples using MMD-based greedy coreset selection.
+        Select samples using exact marginal MMD greedy minimization.
 
-        The greedy algorithm iteratively picks samples that maximize:
-            score(x | S) = r_T(x) - lambda * r_S(x)
-        where:
-            r_T(x) = (1/|T|) * sum_{z in T} k(x, z)  [target relevance]
-            r_S(x) = (1/|S|) * sum_{s in S} k(x, s)  [redundancy penalty]
+        At each step, selects the point that minimizes MMD²(S ∪ {x}, T).
 
         Args:
             model: Current model (used for gradient kernel computation)
@@ -209,8 +213,8 @@ class MMDSelector(Selector):
         if self.accelerator.is_main_process and selected is not None:
             metric_payload = {
                 "kernel_type": self.kernel_type,
-                "lambda_redundancy": self.lambda_redundancy,
                 "sigma": self.sigma,
+                "num_selected": len(selected),
             }
             save_selection(save_path, selected, metric_payload, self.accelerator)
 
@@ -227,13 +231,13 @@ class MMDSelector(Selector):
     # ═══════════════════════════════════════════════════════════════════════
 
     def _select_emb_rbf(self, num_samples: int, step_id: int) -> Optional[List[int]]:
-        """Select using pre-computed embeddings with RBF kernel + greedy MMD."""
+        """Select using pre-computed embeddings with RBF kernel + exact marginal MMD."""
         if self.accelerator.is_main_process:
-            logger.info(f"[MMDSelector] Running greedy EMB-RBF selection for {num_samples} samples...")
+            logger.info(f"[MMDSelector] Running exact marginal EMB-RBF selection for {num_samples} samples...")
 
-            selected = self._greedy_mmd_select(
+            selected = self._greedy_mmd_exact(
                 candidate_features=self._candidate_embs,
-                target_relevance=self._target_relevance_cache,
+                target_features=self._target_embs,
                 num_samples=num_samples,
                 sigma=self.sigma,
                 kernel_type="rbf",
@@ -255,7 +259,6 @@ class MMDSelector(Selector):
         eval_final_path = os.path.join(eval_grads_dir, "all_projected_grads.pt")
 
         # Step 1: Compute training set gradients (possibly subsampled)
-        subsample_indices = None
         if not os.path.exists(train_final_path):
             os.makedirs(train_grads_dir, exist_ok=True)
             optimizer_state = kwargs.get("optimizer_state", None)
@@ -280,23 +283,24 @@ class MMDSelector(Selector):
 
         self.accelerator.wait_for_everyone()
 
-        # Step 2: Compute eval/target set gradients
-        if self.eval_dataset is not None and not os.path.exists(eval_final_path):
+        # Step 2: Compute target set gradients (SAME gradient_type as train for consistency)
+        if not os.path.exists(eval_final_path):
             os.makedirs(eval_grads_dir, exist_ok=True)
+            optimizer_state = kwargs.get("optimizer_state", None)
             self._collect_and_save_projected_gradients(
-                model, eval_grads_dir, self.eval_dataset, "sgd", None
+                model, eval_grads_dir, self.eval_dataset, self.gradient_type, optimizer_state
             )
             self._merge_and_normalize(eval_grads_dir, len(self.eval_dataset))
 
         self.accelerator.wait_for_everyone()
 
-        # Step 3: Main process runs greedy MMD selection
+        # Step 3: Main process runs exact marginal MMD selection
         if self.accelerator.is_main_process:
             train_grads = torch.load(train_final_path, map_location="cpu").numpy()
             eval_grads = torch.load(eval_final_path, map_location="cpu").numpy()
 
             logger.info(
-                f"[MMDSelector] Loaded gradients: train={train_grads.shape}, eval={eval_grads.shape}"
+                f"[MMDSelector] Loaded gradients: train={train_grads.shape}, target={eval_grads.shape}"
             )
 
             # Determine kernel-specific parameters
@@ -308,19 +312,14 @@ class MMDSelector(Selector):
             else:
                 sigma = None
 
-            # Compute target relevance
-            target_relevance = self._compute_target_relevance_generic(
-                train_grads, eval_grads, sigma=sigma, kernel_type=kernel_type_for_select
-            )
-
-            # Greedy MMD selection
+            # Exact marginal greedy selection
             logger.info(
-                f"[MMDSelector] Running greedy {self.kernel_type.upper()} selection "
+                f"[MMDSelector] Running exact marginal {self.kernel_type.upper()} selection "
                 f"for {num_samples} samples..."
             )
-            local_selected = self._greedy_mmd_select(
+            local_selected = self._greedy_mmd_exact(
                 candidate_features=train_grads,
-                target_relevance=target_relevance,
+                target_features=eval_grads,
                 num_samples=num_samples,
                 sigma=sigma,
                 kernel_type=kernel_type_for_select,
@@ -343,30 +342,45 @@ class MMDSelector(Selector):
         return None
 
     # ═══════════════════════════════════════════════════════════════════════
-    # GREEDY MMD SELECTION (CORE ALGORITHM)
+    # EXACT MARGINAL GREEDY MMD (CORE ALGORITHM - 方案B)
     # ═══════════════════════════════════════════════════════════════════════
 
-    def _greedy_mmd_select(
+    def _greedy_mmd_exact(
         self,
         candidate_features: np.ndarray,
-        target_relevance: np.ndarray,
+        target_features: np.ndarray,
         num_samples: int,
         sigma: Optional[float] = None,
         kernel_type: str = "rbf",
     ) -> List[int]:
         """
-        Greedy forward selection minimizing MMD(S, T).
+        Exact marginal greedy MMD minimization (方案B).
 
-        At each step t, selects:
-            x* = argmax_{x not in S} [ r_T(x) - lambda * r_S(x) ]
+        At each step, selects x* = argmin_{x ∉ S} MMD²(S ∪ {x}, T).
+
+        MMD²(S, T) = (1/|S|²) Σ_{s,s'∈S} k(s,s')
+                   - (2/|S||T|) Σ_{s∈S, t∈T} k(s,t)
+                   + const(T)
+
+        When adding x to S of size m, the new MMD² is:
+
+        MMD²(S∪{x}, T) = 1/(m+1)² * [m²·A_SS + 2·r_S(x) + k(x,x)]
+                        - 2/(m+1) * [(m/(m+1))·B_ST/m + r_T(x)/(m+1)]
+                        + const
 
         where:
-            r_T(x) = (1/|T|) sum_{z in T} k(x, z)  [pre-computed]
-            r_S(x) = (1/|S|) sum_{s in S} k(x, s)   [maintained incrementally]
+            A_SS = (1/m²) Σ_{s,s'∈S} k(s,s')  [selected-selected mean]
+            B_ST = (1/|T|) Σ_{s∈S} r_T(s)      [selected-target cross-term sum]
+            r_T(x) = (1/|T|) Σ_t k(x,t)        [candidate-target relevance]
+            r_S(x) = Σ_{s∈S} k(x,s)            [candidate-selected sum]
 
-        The redundancy term is maintained efficiently:
-            redundancy_sum[i] += k(x_i, x_new) at each step
-            r_S(x_i) = redundancy_sum[i] / |S|
+        Simplification: minimize over x is equivalent to minimizing:
+            f(x) = [2·r_S(x) + k(x,x)] / (m+1)² - 2·r_T(x) / (m+1)
+
+        Which simplifies to selecting x that maximizes:
+            Δ(x) = r_T(x) - (1/(m+1)) * [r_S(x) + k(x,x)/2]
+
+        This is the exact marginal gain (up to constant factors shared by all x).
 
         Complexity: O(num_samples * N * D) where D is feature dimension.
         """
@@ -374,21 +388,35 @@ class MMDSelector(Selector):
         num_samples = min(num_samples, N)
 
         selected = []
-        # Running sum: sum_{s in S} k(x_i, s) for all candidates i
-        redundancy_sum = np.zeros(N, dtype=np.float64)
+        # Running sum: Σ_{s∈S} k(x_i, s) for all candidates i
+        selected_kernel_sum = np.zeros(N, dtype=np.float64)
         available_mask = np.ones(N, dtype=bool)
+
+        # Pre-compute target relevance: r_T(x_i) = (1/|T|) Σ_t k(x_i, t)
+        target_relevance = self._compute_target_relevance_generic(
+            candidate_features, target_features, sigma=sigma, kernel_type=kernel_type
+        )
+
+        # Pre-compute self-kernel: k(x_i, x_i) for all candidates
+        self_kernel = self._compute_self_kernel(candidate_features, sigma, kernel_type)
 
         for t in tqdm(
             range(num_samples),
-            desc="[MMD Greedy Select]",
+            desc="[MMD Exact Greedy]",
             disable=(num_samples < 50),
         ):
-            # Compute greedy scores
-            if len(selected) == 0:
-                scores = target_relevance.astype(np.float64).copy()
+            m = len(selected)  # current selected set size
+
+            # Exact marginal: maximize Δ(x) = r_T(x) - (1/(m+1)) * [r_S(x) + k(x,x)/2]
+            if m == 0:
+                # First selection: just pick highest target relevance
+                # (self-kernel k(x,x) is constant for RBF, contributes nothing)
+                scores = target_relevance.copy()
             else:
-                redundancy = redundancy_sum / len(selected)
-                scores = target_relevance.astype(np.float64) - self.lambda_redundancy * redundancy
+                scores = (
+                    target_relevance
+                    - (1.0 / (m + 1)) * (selected_kernel_sum + self_kernel / 2.0)
+                )
 
             # Mask out already selected
             scores[~available_mask] = -np.inf
@@ -402,7 +430,7 @@ class MMDSelector(Selector):
             k_col = self._compute_kernel_column(
                 candidate_features, candidate_features[best_idx], sigma, kernel_type
             )
-            redundancy_sum += k_col
+            selected_kernel_sum += k_col
 
         return selected
 
@@ -413,69 +441,59 @@ class MMDSelector(Selector):
     @staticmethod
     def _rbf_kernel_matrix(X: np.ndarray, Y: np.ndarray, sigma: float) -> np.ndarray:
         """
-        RBF (Gaussian) kernel: k(x,y) = exp(-||x-y||^2 / (2*sigma^2))
-
-        Args:
-            X: (N, D) array
-            Y: (M, D) array
-            sigma: bandwidth parameter
-
-        Returns:
-            (N, M) kernel matrix
+        RBF (Gaussian) kernel: k(x,y) = exp(-||x-y||² / (2σ²))
+        Args: X (N,D), Y (M,D) -> (N,M) kernel matrix
         """
-        X_sqnorm = np.sum(X ** 2, axis=1, keepdims=True)  # (N, 1)
-        Y_sqnorm = np.sum(Y ** 2, axis=1, keepdims=True)  # (M, 1)
-        sq_dists = X_sqnorm + Y_sqnorm.T - 2.0 * (X @ Y.T)  # (N, M)
+        X_sqnorm = np.sum(X ** 2, axis=1, keepdims=True)
+        Y_sqnorm = np.sum(Y ** 2, axis=1, keepdims=True)
+        sq_dists = X_sqnorm + Y_sqnorm.T - 2.0 * (X @ Y.T)
         sq_dists = np.maximum(sq_dists, 0.0)
         return np.exp(-sq_dists / (2.0 * sigma ** 2))
 
     @staticmethod
     def _grad_cov_kernel_matrix(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
         """
-        Gradient covariance kernel (degree-2 polynomial): k(x,y) = <x,y>^2
-
-        This matches the target gradient covariance structure:
-            E_S[g g^T] ≈ E_T[g g^T]
-
-        Args:
-            X: (N, D) gradient features
-            Y: (M, D) gradient features
-
-        Returns:
-            (N, M) kernel matrix
+        Gradient covariance kernel (degree-2 polynomial): k(x,y) = <x,y>²
+        Matches target gradient covariance: E_S[g g^T] ≈ E_T[g g^T]
         """
-        inner = X @ Y.T  # (N, M)
+        inner = X @ Y.T
         return inner ** 2
 
     def _compute_kernel_column(
         self, X: np.ndarray, x_new: np.ndarray, sigma: Optional[float], kernel_type: str
     ) -> np.ndarray:
-        """
-        Compute k(x_i, x_new) for all candidates i.
-
-        This is the core incremental update used in greedy selection.
-        Returns shape (N,).
-        """
+        """Compute k(x_i, x_new) for all candidates i. Returns shape (N,)."""
         x_new_2d = x_new.reshape(1, -1)
         if kernel_type == "rbf":
-            # k(x_i, x_new) = exp(-||x_i - x_new||^2 / (2*sigma^2))
-            diffs = X - x_new_2d  # (N, D)
-            sq_dists = np.sum(diffs ** 2, axis=1)  # (N,)
+            diffs = X - x_new_2d
+            sq_dists = np.sum(diffs ** 2, axis=1)
             return np.exp(-sq_dists / (2.0 * sigma ** 2))
         elif kernel_type == "cov":
-            # k(x_i, x_new) = <x_i, x_new>^2
-            inner = X @ x_new_2d.T  # (N, 1)
+            inner = X @ x_new_2d.T
             return (inner.squeeze(axis=1)) ** 2
+        else:
+            raise ValueError(f"Unknown kernel_type: {kernel_type}")
+
+    @staticmethod
+    def _compute_self_kernel(
+        X: np.ndarray, sigma: Optional[float], kernel_type: str
+    ) -> np.ndarray:
+        """Compute k(x_i, x_i) for all i. Returns shape (N,)."""
+        if kernel_type == "rbf":
+            # k(x, x) = exp(0) = 1 for all x with RBF
+            return np.ones(X.shape[0], dtype=np.float64)
+        elif kernel_type == "cov":
+            # k(x, x) = <x, x>² = ||x||⁴
+            norms_sq = np.sum(X ** 2, axis=1)
+            return norms_sq ** 2
         else:
             raise ValueError(f"Unknown kernel_type: {kernel_type}")
 
     @staticmethod
     def _median_heuristic(X: np.ndarray, subsample: int = 2000) -> float:
         """
-        Median heuristic for RBF bandwidth selection.
-
-        sigma = median(||x_i - x_j||) computed over a random subsample of pairs.
-        This is the standard parameter-free bandwidth selection method.
+        Median heuristic for RBF bandwidth: σ = median(||x_i - x_j||).
+        Uses random subsample for efficiency.
         """
         N = X.shape[0]
         if N > subsample:
@@ -485,12 +503,10 @@ class MMDSelector(Selector):
         else:
             X_sub = X
 
-        # Pairwise squared distances via expansion
         sq_norms = np.sum(X_sub ** 2, axis=1)
         sq_dists = sq_norms[:, None] + sq_norms[None, :] - 2.0 * (X_sub @ X_sub.T)
         sq_dists = np.maximum(sq_dists, 0.0)
 
-        # Upper triangle (exclude diagonal and duplicates)
         triu_idx = np.triu_indices(len(X_sub), k=1)
         pairwise_dists = np.sqrt(sq_dists[triu_idx])
 
@@ -498,34 +514,36 @@ class MMDSelector(Selector):
         return max(median_dist, 1e-6)
 
     # ═══════════════════════════════════════════════════════════════════════
-    # TARGET RELEVANCE COMPUTATION
+    # TARGET RELEVANCE COMPUTATION (double-chunked for memory safety)
     # ═══════════════════════════════════════════════════════════════════════
 
     @staticmethod
     def _compute_target_relevance_rbf(
-        candidates: np.ndarray, targets: np.ndarray, sigma: float
+        candidates: np.ndarray, targets: np.ndarray, sigma: float,
+        cand_chunk_size: int = 10000, target_chunk_size: int = 5000,
     ) -> np.ndarray:
         """
-        Compute r_T(x_i) = (1/|T|) * sum_{z in T} k(x_i, z) using RBF kernel.
-
-        Processes in chunks to avoid OOM on large target sets.
-        Returns shape (N_candidates,).
+        Compute r_T(x_i) = (1/|T|) Σ_t k(x_i, t) using RBF kernel.
+        Double-chunked to handle large candidate pools without OOM.
         """
         N_cand = candidates.shape[0]
         N_target = targets.shape[0]
-        chunk_size = 5000
         relevance = np.zeros(N_cand, dtype=np.float64)
 
-        for t_start in range(0, N_target, chunk_size):
-            t_end = min(t_start + chunk_size, N_target)
-            target_chunk = targets[t_start:t_end]
+        for c_start in range(0, N_cand, cand_chunk_size):
+            c_end = min(c_start + cand_chunk_size, N_cand)
+            cand_chunk = candidates[c_start:c_end]
+            cand_sq = np.sum(cand_chunk ** 2, axis=1, keepdims=True)
 
-            cand_sq = np.sum(candidates ** 2, axis=1, keepdims=True)
-            tgt_sq = np.sum(target_chunk ** 2, axis=1, keepdims=True)
-            sq_dists = cand_sq + tgt_sq.T - 2.0 * (candidates @ target_chunk.T)
-            sq_dists = np.maximum(sq_dists, 0.0)
-            K_chunk = np.exp(-sq_dists / (2.0 * sigma ** 2))
-            relevance += K_chunk.sum(axis=1)
+            for t_start in range(0, N_target, target_chunk_size):
+                t_end = min(t_start + target_chunk_size, N_target)
+                target_chunk = targets[t_start:t_end]
+                tgt_sq = np.sum(target_chunk ** 2, axis=1, keepdims=True)
+
+                sq_dists = cand_sq + tgt_sq.T - 2.0 * (cand_chunk @ target_chunk.T)
+                sq_dists = np.maximum(sq_dists, 0.0)
+                K_chunk = np.exp(-sq_dists / (2.0 * sigma ** 2))
+                relevance[c_start:c_end] += K_chunk.sum(axis=1)
 
         return relevance / N_target
 
@@ -533,22 +551,26 @@ class MMDSelector(Selector):
         self, candidates: np.ndarray, targets: np.ndarray,
         sigma: Optional[float], kernel_type: str
     ) -> np.ndarray:
-        """Compute target relevance for any kernel type."""
+        """Compute target relevance for any kernel type (double-chunked)."""
         if kernel_type == "rbf":
             return self._compute_target_relevance_rbf(candidates, targets, sigma)
         elif kernel_type == "cov":
-            # k(x,y) = <x,y>^2
             N_cand = candidates.shape[0]
             N_target = targets.shape[0]
-            chunk_size = 5000
+            cand_chunk_size = 10000
+            target_chunk_size = 5000
             relevance = np.zeros(N_cand, dtype=np.float64)
 
-            for t_start in range(0, N_target, chunk_size):
-                t_end = min(t_start + chunk_size, N_target)
-                target_chunk = targets[t_start:t_end]
-                inner = candidates @ target_chunk.T  # (N_cand, chunk)
-                K_chunk = inner ** 2
-                relevance += K_chunk.sum(axis=1)
+            for c_start in range(0, N_cand, cand_chunk_size):
+                c_end = min(c_start + cand_chunk_size, N_cand)
+                cand_chunk = candidates[c_start:c_end]
+
+                for t_start in range(0, N_target, target_chunk_size):
+                    t_end = min(t_start + target_chunk_size, N_target)
+                    target_chunk = targets[t_start:t_end]
+                    inner = cand_chunk @ target_chunk.T
+                    K_chunk = inner ** 2
+                    relevance[c_start:c_end] += K_chunk.sum(axis=1)
 
             return relevance / N_target
         else:
@@ -597,7 +619,11 @@ class MMDSelector(Selector):
         return avg, avg_sq
 
     def _obtain_gradients(self, model, batch, gradient_type, m=None, v=None) -> torch.Tensor:
-        """Compute gradient vector for a single sample."""
+        """
+        Compute gradient vector for a single sample.
+
+        IMPORTANT: Adam preconditioning is done WITHOUT modifying m/v in-place.
+        """
         if self.accelerator.state.deepspeed_plugin is not None:
             loss = model(**batch).loss
             model.backward(loss)
@@ -619,13 +645,13 @@ class MMDSelector(Selector):
         if gradient_type == "adam":
             if m is None or v is None:
                 raise ValueError("Adam states (m, v) required for 'adam' gradient type.")
+            # FIX: Do NOT modify m or v in-place. Compute Adam-preconditioned gradient
+            # as a new tensor: adam_grad = (beta1*m + (1-beta1)*g) / (sqrt(beta2*v + (1-beta2)*g²) + eps)
             beta1, beta2, eps = 0.9, 0.999, 1e-08
-            denom = v.mul(beta2)
-            denom.addcmul_(vectorized_grads, vectorized_grads, value=(1 - beta2))
-            denom.sqrt_().add_(eps)
-            vectorized_grads.mul_(1 - beta1).add_(m, alpha=beta1)
-            vectorized_grads.div_(denom)
-            del denom
+            numerator = beta1 * m + (1.0 - beta1) * vectorized_grads
+            denominator = torch.sqrt(beta2 * v + (1.0 - beta2) * vectorized_grads.pow(2)) + eps
+            vectorized_grads = numerator / denominator
+            del numerator, denominator
 
         model.zero_grad()
         return vectorized_grads
@@ -668,7 +694,7 @@ class MMDSelector(Selector):
             dtype=self.dtype,
         )
 
-        # Prepare optimizer state for Adam preconditioning
+        # Prepare optimizer state for Adam preconditioning (read-only copy)
         m, v = None, None
         if gradient_type == "adam":
             if self.accelerator.state.deepspeed_plugin is None and optimizer_state is None:
@@ -764,4 +790,3 @@ class MMDSelector(Selector):
             # Clean up chunk files
             for file_path in files:
                 os.remove(file_path)
-            logger.info(f"[MMDSelector] Cleaned up {len(files)} chunk files.")

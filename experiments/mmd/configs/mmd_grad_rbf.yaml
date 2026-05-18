@@ -43,16 +43,12 @@ ddp_timeout: 180000000
 ### dynamic_train
 train_type: dynamic_select
 components_cfg_file: src/dataflex/configs/components.yaml
-component_name: mmd
+component_name: mmd_grad_rbf
 warmup_step: 10
 update_step: 10
 update_times: 2
 
-### mmd-specific
-kernel_type: grad_rbf
-sigma: 1.0
-
-### eval
+# target set for MMD selection (NOT used for final evaluation)
 eval_dataset: alpaca_zh_demo
 per_device_eval_batch_size: 1
 metric_for_best_model: eval_loss

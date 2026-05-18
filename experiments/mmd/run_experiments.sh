@@ -39,14 +39,18 @@ echo ""
 echo ">>> Step 0: Computing offline embeddings..."
 echo "------------------------------------------------------------"
 
+CANDIDATE_DATA="data/alpaca_en_demo.json"
+TARGET_DATA="data/alpaca_zh_demo.json"
+EMBED_MODEL="${MODEL}"
+
 if [ ! -f "${EMBEDDINGS_DIR}/candidate_embeddings.npy" ]; then
     python src/dataflex/offline_selector/offline_mmd_selector.py \
-        --model_name_or_path "${MODEL}" \
-        --candidate_dataset alpaca_en_demo \
-        --target_dataset alpaca_zh_demo \
-        --output_dir "${EMBEDDINGS_DIR}" \
-        --batch_size 32 \
-        --max_length 4096
+        --candidate_path "${CANDIDATE_DATA}" \
+        --query_path "${TARGET_DATA}" \
+        --embed_model "${EMBED_MODEL}" \
+        --save_dir "${EMBEDDINGS_DIR}" \
+        --mode embed \
+        --batch_size 32
     echo "    Embeddings saved to ${EMBEDDINGS_DIR}/"
 else
     echo "    Embeddings already exist, skipping computation."
@@ -93,22 +97,23 @@ for VARIANT in ${MMD_VARIANTS}; do
 done
 
 ###############################################################################
-# Step 3: Lambda ablation for emb_rbf
+# Step 3: Lambda ablation for emb_rbf (offline selection)
 ###############################################################################
 echo ""
 echo ">>> Step 3: Running lambda ablation for emb_rbf..."
 echo "------------------------------------------------------------"
 
-LAMBDAS="0.01 0.1 0.5 1.0 2.0 5.0 10.0"
-ABLATION_SEED="${ABLATION_SEED:-42}"
-
-for LAMBDA in ${LAMBDAS}; do
-    echo "  [emb_rbf] lambda=${LAMBDA}, seed=${ABLATION_SEED}"
-    dataflex-cli train "${CONFIGS_DIR}/mmd_emb_rbf.yaml" \
-        --seed "${ABLATION_SEED}" \
-        --sigma "${LAMBDA}" \
-        --output_dir "${OUTPUT_BASE}/ablation_lambda/lambda_${LAMBDA}" \
-        --overwrite_output_dir true
+for LAMBDA in 0.0 0.1 0.3 0.5 0.7 1.0 2.0; do
+    echo "  [emb_rbf] lambda_redundancy=${LAMBDA}"
+    python src/dataflex/offline_selector/offline_mmd_selector.py \
+        --candidate_path "${CANDIDATE_DATA}" \
+        --query_path "${TARGET_DATA}" \
+        --embed_model "${EMBED_MODEL}" \
+        --save_dir "${OUTPUT_BASE}/lambda_ablation/lambda_${LAMBDA}" \
+        --mode select \
+        --num_select 5000 \
+        --lambda_redundancy ${LAMBDA} \
+        --sigma auto
 done
 
 ###############################################################################

@@ -44,7 +44,7 @@ ddp_timeout: 180000000
 # Requires pre-computed embeddings (run offline_mmd_selector.py first)
 train_type: dynamic_select
 components_cfg_file: src/dataflex/configs/components.yaml
-component_name: mmd
+component_name: mmd_emb_rbf
 warmup_step: 10
 update_step: 10
 update_times: 2

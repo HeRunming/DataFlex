@@ -46,7 +46,7 @@ ddp_timeout: 180000000
 # Uses eval_dataset as the target set.
 train_type: dynamic_select
 components_cfg_file: src/dataflex/configs/components.yaml
-component_name: mmd
+component_name: mmd_grad_cov
 warmup_step: 10
 update_step: 10
 update_times: 2
