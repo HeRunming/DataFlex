@@ -25,10 +25,10 @@ class IndexedDataset(Dataset):
 
 @register_selector('less')
 class LessSelector(Selector):
-    def __init__(self, 
-                 dataset, 
-                 eval_dataset,
-                 accelerator, 
+    def __init__(self,
+                 dataset,
+                 target_dataset,
+                 accelerator,
                  data_collator,
                  cache_dir,
                  gradient_type: str = "adam",
@@ -40,7 +40,7 @@ class LessSelector(Selector):
         """
         super().__init__(dataset, accelerator, data_collator, cache_dir)
 
-        self.eval_dataset = eval_dataset
+        self.target_dataset = target_dataset
         self.gradient_type = gradient_type
         self.proj_dim = proj_dim
         self.save_interval = save_interval
@@ -352,9 +352,9 @@ class LessSelector(Selector):
         # 步骤 2: 计算验证集梯度
         if not os.path.exists(eval_final_grads_path):
             os.makedirs(now_eval_save_dir, exist_ok=True)
-            # MODIFIED: 传入 eval_dataset
-            self._collect_and_save_projected_gradients(model, now_eval_save_dir, self.eval_dataset, "sgd", None)
-            self._merge_and_normalize_info(now_eval_save_dir, len(self.eval_dataset))
+            # MODIFIED: 传入 target_dataset
+            self._collect_and_save_projected_gradients(model, now_eval_save_dir, self.target_dataset, "sgd", None)
+            self._merge_and_normalize_info(now_eval_save_dir, len(self.target_dataset))
         
         self.accelerator.wait_for_everyone()
 

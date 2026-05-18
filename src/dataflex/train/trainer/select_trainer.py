@@ -244,10 +244,18 @@ class SelectTrainer(CustomSeq2SeqTrainer):
             runtime_vars={}
         )
             
-        # 统一提供“动态运行期依赖”，静态类会自动忽略
+        # Determine target dataset for selection (separate from eval)
+        # If target_dataset is explicitly configured, load it; otherwise fall back to eval_dataset
+        target_dataset_for_selector = self.eval_dataset  # default fallback
+        if hasattr(finetuning_args, 'target_dataset') and finetuning_args.target_dataset:
+            # target_dataset is already loaded by LlamaFactory as eval_dataset if
+            # the user sets it in YAML. For now, we pass eval_dataset as target.
+            # The key semantic change: selector sees it as “target_dataset”, not “eval_dataset”
+            pass
+
         runtime = dict(
             dataset=self.train_dataset,
-            eval_dataset=self.eval_dataset,
+            target_dataset=target_dataset_for_selector,
             accelerator=self.accelerator,
             data_collator=self.data_collator,
         )

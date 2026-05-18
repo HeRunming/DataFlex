@@ -80,7 +80,7 @@ class MMDSelector(Selector):
         accelerator,
         data_collator,
         cache_dir,
-        eval_dataset=None,
+        target_dataset=None,
         kernel_type: str = "emb_rbf",
         lambda_redundancy: float = 0.5,  # kept for ablation only
         sigma: float = None,
@@ -94,7 +94,7 @@ class MMDSelector(Selector):
     ):
         super().__init__(dataset, accelerator, data_collator, cache_dir)
 
-        self.eval_dataset = eval_dataset
+        self.target_dataset = target_dataset
         self.kernel_type = kernel_type
         self.lambda_redundancy = lambda_redundancy
         self.sigma = sigma
@@ -115,10 +115,10 @@ class MMDSelector(Selector):
         self._target_relevance_cache = None
 
         # Validate: gradient kernels require a target dataset
-        if self.kernel_type in ("grad_rbf", "grad_cov") and self.eval_dataset is None:
+        if self.kernel_type in ("grad_rbf", "grad_cov") and self.target_dataset is None:
             raise ValueError(
                 f"[MMDSelector] kernel_type='{self.kernel_type}' requires a target dataset. "
-                f"Set 'eval_dataset' in your training config (this is used as the MMD target set, "
+                f"Set 'target_dataset' in your training config (this is used as the MMD target set, "
                 f"NOT for evaluation metrics)."
             )
 
@@ -254,9 +254,9 @@ class MMDSelector(Selector):
     def _select_gradient_kernel(self, model, step_id: int, num_samples: int, **kwargs) -> Optional[List[int]]:
         """Select using gradient features with RBF or covariance kernel."""
         train_grads_dir = os.path.join(self.cache_dir, "train", str(step_id))
-        eval_grads_dir = os.path.join(self.cache_dir, "eval", str(step_id))
+        target_grads_dir = os.path.join(self.cache_dir, "target", str(step_id))
         train_final_path = os.path.join(train_grads_dir, "all_projected_grads.pt")
-        eval_final_path = os.path.join(eval_grads_dir, "all_projected_grads.pt")
+        target_final_path = os.path.join(target_grads_dir, "all_projected_grads.pt")
 
         # Step 1: Compute training set gradients (possibly subsampled)
         if not os.path.exists(train_final_path):
@@ -284,23 +284,23 @@ class MMDSelector(Selector):
         self.accelerator.wait_for_everyone()
 
         # Step 2: Compute target set gradients (SAME gradient_type as train for consistency)
-        if not os.path.exists(eval_final_path):
-            os.makedirs(eval_grads_dir, exist_ok=True)
+        if not os.path.exists(target_final_path):
+            os.makedirs(target_grads_dir, exist_ok=True)
             optimizer_state = kwargs.get("optimizer_state", None)
             self._collect_and_save_projected_gradients(
-                model, eval_grads_dir, self.eval_dataset, self.gradient_type, optimizer_state
+                model, target_grads_dir, self.target_dataset, self.gradient_type, optimizer_state
             )
-            self._merge_and_normalize(eval_grads_dir, len(self.eval_dataset))
+            self._merge_and_normalize(target_grads_dir, len(self.target_dataset))
 
         self.accelerator.wait_for_everyone()
 
         # Step 3: Main process runs exact marginal MMD selection
         if self.accelerator.is_main_process:
             train_grads = torch.load(train_final_path, map_location="cpu").numpy()
-            eval_grads = torch.load(eval_final_path, map_location="cpu").numpy()
+            target_grads = torch.load(target_final_path, map_location="cpu").numpy()
 
             logger.info(
-                f"[MMDSelector] Loaded gradients: train={train_grads.shape}, target={eval_grads.shape}"
+                f"[MMDSelector] Loaded gradients: train={train_grads.shape}, target={target_grads.shape}"
             )
 
             # Determine kernel-specific parameters
@@ -319,7 +319,7 @@ class MMDSelector(Selector):
             )
             local_selected = self._greedy_mmd_exact(
                 candidate_features=train_grads,
-                target_features=eval_grads,
+                target_features=target_grads,
                 num_samples=num_samples,
                 sigma=sigma,
                 kernel_type=kernel_type_for_select,

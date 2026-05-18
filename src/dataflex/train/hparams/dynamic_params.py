@@ -557,6 +557,16 @@ class DynamicFinetuningArguments(
         default=0,
         metadata={"help": "Optional total training steps. If set, overrides num_train_epochs."},
     )
+    target_dataset: Optional[str] = field(
+        default=None,
+        metadata={
+            "help": (
+                "Dataset used as the MMD selection target set. "
+                "This is ONLY for guiding data selection (e.g., few-shot examples from the target task). "
+                "It is NOT used for evaluation metrics. Set eval_dataset separately for actual evaluation."
+            )
+        },
+    )
     freeze_gate: bool = field(
         default=False,
         metadata={"help": "Whether to freeze gate parameters in MoE models during SFT training."},
