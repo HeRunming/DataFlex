@@ -54,6 +54,12 @@ def _find_gradient_cache(search_dirs: List[str], step_id: int) -> Optional[str]:
 class RandomSubspaceLogDetSelector(Selector):
     """
     Negative Control: LogDet selection in a RANDOM subspace.
+
+    Computes its OWN gradient features from the current model state
+    (same infrastructure as OptGCS), then projects into a random orthogonal
+    subspace instead of the learned eigenspace. This provides a fair
+    same-checkpoint comparison.
+
     If this performs similarly to OptGCS, the eigenspace discovery is not contributing.
     """
 
@@ -69,7 +75,10 @@ class RandomSubspaceLogDetSelector(Selector):
         logdet_eps: float = 1e-3,
         prefilter_ratio: float = 5.0,
         length_norm_alpha: float = 0.5,
+        gradient_type: str = "adam_diag",
+        save_interval: int = 16,
         source_grad_dirs: Optional[List[str]] = None,
+        compute_own_grads: bool = True,
         eval_dataset=None,
         **kwargs,
     ):
@@ -80,7 +89,10 @@ class RandomSubspaceLogDetSelector(Selector):
         self.logdet_eps = logdet_eps
         self.prefilter_ratio = prefilter_ratio
         self.length_norm_alpha = length_norm_alpha
+        self.gradient_type = gradient_type
+        self.save_interval = save_interval
         self.source_grad_dirs = source_grad_dirs or []
+        self.compute_own_grads = compute_own_grads
         self.device = self.accelerator.device
         os.makedirs(self.cache_dir, exist_ok=True)
 
@@ -90,7 +102,8 @@ class RandomSubspaceLogDetSelector(Selector):
         # Config-aware cache key
         cfg = dict(step_id=step_id, num_samples=num_samples, subspace_dim=self.subspace_dim,
                    seed=self.seed, logdet_eps=self.logdet_eps, prefilter_ratio=self.prefilter_ratio,
-                   length_norm_alpha=self.length_norm_alpha, dataset_size=len(self.dataset))
+                   length_norm_alpha=self.length_norm_alpha, dataset_size=len(self.dataset),
+                   compute_own_grads=self.compute_own_grads, gradient_type=self.gradient_type)
         cfg_hash = hashlib.md5(_json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:10]
         save_path = os.path.join(self.cache_dir, f"step_{step_id}_k{num_samples}_{cfg_hash}.json")
 
@@ -104,19 +117,25 @@ class RandomSubspaceLogDetSelector(Selector):
                 dist.broadcast_object_list(obj, src=0)
             return obj[0] or []
 
-        # Find gradient cache — use explicit source dirs, fall back to sibling scan
-        search_dirs = list(self.source_grad_dirs)
-        # Also search siblings of cache_dir as fallback
-        parent = os.path.dirname(self.cache_dir)
-        if os.path.exists(parent):
-            for sibling in os.listdir(parent):
-                sib_path = os.path.join(parent, sibling)
-                if os.path.isdir(sib_path) and sib_path not in search_dirs:
-                    search_dirs.append(sib_path)
-        grads_path = _find_gradient_cache(search_dirs, step_id)
+        # Get gradient features
+        grads_path = None
+        if self.compute_own_grads:
+            # Compute our OWN gradients from the current model state
+            grads_path = self._compute_own_gradients(model, step_id, **kwargs)
 
         if grads_path is None:
-            logger.warning("[RandomSubspaceLogDet] No cached gradients found. Falling back to random.")
+            # Fall back to searching for cached gradients from other selectors
+            search_dirs = list(self.source_grad_dirs)
+            parent = os.path.dirname(self.cache_dir)
+            if os.path.exists(parent):
+                for sibling in os.listdir(parent):
+                    sib_path = os.path.join(parent, sibling)
+                    if os.path.isdir(sib_path) and sib_path not in search_dirs:
+                        search_dirs.append(sib_path)
+            grads_path = _find_gradient_cache(search_dirs, step_id)
+
+        if grads_path is None:
+            logger.warning("[RandomSubspaceLogDet] No gradients available. Falling back to random.")
             if self.accelerator.is_main_process:
                 import random
                 random.seed(self.seed + step_id)
@@ -133,56 +152,11 @@ class RandomSubspaceLogDetSelector(Selector):
             lengths_path = grads_path.replace("all_projected_grads.pt", "all_token_lengths.pt")
             lengths = torch.load(lengths_path, map_location="cpu") if os.path.exists(lengths_path) else torch.ones(len(grads))
 
-            n, d = grads.shape
-
-            # Preprocess same as OptGCS
-            h = grads.clone()
-            h[~torch.isfinite(h)] = 0.0
-            alpha = self.length_norm_alpha
-            if alpha > 0:
-                h = h / lengths.float().pow(alpha).unsqueeze(1).clamp(min=1.0)
-            norms = h.norm(dim=1, keepdim=True).clamp(min=1e-12)
-            h = h / norms
-
-            # Random orthogonal subspace (NOT data-driven)
-            torch.manual_seed(self.seed + 9999)
-            r = min(self.subspace_dim, d)
-            Q, _ = torch.linalg.qr(torch.randn(d, r))
-
-            projections = h @ Q
-            scores = (projections ** 2).sum(dim=1)
-
-            # LogDet greedy
-            k = min(num_samples, n)
-            eps = self.logdet_eps
-            prefilter_k = min(int(self.prefilter_ratio * k), n)
-
-            if prefilter_k < n:
-                topk = torch.topk(scores, k=prefilter_k, largest=True)
-                cand_idx = topk.indices
-                X = projections[cand_idx].clone()
-            else:
-                cand_idx = torch.arange(n)
-                X = projections.clone()
-
-            A_inv = torch.eye(r, dtype=X.dtype) / eps
-            selected_local = []
-            available = torch.ones(len(X), dtype=torch.bool)
-
-            for t in range(k):
-                gains = (X @ A_inv * X).sum(dim=1)
-                gains[~available] = -float('inf')
-                best = gains.argmax().item()
-                selected_local.append(best)
-                available[best] = False
-                x = X[best]
-                Ax = A_inv @ x
-                A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
-
-            selected_indices = cand_idx[torch.tensor(selected_local)].tolist()
+            selected_indices = self._do_random_subspace_logdet(grads, lengths, num_samples)
 
             save_selection(save_path, selected_indices,
-                           {"selection_method": "random_subspace_logdet", "subspace_dim": r, "negative_control": True},
+                           {"selection_method": "random_subspace_logdet", "subspace_dim": self.subspace_dim,
+                            "negative_control": True, "compute_own_grads": self.compute_own_grads},
                            self.accelerator)
         else:
             selected_indices = None
@@ -191,6 +165,96 @@ class RandomSubspaceLogDetSelector(Selector):
         if dist.is_available() and dist.is_initialized():
             dist.broadcast_object_list(obj, src=0)
         return obj[0] or []
+
+    def _compute_own_gradients(self, model, step_id: int, **kwargs) -> Optional[str]:
+        """Compute gradient features using OptGCS infrastructure."""
+        from .spec_gcs_selector import OptGCSSelector
+
+        # Build gradient cache path (unique to this selector's state)
+        grad_cfg = dict(step_id=step_id, gradient_type=self.gradient_type,
+                        proj_dim=self.proj_dim, projector_seed=self.seed,
+                        dataset_size=len(self.dataset))
+        grad_hash = hashlib.md5(_json.dumps(grad_cfg, sort_keys=True).encode()).hexdigest()[:10]
+        grad_save_dir = os.path.join(self.cache_dir, "gradients", f"step_{step_id}_{grad_hash}")
+        grads_path = os.path.join(grad_save_dir, "all_projected_grads.pt")
+
+        if os.path.exists(grads_path):
+            return grads_path
+
+        # Create a temporary OptGCS instance to use its gradient computation
+        os.makedirs(grad_save_dir, exist_ok=True)
+        temp_selector = OptGCSSelector.__new__(OptGCSSelector)
+        temp_selector.dataset = self.dataset
+        temp_selector.accelerator = self.accelerator
+        temp_selector.data_collator = self.data_collator
+        temp_selector.cache_dir = self.cache_dir
+        temp_selector.gradient_type = self.gradient_type
+        temp_selector.proj_dim = self.proj_dim
+        temp_selector.save_interval = self.save_interval
+        temp_selector.seed = self.seed
+        temp_selector.device = self.device
+        temp_selector.dtype = torch.float16
+
+        optimizer_state = kwargs.get('optimizer_state', None)
+        temp_selector._collect_and_save_projected_gradients(
+            model, grad_save_dir, self.dataset,
+            self.gradient_type, optimizer_state
+        )
+        temp_selector._merge_gradients(grad_save_dir, len(self.dataset))
+
+        self.accelerator.wait_for_everyone()
+        return grads_path if os.path.exists(grads_path) else None
+
+    def _do_random_subspace_logdet(self, grads: torch.Tensor, lengths: torch.Tensor,
+                                    num_samples: int) -> List[int]:
+        """Perform random subspace projection + logdet selection."""
+        n, d = grads.shape
+
+        # Preprocess same as OptGCS
+        h = grads.clone()
+        h[~torch.isfinite(h)] = 0.0
+        alpha = self.length_norm_alpha
+        if alpha > 0:
+            h = h / lengths.float().pow(alpha).unsqueeze(1).clamp(min=1.0)
+        norms = h.norm(dim=1, keepdim=True).clamp(min=1e-12)
+        h = h / norms
+
+        # Random orthogonal subspace (NOT data-driven)
+        torch.manual_seed(self.seed + 9999)
+        r = min(self.subspace_dim, d)
+        Q, _ = torch.linalg.qr(torch.randn(d, r))
+
+        projections = h @ Q
+        scores = (projections ** 2).sum(dim=1)
+
+        # LogDet greedy
+        k = min(num_samples, n)
+        eps = self.logdet_eps
+        prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
+
+        if prefilter_k < n:
+            topk = torch.topk(scores, k=prefilter_k, largest=True)
+            cand_idx = topk.indices
+            X = projections[cand_idx].clone()
+        else:
+            cand_idx = torch.arange(n)
+            X = projections.clone()
+
+        A_inv = torch.eye(r, dtype=X.dtype) / eps
+        selected_local = []
+        available = torch.ones(len(X), dtype=torch.bool)
+
+        for t in range(k):
+            gains = (X @ A_inv * X).sum(dim=1)
+            gains[~available] = -float('inf')
+            best = gains.argmax().item()
+            selected_local.append(best)
+            available[best] = False
+            x = X[best]
+            Ax = A_inv @ x
+            A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
+
+        return cand_idx[torch.tensor(selected_local)].tolist()
 
 
 @register_selector('grad_norm_topk')

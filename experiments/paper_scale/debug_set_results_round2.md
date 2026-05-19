@@ -183,7 +183,7 @@ GSM8K = 0.5679 (best across all methods, +2.81% over base).
 
 ### Finding 1: Validation loss is anti-correlated with downstream benchmarks
 
-GradNorm-TopK achieves the best eval_loss (0.813) but worst average benchmark rank (15.7/20). This proves that validation loss reduction ≠ capability-preserving selection.
+GradNorm-TopK achieves the best eval_loss (0.813) but worst average benchmark rank (15.7/20). This proves that validation loss reduction does not imply capability-preserving selection.
 
 ### Finding 2: Different selection criteria specialize in different abilities
 
@@ -195,20 +195,35 @@ GradNorm-TopK achieves the best eval_loss (0.813) but worst average benchmark ra
 ### Finding 3: Hybrid spectral-leverage-plus-coverage achieves the best robustness
 
 The hybrid methods (Rank #1 and #2) are the only approaches that simultaneously:
-- Beat base model on all three benchmarks
-- Match or exceed LESS on IFEval (unsupervised matching supervised!)
+- Improve GSM8K and IFEval without materially degrading MMLU
+- Are comparable to LESS on IFEval (unsupervised, no target examples needed)
 - Significantly beat LESS on GSM8K (+2.6%)
 - Outperform random selection on all metrics
 
-### Finding 4: Learned eigenspace provides value over random subspace
+### Finding 4: Learned eigenspace provides value over random subspace (with caveats)
 
 - Random subspace (6 seeds): mean avg rank = 10.8, std = 2.8
-- Hybrid-Add λ=0.25: avg rank = 6.3 (consistently better)
-- The learned spectral eigenspace captures meaningful training geometry
+- Hybrid-Add lambda=0.25: avg rank = 6.3 (consistently better)
+
+**Caveat**: In Round 2, random_subspace controls reused gradient caches from score_beta0's trajectory (different model checkpoint for 2nd selection round). A stricter same-checkpoint control with own gradient computation is needed for a definitive claim. See `run_final_table.sh` for the corrected setup.
 
 ### Finding 5: Low importance weighting is optimal
 
-Both hybrid formulations show λ/γ = 0.25 > 0.5 > 1.0 for average rank. The optimal recipe is "mostly coverage, slightly biased toward important directions."
+Both hybrid formulations show lambda/gamma = 0.25 > 0.5 > 1.0 for average rank. The optimal recipe is "mostly coverage, slightly biased toward important directions."
+
+---
+
+## Limitations of Current Results
+
+1. **R1/R2 mixing**: The combined table mixes results from two experiment rounds with slightly different code versions and cache settings. The `run_final_table.sh` script addresses this by re-running all core methods under unified conditions.
+
+2. **Random subspace gradient source**: In Round 2, random_subspace seeds reused gradients from score_beta0's training trajectory. This is not a perfectly controlled comparison. The final table script enables `compute_own_grads=True` for random_subspace to fix this.
+
+3. **MMLU noise**: MMLU spread is only 0.8% (0.648-0.656). These differences should not be over-interpreted. GSM8K and IFEval are the informative benchmarks.
+
+4. **Single training seed**: Most methods only have seed=42 results. The final table includes multi-seed runs for hybrid methods (seeds 1, 2, 42) to estimate variance.
+
+5. **Single budget**: All experiments use budget=5000. Budget sensitivity (1k, 5k, 10k, 20k) is needed for the full paper.
 
 ---
 
