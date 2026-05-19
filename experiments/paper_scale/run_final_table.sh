@@ -16,6 +16,7 @@
 
 set -e
 
+FILTER=${1:-""}
 CONDA_PREFIX="/jizhicfs/karonhe/miniconda_karonhe/envs/spec_gcs"
 export PATH="$CONDA_PREFIX/bin:$PATH"
 export PYTHONPATH="/jizhicfs/karonhe/DataFlex/src:$PYTHONPATH"
@@ -60,14 +61,20 @@ with open("src/dataflex/configs/components.yaml") as f:
 for sname, sconf in cfg.get("selectors", {}).items():
     if "params" in sconf and "cache_dir" in sconf["params"]:
         sconf["params"]["cache_dir"] = f"{save_dir}/cache/{sname}"
-# Enable compute_own_grads for random_subspace controls
+# Enable compute_own_grads for random_subspace and grad_norm_topk controls
 for sname, sconf in cfg.get("selectors", {}).items():
     if sname.startswith("random_subspace_logdet"):
         sconf["params"]["compute_own_grads"] = True
         sconf["params"]["gradient_type"] = "adam_diag"
         sconf["params"]["save_interval"] = 16
-        # Remove source_grad_dirs since we compute our own
+        sconf["params"]["projector_seed"] = 42  # fixed across subspace seeds
+        sconf["params"]["clipping_method"] = "adaptive"
         sconf["params"].pop("source_grad_dirs", None)
+    if sname == "grad_norm_topk":
+        sconf["params"]["compute_own_grads"] = True
+        sconf["params"]["gradient_type"] = "adam_diag"
+        sconf["params"]["proj_dim"] = 4096
+        sconf["params"]["save_interval"] = 16
 out_path = f"{save_dir}/configs/components_final.yaml"
 with open(out_path, "w") as f:
     yaml.dump(cfg, f, default_flow_style=False, allow_unicode=True)
@@ -183,6 +190,11 @@ SKIPPED=0
 for method_spec in "${METHODS[@]}"; do
     IFS=':' read -r method component train_seed <<< "$method_spec"
     CURRENT=$((CURRENT + 1))
+
+    # Filter support
+    if [ -n "$FILTER" ] && [ "$method" != "$FILTER" ]; then
+        continue
+    fi
 
     output_dir="$SAVE_DIR/${method}"
     log="$SAVE_DIR/logs/${method}.log"
