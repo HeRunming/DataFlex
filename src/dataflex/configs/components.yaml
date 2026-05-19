@@ -61,9 +61,9 @@ selectors:
       kernel_type: grad_rbf
       sigma: null
       proj_dim: 4096
-      gradient_type: sgd
+      gradient_type: adam
       save_interval: 16
-      seed: 42
+      seed: 123
       candidate_subsample: -1
 
   mmd_grad_cov:
@@ -73,9 +73,9 @@ selectors:
       kernel_type: grad_cov
       sigma: null
       proj_dim: 4096
-      gradient_type: sgd
+      gradient_type: adam
       save_interval: 16
-      seed: 42
+      seed: 123
       candidate_subsample: -1
 
   loss:

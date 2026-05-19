@@ -41,7 +41,6 @@ bf16: true
 ddp_timeout: 180000000
 
 ### dynamic_train - MMD with Gradient RBF Kernel
-# Uses eval_dataset as the target set for gradient-based MMD selection.
 # Matches the target gradient distribution rather than just mean gradient.
 train_type: dynamic_select
 components_cfg_file: src/dataflex/configs/components.yaml

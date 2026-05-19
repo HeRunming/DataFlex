@@ -248,10 +248,21 @@ class SelectTrainer(CustomSeq2SeqTrainer):
         # If target_dataset is explicitly configured, load it; otherwise fall back to eval_dataset
         target_dataset_for_selector = self.eval_dataset  # default fallback
         if hasattr(finetuning_args, 'target_dataset') and finetuning_args.target_dataset:
-            # target_dataset is already loaded by LlamaFactory as eval_dataset if
-            # the user sets it in YAML. For now, we pass eval_dataset as target.
-            # The key semantic change: selector sees it as “target_dataset”, not “eval_dataset”
-            pass
+            # Load target_dataset separately for selection
+            # This is used ONLY for guiding selection, not for evaluation
+            from dataflex.hparams import get_train_args
+            from dataflex.data import get_dataset
+            # Parse target_dataset names (comma-separated)
+            target_names = [d.strip() for d in finetuning_args.target_dataset.split(',')]
+            target_dataset_for_selector = get_dataset(
+                self.model,
+                self.tokenizer,
+                data_args=self.data_args,
+                training_args=self.training_args,
+                dataset_names=target_names,
+                stage='sft'
+            )['train_dataset'] if target_names else self.eval_dataset
+            logger.info(f'[SelectTrainer] Using separate target_dataset: {finetuning_args.target_dataset}')
 
         runtime = dict(
             dataset=self.train_dataset,

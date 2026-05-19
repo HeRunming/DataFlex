@@ -43,7 +43,6 @@ ddp_timeout: 180000000
 ### dynamic_train - MMD with Gradient Covariance Kernel
 # k(x,y) = <g(x), g(y)>^2 (degree-2 polynomial over gradients)
 # Preserves the target task's gradient covariance / update subspace.
-# Uses eval_dataset as the target set.
 train_type: dynamic_select
 components_cfg_file: src/dataflex/configs/components.yaml
 component_name: mmd_grad_cov

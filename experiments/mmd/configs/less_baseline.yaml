@@ -50,6 +50,7 @@ update_times: 2
 
 ### eval
 eval_dataset: alpaca_zh_demo
+target_dataset: alpaca_zh_demo  # Used for selection, same as eval for this baseline
 per_device_eval_batch_size: 1
 metric_for_best_model: eval_loss
 greater_is_better: false

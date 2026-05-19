@@ -1,0 +1,203 @@
+================================================================================
+                    DataFlex: MMD vs LESS Alignment Audit
+                           May 19, 2026
+================================================================================
+
+CRITICAL FINDINGS (Must Fix Before Paper Publication)
+================================================================================
+
+1. GRADIENT TYPE MISMATCH (🔴 CRITICAL)
+   ─────────────────────────────────────────────────────────────────────────
+   LESS Configuration:
+   - Training gradients: Adam (β₁=0.9, β₂=0.999)
+   - Target gradients:   SGD (raw)
+   
+   MMD Configuration:
+   - Training gradients: SGD (raw)
+   - Target gradients:   SGD (raw)
+   
+   Impact: Different gradient representations → Unfair comparison
+   
+   Fix: Change components.yaml
+        mmd_grad_rbf: gradient_type → adam  (line 64)
+        mmd_grad_cov: gradient_type → adam  (line 76)
+
+   
+2. ADAM PRECONDITIONING BUG (🔴 CRITICAL)
+   ─────────────────────────────────────────────────────────────────────────
+   LESS (less_selector.py, lines 125-133):
+   ✗ In-place mutation of optimizer state v
+   ✗ denom = v.mul(beta2)  ← corrupts v!
+   
+   MMD (mmd_selector.py, lines 645-654):
+   ✓ Creates new tensors (non-destructive)
+   ✓ Correct Adam formula without state corruption
+   
+   Impact: LESS implementation may have numerical instability
+   
+   Fix: Update LESS to use MMD's approach:
+        numerator = beta1 * m + (1.0 - beta1) * g
+        denominator = sqrt(beta2 * v + (1.0 - beta2) * g²) + eps
+        result = numerator / denominator
+
+
+3. RANDOM PROJECTION SEED MISMATCH (🟠 HIGH)
+   ─────────────────────────────────────────────────────────────────────────
+   LESS seed: 123      (components.yaml line 40)
+   MMD seed:  42       (components.yaml lines 54, 66, 78)
+   
+   Impact: Different random projection matrices → Breaks reproducibility
+   
+   Fix: Standardize to same seed. Option A (recommended):
+        Use seed=42 for all methods (more common)
+        Or seed=123 for all methods (current LESS choice)
+
+
+4. TARGET_DATASET PARAMETER UNUSED (🟠 HIGH)
+   ─────────────────────────────────────────────────────────────────────────
+   Field defined: dynamic_params.py lines 560-568
+   Implementation: select_trainer.py lines 250-254 (does nothing!)
+   
+   Current behavior:
+   - If user sets target_dataset in YAML → ignored
+   - Always falls back to eval_dataset
+   
+   Impact: Cannot specify independent target set for selection
+   
+   Fix: Implement actual target_dataset loading in SelectTrainer:
+        if finetuning_args.target_dataset:
+            target_dataset_for_selector = load_dataset(target_dataset)
+        else:
+            target_dataset_for_selector = eval_dataset
+
+
+5. EVALUATION DATA LEAKAGE (🟠 HIGH)
+   ─────────────────────────────────────────────────────────────────────────
+   LESS baseline config (less_baseline.yaml):
+   - eval_dataset: alpaca_zh_demo
+   - Used for: selection AND evaluation metrics
+   
+   Problem: Same dataset for selection target AND eval metrics
+           Violates LESS paper protocol (should be separate)
+   
+   LESS paper expects:
+   - Candidate pool: Large training data (100k+)
+   - Target set: Few-shot examples (64)  ← For selection only
+   - Evaluation: Held-out test split     ← Separate dataset
+   
+   Current DataFlex: alpaca_zh_demo is used for both target & eval
+   
+   Fix: Use separate datasets:
+        - eval_dataset: held-out test split (for metrics)
+        - target_dataset: few-shot examples (for selection)
+
+
+================================================================================
+MEDIUM FINDINGS (Design Differences)
+================================================================================
+
+6. SELECTION SCORING METHODOLOGY
+   ─────────────────────────────────────────────────────────────────────────
+   LESS:
+   - Score: cosine_similarity(train_grads, target_grads)
+   - Selection: top-k highest similarity
+   - No redundancy penalty
+   
+   MMD:
+   - Score: Δ(x) = r_T(x) - (1/(m+1)) * [r_S(x) + k(x,x)/2]
+   - Selection: greedy argmax (iterative)
+   - Includes redundancy penalty within selected set
+   
+   Status: Different by design (expected trade-off)
+
+
+7. EVALUATION PROTOCOL INCONSISTENCY
+   ─────────────────────────────────────────────────────────────────────────
+   LESS baseline (less_baseline.yaml):
+   - eval_strategy: steps
+   - eval_steps: 10
+   → Evaluates every 10 steps during training
+   
+   MMD configs (mmd_grad_rbf.yaml, mmd_grad_cov.yaml):
+   - eval_strategy: "no"
+   → No evaluation during training
+   
+   Impact: Different training dynamics, unfair comparison
+
+
+================================================================================
+LOW FINDINGS (Configuration Matches)
+================================================================================
+
+✓ Projection dimension:     Both 4096
+✓ Save interval:            Both 16
+✓ Training hyperparams:     All identical
+  - Model:                  Qwen/Qwen2.5-0.5B
+  - Learning rate:          1.0e-4
+  - Warmup ratio:           0.1
+  - Scheduler:              cosine
+  - Batch size:             1
+  - Epochs:                 1.0
+  - LoRA rank:              16
+  - Precision:              bf16
+
+✓ Dynamic selection protocol: Both use dynamic_select
+  - warmup_step:            10
+  - update_step:            10
+  - update_times:           2
+
+
+================================================================================
+LESS_ALIGNED EXPERIMENTS GAP
+================================================================================
+
+Issue: Missing gradient-based methods in less_aligned/run_all.sh
+
+Currently tested:
+- random (baseline)
+- mmd_emb_rbf (embedding-based)
+- embedding_nn (embedding-based)
+
+Missing:
+- mmd_grad_rbf (gradient-based)
+- mmd_grad_cov (gradient-based)
+- LESS (gradient-based)
+
+Impact: Cannot compare gradient vs embedding methods at scale (100k+, 7B model)
+
+Fix: Add gradient methods to run_all.sh after fixing Priority 1 issues
+
+
+================================================================================
+PRIORITY ACTION ITEMS
+================================================================================
+
+Priority 1 (MUST FIX before paper runs):
+  [ ] 1. Change components.yaml gradient_type to adam for mmd_grad_* (2 lines)
+  [ ] 2. Change components.yaml seed to 123 for mmd_grad_* (2 lines)
+  [ ] 3. Implement target_dataset loading in SelectTrainer (5 lines)
+  [ ] 4. Update LESS to use non-destructive Adam preconditioning (10 lines)
+  [ ] 5. Fix evaluation protocol: separate eval_dataset from target_dataset
+
+Priority 2 (recommended before submission):
+  [ ] 6. Add less_aligned support for gradient methods
+  [ ] 7. Document seed choices and rationale
+  [ ] 8. Add ablation studies: gradient_type, seed sensitivity
+
+Priority 3 (nice to have):
+  [ ] 9. Add comprehensive logging for all config parameters
+  [ ] 10. Add validation script to catch future misalignments
+
+
+================================================================================
+DETAILED REPORT
+================================================================================
+
+See ALIGNMENT_AUDIT_REPORT.md for comprehensive analysis including:
+- Full code citations with line numbers
+- Detailed gradient computation analysis
+- Data flow diagrams
+- Configuration comparison tables
+- Implementation recommendations
+
+================================================================================

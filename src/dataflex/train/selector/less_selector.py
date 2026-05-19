@@ -126,12 +126,10 @@ class LessSelector(Selector):
             if m is None or v is None:
                 raise ValueError("Adam optimizer states (m, v) must be provided for 'adam' gradient type.")
             beta1, beta2, eps = 0.9, 0.999, 1e-08
-            denom = v.mul(beta2)
-            denom.addcmul_(vectorized_grads, vectorized_grads, value=(1 - beta2))
-            denom.sqrt_().add_(eps)
-            vectorized_grads.mul_(1 - beta1).add_(m, alpha=beta1)
-            vectorized_grads.div_(denom)
-            del denom
+            # Non-destructive Adam preconditioning: compute numerator and denominator without mutating inputs
+            numerator = beta1 * m + (1.0 - beta1) * vectorized_grads
+            denominator = torch.sqrt(beta2 * v + (1.0 - beta2) * vectorized_grads.pow(2)) + eps
+            vectorized_grads = numerator / denominator
         elif gradient_type == "sgd":
             pass
         else:

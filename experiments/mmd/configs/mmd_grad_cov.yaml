@@ -48,11 +48,9 @@ warmup_step: 10
 update_step: 10
 update_times: 2
 
-# target set for MMD selection (NOT used for final evaluation)
+## target set for MMD selection (loaded via eval_dataset field, but NOT used for final evaluation)
+## In paper setting, use a separate held-out benchmark for final evaluation
 eval_dataset: alpaca_zh_demo
+target_dataset: alpaca_zh_demo  # Used for selection only, not evaluation
 per_device_eval_batch_size: 1
-metric_for_best_model: eval_loss
-greater_is_better: false
-load_best_model_at_end: false
-eval_strategy: steps
-eval_steps: 10
+eval_strategy: "no"
