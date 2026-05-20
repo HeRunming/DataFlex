@@ -80,6 +80,33 @@ selectors:
       seed: 123
       candidate_subsample: -1
 
+  # SGD-safe variants: no Adam state needed, easiest to run first
+  mmd_grad_rbf_sgd:
+    name: mmd
+    params:
+      cache_dir: ../dataflex_saves/mmd_grad_rbf_sgd_output
+      kernel_type: grad_rbf
+      sigma: null
+      proj_dim: 8192
+      gradient_type: sgd
+      target_gradient_type: same
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+
+  mmd_grad_cov_sgd:
+    name: mmd
+    params:
+      cache_dir: ../dataflex_saves/mmd_grad_cov_sgd_output
+      kernel_type: grad_cov
+      sigma: null
+      proj_dim: 8192
+      gradient_type: sgd
+      target_gradient_type: same
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+
   loss:
     name: loss
     params:
