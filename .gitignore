@@ -4,3 +4,6 @@ output.txt
 **/.ipynb_checkpoints/
 /examples/train_lora/develop/
 /examples/zzytest/
+experiments/less_aligned/results/
+*.pt
+*.safetensors

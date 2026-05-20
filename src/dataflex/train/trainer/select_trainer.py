@@ -243,6 +243,15 @@ class SelectTrainer(CustomSeq2SeqTrainer):
             name,
             runtime_vars={}
         )
+
+        # Resolve registry name: components.yaml entry has a 'name' field
+        # that maps to the @register_selector decorated class name.
+        # e.g., component_name="less_sgd" → components.yaml less_sgd.name="less" → @register_selector("less")
+        with open(finetuning_args.components_cfg_file, "r") as _f:
+            import yaml
+            _cfg_root = yaml.safe_load(_f) or {}
+        _component_entry = (_cfg_root.get("selectors") or {}).get(name, {})
+        registry_name = _component_entry.get("name", name)
             
         # Determine target dataset for selection (separate from eval)
         # The target_dataset field in YAML maps to eval_dataset in LlamaFactory's loading.
@@ -260,11 +269,8 @@ class SelectTrainer(CustomSeq2SeqTrainer):
                 )
 
         # Hard check: target-aware selectors MUST have a target dataset
-        target_aware_selectors = {
-            "less", "less_sgd", "nice",
-            "mmd_grad_rbf", "mmd_grad_cov", "mmd_grad_rbf_sgd", "mmd_grad_cov_sgd",
-        }
-        if name in target_aware_selectors and target_dataset_for_selector is None:
+        target_aware_selectors = {"less", "nice", "mmd"}
+        if registry_name in target_aware_selectors and target_dataset_for_selector is None:
             raise ValueError(
                 f"[SelectTrainer] Selector '{name}' requires a target dataset for selection. "
                 f"Set both 'target_dataset' and 'eval_dataset' in your YAML config."
@@ -278,8 +284,8 @@ class SelectTrainer(CustomSeq2SeqTrainer):
         )
 
         # 实例化（无任何 if/else）
-        self.selector = REGISTRY.build("selector", name, runtime=runtime, cfg=sel_params)
-        logger.info(f"[SelectTrainer] selector={name}, params={sel_params}")
+        self.selector = REGISTRY.build("selector", registry_name, runtime=runtime, cfg=sel_params)
+        logger.info(f"[SelectTrainer] component={name}, registry={registry_name}, params={sel_params}")
         logger.info("[Dataflex] SelectTrainer initialized")
 
     def _get_selection_num_samples(self, total_train_batch_size: int) -> int:
@@ -404,6 +410,11 @@ class SelectTrainer(CustomSeq2SeqTrainer):
 
         logger.info(f"[Dataflex] Dynamic training mode")
         total_warmup_samples = total_train_batch_size * self.finetuning_args.warmup_step
+
+        # Ensure at least 1 batch for dataloader initialization even if warmup_step=0
+        if total_warmup_samples == 0:
+            total_warmup_samples = total_train_batch_size
+            logger.info(f"[Dataflex] warmup_step=0, using minimum {total_warmup_samples} samples for init")
 
         if total_warmup_samples > len(self.train_dataset):
             assert False, f"Total warmup samples {total_warmup_samples} is larger than dataset size {len(self.train_dataset)}"
