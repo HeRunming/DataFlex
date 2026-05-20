@@ -61,11 +61,14 @@ for seed in "${SEEDS[@]}"; do
         # Random baseline
         run_select "random" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
 
-        # Mean target similarity (target relevance only, no redundancy)
+        # Mean target similarity (cosine, target relevance only)
         run_select "mean_target_sim" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
 
         # Max target similarity (strict nearest neighbor)
         run_select "max_target_sim" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
+
+        # Mean target RBF (same kernel as MMD, but no redundancy - exact ablation)
+        run_select "mean_target_rbf" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
 
         # MMD-Emb-RBF (exact marginal greedy, with redundancy penalty)
         run_select "mmd_emb_rbf" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"

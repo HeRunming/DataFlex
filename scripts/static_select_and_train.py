@@ -45,7 +45,7 @@ def parse_args():
     sel = subparsers.add_parser("select", help="Run offline data selection")
     sel.add_argument("--method", type=str, required=True,
                      choices=["random", "mmd_emb_rbf", "mean_target_sim",
-                              "max_target_sim", "full"],
+                              "max_target_sim", "mean_target_rbf", "full"],
                      help="Selection method")
     sel.add_argument("--candidate_data", type=str, required=True,
                      help="Path to candidate pool (JSON/JSONL)")
@@ -76,7 +76,7 @@ def parse_args():
     pipe = subparsers.add_parser("pipeline", help="Run select then train")
     pipe.add_argument("--method", type=str, required=True,
                       choices=["random", "mmd_emb_rbf", "mean_target_sim",
-                               "max_target_sim", "full"])
+                               "max_target_sim", "mean_target_rbf", "full"])
     pipe.add_argument("--candidate_data", type=str, required=True)
     pipe.add_argument("--target_data", type=str, required=True)
     pipe.add_argument("--embed_model", type=str, default="sentence-transformers/all-MiniLM-L6-v2")
@@ -227,6 +227,45 @@ def run_selection(args):
         max_sim = sim_matrix.max(axis=1)
 
         top_indices = np.argsort(max_sim)[::-1][:num_select]
+        selected = top_indices.tolist()
+
+    elif args.method == "mean_target_rbf":
+        # Mean target RBF kernel: r_T(x) = (1/|T|) Σ_t k_RBF(x, t), then top-k
+        # This is "MMD without redundancy penalty" — the exact ablation baseline.
+        # Uses same RBF kernel as mmd_emb_rbf for fair comparison.
+        print("[Selection] Computing embeddings...")
+        candidate_data = load_data(args.candidate_data)
+        target_data = load_data(args.target_data)
+        cand_texts = texts_from_data(candidate_data)
+        target_texts = texts_from_data(target_data)
+
+        cand_embs = compute_embeddings(cand_texts, args.embed_model)
+        target_embs = compute_embeddings(target_texts, args.embed_model)
+
+        # Compute sigma (same median heuristic as MMD)
+        sigma = float(args.sigma) if args.sigma != "auto" else median_heuristic(cand_embs)
+        print(f"[Selection] RBF sigma (median heuristic): {sigma:.6f}")
+
+        # Compute RBF target relevance
+        print("[Selection] Computing RBF target relevance...")
+        N_cand = cand_embs.shape[0]
+        N_target = target_embs.shape[0]
+        relevance = np.zeros(N_cand, dtype=np.float64)
+
+        chunk_size = 5000
+        cand_sq = np.sum(cand_embs ** 2, axis=1, keepdims=True)
+        for t_start in range(0, N_target, chunk_size):
+            t_end = min(t_start + chunk_size, N_target)
+            tgt_chunk = target_embs[t_start:t_end]
+            tgt_sq = np.sum(tgt_chunk ** 2, axis=1, keepdims=True)
+            sq_dists = cand_sq + tgt_sq.T - 2.0 * (cand_embs @ tgt_chunk.T)
+            sq_dists = np.maximum(sq_dists, 0.0)
+            K_chunk = np.exp(-sq_dists / (2.0 * sigma ** 2))
+            relevance += K_chunk.sum(axis=1)
+        relevance /= N_target
+
+        # Select top-k by RBF relevance (no redundancy penalty)
+        top_indices = np.argsort(relevance)[::-1][:num_select]
         selected = top_indices.tolist()
 
     else:
