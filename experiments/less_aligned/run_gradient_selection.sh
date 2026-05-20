@@ -46,14 +46,15 @@ for seed in "${SEEDS[@]}"; do
         echo ""
         echo "--- Seed: ${seed}, Ratio: ${ratio} ---"
 
-        # LESS (SGD gradient for safety)
+        # LESS (SGD gradient - no Adam state needed)
         echo "  [LESS SGD] Running selection..."
         dataflex-cli train "${CONFIGS_DIR}/select_less.yaml" \
             model_name_or_path="${MODEL}" \
+            component_name=less_sgd \
             selection_ratio="${ratio}" \
             seed="${seed}" \
             output_dir="${OUTPUT_BASE}/less_sgd/ratio_${ratio}/seed_${seed}" \
-            2>&1 | tail -5 || echo "  [LESS] FAILED"
+            2>&1 | tail -5 || echo "  [LESS SGD] FAILED"
 
         # MMD-Grad-RBF (SGD)
         echo "  [MMD-Grad-RBF SGD] Running selection..."
@@ -63,7 +64,7 @@ for seed in "${SEEDS[@]}"; do
             selection_ratio="${ratio}" \
             seed="${seed}" \
             output_dir="${OUTPUT_BASE}/mmd_grad_rbf_sgd/ratio_${ratio}/seed_${seed}" \
-            2>&1 | tail -5 || echo "  [MMD-Grad-RBF] FAILED"
+            2>&1 | tail -5 || echo "  [MMD-Grad-RBF SGD] FAILED"
 
         # MMD-GradCov (SGD)
         echo "  [MMD-GradCov SGD] Running selection..."
@@ -73,7 +74,7 @@ for seed in "${SEEDS[@]}"; do
             selection_ratio="${ratio}" \
             seed="${seed}" \
             output_dir="${OUTPUT_BASE}/mmd_grad_cov_sgd/ratio_${ratio}/seed_${seed}" \
-            2>&1 | tail -5 || echo "  [MMD-GradCov] FAILED"
+            2>&1 | tail -5 || echo "  [MMD-GradCov SGD] FAILED"
     done
 done
 

@@ -59,5 +59,7 @@ update_times: 1
 selection_ratio: 0.05  # Select 5% of candidate pool
 
 ## target set for selection - MUST be set explicitly
+## eval_dataset is set to same value so LlamaFactory actually loads the data
 target_dataset: alpaca_zh_demo
+eval_dataset: alpaca_zh_demo
 eval_strategy: "no"

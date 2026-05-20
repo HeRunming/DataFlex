@@ -2,25 +2,24 @@
 set -euo pipefail
 
 ###############################################################################
-# LESS-Aligned Experiment Runner
-# Runs all selection methods + training + evaluation for paper comparison
+# Embedding-Based Static Selection Experiments
+#
+# Methods: random, mean_target_sim, max_target_sim, mmd_emb_rbf
+# These do NOT require model forward passes or GPU for selection.
 ###############################################################################
 
 # === CONFIGURATION ===
-CANDIDATE_DATA="${CANDIDATE_DATA:-data/flan_v2_100k.json}"
-TARGET_DATA_GSM8K="${TARGET_DATA_GSM8K:-data/gsm8k_train_64.json}"
-TARGET_DATA_MMLU="${TARGET_DATA_MMLU:-data/mmlu_dev_64.json}"
-MODEL="${MODEL:-meta-llama/Llama-2-7b-hf}"
-EMBED_MODEL="${EMBED_MODEL:-sentence-transformers/all-MiniLM-L6-v2}"
-BASE_CONFIG="${BASE_CONFIG:-experiments/less_aligned/configs/train_llama7b_lora.yaml}"
+CANDIDATE_DATA="${CANDIDATE_DATA:-data/alpaca_en_demo.json}"
+TARGET_DATA_GSM8K="${TARGET_DATA_GSM8K:-data/alpaca_zh_demo.json}"
+EMBED_MODEL="${EMBED_MODEL:-/jizhicfs/karonhe/models/sentence-transformers/all-MiniLM-L6-v2}"
 OUTPUT_BASE="${OUTPUT_BASE:-experiments/less_aligned/results}"
 SEEDS=(42 123 456)
 RATIOS=(0.01 0.05 0.10)
 
 echo "================================================================"
-echo " LESS-Aligned Experiments"
+echo " Embedding-Based Static Selection"
 echo " Candidate: ${CANDIDATE_DATA}"
-echo " Model: ${MODEL}"
+echo " Embed model: ${EMBED_MODEL}"
 echo " Seeds: ${SEEDS[*]}"
 echo " Ratios: ${RATIOS[*]}"
 echo "================================================================"
@@ -41,7 +40,6 @@ run_select() {
         --method "${method}" \
         --candidate_data "${CANDIDATE_DATA}" \
         --target_data "${target}" \
-        --model_name_or_path "${MODEL}" \
         --embed_model "${EMBED_MODEL}" \
         --selection_ratio "${ratio}" \
         --output_dir "${outdir}" \
@@ -50,49 +48,37 @@ run_select() {
 }
 
 ###############################################################################
-# Step 1: Run selections
+# Run selections
 ###############################################################################
 echo ""
-echo ">>> Step 1: Running data selection..."
+echo ">>> Running embedding-based data selection..."
 
 for seed in "${SEEDS[@]}"; do
     for ratio in "${RATIOS[@]}"; do
         echo ""
         echo "--- Seed: ${seed}, Ratio: ${ratio} ---"
 
-        # GSM8K target
+        # Random baseline
         run_select "random" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
-        run_select "mmd_emb_rbf" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
-        run_select "embedding_nn" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
 
-        # MMLU target
-        run_select "random" "${TARGET_DATA_MMLU}" "${ratio}" "${seed}" "mmlu"
-        run_select "mmd_emb_rbf" "${TARGET_DATA_MMLU}" "${ratio}" "${seed}" "mmlu"
-        run_select "embedding_nn" "${TARGET_DATA_MMLU}" "${ratio}" "${seed}" "mmlu"
+        # Mean target similarity (target relevance only, no redundancy)
+        run_select "mean_target_sim" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
+
+        # Max target similarity (strict nearest neighbor)
+        run_select "max_target_sim" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
+
+        # MMD-Emb-RBF (exact marginal greedy, with redundancy penalty)
+        run_select "mmd_emb_rbf" "${TARGET_DATA_GSM8K}" "${ratio}" "${seed}" "gsm8k"
     done
 done
 
-###############################################################################
-# Step 2: Training (requires GPU)
-###############################################################################
-echo ""
-echo ">>> Step 2: Training on selected subsets..."
-echo "    NOTE: Run training separately with appropriate GPU resources."
-echo "    Example:"
-echo "      dataflex-cli train ${BASE_CONFIG} \\"
-echo "        dataset_dir=<selected_subset.json> \\"
-echo "        output_dir=<output_dir>"
-
-###############################################################################
-# Step 3: Evaluation
-###############################################################################
-echo ""
-echo ">>> Step 3: Evaluation"
-echo "    Run lm-evaluation-harness on trained checkpoints:"
-echo "      lm_eval --model hf --model_args pretrained=<checkpoint> \\"
-echo "        --tasks gsm8k,mmlu --batch_size 8"
-
 echo ""
 echo "================================================================"
-echo " Selection complete. See results in: ${OUTPUT_BASE}"
+echo " Embedding selection complete. Results in: ${OUTPUT_BASE}"
+echo " Next: train on selected subsets via:"
+echo "   python scripts/static_select_and_train.py train \\"
+echo "     --base_config experiments/less_aligned/configs/train_llama7b_lora.yaml \\"
+echo "     --selected_indices <output_dir>/selected_indices.json \\"
+echo "     --candidate_data ${CANDIDATE_DATA} \\"
+echo "     --output_dir <model_output>"
 echo "================================================================"

@@ -245,13 +245,30 @@ class SelectTrainer(CustomSeq2SeqTrainer):
         )
             
         # Determine target dataset for selection (separate from eval)
-        # Priority: explicit target_dataset field > eval_dataset fallback
-        target_dataset_for_selector = self.eval_dataset  # default fallback
+        # The target_dataset field in YAML maps to eval_dataset in LlamaFactory's loading.
+        # We pass it to the selector as "target_dataset" for clear semantics.
+        target_dataset_for_selector = self.eval_dataset
         if hasattr(finetuning_args, 'target_dataset') and finetuning_args.target_dataset:
-            # target_dataset is specified in YAML. In the current DataFlex/LlamaFactory flow,
-            # it's loaded via the eval_dataset mechanism. The key change is SEMANTIC:
-            # the selector receives it as "target_dataset", signaling it's for selection guidance only.
-            logger.info(f'[SelectTrainer] Using target_dataset: {finetuning_args.target_dataset}')
+            logger.info(f'[SelectTrainer] target_dataset configured: {finetuning_args.target_dataset}')
+            # In current DataFlex flow, target_dataset is loaded via eval_dataset mechanism.
+            # Ensure eval_dataset was actually loaded:
+            if self.eval_dataset is None:
+                raise ValueError(
+                    f"[SelectTrainer] target_dataset='{finetuning_args.target_dataset}' is configured "
+                    f"but eval_dataset was not loaded. Please also set eval_dataset to the same value "
+                    f"in your YAML config so LlamaFactory loads it."
+                )
+
+        # Hard check: target-aware selectors MUST have a target dataset
+        target_aware_selectors = {
+            "less", "less_sgd", "nice",
+            "mmd_grad_rbf", "mmd_grad_cov", "mmd_grad_rbf_sgd", "mmd_grad_cov_sgd",
+        }
+        if name in target_aware_selectors and target_dataset_for_selector is None:
+            raise ValueError(
+                f"[SelectTrainer] Selector '{name}' requires a target dataset for selection. "
+                f"Set both 'target_dataset' and 'eval_dataset' in your YAML config."
+            )
 
         runtime = dict(
             dataset=self.train_dataset,

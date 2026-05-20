@@ -40,6 +40,15 @@ selectors:
       seed: 123
       save_interval: 16
 
+  less_sgd:
+    name: less
+    params:
+      cache_dir: ../dataflex_saves/less_sgd_output
+      gradient_type: sgd
+      proj_dim: 8192
+      seed: 123
+      save_interval: 16
+
   mmd_emb_rbf:
     name: mmd
     params:
