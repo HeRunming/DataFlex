@@ -9,7 +9,7 @@ set -euo pipefail
 ###############################################################################
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "${SCRIPT_DIR}/../.."
+cd "${SCRIPT_DIR}/.."
 
 # Activate env
 if [ -f "/jizhicfs/karonhe/miniconda3/bin/activate" ]; then
@@ -36,29 +36,24 @@ FAIL=0
 run_and_check() {
     local method=$1
     local outdir="${OUTPUT_BASE}/${method}"
+    mkdir -p "${outdir}"
     echo -n "  [${method}] ... "
 
-    if python scripts/static_select_and_train.py select \
+    python scripts/static_select_and_train.py select \
         --method "${method}" \
         --candidate_data "${CANDIDATE}" \
         --target_data "${TARGET}" \
         --embed_model "${EMBED_MODEL}" \
         --selection_ratio "${RATIO}" \
         --output_dir "${outdir}" \
-        --seed 42 2>/dev/null; then
+        --seed 42 > "${outdir}.log" 2>&1
 
-        # Check outputs
-        if [ -f "${outdir}/selected_indices.json" ] && [ -f "${outdir}/selected_subset.json" ]; then
-            # Verify count
-            count=$(python -c "import json; d=json.load(open('${outdir}/selected_indices.json')); print(len(d['indices']))")
-            echo "PASS (selected ${count} samples)"
-            PASS=$((PASS + 1))
-        else
-            echo "FAIL (output files missing)"
-            FAIL=$((FAIL + 1))
-        fi
+    if [ $? -eq 0 ] && [ -f "${outdir}/selected_indices.json" ] && [ -f "${outdir}/selected_subset.json" ]; then
+        count=$(python -c "import json; d=json.load(open('${outdir}/selected_indices.json')); print(len(d['indices']))")
+        echo "PASS (selected ${count} samples)"
+        PASS=$((PASS + 1))
     else
-        echo "FAIL (script error)"
+        echo "FAIL (see ${outdir}.log)"
         FAIL=$((FAIL + 1))
     fi
 }
