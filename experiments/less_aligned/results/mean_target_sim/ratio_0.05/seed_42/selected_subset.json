@@ -1,0 +1,252 @@
+[
+  {
+    "instruction": "Given the following words, create a descriptive sentence.",
+    "input": "Rose, sweet, fragrance.",
+    "output": "The sweet fragrance of the rose filled the air, enchanting all who passed by."
+  },
+  {
+    "instruction": "Rank the following cities based on population (Most populous first)",
+    "input": "Tokyo, Beijing, Manila",
+    "output": "1. Tokyo\n2. Beijing\n3. Manila"
+  },
+  {
+    "instruction": "You are given a list of words and you need to come up with a sentence that includes all of these words.",
+    "input": "Flower, Rain, Dirt",
+    "output": "Flowers thrive and bloom when rain falls on the dirt and nourishes their roots."
+  },
+  {
+    "instruction": "Write a Haiku of 3 lines, with the first containing 5 syllables and the remaining lines containing 7 syllables.",
+    "input": "",
+    "output": "Whispers in the wind,\nEchoes of the past softly sigh,\nNature's symphony."
+  },
+  {
+    "instruction": "Replace the words in bold with words or phrases that have the same meaning.",
+    "input": "My dog has horrible dyspnea.",
+    "output": "My dog has severe difficulty breathing."
+  },
+  {
+    "instruction": "Find the missing words to complete the following phrase: Proverbs are ____ of wisdom.",
+    "input": "",
+    "output": "Proverbs are nuggets of wisdom."
+  },
+  {
+    "instruction": "Given a definition, identify the correct spelling of the word.",
+    "input": "An arrangement of elements in a particular form, figure, or combination:",
+    "output": "Configuration"
+  },
+  {
+    "instruction": "Describe the color yellow in 3 words.",
+    "input": "",
+    "output": "Bright, cheerful, warm."
+  },
+  {
+    "instruction": "Describe the color yellow in 3 words.",
+    "input": "",
+    "output": "Bright, cheerful, warm."
+  },
+  {
+    "instruction": "Describe the color yellow in 3 words.",
+    "input": "",
+    "output": "Bright, cheerful, warm."
+  },
+  {
+    "instruction": "Select the noun phrase in the following sentence.",
+    "input": "The accident caused horrific damage across the town.",
+    "output": "The noun phrases in the given sentence are \"The accident\" and \"horrific damage.\""
+  },
+  {
+    "instruction": "Compose a Haiku in response to the given input.",
+    "input": "Leaves falling from the trees.",
+    "output": "Leaves twirl and glide,\nDrifting gently to the ground;\nAutumn's dance begins."
+  },
+  {
+    "instruction": "Fill in the missing word.",
+    "input": "Pandas are ________ animals.",
+    "output": "Pandas are herbivorous animals."
+  },
+  {
+    "instruction": "Generate three different words associated with 'depression'.",
+    "input": "",
+    "output": "1. Sadness \n2. Hopelessness \n3. Despair"
+  },
+  {
+    "instruction": "You are given two sentences, you need to find the similar words between them",
+    "input": "Sentence 1: The rainfall in California has been unusually high this year.\nSentence 2: The precipitation in California has been unusually low this season.",
+    "output": "The similar words between the two sentences are: \n- The\n- in\n- California\n- has \n- been\n- unusually\n- this."
+  },
+  {
+    "instruction": "Complete this sentence with an example of a homophone.",
+    "input": "",
+    "output": "A homophone is a word that is pronounced the same as another word but differs in meaning, such as \"flower\" and \"flour.\""
+  },
+  {
+    "instruction": "Think of two words that mean the same thing and are spelled differently.",
+    "input": "",
+    "output": "\"Color\" and \"Colour\" are two words that mean the same thing but are spelled differently."
+  },
+  {
+    "instruction": "You are given two words. Create a phrase that conveys the opposite meaning of those two words.",
+    "input": "Happy and Success",
+    "output": "\"Unhappy and Failure\""
+  },
+  {
+    "instruction": "Rewrite the sentence so that it means the same, but contains a stronger verb.",
+    "input": "The company grew quickly.",
+    "output": "The company expanded rapidly."
+  },
+  {
+    "instruction": "Generate two foreign language translations for each English word given.",
+    "input": "Cat",
+    "output": "1. Spanish: Gato\n2. French: Chat"
+  },
+  {
+    "instruction": "Construct a simile for the following",
+    "input": "Piano",
+    "output": "Playing the piano is like painting with your fingers, each note a brush stroke creating a beautiful masterpiece."
+  },
+  {
+    "instruction": "Divide this list of sentences into two paragraphs.",
+    "input": "The sky is blue and sunny. The birds are chirping in the trees. The air is fresh and the grass is green.",
+    "output": "The sky is blue and sunny. The birds are chirping in the trees.\n\nThe air is fresh and the grass is green."
+  },
+  {
+    "instruction": "Add three examples of vernacular architecture.",
+    "input": "",
+    "output": "1. Adobe Houses: These are traditional buildings made of sun-dried clay bricks that are commonly found in the American Southwest and parts of South America. The adobe construction technique has been used for centuries by the Pueblo Indians, and the thick walls provide efficient insulation against both heat and cold.\n\n2. Trulli Houses: These are characteristic, small, dry-stone huts with conical roofs, found in the Itria Valley of southern Italy. They were traditionally built as temporary shelters or farm storage structures, and the unique construction made them easy to dismantle and rebuild in a different location if needed.\n\n3. Bamboo Houses: Bamboo is a versatile and fast-growing plant that is widely used for construction throughout Southeast Asia, especially in countries like Indonesia, Thailand, and the Philippines. The bamboo stalks are strong and lightweight, and the structures can be easily adapted to the local climate, using techniques like raised floors for flood-prone areas or thatched roofs for hot climates."
+  },
+  {
+    "instruction": "Arrange the given words so they create a phrase.",
+    "input": "delighted, was, audience",
+    "output": "The audience was delighted."
+  },
+  {
+    "instruction": "Given two letters, create a three-letter word.",
+    "input": "e and r",
+    "output": "One possible three-letter word that can be created using the letters 'e' and 'r' is \"her\"."
+  },
+  {
+    "instruction": "Rewrite this piece of text to include a more active tone.",
+    "input": "The climate has been changing in various parts of the world.",
+    "output": "Various parts of the world are actively experiencing climate change."
+  },
+  {
+    "instruction": "The news and other sources have been claiming that Democracy is losing ground around the world. Give an example of a recent event to back this claim up.",
+    "input": "",
+    "output": "One recent example that supports this claim is the events in Hong Kong. In 2019 and 2020, the Chinese government imposed a national security law to crack down on pro-democracy protests in Hong Kong, effectively curtailing the freedoms and autonomy that the region once enjoyed. This move by Beijing to assert greater control over Hong Kong has led to concerns by human rights advocates and international leaders that democracy is being undermined in the territory. There is fear that Hong Kong’s outspoken media, independent judiciary, and civil liberties look increasingly vulnerable as Beijing tightens its grip on the city. Additionally, there have been arrests of multiple leading pro-Democracy figures such as Joshua Wong, Agnes Chow and Jimmy Lai in addition to many others who have become political prisoners."
+  },
+  {
+    "instruction": "What are the Four Noble Truths of Buddhism?",
+    "input": "",
+    "output": "The Four Noble Truths are the fundamental teachings of Buddhism, and they are as follows:\n\n1. The Truth of Suffering: The first truth states that suffering is an inherent part of life. This suffering can take many forms, including physical pain, mental anguish, and the dissatisfaction that comes from the fleeting nature of pleasure.\n\n2. The Truth of the Cause of Suffering: The second truth is that suffering arises from our desires and attachments. These desires can be for material possessions, relationships, or even ideas about how we want our lives to be.\n\n3. The Truth of the End of Suffering: The third truth teaches that it is possible to put an end to suffering by letting go of our desires and attachments. By reaching this state of liberation, it becomes possible to experience true peace and contentment.\n\n4. The Truth of the Path to the End of Suffering: The fourth truth outlines the Eightfold Path, which is the Buddhist path to liberation. It consists of right understanding, right intention, right speech, right action, right livelihood, right effort, right mindfulness, and right concentration. By following this path, it is possible to end suffering and attain enlightenment."
+  },
+  {
+    "instruction": "Come up with a short story revolving around the given theme.",
+    "input": "The theme is 'love in adversity'.",
+    "output": "Once upon a time, in a small village tucked away in a lush green valley, lived a young couple deeply in love with each other. Despite being from two different castes, they broke the barriers and vowed their love to each other. But their love was put to the test when the village was struck by a terrible disease, which caused many people to fall sick and die.\n\nFear gripped the villagers, who abandoned their homes to escape the illness. Even the couple's families fled the village, leaving them all alone to face adversity. But their love gave them courage, and they stayed back to tend to the sick and help the helpless.\n\nAmidst the suffering and hardships, the couple never lost hope. They were always there for each other, providing comfort and support. Their love only grew stronger with every passing day, giving them the strength to carry on. They worked tirelessly, day and night, and finally, after months of struggling, the village began to recover.\n\nThe villagers returned to their homes, and the couple was hailed as heroes. But for them, it was their love that had saved them all. In the face of adversity, they had stood by each other, and their love had triumphed. From that day on, they were inseparable, and their love became an inspiration for all. Their love story became a legend, passed down through generations, a testament to the fact that love can conquer all, even in the most trying of times."
+  },
+  {
+    "instruction": "Identify the action that the following sentence describes.",
+    "input": "After the exam ended, he breathed a deep sigh of relief.",
+    "output": "The action that the following sentence describes is \"sighing in relief\"."
+  },
+  {
+    "instruction": "Convert a piece of text into another language.",
+    "input": "\"Hello, how are you?\"",
+    "output": "\"Bonjour, comment vas-tu?\" (in French)"
+  },
+  {
+    "instruction": "Categorize the following three words.",
+    "input": "Happiness, Energy, Rainbow",
+    "output": "Category: Abstract Concepts/Nouns.\n\n1. Happiness - Emotion/Feeling\n2. Energy - Physical/Scientific Concept\n3. Rainbow - Natural Phenomenon."
+  },
+  {
+    "instruction": "List all the associated nouns with the given verb.",
+    "input": "Read",
+    "output": "book, novel, newspaper, magazine, article, text, page, words, story, eBook, report, document, paper, screen, information."
+  },
+  {
+    "instruction": "Formulate a chemical formula",
+    "input": "Calcium oxide",
+    "output": "The chemical formula for calcium oxide is CaO."
+  },
+  {
+    "instruction": "Sort the following list of words into two categories: verbs and nouns.",
+    "input": "walk, tree, cat, river",
+    "output": "Verbs: walk\n\nNouns: tree, cat, river."
+  },
+  {
+    "instruction": "From the list of words, identify the two-word compound antonym of the word 'injustice'.",
+    "input": "Injustice",
+    "output": "The two-word compound antonym for the word \"injustice\" is \"fair play\"."
+  },
+  {
+    "instruction": "Compare the following two objects in the form of a sentence.",
+    "input": "Cat and dog",
+    "output": "A cat and a dog, although both beloved household pets, differ in several ways, including their physical appearance, vocalization, behavior, and interaction with humans."
+  },
+  {
+    "instruction": "Identify a rhyming word for the word \"eyes\". Output the word.",
+    "input": "",
+    "output": "Prize."
+  },
+  {
+    "instruction": "Identify the lexical categories of the underlined words.",
+    "input": "The cat purred contentedly.",
+    "output": "- The (determiner)\n- cat (noun)\n- purred (verb)\n- contentedly (adverb)"
+  },
+  {
+    "instruction": "Identify the lexical categories of the underlined words.",
+    "input": "The cat purred contentedly.",
+    "output": "- The (determiner)\n- cat (noun)\n- purred (verb)\n- contentedly (adverb)"
+  },
+  {
+    "instruction": "Classify the following sentence as simple, compound, or complex.",
+    "input": "Jane was at the store already, but she wanted to wait until the rain stopped to go home.",
+    "output": "The given sentence is a compound sentence."
+  },
+  {
+    "instruction": "Generate a series of 8 words the describe running.",
+    "input": "",
+    "output": "1. Sprinting\n2. Jogging\n3. Endurance\n4. Speed\n5. Cardio\n6. Distance\n7. Pace\n8. Stamina"
+  },
+  {
+    "instruction": "Identify the sentiment of the sentence and output 1 for positive sentiment, 0 for negative sentiment, and 0.5 for neutral sentiment.",
+    "input": "The products were just mediocre.",
+    "output": "0.5"
+  },
+  {
+    "instruction": "Generate a 5-word sentence using the following words: \"they\",\"happy\",\"had\",\"were\",\"when\".",
+    "input": "",
+    "output": "They were happy when had."
+  },
+  {
+    "instruction": "Create a children's story about a dragon that learns to dance.",
+    "input": "",
+    "output": "Once upon a time, in a magical kingdom, there lived a young dragon named Darcy. Darcy lived in a cave high up in the mountains with her family. She loved to play and explore, but there was one thing that she wanted more than anything in the world. Darcy wanted to dance.\n\nOne day, Darcy's mother told her about a grand ball that was happening in the kingdom. Darcy was beyond excited and couldn't wait to attend. When the night of the ball finally arrived, Darcy put on her best dress and flew down to the palace.\n\nDarcy arrived at the ball and was amazed by what she saw. The music, the lights, and the dancers twirling around the room filled her with awe. But as she watched, she realized something. She had no idea how to dance!\n\nDarcy felt very embarrassed and unsure of what to do. But then, a kind and friendly princess named Sophia, approached her. Sophia saw that Darcy was feeling left out, and she offered to teach Darcy how to dance.\n\nIn no time at all, Darcy was spinning and twirling and dipping all around the ballroom. She was having the time of her life and was so grateful to Sophia for showing her how to dance.\n\nFrom then on, Darcy practiced dancing every day, and she became one of the best dancers in the kingdom. Whenever there was a ball, Darcy would be the first one on the dance floor, twirling and spinning with all of her friends.\n\nThe moral of this story is that it's never too late to learn something new. With a little bit of help and a lot of practice, you can achieve anything you set your mind to. And who knows, like Darcy, you might even discover a hidden talent!"
+  },
+  {
+    "instruction": "Take the provided text and rewrite it to avoid repetition and make it more concise.",
+    "input": "She was happy and so she smiled and laughed and grinned.",
+    "output": "She smiled, laughed, and grinned with happiness."
+  },
+  {
+    "instruction": "Evaluate the following claim as true, false, or uncertain. Output 1 for true, 2 for false, 3 for uncertain.",
+    "input": "People should not eat dairy",
+    "output": "3"
+  },
+  {
+    "instruction": "Rank the following colors from most bright to most dull",
+    "input": "{blue, green, yellow, orange}",
+    "output": "1. Yellow \n2. Orange \n3. Green \n4. Blue"
+  },
+  {
+    "instruction": "Construct a poem with 4 stanzas and a minimum of 3 lines in each stanza.",
+    "input": "",
+    "output": "A gentle breeze, the world at ease,\nA moment's peace, away from disease,\nNature's beauty, a pause to seize.\n\nThe rolling hills, a sight to see,\nGreenery for miles, wild and free,\nA canvas painted, for you and me.\n\nBirds chirp, flowers bloom,\nThe sun shines, away from gloom,\nA ray of hope, a chance to consume.\n\nThis tranquil scene, of calm and bliss,\nIs where the heart, finds pure happiness,\nA moment captured, not to be missed."
+  },
+  {
+    "instruction": "Name two common adjectives used to describe someone who is brave.",
+    "input": "",
+    "output": "Two common adjectives used to describe someone who is brave are \"courageous\" and \"fearless\"."
+  }
+]

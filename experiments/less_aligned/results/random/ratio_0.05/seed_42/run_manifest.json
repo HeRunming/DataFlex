@@ -1,0 +1,13 @@
+{
+  "git_commit": "2187c39",
+  "method": "random",
+  "candidate_data": "/jizhicfs/karonhe/DataFlex/data/alpaca_en_demo.json",
+  "target_data": "/jizhicfs/karonhe/DataFlex/data/alpaca_zh_demo.json",
+  "selection_ratio": 0.05,
+  "seed": 42,
+  "num_selected": 50,
+  "num_candidates": 1000,
+  "selected_indices_path": "/jizhicfs/karonhe/DataFlex/experiments/less_aligned/results/random/ratio_0.05/seed_42/selected_indices.json",
+  "selected_subset_path": "/jizhicfs/karonhe/DataFlex/experiments/less_aligned/results/random/ratio_0.05/seed_42/selected_subset.json",
+  "output_dir": "/jizhicfs/karonhe/DataFlex/experiments/less_aligned/results/random/ratio_0.05/seed_42"
+}

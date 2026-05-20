@@ -1,0 +1,9 @@
+{
+  "candidate_path": "data/alpaca_en_demo.json",
+  "query_path": "data/alpaca_zh_demo.json",
+  "embed_model": "/jizhicfs/karonhe/models/sentence-transformers/all-MiniLM-L6-v2",
+  "embed_method": "auto",
+  "num_candidates": 1000,
+  "num_targets": 1000,
+  "embedding_dim": 384
+}

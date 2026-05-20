@@ -12,9 +12,11 @@
 # to effectively do ONE offline selection pass.
 ###############################################################################
 
-### model - load from warmup checkpoint
+### model
+# For SGD-safe first pass: use base model directly (no warmup checkpoint needed)
+# For Adam-aware: set adapter_name_or_path to warmup checkpoint
 model_name_or_path: /jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf
-adapter_name_or_path: ../dataflex_saves/less_aligned/warmup_ckpt
+# adapter_name_or_path: ../dataflex_saves/less_aligned/warmup_ckpt  # uncomment for Adam-aware
 trust_remote_code: true
 
 ### method

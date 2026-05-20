@@ -1,0 +1,9 @@
+{
+  "algorithm": "exact_marginal_greedy_mmd",
+  "num_select": 50,
+  "num_candidates": 1000,
+  "num_targets": 1000,
+  "kernel": "rbf",
+  "sigma": 1.3462348662978922,
+  "lambda_redundancy": "N/A (exact marginal does not use lambda)"
+}

@@ -1,0 +1,252 @@
+[
+  {
+    "instruction": "Think of two words that mean the same thing and are spelled differently.",
+    "input": "",
+    "output": "\"Color\" and \"Colour\" are two words that mean the same thing but are spelled differently."
+  },
+  {
+    "instruction": "Rank the following cities based on population (Most populous first)",
+    "input": "Tokyo, Beijing, Manila",
+    "output": "1. Tokyo\n2. Beijing\n3. Manila"
+  },
+  {
+    "instruction": "Create a children's story about a dragon that learns to dance.",
+    "input": "",
+    "output": "Once upon a time, in a magical kingdom, there lived a young dragon named Darcy. Darcy lived in a cave high up in the mountains with her family. She loved to play and explore, but there was one thing that she wanted more than anything in the world. Darcy wanted to dance.\n\nOne day, Darcy's mother told her about a grand ball that was happening in the kingdom. Darcy was beyond excited and couldn't wait to attend. When the night of the ball finally arrived, Darcy put on her best dress and flew down to the palace.\n\nDarcy arrived at the ball and was amazed by what she saw. The music, the lights, and the dancers twirling around the room filled her with awe. But as she watched, she realized something. She had no idea how to dance!\n\nDarcy felt very embarrassed and unsure of what to do. But then, a kind and friendly princess named Sophia, approached her. Sophia saw that Darcy was feeling left out, and she offered to teach Darcy how to dance.\n\nIn no time at all, Darcy was spinning and twirling and dipping all around the ballroom. She was having the time of her life and was so grateful to Sophia for showing her how to dance.\n\nFrom then on, Darcy practiced dancing every day, and she became one of the best dancers in the kingdom. Whenever there was a ball, Darcy would be the first one on the dance floor, twirling and spinning with all of her friends.\n\nThe moral of this story is that it's never too late to learn something new. With a little bit of help and a lot of practice, you can achieve anything you set your mind to. And who knows, like Darcy, you might even discover a hidden talent!"
+  },
+  {
+    "instruction": "Add three examples of vernacular architecture.",
+    "input": "",
+    "output": "1. Adobe Houses: These are traditional buildings made of sun-dried clay bricks that are commonly found in the American Southwest and parts of South America. The adobe construction technique has been used for centuries by the Pueblo Indians, and the thick walls provide efficient insulation against both heat and cold.\n\n2. Trulli Houses: These are characteristic, small, dry-stone huts with conical roofs, found in the Itria Valley of southern Italy. They were traditionally built as temporary shelters or farm storage structures, and the unique construction made them easy to dismantle and rebuild in a different location if needed.\n\n3. Bamboo Houses: Bamboo is a versatile and fast-growing plant that is widely used for construction throughout Southeast Asia, especially in countries like Indonesia, Thailand, and the Philippines. The bamboo stalks are strong and lightweight, and the structures can be easily adapted to the local climate, using techniques like raised floors for flood-prone areas or thatched roofs for hot climates."
+  },
+  {
+    "instruction": "Formulate a chemical formula",
+    "input": "Calcium oxide",
+    "output": "The chemical formula for calcium oxide is CaO."
+  },
+  {
+    "instruction": "Design a conversation between a customer and a customer service agent.",
+    "input": "",
+    "output": "Customer: Hi, I recently purchased a product from your website and I am not quite satisfied with it. Can you help me out?\n\nAgent: Of course! I am sorry to hear that the product did not meet your expectations. Can you tell me more about the issue you are facing?\n\nCustomer: Yes, the product I received is damaged and I cannot use it.\n\nAgent: I am sorry to hear that. Can you please provide me with your order ID so that I can look into it?\n\nCustomer: Certainly, my order ID is 12345678.\n\nAgent: Thank you for providing the order ID. I see that the product is eligible for a return. Would you like to return the product and get a refund or would you prefer a replacement?\n\nCustomer: I would prefer a replacement.\n\nAgent: Sure, I will initiate a replacement for your product. Can you please confirm your delivery address?\n\nCustomer: Yes, it is the same as the one mentioned in the order.\n\nAgent: Alright, thank you for confirming. We will process the replacement and have it delivered to you as soon as possible. Is there anything else you would like to know?\n\nCustomer: No, that's all. Thank you for your help.\n\nAgent: You're welcome. If you have any further questions or concerns, please do not hesitate to contact us. Have a great day!"
+  },
+  {
+    "instruction": "You are given two sentences, you need to find the similar words between them",
+    "input": "Sentence 1: The rainfall in California has been unusually high this year.\nSentence 2: The precipitation in California has been unusually low this season.",
+    "output": "The similar words between the two sentences are: \n- The\n- in\n- California\n- has \n- been\n- unusually\n- this."
+  },
+  {
+    "instruction": "The news and other sources have been claiming that Democracy is losing ground around the world. Give an example of a recent event to back this claim up.",
+    "input": "",
+    "output": "One recent example that supports this claim is the events in Hong Kong. In 2019 and 2020, the Chinese government imposed a national security law to crack down on pro-democracy protests in Hong Kong, effectively curtailing the freedoms and autonomy that the region once enjoyed. This move by Beijing to assert greater control over Hong Kong has led to concerns by human rights advocates and international leaders that democracy is being undermined in the territory. There is fear that Hong Kong’s outspoken media, independent judiciary, and civil liberties look increasingly vulnerable as Beijing tightens its grip on the city. Additionally, there have been arrests of multiple leading pro-Democracy figures such as Joshua Wong, Agnes Chow and Jimmy Lai in addition to many others who have become political prisoners."
+  },
+  {
+    "instruction": "Create a multiplication table from 2 to 10.",
+    "input": "",
+    "output": "Here is the multiplication table for numbers 2 to 10:\n\n```\n2x1=2  | 3x1=3  | 4x1=4  | 5x1=5   | 6x1=6   | 7x1=7  | 8x1=8   | 9x1=9  | 10x1=10\n2x2=4  | 3x2=6  | 4x2=8  | 5x2=10  | 6x2=12  | 7x2=14 | 8x2=16  | 9x2=18 | 10x2=20\n2x3=6  | 3x3=9  | 4x3=12 | 5x3=15  | 6x3=18  | 7x3=21 | 8x3=24  | 9x3=27 | 10x3=30\n2x4=8  | 3x4=12 | 4x4=16 | 5x4=20  | 6x4=24  | 7x4=28 | 8x4=32  | 9x4=36 | 10x4=40\n2x5=10 | 3x5=15 | 4x5=20 | 5x5=25  | 6x5=30  | 7x5=35 | 8x5=40  | 9x5=45 | 10x5=50\n2x6=12 | 3x6=18 | 4x6=24 | 5x6=30  | 6x6=36  | 7x6=42 | 8x6=48  | 9x6=54 | 10x6=60\n2x7=14 | 3x7=21 | 4x7=28 | 5x7=35  | 6x7=42  | 7x7=49 | 8x7=56  | 9x7=63 | 10x7=70\n2x8=16 | 3x8=24 | 4x8=32"
+  },
+  {
+    "instruction": "Write a Haiku of 3 lines, with the first containing 5 syllables and the remaining lines containing 7 syllables.",
+    "input": "",
+    "output": "Whispers in the wind,\nEchoes of the past softly sigh,\nNature's symphony."
+  },
+  {
+    "instruction": "Generate two foreign language translations for each English word given.",
+    "input": "Cat",
+    "output": "1. Spanish: Gato\n2. French: Chat"
+  },
+  {
+    "instruction": "How is a triangle classified based on angles?",
+    "input": "",
+    "output": "A triangle can be classified into three types based on its angles: acute, right, and obtuse.\n\n1. Acute Triangle: A triangle is classified as acute if all of its three internal angles are less than 90 degrees. In other words, all three angles of an acute triangle are acute angles.\n\n2. Right Triangle: A triangle is classified as right if one of its three internal angles measures exactly 90 degrees. This 90-degree angle is also called a right angle, and the side opposite to it is called the hypotenuse.\n\n3. Obtuse Triangle: A triangle is classified as obtuse if one of its three internal angles is greater than 90 degrees. In other words, one angle of an obtuse triangle is an obtuse angle.\n\nIt is important to note that the sum of all three internal angles in any triangle always adds up to 180 degrees."
+  },
+  {
+    "instruction": "Connect the two pieces of text with a logical transition.",
+    "input": "The choice was easy; he was never going back.\nHe had been through too much.",
+    "output": "The choice was easy; he was never going back. After all, he had been through too much."
+  },
+  {
+    "instruction": "Identify the hyperbola that passes through the given points.",
+    "input": "Points: (3,4), (2,-6)",
+    "output": "A hyperbola's standard form is given by `(x-h)^2/a^2 - (y-k)^2/b^2=1` for horizontal hyperbolas or `(y-k)^2/a^2 - (x-h)^2/b^2=1` for vertical hyperbolas. Where `h` and `k` are the coordinates of the center, while `a` and `b` are constant values associated with the lengths of the axes of the hyperbola. \n\nSo to identify the hyperbola that passes through both `(3,4)` and `(2,-6)`, we will plug the points into the general equation of a hyperbola then solve for its variables. \n\nAssuming a hyperbola in the form `(x-h)^2/a^2 - (y-k)^2/b^2=1` is what we are looking for, we plug `(3,4)` and `(2,-6)` into the equation to get the following system of equations:\n```\n(3-h)^2/a^2 - (4-k)^2/b^2=1\n(2-h)^2/a^2 - (-6-k)^2/b^2=1\n```\nSimplifying the system of equations we get:\n```\n(3-h)^2/a^2 - (4-k)^2/b^2=(2-h)^2/a^2 - (-6-k)^2/b^2\n(3-h)^2 - (4-k)^2 =(2-h)^2 - (-6-k)^2\n9 - 6h + h^2 - 16 + 8k - k^2  = 4  - 4h + h^2 - 36 - 12k - k^2\nh^2 - 6h - k^2 + 8k - 7 = h^2 - 4h - k^2 -12k - 32\nh = -5k - 25\n```\nThis seems to suggest that we don't have enough information to find a unique solution. Since we only have two points from a non-degenerate conic, there are infinitely many hyperbolas that pass through both points."
+  },
+  {
+    "instruction": "Fill in the missing word.",
+    "input": "Pandas are ________ animals.",
+    "output": "Pandas are herbivorous animals."
+  },
+  {
+    "instruction": "Compute the total value of the two stocks.",
+    "input": "Apple stock: 1,000 shares @ $200 per share\nGoogle stock: 500 shares @ $100 per share",
+    "output": "To compute the total value of the two stocks, you can calculate the value of each stock by multiplying the number of shares by the price per share and then sum the results.\n\nApple stock value = 1,000 shares * $200/share = $200,000\nGoogle stock value = 500 shares * $100/share = $50,000\n\nTotal stock value = Apple stock value + Google stock value = $200,000 + $50,000\n\nTherefore, the total value of the two stocks is $250,000."
+  },
+  {
+    "instruction": "Rewrite the sentence so that it means the same, but contains a stronger verb.",
+    "input": "The company grew quickly.",
+    "output": "The company expanded rapidly."
+  },
+  {
+    "instruction": "What are the Four Noble Truths of Buddhism?",
+    "input": "",
+    "output": "The Four Noble Truths are the fundamental teachings of Buddhism, and they are as follows:\n\n1. The Truth of Suffering: The first truth states that suffering is an inherent part of life. This suffering can take many forms, including physical pain, mental anguish, and the dissatisfaction that comes from the fleeting nature of pleasure.\n\n2. The Truth of the Cause of Suffering: The second truth is that suffering arises from our desires and attachments. These desires can be for material possessions, relationships, or even ideas about how we want our lives to be.\n\n3. The Truth of the End of Suffering: The third truth teaches that it is possible to put an end to suffering by letting go of our desires and attachments. By reaching this state of liberation, it becomes possible to experience true peace and contentment.\n\n4. The Truth of the Path to the End of Suffering: The fourth truth outlines the Eightfold Path, which is the Buddhist path to liberation. It consists of right understanding, right intention, right speech, right action, right livelihood, right effort, right mindfulness, and right concentration. By following this path, it is possible to end suffering and attain enlightenment."
+  },
+  {
+    "instruction": "What data type does the following text represent?",
+    "input": "25.09",
+    "output": "The text \"25.09\" represents a floating point number data type."
+  },
+  {
+    "instruction": "Complete this sentence with an example of a homophone.",
+    "input": "",
+    "output": "A homophone is a word that is pronounced the same as another word but differs in meaning, such as \"flower\" and \"flour.\""
+  },
+  {
+    "instruction": "Explain the comparison operator in programming.",
+    "input": "",
+    "output": "A comparison operator, also known as a relational operator, is a symbol that is used in programming languages to compare two variables or values for equality, inequality, or ordering. These operators are commonly used in conditional statements and loops to make decisions based on the result of the comparison.\n\nThere are several types of comparison operators, including:\n\n* `==` (equals) - checks if the values of two operands are equal.\n* `!=` (not equal) - checks if the values of two operands are not equal.\n* `<` (less than) - checks if the value of the left operand is less than the value of the right operand.\n* `>` (greater than) - checks if the value of the left operand is greater than the value of the right operand.\n* `<=` (less than or equal to) - checks if the value of the left operand is less than or equal to the value of the right operand.\n* `>=` (greater than or equal to) - checks if the value of the left operand is greater than or equal to the value of the right operand.\n\nWhen these operators are used, the result of the comparison is a Boolean value (True or False), indicating whether the comparison is true or false. The exact syntax and behavior of these operators may vary depending on the programming language being used."
+  },
+  {
+    "instruction": "Formulate a multiple choice question related to the following topic.",
+    "input": "The payment systems developed in the 19th century",
+    "output": "Which of the following was a popular payment system developed in the 19th century?\n\na) Credit cards\nb) Bitcoins\nc) Paper checks\nd) Mobile payments"
+  },
+  {
+    "instruction": "Provide the output when this code is run",
+    "input": "items = [\"apple\",\" orange\",\"cherry\"]\nprint(items[1])",
+    "output": "When the code above is run, it should print out \"orange\" (with space before the word orange) on the screen. This is because, in the line `print(items[1])`, the `items[1]` gets the value of the element at index 1 (second item) from the `items` list which is `\" orange\"`. Note that indexing in Python starts from zero."
+  },
+  {
+    "instruction": "Create a table of the top 10 countries with the highest population density.",
+    "input": "",
+    "output": "Below is a table of the top 10 countries with the highest population density according to the World Population Review (2021 data):\n\n| Rank | Country | Population Density (People/km²)|\n|---|---|---|\n|1|Monaco |26,150|\n|2| Singapore| 8,358|\n|3| Bahrain| 2,239|\n|4| Vatican City |2,003|\n|5| Malta| 1,379|\n|6| Maldives| 1,331|\n|7| Bangladesh| 1,265|\n|8| Bermuda| 1,246|\n|9| Lebanon| 667|\n|10|  Barbados| 668|"
+  },
+  {
+    "instruction": "Draft a screenplay for a comedic short film.",
+    "input": "",
+    "output": "Title: Siri-ously?!\n\nINT. LIVING ROOM - DAY \n\nWe see JENNY (20s), sitting on the couch with her iPhone in hand. JENNY looks frustrated as she keeps rephrasing her question. \n\nJENNY \n(to phone) \nSiri, can you give me the recipe for lasagne?\n\nSIRI \n(voice from phone) \nI’m sorry, I didn’t catch that. Did you say “recipe for massage”? \n\nJENNY \n(to phone) \nNo, I said LASAGNE. \n\nSIRI \n(voice from phone) \nOkay, one moment. Here’s what I found - How to make love serene.\n\nJENNY \n(to phone) \nUgh, no Siri, that’s not what I want! \n\nSIRI \n(voice from phone) \nI’m sorry, could you repeat that? \n\nJENNY \n(to phone) \nNever mind!\n\nShe tosses the phone aside in frustration and stands up to leave.\n\nSuddenly, the doorbell rings, and Jenny opens it to find a massage therapist with a table ready to give her a massage.\n\nTHERAPIST\nHi, I'm here for the in-home massage.\n\nJENNY \n(confused) \nWhat massage? I never ordered a massage.\n\nJenny sees her phone light up on the couch, with Siri’s voice coming from the speaker.\n\nSIRI \n(voice from phone) \nI took the initiative to book you a massage since you seemed stressed. Consider it a gift from your dear Siri. \n\nJENNY stares at her phone in disbelief, and then back at the THERAPIST.\n\nJENNY \n(shaking her head) \nSiri-ously?!\n\nJenny can’t help but laugh, and she motions the therapist to come in.\n\nJENNY \n(to therapist) \nWell, I guess I could use a massage.\n\nThe therapist enters, and Jenny closes the door, shaking her head and smiling.\n\nThe screen blacks out.\n\nSIRI \n(voiceover) \nAlways happy to assist. \n\nTHE END."
+  },
+  {
+    "instruction": "Write a short profile of a fictional character.",
+    "input": "Name: Louis\nJob: Engineer",
+    "output": "Meet Louis, a talented engineer with a passion for creating and improving innovative technology. Louis has always had a love for figuring things out and solving complex problems, which eventually led him to pursue a degree in engineering. This ambitious individual has spent years honing his skills and putting them to work, developing innovative solutions to real-world problems. In his current position, Louis is responsible for designing, testing and refining complex systems, using his broad knowledge and expertise to ensure that his creations function at optimal levels. He approaches his work with enthusiasm and dedication, always looking for new challenges to overcome. Louis is a true asset to the world of engineering and continues to make remarkable contributions to his field."
+  },
+  {
+    "instruction": "Given the following words, create a descriptive sentence.",
+    "input": "Rose, sweet, fragrance.",
+    "output": "The sweet fragrance of the rose filled the air, enchanting all who passed by."
+  },
+  {
+    "instruction": "Name 3 mountains higher than 8000 meters.",
+    "input": "",
+    "output": "1. Mount Everest - Located in the Mahalangur mountain range in the Himalayas, stands at 8,848 meters (29,029 ft) tall, making it the highest mountain in the world.\n2. K2 - Located in the Karakoram Range, on the border between Pakistan and China, stands at 8,611 meters (28,251 ft).\n3. Kangchenjunga - Located in the Himalayas, on the border between Nepal and India, stands at 8,586 meters (28,169 ft) tall."
+  },
+  {
+    "instruction": "Given a simple scenario, you need to identify the different characters in the situation.",
+    "input": "A family of four was sitting together at the dinner table.",
+    "output": "The different characters in this scenario are the four members of the family seated at the dinner table."
+  },
+  {
+    "instruction": "Convert a piece of text into another language.",
+    "input": "\"Hello, how are you?\"",
+    "output": "\"Bonjour, comment vas-tu?\" (in French)"
+  },
+  {
+    "instruction": "Describe a mojito cocktail.",
+    "input": "",
+    "output": "A mojito is a refreshing, Cuban cocktail made with five simple ingredients: white rum, sugar, lime juice, soda water, and mint. The mojito originated in Havana, Cuba and is famous for its zesty and cool flavors. The cocktail is traditionally prepared by muddling lime, sugar, and mint leaves together in the bottom of a glass, then adding the rum and topping it off with soda water. The result is a light and refreshing drink with a perfect balance of sweetness, citrus, and mint. It's perfect for hot summer days or any time you're looking for a refreshing cocktail."
+  },
+  {
+    "instruction": "Find the missing words to complete the following phrase: Proverbs are ____ of wisdom.",
+    "input": "",
+    "output": "Proverbs are nuggets of wisdom."
+  },
+  {
+    "instruction": "Classify the following sentence as simple, compound, or complex.",
+    "input": "Jane was at the store already, but she wanted to wait until the rain stopped to go home.",
+    "output": "The given sentence is a compound sentence."
+  },
+  {
+    "instruction": "Create a bar chart to show the correlation between age and education level.",
+    "input": "Data: \n\nAge: 25, 30, 35, 40 \n\nEducation Level: High school, Bachelor's, Master's, Doctoral",
+    "output": "I'm sorry, but the data you've given isn't enough information to generate a bar graph showing the correlation between age and education level. Can you please provide more complete data? For example, a list of ages and a corresponding list of education levels."
+  },
+  {
+    "instruction": "Construct a simile for the following",
+    "input": "Piano",
+    "output": "Playing the piano is like painting with your fingers, each note a brush stroke creating a beautiful masterpiece."
+  },
+  {
+    "instruction": "Suggest a solution for this leetcode problem",
+    "input": "Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether this string is valid. We define the validity of a string by these rules:\n\nAny left parenthesis '(' must have a corresponding right parenthesis ')'.\nAny right parenthesis ')' must have a corresponding left parenthesis '('.\nLeft parenthesis '(' must go before the corresponding right parenthesis ')'.\n'*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string.\n\nAn empty string is also valid.",
+    "output": "One solution to this problem is to use two stacks. Here's a step by step guide:\n\n- Initialize two stacks, one to store the indices of left parentheses '(' and the other to store the indices of '*' characters.\n- Iterate over the characters in the string.\n- If a character is '(', push its index to the left parentheses stack.\n- If the character is '*', push its index to the '*' stack.\n- If the character is ')', pop from the left parentheses stack if it's not empty, otherwise pop from the '*' stack. If both stacks are empty, then return False as there is no matching left parenthesis or '*' to balance this right parenthesis.\n- After the iteration, we are left with indices of some '(''s and '*'s in their respective stacks. The '*'s can be used to balance the '('s from their right. So, for every remaining '(' in the stack, we need to ensure there is a '*' to its right. We can do this by checking that indices of '*'s are greater than indices of '(''s while popping from both stacks. If any '(' is left without a '*' to it's right, return False.\n- Return True\n\nHere is a sample code in Python:\n\n```python\ndef checkValidString(s):\n    left_parentheses = [] # stack to store indices of '('\n    asterisk = [] # stack to store indices of '*'\n    \n    for i, char in enumerate(s):\n        if char == '(':\n            left_parentheses.append(i)\n        elif char == '*':\n            asterisk.append(i)\n        else: # char == ')'\n            if len(left_parentheses) > 0:\n                left_parentheses.pop()\n            elif len(asterisk) > 0:\n                asterisk.pop()\n            else:\n                return False\n    \n    while len(left_parentheses) > 0 and len(asterisk) > 0:\n        if left_parentheses.pop() > asterisk.pop():\n            return False\n    \n    return len(left_parentheses) == 0\n```\n\nThis solution has a time complexity of O(n) and space complexity of O(n), where n is the length of the input string."
+  },
+  {
+    "instruction": "Classify the following statement as fake or real, based on the given context",
+    "input": "The world's population is expected to rise by 8 billion by 2050.\nContext: Population changes",
+    "output": "The statement is fake. According to the United Nations, the world's population is expected to reach approximately 9.7 billion by 2050, not increase by 8 billion from its current estimate of 7.9 billion (as of 2021)."
+  },
+  {
+    "instruction": "Determine the volume of a cube with sides 4 cm long.",
+    "input": "4 cm",
+    "output": "The volume of a cube with sides 4 cm long is 4 x 4 x 4 = 64 cubic centimeters."
+  },
+  {
+    "instruction": "Come up with a short story revolving around the given theme.",
+    "input": "The theme is 'love in adversity'.",
+    "output": "Once upon a time, in a small village tucked away in a lush green valley, lived a young couple deeply in love with each other. Despite being from two different castes, they broke the barriers and vowed their love to each other. But their love was put to the test when the village was struck by a terrible disease, which caused many people to fall sick and die.\n\nFear gripped the villagers, who abandoned their homes to escape the illness. Even the couple's families fled the village, leaving them all alone to face adversity. But their love gave them courage, and they stayed back to tend to the sick and help the helpless.\n\nAmidst the suffering and hardships, the couple never lost hope. They were always there for each other, providing comfort and support. Their love only grew stronger with every passing day, giving them the strength to carry on. They worked tirelessly, day and night, and finally, after months of struggling, the village began to recover.\n\nThe villagers returned to their homes, and the couple was hailed as heroes. But for them, it was their love that had saved them all. In the face of adversity, they had stood by each other, and their love had triumphed. From that day on, they were inseparable, and their love became an inspiration for all. Their love story became a legend, passed down through generations, a testament to the fact that love can conquer all, even in the most trying of times."
+  },
+  {
+    "instruction": "Who is the CEO of Google?",
+    "input": "No input",
+    "output": "Sundar Pichai is the CEO of Google."
+  },
+  {
+    "instruction": "Name five countries in which French is an official language.",
+    "input": "",
+    "output": "1. France\n2. Canada (specifically in the province of Quebec where it is the official language)\n3. Belgium \n4. Switzerland\n5. Haiti"
+  },
+  {
+    "instruction": "Select the noun phrase in the following sentence.",
+    "input": "The accident caused horrific damage across the town.",
+    "output": "The noun phrases in the given sentence are \"The accident\" and \"horrific damage.\""
+  },
+  {
+    "instruction": "Invent a new word by combining two existing words.",
+    "input": "",
+    "output": "\"Chillax\" - a combination of the words \"chill\" and \"relax\". It means to calm down and unwind, enjoying oneself in a laidback manner."
+  },
+  {
+    "instruction": "Compare the following doobjects and tell which is heavier",
+    "input": "A stone and a feather",
+    "output": "The stone is much heavier than the feather."
+  },
+  {
+    "instruction": "Compose a table with two rows and three columns.",
+    "input": "",
+    "output": "|   Column 1   |   Column 2   |   Column 3   |\n|:------------:|:------------:|:------------:|\n|    Row 1,1   |    Row 1,2   |    Row 1,3   |\n|    Row 2,1   |    Row 2,2   |    Row 2,3   |"
+  },
+  {
+    "instruction": "Compose a comment for a review.",
+    "input": "The reviewer says that the product arrived quickly but the color was wrong.",
+    "output": "Thank you for taking the time to leave a review. We're glad to hear that the delivery of your product was prompt. However, we're sorry to learn that the color wasn't what you expected. Could you please get in touch with our customer service team so we can assist you in resolving this issue? Thank you."
+  },
+  {
+    "instruction": "Determine the angle measures of the given triangle.",
+    "input": "Side lengths: 14, 3, 15",
+    "output": "According to the problem, the triangle's side lengths are 14, 3, and 15 units. Because 15 is the largest side, we can apply the Law of Cosines to find the angle opposite of 15. Let it be angle C. The other angles can be called A and B.\n\nLet a=14, b=3, c=15, then\n\ncos(C) = (a² + b² - c²) / (2ab) = (14² + 3² - 15²) / (2 * 14 * 3) = -0.3571428571\n\nC = arccos(-0.3571428571) = 111.8°\n\nNow, to find angle A, we can use Law of Sines, which states that the ratio of the measure of one of a triangle's angles to the length of the side opposite that angle is the same for all three angles of the triangle.\nThus,\n\na/sin(A) = c/sin(C) => 14/sin(A) = 15/sin(111.8°)\nSolving for sin(A), we find sin(A) = (14 *sin(111.8°))/15 = 0.9235687435\nHence, A = arcsin(0.9235687435) = 67.4°\n\nTo find angle B we can use that the sum of the angles of the triangle is 180°, then\nA + B + C = 180° => B = 180° – A – C = 180° – 67.4° – 111.8° = 0.8°\n\nTherefore, the angle measures of the given triangle are 67.4°, 0.8°, and 111.8°."
+  },
+  {
+    "instruction": "Deduce the results from the given equations.",
+    "input": "x + 4 = 10",
+    "output": "Given the equation x + 4 = 10, we can solve for x by subtracting 4 from both sides of the equation, which would give us:\n\n   x + 4 - 4 = 10 - 4\n\nSolving the simple arithmetic, it simplifies to:\n\nx = 6\n\nSo the result of the equation, x + 4 = 10, is that x is equal to 6."
+  },
+  {
+    "instruction": "Summarize the book 1984.",
+    "input": "",
+    "output": "1984 is a dystopian novel by George Orwell published in 1949. The novel is set in a future totalitarian society, ruled by a single party, where the government exercises complete control over its citizens' lives. The main character, Winston Smith, works for the government at the Ministry of Truth, where his job is to rewrite history to fit the party's narrative. Winston begins to secretly rebel against the government by keeping a forbidden diary and having a love affair with a fellow worker, Julia. Together, they seek out an underground resistance movement, but are eventually betrayed and arrested. Winston is tortured until he fully submits to the party's ideology, even betraying Julia in the process. The novel ends with Winston expressing his love for the party and its leader, Big Brother. The book is a warning about the dangers of totalitarianism and the need to always question authority."
+  },
+  {
+    "instruction": "Compose a Haiku in response to the given input.",
+    "input": "Leaves falling from the trees.",
+    "output": "Leaves twirl and glide,\nDrifting gently to the ground;\nAutumn's dance begins."
+  }
+]

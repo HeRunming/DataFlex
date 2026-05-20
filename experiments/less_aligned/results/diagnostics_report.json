@@ -1,0 +1,141 @@
+{
+  "sigma": 1.382279634475708,
+  "num_candidates": 1000,
+  "num_targets": 1000,
+  "methods": {
+    "mean_target_rbf/ratio_0.05/seed_42": {
+      "num_selected": 50,
+      "selection_ratio": 0.05,
+      "target_relevance_rbf": 0.6429184079170227,
+      "redundancy_rbf": 0.6599738919005103,
+      "mmd_squared": 0.11402239888928767,
+      "effective_rank": 42.26974868774414,
+      "pairwise_cosine": {
+        "mean": 0.20155133306980133,
+        "std": 0.12887176871299744,
+        "max": 1.0000001192092896,
+        "min": -0.09405132383108139,
+        "median": 0.1966528594493866
+      },
+      "token_stats": {
+        "num_samples": 50,
+        "total_tokens_approx": 2285,
+        "mean_length": 45.7,
+        "std_length": 62.77109207270494,
+        "min_length": 10,
+        "max_length": 312,
+        "median_length": 25.0
+      }
+    },
+    "mean_target_sim/ratio_0.05/seed_42": {
+      "num_selected": 50,
+      "selection_ratio": 0.05,
+      "target_relevance_rbf": 0.6429117321968079,
+      "redundancy_rbf": 0.6600168407206632,
+      "mmd_squared": 0.11407869914987034,
+      "effective_rank": 42.31425476074219,
+      "pairwise_cosine": {
+        "mean": 0.2017342895269394,
+        "std": 0.12801186740398407,
+        "max": 1.0000001192092896,
+        "min": -0.09405132383108139,
+        "median": 0.19682830572128296
+      },
+      "token_stats": {
+        "num_samples": 50,
+        "total_tokens_approx": 2281,
+        "mean_length": 45.62,
+        "std_length": 62.79486921715818,
+        "min_length": 10,
+        "max_length": 312,
+        "median_length": 25.0
+      }
+    },
+    "mmd_emb_rbf/ratio_0.05/seed_42": {
+      "num_selected": 50,
+      "selection_ratio": 0.05,
+      "target_relevance_rbf": 0.6319524049758911,
+      "redundancy_rbf": 0.614634088010204,
+      "mmd_squared": 0.09061460088124473,
+      "effective_rank": 47.10844039916992,
+      "pairwise_cosine": {
+        "mean": 0.06758232414722443,
+        "std": 0.0954279899597168,
+        "max": 0.7247067093849182,
+        "min": -0.1467159241437912,
+        "median": 0.054153796285390854
+      },
+      "token_stats": {
+        "num_samples": 50,
+        "total_tokens_approx": 4717,
+        "mean_length": 94.34,
+        "std_length": 92.91084113277631,
+        "min_length": 13,
+        "max_length": 407,
+        "median_length": 51.5
+      }
+    },
+    "random/ratio_0.05/seed_42": {
+      "num_selected": 50,
+      "selection_ratio": 0.05,
+      "target_relevance_rbf": 0.6071755290031433,
+      "redundancy_rbf": 0.6096642817283163,
+      "mmd_squared": 0.13519854654485242,
+      "effective_rank": 47.54567337036133,
+      "pairwise_cosine": {
+        "mean": 0.05250081047415733,
+        "std": 0.08673563599586487,
+        "max": 0.5150182247161865,
+        "min": -0.17616862058639526,
+        "median": 0.04111264646053314
+      },
+      "token_stats": {
+        "num_samples": 50,
+        "total_tokens_approx": 6883,
+        "mean_length": 137.66,
+        "std_length": 108.15870006615279,
+        "min_length": 10,
+        "max_length": 440,
+        "median_length": 96.5
+      }
+    }
+  },
+  "overlaps": {
+    "mean_target_rbf/ratio_0.05/seed_42 \u2229 mean_target_sim/ratio_0.05/seed_42": {
+      "intersection": 49,
+      "jaccard": 0.9607843137254902,
+      "overlap_ratio_1": 0.98,
+      "overlap_ratio_2": 0.98
+    },
+    "mean_target_rbf/ratio_0.05/seed_42 \u2229 mmd_emb_rbf/ratio_0.05/seed_42": {
+      "intersection": 21,
+      "jaccard": 0.26582278481012656,
+      "overlap_ratio_1": 0.42,
+      "overlap_ratio_2": 0.42
+    },
+    "mean_target_rbf/ratio_0.05/seed_42 \u2229 random/ratio_0.05/seed_42": {
+      "intersection": 2,
+      "jaccard": 0.02040816326530612,
+      "overlap_ratio_1": 0.04,
+      "overlap_ratio_2": 0.04
+    },
+    "mean_target_sim/ratio_0.05/seed_42 \u2229 mmd_emb_rbf/ratio_0.05/seed_42": {
+      "intersection": 21,
+      "jaccard": 0.26582278481012656,
+      "overlap_ratio_1": 0.42,
+      "overlap_ratio_2": 0.42
+    },
+    "mean_target_sim/ratio_0.05/seed_42 \u2229 random/ratio_0.05/seed_42": {
+      "intersection": 2,
+      "jaccard": 0.02040816326530612,
+      "overlap_ratio_1": 0.04,
+      "overlap_ratio_2": 0.04
+    },
+    "mmd_emb_rbf/ratio_0.05/seed_42 \u2229 random/ratio_0.05/seed_42": {
+      "intersection": 1,
+      "jaccard": 0.010101010101010102,
+      "overlap_ratio_1": 0.02,
+      "overlap_ratio_2": 0.02
+    }
+  }
+}
