@@ -86,8 +86,9 @@ class MMDSelector(Selector):
         sigma: float = None,
         candidate_embeddings_path: str = None,
         target_embeddings_path: str = None,
-        proj_dim: int = 4096,
-        gradient_type: str = "sgd",
+        proj_dim: int = 8192,
+        gradient_type: str = "adam",
+        target_gradient_type: str = "same",  # "same" = use gradient_type; "sgd" = raw gradients for target (LESS-style)
         save_interval: int = 16,
         seed: int = 42,
         candidate_subsample: int = -1,
@@ -102,6 +103,7 @@ class MMDSelector(Selector):
         self.target_embeddings_path = target_embeddings_path
         self.proj_dim = proj_dim
         self.gradient_type = gradient_type
+        self.target_gradient_type = gradient_type if target_gradient_type == "same" else target_gradient_type
         self.save_interval = save_interval
         self.seed = seed
         self.candidate_subsample = candidate_subsample
@@ -283,12 +285,14 @@ class MMDSelector(Selector):
 
         self.accelerator.wait_for_everyone()
 
-        # Step 2: Compute target set gradients (SAME gradient_type as train for consistency)
+        # Step 2: Compute target set gradients
+        # Note: target_gradient_type controls whether target uses same preconditioning as candidates.
+        # LESS paper uses SGD (raw) for target; our default uses same as candidate for feature space consistency.
         if not os.path.exists(target_final_path):
             os.makedirs(target_grads_dir, exist_ok=True)
-            optimizer_state = kwargs.get("optimizer_state", None)
+            target_opt_state = kwargs.get("optimizer_state", None) if self.target_gradient_type == "adam" else None
             self._collect_and_save_projected_gradients(
-                model, target_grads_dir, self.target_dataset, self.gradient_type, optimizer_state
+                model, target_grads_dir, self.target_dataset, self.target_gradient_type, target_opt_state
             )
             self._merge_and_normalize(target_grads_dir, len(self.target_dataset))
 

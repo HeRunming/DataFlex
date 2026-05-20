@@ -36,7 +36,7 @@ selectors:
     params:
       cache_dir: ../dataflex_saves/less_output
       gradient_type: adam
-      proj_dim: 4096
+      proj_dim: 8192
       seed: 123
       save_interval: 16
 
@@ -48,7 +48,7 @@ selectors:
       sigma: null
       candidate_embeddings_path: null
       target_embeddings_path: null
-      proj_dim: 4096
+      proj_dim: 8192
       gradient_type: sgd
       save_interval: 16
       seed: 42
@@ -60,8 +60,9 @@ selectors:
       cache_dir: ../dataflex_saves/mmd_grad_rbf_output
       kernel_type: grad_rbf
       sigma: null
-      proj_dim: 4096
+      proj_dim: 8192
       gradient_type: adam
+      target_gradient_type: same  # "same" uses adam for both (consistent feature space); "sgd" for LESS-style ablation
       save_interval: 16
       seed: 123
       candidate_subsample: -1
@@ -72,8 +73,9 @@ selectors:
       cache_dir: ../dataflex_saves/mmd_grad_cov_output
       kernel_type: grad_cov
       sigma: null
-      proj_dim: 4096
+      proj_dim: 8192
       gradient_type: adam
+      target_gradient_type: same
       save_interval: 16
       seed: 123
       candidate_subsample: -1

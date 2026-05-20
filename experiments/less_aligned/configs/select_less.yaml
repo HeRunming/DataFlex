@@ -1,0 +1,61 @@
+###############################################################################
+# Gradient-Based Selection Config (LESS baseline)
+#
+# Runs a single-shot LESS selection after loading warmup checkpoint.
+# Protocol:
+#   1. Load warmup checkpoint (from warmup_llama7b_lora.yaml)
+#   2. Compute Adam-preconditioned gradients for all candidates
+#   3. Compute SGD gradients for target set
+#   4. Score by mean gradient similarity, select top-k
+#
+# Note: Uses dynamic_select with warmup_step=0 and update_times=1
+# to effectively do ONE offline selection pass.
+###############################################################################
+
+### model - load from warmup checkpoint
+model_name_or_path: /jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf
+adapter_name_or_path: ../dataflex_saves/less_aligned/warmup_ckpt
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_rank: 128
+lora_alpha: 256
+lora_target: q_proj,k_proj,v_proj,o_proj
+
+### dataset (candidate pool)
+dataset: alpaca_en_demo
+template: llama2
+cutoff_len: 2048
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: ../dataflex_saves/less_aligned/less_selection
+logging_steps: 10
+overwrite_output_dir: true
+
+### report
+report_to: none
+
+### train - minimal training (selection happens at step 0)
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 2.0e-5
+num_train_epochs: 1.0
+bf16: true
+ddp_timeout: 180000000
+
+### dynamic_train - single-shot selection
+train_type: dynamic_select
+components_cfg_file: src/dataflex/configs/components.yaml
+component_name: less
+warmup_step: 0
+update_step: 9999
+update_times: 1
+
+## target set for selection (NOT for final evaluation)
+eval_dataset: alpaca_zh_demo
+eval_strategy: "no"

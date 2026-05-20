@@ -1,0 +1,56 @@
+###############################################################################
+# Warmup Training Config (for gradient-based selection methods)
+#
+# LESS protocol: Train LoRA on 5% random data for 4 epochs before collecting
+# gradient features. This warmup produces meaningful optimizer states for
+# Adam-preconditioned gradient computation.
+#
+# After warmup, gradient-based methods (LESS, MMD-Grad-RBF, MMD-GradCov)
+# compute projected gradients at the warmup checkpoint.
+###############################################################################
+
+### model
+model_name_or_path: /jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_rank: 128
+lora_alpha: 256
+lora_target: q_proj,k_proj,v_proj,o_proj
+lora_dropout: 0.05
+
+### dataset
+# Use 5% random subset of candidate pool for warmup
+dataset: alpaca_en_demo
+template: llama2
+cutoff_len: 2048
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: ../dataflex_saves/less_aligned/warmup_ckpt
+logging_steps: 10
+save_steps: 500
+save_total_limit: 1
+overwrite_output_dir: true
+
+### report
+report_to: none
+
+### train - Warmup hyperparams (LESS paper: 4 epochs on 5% data)
+per_device_train_batch_size: 16
+gradient_accumulation_steps: 8
+learning_rate: 2.0e-5
+num_train_epochs: 4
+lr_scheduler_type: linear
+warmup_ratio: 0.03
+weight_decay: 0.0
+bf16: true
+ddp_timeout: 180000000
+seed: 42
+
+### static training (no dynamic selection during warmup)
+train_type: static
