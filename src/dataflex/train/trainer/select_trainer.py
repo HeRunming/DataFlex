@@ -276,6 +276,22 @@ class SelectTrainer(CustomSeq2SeqTrainer):
         logger.info(f"[SelectTrainer] selector={name}, params={sel_params}")
         logger.info("[Dataflex] SelectTrainer initialized")
 
+    def _get_selection_num_samples(self, total_train_batch_size: int) -> int:
+        """
+        Determine number of samples to select at each selection step.
+
+        Priority:
+          1. selection_num_samples > 0: use explicit count
+          2. selection_ratio > 0: use fraction of candidate pool
+          3. fallback: total_train_batch_size * update_step (legacy DataFlex behavior)
+        """
+        if self.finetuning_args.selection_num_samples > 0:
+            return self.finetuning_args.selection_num_samples
+        elif self.finetuning_args.selection_ratio > 0:
+            return max(1, int(len(self.train_dataset) * self.finetuning_args.selection_ratio))
+        else:
+            return total_train_batch_size * self.finetuning_args.update_step
+
     @override
     def _get_train_sampler(self, train_dataset) -> Optional[torch.utils.data.Sampler]:
         if self.finetuning_args.disable_shuffling:
@@ -847,7 +863,7 @@ class SelectTrainer(CustomSeq2SeqTrainer):
                         new_indices = self.selector.select(
                             model=model,
                             step_id=self.state.global_step,
-                            num_samples=total_train_batch_size * self.finetuning_args.update_step,
+                            num_samples=self._get_selection_num_samples(total_train_batch_size),
                             **extra_args
                         )
 

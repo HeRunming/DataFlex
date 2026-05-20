@@ -55,6 +55,7 @@ component_name: less
 warmup_step: 0
 update_step: 9999
 update_times: 1
+selection_ratio: 0.05  # Select 5% of candidate pool (override update_step * batch_size)
 
 ## target set for selection (NOT for final evaluation)
 eval_dataset: alpaca_zh_demo

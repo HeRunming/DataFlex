@@ -274,12 +274,17 @@ class OfflineMMDSelector:
     # ---------- Greedy MMD Selection ----------
     def greedy_mmd_select(self):
         """
-        Run greedy MMD-based data selection on saved embeddings.
-        At each step, selects the candidate that maximizes:
-            score(x) = r_T(x) - lambda * r_S(x)
-        where:
-            r_T(x) = mean kernel similarity to target set
-            r_S(x) = mean kernel similarity to already-selected set (redundancy)
+        Run exact marginal greedy MMD selection on saved embeddings.
+
+        At each step, selects the candidate that minimizes MMD²(S∪{x}, T):
+            Δ(x) = r_T(x) - (1/(m+1)) * [r_S(x) + k(x,x)/2]
+
+        For RBF kernel, k(x,x) = 1 for all x, so the self-kernel term
+        doesn't affect the argmax and we get:
+            Δ(x) = r_T(x) - (1/(m+1)) * [r_S(x) + 0.5]
+
+        This is the SAME algorithm as MMDSelector._greedy_mmd_exact to ensure
+        offline and online selection produce identical results.
 
         Returns:
             selected_indices: numpy array of selected candidate indices
@@ -299,38 +304,45 @@ class OfflineMMDSelector:
 
         N_c = candidates.shape[0]
         num_select = min(self.num_select, N_c)
-        logger.info(f"[MMD] Greedy selection: choosing {num_select} from {N_c} candidates")
+        logger.info(f"[MMD] Exact marginal greedy selection: choosing {num_select} from {N_c} candidates")
 
         # Determine sigma
         if self.sigma == "auto":
-            # Use median heuristic on combined data
-            combined = np.vstack([candidates, targets])
-            sigma = self._median_heuristic(combined, subsample=2000)
+            sigma = self._median_heuristic(candidates, subsample=2000)
         else:
             sigma = float(self.sigma)
-            logger.info(f"[MMD] Using provided sigma = {sigma:.6f}")
+        logger.info(f"[MMD] RBF bandwidth sigma = {sigma:.6f}")
 
-        two_sigma_sq = 2.0 * sigma * sigma
-
-        # Precompute target relevance for all candidates
+        # Precompute target relevance: r_T(x_i) = (1/|T|) Σ_t k(x_i, t)
         logger.info("[MMD] Computing target relevance scores...")
         target_relevance = self._compute_target_relevance(candidates, targets, sigma)
 
-        # Greedy selection
+        # For RBF kernel, k(x,x) = 1 for all x (self-kernel is constant)
+        self_kernel = 1.0  # scalar for RBF
+
+        # Greedy exact marginal MMD selection
         selected_indices = []
-        selected_set = np.empty((0, candidates.shape[1]), dtype=np.float64)
         available_mask = np.ones(N_c, dtype=bool)
+        # Running sum: Σ_{s∈S} k(x_i, s) for all candidates i
+        selected_kernel_sum = np.zeros(N_c, dtype=np.float64)
 
-        # Track redundancy scores incrementally
-        redundancy_scores = np.zeros(N_c, dtype=np.float64)
-
-        logger.info("[MMD] Starting greedy MMD selection loop...")
+        logger.info("[MMD] Starting exact marginal greedy MMD selection...")
         for step in range(num_select):
             if step > 0 and step % 500 == 0:
                 logger.info(f"[MMD] Selected {step}/{num_select} samples...")
 
-            # Compute scores: r_T(x) - lambda * r_S(x)
-            scores = target_relevance - self.lambda_redundancy * redundancy_scores
+            m = len(selected_indices)  # current |S|
+
+            # Exact marginal: Δ(x) = r_T(x) - (1/(m+1)) * [r_S(x) + k(x,x)/2]
+            if m == 0:
+                # First selection: pick highest target relevance
+                scores = target_relevance.copy()
+            else:
+                scores = (
+                    target_relevance
+                    - (1.0 / (m + 1)) * (selected_kernel_sum + self_kernel / 2.0)
+                )
+
             scores[~available_mask] = -np.inf
 
             # Select best candidate
@@ -338,19 +350,11 @@ class OfflineMMDSelector:
             selected_indices.append(best_idx)
             available_mask[best_idx] = False
 
-            # Update redundancy scores incrementally
-            # New contribution from the newly selected point
+            # Incremental update: add k(x_i, x_best) for all i
             new_point = candidates[best_idx:best_idx + 1]  # (1, D)
-
-            # Compute kernel between all candidates and the new point
             dists_sq = np.sum((candidates - new_point) ** 2, axis=1)  # (N_c,)
-            kernel_vals = np.exp(-dists_sq / two_sigma_sq)  # (N_c,)
-
-            # Update running mean of redundancy
-            n_selected = len(selected_indices)
-            redundancy_scores = (
-                redundancy_scores * (n_selected - 1) + kernel_vals
-            ) / n_selected
+            kernel_vals = np.exp(-dists_sq / (2.0 * sigma * sigma))  # (N_c,)
+            selected_kernel_sum += kernel_vals
 
         selected_indices = np.array(selected_indices, dtype=np.int64)
 
@@ -361,12 +365,13 @@ class OfflineMMDSelector:
 
         # Save selection metadata
         select_metadata = {
+            "algorithm": "exact_marginal_greedy_mmd",
             "num_select": num_select,
             "num_candidates": N_c,
             "num_targets": targets.shape[0],
             "kernel": self.kernel,
-            "sigma": sigma,
-            "lambda_redundancy": self.lambda_redundancy,
+            "sigma": float(sigma),
+            "lambda_redundancy": "N/A (exact marginal does not use lambda)",
         }
         select_meta_path = os.path.join(self.save_dir, "selection_metadata.json")
         with open(select_meta_path, 'w', encoding='utf-8') as f:

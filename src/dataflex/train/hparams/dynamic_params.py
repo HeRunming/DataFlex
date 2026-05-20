@@ -567,6 +567,26 @@ class DynamicFinetuningArguments(
             )
         },
     )
+    selection_num_samples: int = field(
+        default=0,
+        metadata={
+            "help": (
+                "Explicit number of samples to select at each selection step. "
+                "If > 0, overrides the default (total_train_batch_size * update_step). "
+                "Use this for paper experiments with fixed selection ratios (e.g., 5% of candidate pool)."
+            )
+        },
+    )
+    selection_ratio: float = field(
+        default=0.0,
+        metadata={
+            "help": (
+                "Fraction of the candidate pool to select (0.0 to 1.0). "
+                "If > 0, overrides the default num_samples calculation. "
+                "selection_num_samples takes priority over selection_ratio if both set."
+            )
+        },
+    )
     freeze_gate: bool = field(
         default=False,
         metadata={"help": "Whether to freeze gate parameters in MoE models during SFT training."},
