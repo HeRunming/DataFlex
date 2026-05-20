@@ -294,6 +294,30 @@ def run_selection(args):
         json.dump(subset_data, f, ensure_ascii=False, indent=2)
     print(f"[Selection] Saved selected subset ({len(subset_data)} samples) to {subset_path}")
 
+    # Save run_manifest.json for reproducibility
+    import subprocess as _sp
+    try:
+        git_commit = _sp.run(["git", "rev-parse", "--short", "HEAD"],
+                             capture_output=True, text=True, timeout=5).stdout.strip()
+    except Exception:
+        git_commit = "unknown"
+
+    manifest = {
+        "git_commit": git_commit,
+        "method": args.method,
+        "candidate_data": os.path.abspath(args.candidate_data),
+        "target_data": os.path.abspath(args.target_data),
+        "selection_ratio": len(selected) / total_candidates,
+        "seed": args.seed,
+        "num_selected": len(selected),
+        "num_candidates": total_candidates,
+        "selected_indices_path": os.path.abspath(indices_path),
+        "selected_subset_path": os.path.abspath(subset_path),
+        "output_dir": os.path.abspath(args.output_dir),
+    }
+    with open(os.path.join(args.output_dir, "run_manifest.json"), 'w') as f:
+        json.dump(manifest, f, indent=2)
+
     return selected
 
 
