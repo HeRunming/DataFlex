@@ -55,8 +55,8 @@ selectors:
       cache_dir: ../dataflex_saves/mmd_emb_rbf_output
       kernel_type: emb_rbf
       sigma: null
-      candidate_embeddings_path: null
-      target_embeddings_path: null
+      candidate_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/candidate_270k.npy
+      target_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/target_bbh_100.npy
       proj_dim: 8192
       gradient_type: sgd
       save_interval: 16

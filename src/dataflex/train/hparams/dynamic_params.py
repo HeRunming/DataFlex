@@ -587,6 +587,19 @@ class DynamicFinetuningArguments(
             )
         },
     )
+    optimizer_state_path: Optional[str] = field(
+        default=None,
+        metadata={
+            "help": (
+                "Path to a directory or file containing optimizer.pt to load Adam moments from. "
+                "If a directory is given, expects '<dir>/optimizer.pt'. "
+                "Loaded into self.optimizer.state at the start of training, BEFORE any step. "
+                "Used for Adam-aware gradient-based selection (LESS / MMD-Grad-*) when starting "
+                "from a warmup checkpoint without using --resume_from_checkpoint (which would "
+                "fast-forward TrainerState past the selection step)."
+            )
+        },
+    )
     freeze_gate: bool = field(
         default=False,
         metadata={"help": "Whether to freeze gate parameters in MoE models during SFT training."},

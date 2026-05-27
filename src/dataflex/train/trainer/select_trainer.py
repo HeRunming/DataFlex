@@ -571,6 +571,36 @@ class SelectTrainer(CustomSeq2SeqTrainer):
         self._load_optimizer_and_scheduler(resume_from_checkpoint)
         self._load_scaler(resume_from_checkpoint)
 
+        # Optionally load Adam optimizer state from a warmup checkpoint without
+        # advancing TrainerState (used for Adam-aware gradient-based selection).
+        optimizer_state_path = getattr(self.finetuning_args, "optimizer_state_path", None)
+        if optimizer_state_path is not None and resume_from_checkpoint is None:
+            opt_file = optimizer_state_path
+            if os.path.isdir(opt_file):
+                opt_file = os.path.join(opt_file, OPTIMIZER_NAME)
+            if os.path.isfile(opt_file):
+                logger.info(f"[Dataflex] Loading warmup Adam optimizer state from {opt_file}")
+                opt_state_dict = torch.load(opt_file, map_location="cpu", weights_only=False)
+                try:
+                    self.optimizer.load_state_dict(opt_state_dict)
+                    logger.info("[Dataflex] Loaded warmup Adam moments into self.optimizer.state.")
+                except Exception as e:
+                    logger.warning(f"[Dataflex] Failed to load optimizer state via load_state_dict: {e}. "
+                                   f"Falling back to direct state injection by param order.")
+                    # Fallback: directly inject the state dict's 'state' entries by parameter order.
+                    raw_state = opt_state_dict.get("state", opt_state_dict)
+                    params_iter = [p for group in self.optimizer.param_groups for p in group["params"] if p.requires_grad]
+                    state_keys = sorted(raw_state.keys())
+                    if len(params_iter) == len(state_keys):
+                        for p, k in zip(params_iter, state_keys):
+                            self.optimizer.state[p] = raw_state[k]
+                        logger.info(f"[Dataflex] Injected {len(params_iter)} parameter states by order.")
+                    else:
+                        logger.warning(f"[Dataflex] Param count mismatch ({len(params_iter)} vs {len(state_keys)}); "
+                                       f"could not inject Adam state.")
+            else:
+                logger.warning(f"[Dataflex] optimizer_state_path={opt_file} does not exist; skipping.")
+
         # important: at this point:
         # self.model         is the Transformers Model
         # self.model_wrapped is DDP(Transformers Model), Deepspeed(Transformers Model),
