@@ -307,6 +307,16 @@ class MMDSelector(Selector):
                 f"[MMDSelector] Loaded gradients: train={train_grads.shape}, target={target_grads.shape}"
             )
 
+            # Defensive NaN/Inf cleanup: in case the cache predates the source-level
+            # guard, sanitize here as well. Per-row NaN counts can be reported.
+            for name, arr in (("train", train_grads), ("target", target_grads)):
+                bad_rows = int((~np.isfinite(arr)).any(axis=1).sum())
+                if bad_rows > 0:
+                    logger.warning(
+                        f"[MMDSelector] {name} has {bad_rows}/{arr.shape[0]} rows with NaN/Inf — sanitizing to 0."
+                    )
+                    np.nan_to_num(arr, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
+
             # Determine kernel-specific parameters
             kernel_type_for_select = "rbf" if self.kernel_type == "grad_rbf" else "cov"
 
@@ -656,6 +666,18 @@ class MMDSelector(Selector):
             denominator = torch.sqrt(beta2 * v + (1.0 - beta2) * vectorized_grads.pow(2)) + eps
             vectorized_grads = numerator / denominator
             del numerator, denominator
+
+        # Guard against NaN/Inf in the per-sample gradient. Under Adam preconditioning
+        # we observed ~20% of samples produce some NaN dims (likely from fp16/bf16
+        # overflow in g² for outlier dims, or v ≈ 0 producing 1/eps amplification of
+        # noise). Without this guard, the random projection mixes a single NaN dim
+        # into every output dim, ruining the row entirely; downstream RBF/poly
+        # kernels then return NaN scores and the greedy picks pathological samples.
+        # Replacing with 0 makes such samples a zero-vector contribution, which is
+        # naturally deselected (LESS dot-prod = 0, MMD-GradCov poly = 0, MMD-GradRBF
+        # behaves as a fixed reference point with finite distance).
+        if not torch.isfinite(vectorized_grads).all():
+            vectorized_grads = torch.nan_to_num(vectorized_grads, nan=0.0, posinf=0.0, neginf=0.0)
 
         model.zero_grad()
         return vectorized_grads

@@ -134,7 +134,14 @@ class LessSelector(Selector):
             pass
         else:
             assert False, f"Unknown gradient type: {gradient_type}"
-        
+
+        # Guard against NaN/Inf: rare numerical instability (especially under
+        # Adam preconditioning when v has near-zero components, or fp16/bf16
+        # overflow on certain samples). Replace with 0 so the bad sample
+        # contributes a 0-vector to selection (gets filtered naturally).
+        if not torch.isfinite(vectorized_grads).all():
+            vectorized_grads = torch.nan_to_num(vectorized_grads, nan=0.0, posinf=0.0, neginf=0.0)
+
         model.zero_grad()
         return vectorized_grads
 
@@ -363,6 +370,19 @@ class LessSelector(Selector):
 
             logger.info(f"Loading projected gradients from {eval_final_grads_path}")
             eval_projected_grads = torch.load(eval_final_grads_path, map_location="cpu")
+
+            # Defensive NaN/Inf cleanup: stale caches (predating the source-level
+            # guard in _obtain_gradients) may still contain non-finite values.
+            # Without this, a single NaN dim — after random projection — pollutes
+            # the entire row, and `topk(largest=True)` will sort NaN scores to
+            # the top, producing pathological selections.
+            for name, t in (("train", train_projected_grads), ("eval", eval_projected_grads)):
+                bad_rows = int((~torch.isfinite(t)).any(dim=1).sum().item())
+                if bad_rows > 0:
+                    logger.warning(
+                        f"[LessSelector] {name} has {bad_rows}/{t.shape[0]} rows with NaN/Inf — sanitizing to 0."
+                    )
+                    torch.nan_to_num_(t, nan=0.0, posinf=0.0, neginf=0.0)
 
             train_eval_similarities = (train_projected_grads @ eval_projected_grads.T).mean(dim=1)
             topk = torch.topk(train_eval_similarities, k=num_samples, largest=True)
