@@ -406,6 +406,28 @@ class MMDSelector(Selector):
         selected_kernel_sum = np.zeros(N, dtype=np.float64)
         available_mask = np.ones(N, dtype=bool)
 
+        # Mask out all-zero rows (these come from NaN/Inf sanitization in
+        # _obtain_gradients). With RBF kernel, k(0,0)=1 makes 0-rows pairwise
+        # "similar"; combined with positive r_T(0) for any 0-target overlap,
+        # the greedy algorithm pathologically picks 0-rows preferentially.
+        # Excluding them entirely from the candidate pool is the only correct fix.
+        zero_row_mask = ~np.any(candidate_features != 0, axis=1)
+        n_zero = int(zero_row_mask.sum())
+        if n_zero > 0:
+            logger.warning(
+                f"[MMDSelector] Excluding {n_zero}/{N} all-zero candidate rows "
+                f"(sanitized NaN/Inf gradients) from greedy selection."
+            )
+            available_mask[zero_row_mask] = False
+            # Cap selection budget if too many bad rows
+            usable = int(available_mask.sum())
+            if num_samples > usable:
+                logger.warning(
+                    f"[MMDSelector] num_samples={num_samples} > usable={usable}; "
+                    f"capping to {usable}."
+                )
+                num_samples = usable
+
         # Pre-compute target relevance: r_T(x_i) = (1/|T|) Σ_t k(x_i, t)
         target_relevance = self._compute_target_relevance_generic(
             candidate_features, target_features, sigma=sigma, kernel_type=kernel_type
