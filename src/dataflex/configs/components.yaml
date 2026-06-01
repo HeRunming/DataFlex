@@ -62,6 +62,27 @@ selectors:
       save_interval: 16
       seed: 42
       candidate_subsample: -1
+      greedy_device: auto       # 方案A: GPU exact greedy (auto-detected)
+      stochastic_eps: 0.0       # 0.0 = exact
+
+  mmd_emb_rbf_stochastic:
+    # 方案A+C: GPU exact greedy + stochastic-greedy subset sampling.
+    # Per-step subset size s = ⌈(N/k) ln(1/ε)⌉; for N=270k, k=13533, ε=0.01, s ≈ 92.
+    # Approximation guarantee: (1 - 1/e - ε) ≈ 0.622.
+    name: mmd
+    params:
+      cache_dir: ../dataflex_saves/mmd_emb_rbf_stochastic_output
+      kernel_type: emb_rbf
+      sigma: null
+      candidate_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/candidate_270k.npy
+      target_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/target_bbh_100.npy
+      proj_dim: 8192
+      gradient_type: sgd
+      save_interval: 16
+      seed: 42
+      candidate_subsample: -1
+      greedy_device: auto
+      stochastic_eps: 0.01      # 方案A+C ablation
 
   mmd_grad_rbf:
     name: mmd

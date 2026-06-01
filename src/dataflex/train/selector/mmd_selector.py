@@ -92,6 +92,8 @@ class MMDSelector(Selector):
         save_interval: int = 16,
         seed: int = 42,
         candidate_subsample: int = -1,
+        greedy_device: str = "auto",  # "auto" | "cuda" | "cpu" — controls greedy execution device
+        stochastic_eps: float = 0.0,  # 0.0 = exact greedy; >0 = stochastic greedy with (1-1/e-eps) guarantee
     ):
         super().__init__(dataset, accelerator, data_collator, cache_dir)
 
@@ -107,6 +109,14 @@ class MMDSelector(Selector):
         self.save_interval = save_interval
         self.seed = seed
         self.candidate_subsample = candidate_subsample
+
+        # Greedy execution config
+        self.greedy_device_pref = greedy_device  # "auto" / "cuda" / "cpu"
+        self.stochastic_eps = float(stochastic_eps)
+        if self.stochastic_eps < 0.0 or self.stochastic_eps >= 1.0:
+            raise ValueError(
+                f"[MMDSelector] stochastic_eps must be in [0, 1), got {self.stochastic_eps}"
+            )
 
         self.device = self.accelerator.device
         self.dtype = torch.float16
@@ -368,36 +378,196 @@ class MMDSelector(Selector):
         kernel_type: str = "rbf",
     ) -> List[int]:
         """
-        Exact marginal greedy MMD minimization (方案B).
+        Marginal greedy MMD minimization.
 
-        At each step, selects x* = argmin_{x ∉ S} MMD²(S ∪ {x}, T).
+        Dispatches to a GPU implementation when CUDA is available (方案A), and
+        optionally enables stochastic-greedy sampling (方案A+C) when
+        `self.stochastic_eps > 0`. The CPU path below is kept as a fallback for
+        machines without CUDA.
 
-        MMD²(S, T) = (1/|S|²) Σ_{s,s'∈S} k(s,s')
-                   - (2/|S||T|) Σ_{s∈S, t∈T} k(s,t)
-                   + const(T)
+        At each step, selects x* = argmin_{x ∉ S} MMD²(S ∪ {x}, T), which is
+        equivalent to maximizing the per-step marginal:
 
-        When adding x to S of size m, the new MMD² is:
-
-        MMD²(S∪{x}, T) = 1/(m+1)² * [m²·A_SS + 2·r_S(x) + k(x,x)]
-                        - 2/(m+1) * [(m/(m+1))·B_ST/m + r_T(x)/(m+1)]
-                        + const
-
-        where:
-            A_SS = (1/m²) Σ_{s,s'∈S} k(s,s')  [selected-selected mean]
-            B_ST = (1/|T|) Σ_{s∈S} r_T(s)      [selected-target cross-term sum]
-            r_T(x) = (1/|T|) Σ_t k(x,t)        [candidate-target relevance]
-            r_S(x) = Σ_{s∈S} k(x,s)            [candidate-selected sum]
-
-        Simplification: minimize over x is equivalent to minimizing:
-            f(x) = [2·r_S(x) + k(x,x)] / (m+1)² - 2·r_T(x) / (m+1)
-
-        Which simplifies to selecting x that maximizes:
             Δ(x) = r_T(x) - (1/(m+1)) * [r_S(x) + k(x,x)/2]
 
-        This is the exact marginal gain (up to constant factors shared by all x).
+        where r_T(x) = (1/|T|) Σ_t k(x,t) and r_S(x) = Σ_{s∈S} k(x,s).
 
-        Complexity: O(num_samples * N * D) where D is feature dimension.
+        Stochastic mode (Mirzasoleiman et al. 2015): instead of argmax over all
+        N candidates, sample a random subset of size s = ⌈(N/k) ln(1/ε)⌉ at
+        each step and argmax within. Provides (1 - 1/e - ε) approximation
+        guarantee for monotone submodular functions; in practice matches exact
+        greedy quality within ~1% for ε = 0.01.
+
+        Complexity:
+          * exact:      O(num_samples * N * D)
+          * stochastic: O(num_samples * s * D) ≈ O(N * ln(1/ε) * D)
         """
+        # Try GPU path first
+        try:
+            import torch as _torch
+            cuda_available = _torch.cuda.is_available()
+        except Exception:
+            cuda_available = False
+
+        device_pref = getattr(self, "greedy_device_pref", "auto")
+        use_gpu = (device_pref == "cuda") or (device_pref == "auto" and cuda_available)
+        if use_gpu:
+            try:
+                return self._greedy_mmd_gpu(
+                    candidate_features, target_features, num_samples,
+                    sigma=sigma, kernel_type=kernel_type,
+                    stochastic_eps=getattr(self, "stochastic_eps", 0.0),
+                )
+            except Exception as exc:
+                logger.warning(
+                    f"[MMDSelector] GPU greedy failed ({type(exc).__name__}: {exc}); "
+                    f"falling back to CPU exact greedy."
+                )
+                # fall through to CPU path
+
+        return self._greedy_mmd_cpu(
+            candidate_features, target_features, num_samples,
+            sigma=sigma, kernel_type=kernel_type,
+        )
+
+    def _greedy_mmd_gpu(
+        self,
+        candidate_features: np.ndarray,
+        target_features: np.ndarray,
+        num_samples: int,
+        sigma: Optional[float] = None,
+        kernel_type: str = "rbf",
+        stochastic_eps: float = 0.0,
+        device: str = "cuda",
+    ) -> List[int]:
+        """
+        GPU-vectorized exact greedy with optional stochastic sampling.
+
+        Setup memory: O((N + M) * D + N) on GPU. For 270k×8192 fp32 ≈ 8.3 GB —
+        will fall back to the CPU path on OOM.
+        """
+        import torch as T
+        dev = T.device(device)
+        # Use float32 for numerical stability of kernel exp/sum
+        X = T.as_tensor(candidate_features, dtype=T.float32, device=dev)
+        Tg = T.as_tensor(target_features, dtype=T.float32, device=dev)
+        N, D = X.shape
+        M = Tg.shape[0]
+        num_samples = min(num_samples, N)
+
+        # ---- precompute squared norms ----
+        X_sq = (X * X).sum(dim=1)            # (N,)
+        T_sq = (Tg * Tg).sum(dim=1)          # (M,)
+
+        # ---- mask all-zero rows (sanitized NaN/Inf gradients) ----
+        zero_row_mask = (X_sq == 0)
+        n_zero = int(zero_row_mask.sum().item())
+        available_mask = ~zero_row_mask
+        if n_zero > 0:
+            logger.warning(
+                f"[MMDSelector/GPU] Excluding {n_zero}/{N} all-zero candidate rows."
+            )
+            usable = int(available_mask.sum().item())
+            if num_samples > usable:
+                logger.warning(
+                    f"[MMDSelector/GPU] num_samples={num_samples} > usable={usable}; capping."
+                )
+                num_samples = usable
+
+        # ---- self-kernel k(x_i, x_i) ----
+        if kernel_type == "rbf":
+            self_kernel = T.ones(N, dtype=T.float32, device=dev)
+        elif kernel_type in ("cov", "polynomial", "poly"):
+            self_kernel = X_sq * X_sq      # <x,x>² for degree-2 polynomial
+        else:
+            raise ValueError(f"[MMDSelector/GPU] Unknown kernel_type: {kernel_type}")
+
+        # ---- target relevance r_T(x_i) = (1/M) Σ_t k(x_i, t) ----
+        # Compute in chunks over M if M is large; here M is typically small (<= a few hundred).
+        XT = X @ Tg.T                        # (N, M)
+        if kernel_type == "rbf":
+            sq = X_sq[:, None] + T_sq[None, :] - 2.0 * XT
+            sq.clamp_min_(0.0)
+            target_relevance = T.exp(-sq / (2.0 * float(sigma) ** 2)).mean(dim=1)
+            del sq
+        else:  # poly degree-2
+            target_relevance = (XT * XT).mean(dim=1)
+        del XT
+
+        # ---- prepare stochastic-greedy subset size ----
+        if stochastic_eps > 0.0:
+            # s = ⌈(N/k) ln(1/ε)⌉  (Mirzasoleiman 2015)
+            import math
+            s_size = max(1, int(math.ceil(N / max(1, num_samples) * math.log(1.0 / stochastic_eps))))
+            s_size = min(s_size, N)
+            logger.info(
+                f"[MMDSelector/GPU] Stochastic greedy enabled: ε={stochastic_eps}, "
+                f"per-step subset size s={s_size} (N={N}, k={num_samples}). "
+                f"Approximation: (1 - 1/e - ε) ≈ {1 - 1/math.e - stochastic_eps:.4f}."
+            )
+            gen = T.Generator(device=dev)
+            gen.manual_seed(int(self.seed))
+        else:
+            s_size = N
+            gen = None
+
+        # ---- greedy loop ----
+        selected: List[int] = []
+        selected_kernel_sum = T.zeros(N, dtype=T.float32, device=dev)
+        avail_idx_all = T.arange(N, device=dev)
+        log_every = max(1, num_samples // 100)
+
+        for t_step in range(num_samples):
+            m = len(selected)
+            if m == 0:
+                scores = target_relevance.clone()
+            else:
+                scores = target_relevance - (1.0 / (m + 1)) * (selected_kernel_sum + self_kernel / 2.0)
+            scores = T.where(available_mask, scores, T.tensor(float("-inf"), device=dev))
+
+            if stochastic_eps > 0.0 and s_size < N:
+                # sample s_size random indices from available pool
+                avail_pos = avail_idx_all[available_mask]
+                if avail_pos.numel() > s_size:
+                    perm = T.randperm(avail_pos.numel(), device=dev, generator=gen)[:s_size]
+                    sub_idx = avail_pos[perm]
+                else:
+                    sub_idx = avail_pos
+                sub_scores = scores[sub_idx]
+                best_local = int(T.argmax(sub_scores).item())
+                best = int(sub_idx[best_local].item())
+            else:
+                best = int(T.argmax(scores).item())
+
+            selected.append(best)
+            available_mask[best] = False
+
+            # ---- incremental update: kernel column k(x_i, x_best) ----
+            x_best = X[best]                 # (D,)
+            inner = X @ x_best               # (N,)
+            if kernel_type == "rbf":
+                sq = X_sq + X_sq[best] - 2.0 * inner
+                sq.clamp_min_(0.0)
+                k_col = T.exp(-sq / (2.0 * float(sigma) ** 2))
+            else:  # poly degree-2
+                k_col = inner * inner
+            selected_kernel_sum.add_(k_col)
+            del inner, k_col
+
+            if (t_step + 1) % log_every == 0 or t_step + 1 == num_samples:
+                logger.debug(f"[MMDSelector/GPU] step {t_step+1}/{num_samples}")
+
+        return selected
+
+    def _greedy_mmd_cpu(
+        self,
+        candidate_features: np.ndarray,
+        target_features: np.ndarray,
+        num_samples: int,
+        sigma: Optional[float] = None,
+        kernel_type: str = "rbf",
+    ) -> List[int]:
+        """CPU fallback exact greedy. See _greedy_mmd_exact docstring for math."""
         N = candidate_features.shape[0]
         num_samples = min(num_samples, N)
 
