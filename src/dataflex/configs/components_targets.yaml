@@ -1,0 +1,205 @@
+selectors:
+  less_adam_mmlu:
+    name: less
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/less_adam_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+  mmd_grad_rbf_adam_mmlu:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_rbf_adam_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_rbf
+      gradient_type: adam
+      target_gradient_type: same
+      sigma: null
+  mmd_grad_cov_adam_mmlu:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_cov_adam_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_cov
+      gradient_type: adam
+      target_gradient_type: same
+      sigma: null
+  less_sgd_mmlu:
+    name: less
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/less_sgd_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: sgd
+      sigma: null
+  mmd_grad_rbf_sgd_mmlu:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_rbf_sgd_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_rbf
+      gradient_type: sgd
+      target_gradient_type: same
+      sigma: null
+  mmd_grad_cov_sgd_mmlu:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_cov_sgd_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_cov
+      gradient_type: sgd
+      target_gradient_type: same
+      sigma: null
+  mmd_emb_rbf_mmlu:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_emb_rbf_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 42
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: emb_rbf
+      stochastic_eps: 0.0
+      candidate_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/candidate_270k.npy
+      target_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/target_mmlu.npy
+      sigma: null
+  mmd_emb_rbf_stochastic_mmlu:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_emb_rbf_stochastic_mmlu_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 42
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: emb_rbf
+      stochastic_eps: 0.01
+      candidate_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/candidate_270k.npy
+      target_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/target_mmlu.npy
+      sigma: null
+  less_adam_tydiqa:
+    name: less
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/less_adam_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+  mmd_grad_rbf_adam_tydiqa:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_rbf_adam_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_rbf
+      gradient_type: adam
+      target_gradient_type: same
+      sigma: null
+  mmd_grad_cov_adam_tydiqa:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_cov_adam_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_cov
+      gradient_type: adam
+      target_gradient_type: same
+      sigma: null
+  less_sgd_tydiqa:
+    name: less
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/less_sgd_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: sgd
+      sigma: null
+  mmd_grad_rbf_sgd_tydiqa:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_rbf_sgd_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_rbf
+      gradient_type: sgd
+      target_gradient_type: same
+      sigma: null
+  mmd_grad_cov_sgd_tydiqa:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_grad_cov_sgd_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: grad_cov
+      gradient_type: sgd
+      target_gradient_type: same
+      sigma: null
+  mmd_emb_rbf_tydiqa:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_emb_rbf_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 42
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: emb_rbf
+      stochastic_eps: 0.0
+      candidate_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/candidate_270k.npy
+      target_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/target_tydiqa.npy
+      sigma: null
+  mmd_emb_rbf_stochastic_tydiqa:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/mmd_emb_rbf_stochastic_tydiqa_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 42
+      candidate_subsample: -1
+      greedy_device: auto
+      kernel_type: emb_rbf
+      stochastic_eps: 0.01
+      candidate_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/candidate_270k.npy
+      target_embeddings_path: /jizhicfs/karonhe/dataflex_saves/embeddings/target_tydiqa.npy
+      sigma: null

@@ -14,6 +14,7 @@ METHODS = [
     "mmd_grad_rbf_sgd_selected",
     "mmd_grad_cov_sgd_selected",
     "mmd_emb_rbf_selected",
+    "mmd_emb_rbf_stochastic_selected",
     "less_adam_selected",
     "mmd_grad_rbf_adam_selected",
     "mmd_grad_cov_adam_selected",
