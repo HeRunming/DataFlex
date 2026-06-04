@@ -327,6 +327,33 @@ class MMDSelector(Selector):
                     )
                     np.nan_to_num(arr, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
 
+            # CRITICAL guard: the MMD target-relevance term r_T(x) = mean_t k(x, t)
+            # is the ONLY signal that aligns selection with the target task. If the
+            # target gradients are (mostly) zero vectors, r_T degenerates:
+            #   - poly/cov kernel: k(x,0) = <x,0>^2 = 0  -> r_T ≡ 0  (no target signal)
+            #   - rbf kernel:      k(x,0) = exp(-||x||^2/2σ²), target-content-independent
+            # In both cases MMD silently collapses to pure-diversity selection and the
+            # whole experiment is invalid. This previously happened when target grads
+            # were Adam-preconditioned in bf16 and got NaN-zeroed. Fail loudly instead.
+            target_zero_rows = int((~np.any(target_grads != 0, axis=1)).sum())
+            target_zero_frac = target_zero_rows / max(1, target_grads.shape[0])
+            if target_zero_frac > 0.5:
+                raise RuntimeError(
+                    f"[MMDSelector] {target_zero_rows}/{target_grads.shape[0]} "
+                    f"({target_zero_frac:.0%}) target gradient rows are all-zero. "
+                    f"The MMD target-relevance signal is destroyed — selection would "
+                    f"degenerate to pure diversity and produce invalid results. "
+                    f"This usually means target gradients overflowed under low precision "
+                    f"(now fixed: Adam preconditioning runs in fp32) or target_gradient_type "
+                    f"is misconfigured. Delete the stale cache at "
+                    f"'{target_final_path}' and re-run after the fix."
+                )
+            elif target_zero_rows > 0:
+                logger.warning(
+                    f"[MMDSelector] {target_zero_rows}/{target_grads.shape[0]} target "
+                    f"rows are all-zero (below 50% threshold); proceeding but results may degrade."
+                )
+
             # Determine kernel-specific parameters
             kernel_type_for_select = "rbf" if self.kernel_type == "grad_rbf" else "cov"
 
@@ -851,13 +878,27 @@ class MMDSelector(Selector):
         if gradient_type == "adam":
             if m is None or v is None:
                 raise ValueError("Adam states (m, v) required for 'adam' gradient type.")
-            # FIX: Do NOT modify m or v in-place. Compute Adam-preconditioned gradient
-            # as a new tensor: adam_grad = (beta1*m + (1-beta1)*g) / (sqrt(beta2*v + (1-beta2)*g²) + eps)
+            # Align with LESS official implementation (princeton-nlp/LESS,
+            # collect_grad_reps.py::obtain_gradients_with_adam):
+            #   updated_avg    = β1·m + (1-β1)·g
+            #   updated_avg_sq = β2·v + (1-β2)·g²
+            #   grad           = updated_avg / sqrt(updated_avg_sq + eps)   # eps INSIDE sqrt
+            #
+            # CRITICAL: do the whole computation in float32. LESS keeps LoRA grads
+            # in fp32 throughout; our model runs in bf16, so g (and possibly m/v)
+            # can arrive in bf16. Squaring a bf16 grad on long target sequences
+            # (BBH/MMLU few-shot prompts are ~3.5k chars) underflows/loses bits and
+            # produced NaN rows that were then zeroed out — wiping the ENTIRE target
+            # gradient set. Casting to fp32 first reproduces LESS's numerics exactly
+            # and eliminates the NaNs at the source.
             beta1, beta2, eps = 0.9, 0.999, 1e-08
-            numerator = beta1 * m + (1.0 - beta1) * vectorized_grads
-            denominator = torch.sqrt(beta2 * v + (1.0 - beta2) * vectorized_grads.pow(2)) + eps
-            vectorized_grads = numerator / denominator
-            del numerator, denominator
+            g32 = vectorized_grads.float()
+            m32 = m.float()
+            v32 = v.float()
+            updated_avg = beta1 * m32 + (1.0 - beta1) * g32
+            updated_avg_sq = beta2 * v32 + (1.0 - beta2) * g32.pow(2)
+            vectorized_grads = updated_avg / torch.sqrt(updated_avg_sq + eps)
+            del g32, m32, v32, updated_avg, updated_avg_sq
 
         # Guard against NaN/Inf in the per-sample gradient. Under Adam preconditioning
         # we observed ~20% of samples produce some NaN dims (likely from fp16/bf16

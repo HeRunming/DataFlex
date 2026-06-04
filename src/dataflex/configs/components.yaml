@@ -92,7 +92,7 @@ selectors:
       sigma: null
       proj_dim: 8192
       gradient_type: adam
-      target_gradient_type: same  # "same" uses adam for both (consistent feature space); "sgd" for LESS-style ablation
+      target_gradient_type: sgd  # align with LESS: candidate=adam, target/val=sgd (hardcoded in LESS get_eval_lora_grads.sh)
       save_interval: 16
       seed: 123
       candidate_subsample: -1
@@ -105,7 +105,7 @@ selectors:
       sigma: null
       proj_dim: 8192
       gradient_type: adam
-      target_gradient_type: same
+      target_gradient_type: sgd  # align with LESS: candidate=adam, target/val=sgd
       save_interval: 16
       seed: 123
       candidate_subsample: -1

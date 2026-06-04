@@ -126,10 +126,19 @@ class LessSelector(Selector):
             if m is None or v is None:
                 raise ValueError("Adam optimizer states (m, v) must be provided for 'adam' gradient type.")
             beta1, beta2, eps = 0.9, 0.999, 1e-08
-            # Non-destructive Adam preconditioning: compute numerator and denominator without mutating inputs
-            numerator = beta1 * m + (1.0 - beta1) * vectorized_grads
-            denominator = torch.sqrt(beta2 * v + (1.0 - beta2) * vectorized_grads.pow(2)) + eps
-            vectorized_grads = numerator / denominator
+            # Align with LESS official (collect_grad_reps.py::obtain_gradients_with_adam):
+            #   grad = (β1·m + (1-β1)·g) / sqrt(β2·v + (1-β2)·g² + eps)   # eps INSIDE sqrt
+            # Compute in float32: model runs in bf16, so g/m/v may be bf16; squaring a
+            # bf16 grad on long sequences loses bits / overflows and produces NaN rows
+            # (LESS keeps LoRA grads in fp32 and never hits this). Non-destructive: m/v
+            # are not mutated in place.
+            g32 = vectorized_grads.float()
+            m32 = m.float()
+            v32 = v.float()
+            updated_avg = beta1 * m32 + (1.0 - beta1) * g32
+            updated_avg_sq = beta2 * v32 + (1.0 - beta2) * g32.pow(2)
+            vectorized_grads = updated_avg / torch.sqrt(updated_avg_sq + eps)
+            del g32, m32, v32, updated_avg, updated_avg_sq
         elif gradient_type == "sgd":
             pass
         else:
