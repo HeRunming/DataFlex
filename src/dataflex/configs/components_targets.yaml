@@ -21,7 +21,7 @@ selectors:
       greedy_device: auto
       kernel_type: grad_rbf
       gradient_type: adam
-      target_gradient_type: same
+      target_gradient_type: sgd  # LESS-aligned: candidate=adam, target=sgd
       sigma: null
   mmd_grad_cov_adam_mmlu:
     name: mmd
@@ -34,7 +34,7 @@ selectors:
       greedy_device: auto
       kernel_type: grad_cov
       gradient_type: adam
-      target_gradient_type: same
+      target_gradient_type: sgd  # LESS-aligned: candidate=adam, target=sgd
       sigma: null
   less_sgd_mmlu:
     name: less
@@ -123,7 +123,7 @@ selectors:
       greedy_device: auto
       kernel_type: grad_rbf
       gradient_type: adam
-      target_gradient_type: same
+      target_gradient_type: sgd  # LESS-aligned: candidate=adam, target=sgd
       sigma: null
   mmd_grad_cov_adam_tydiqa:
     name: mmd
@@ -136,7 +136,7 @@ selectors:
       greedy_device: auto
       kernel_type: grad_cov
       gradient_type: adam
-      target_gradient_type: same
+      target_gradient_type: sgd  # LESS-aligned: candidate=adam, target=sgd
       sigma: null
   less_sgd_tydiqa:
     name: less
