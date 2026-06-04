@@ -819,6 +819,52 @@ class SelectTrainer(CustomSeq2SeqTrainer):
                         if dist.is_initialized():
                             dist.barrier()
 
+                        # ---- LESS-aligned warmup-only mode (Phase C) ----
+                        # When this flag is on, the trainer persists the warmup
+                        # adapter + Adam moments to disk and stops. Selection and
+                        # final SFT are handled by separate offline scripts.
+                        if getattr(self.finetuning_args, "dataflex_warmup_only", False):
+                            warmup_ckpt_dir = os.path.join(args.output_dir, "warmup_ckpt")
+                            if self.accelerator.is_main_process:
+                                os.makedirs(warmup_ckpt_dir, exist_ok=True)
+                            self.accelerator.wait_for_everyone()
+
+                            logger.info(
+                                f"[Dataflex] dataflex_warmup_only=True; "
+                                f"saving warmup checkpoint to {warmup_ckpt_dir} after "
+                                f"{self.state.global_step} global steps and exiting."
+                            )
+                            # Save LoRA adapter (HF/PEFT format) on main process
+                            unwrapped = self.accelerator.unwrap_model(model)
+                            if self.accelerator.is_main_process:
+                                if hasattr(unwrapped, "save_pretrained"):
+                                    unwrapped.save_pretrained(warmup_ckpt_dir)
+                                else:
+                                    # full FT fallback
+                                    torch.save(unwrapped.state_dict(),
+                                               os.path.join(warmup_ckpt_dir, "model_state.pt"))
+                                # Save optimizer state (contains exp_avg / exp_avg_sq for AdamW)
+                                torch.save(self.optimizer.state_dict(),
+                                           os.path.join(warmup_ckpt_dir, "optimizer.pt"))
+                                # Meta info for the offline selection driver
+                                import json as _json
+                                with open(os.path.join(warmup_ckpt_dir, "meta.json"), "w") as _f:
+                                    _json.dump({
+                                        "global_step": int(self.state.global_step),
+                                        "warmup_step": int(self.finetuning_args.warmup_step),
+                                        "epoch": float(self.state.epoch or 0.0),
+                                        "learning_rate": float(args.learning_rate),
+                                        "lora_rank": int(getattr(self.finetuning_args, "lora_rank", 0)),
+                                        "lora_alpha": int(getattr(self.finetuning_args, "lora_alpha", 0)),
+                                    }, _f, indent=2)
+                            self.accelerator.wait_for_everyone()
+                            if dist.is_initialized():
+                                dist.barrier()
+                            # Set control to stop training cleanly
+                            self.control.should_training_stop = True
+                            break
+                        # ---- end warmup-only mode ----
+
                         current_update_times = (step_in_epoch - self.finetuning_args.warmup_step) // self.finetuning_args.update_step + 1
                         effective_update_times = self.finetuning_args.update_times
                         if effective_update_times <= 0 and epoch_update_steps is not None:

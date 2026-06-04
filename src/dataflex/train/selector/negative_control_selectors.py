@@ -216,8 +216,12 @@ class RandomSubspaceLogDetSelector(Selector):
         Preprocessing matches OptGCS exactly: NaN->0, length_norm, clip, L2_norm."""
         n, d = grads.shape
 
+        # GPU-accelerate (CPU greedy loop overruns watchdog on 13K+ selections)
+        dev = self.device if torch.cuda.is_available() else torch.device("cpu")
+
         # Preprocess: same pipeline as OptGCS._preprocess_grads()
-        h = grads.clone()
+        h = grads.clone().to(dev)
+        lengths = lengths.to(dev)
         h[~torch.isfinite(h)] = 0.0
         alpha = self.length_norm_alpha
         if alpha > 0:
@@ -237,9 +241,9 @@ class RandomSubspaceLogDetSelector(Selector):
         h = h / norms
 
         # Random orthogonal subspace (only this uses self.seed, not projector_seed)
-        torch.manual_seed(self.seed + 9999)
+        gen = torch.Generator(device=dev).manual_seed(self.seed + 9999)
         r = min(self.subspace_dim, d)
-        Q, _ = torch.linalg.qr(torch.randn(d, r))
+        Q, _ = torch.linalg.qr(torch.randn(d, r, generator=gen, device=dev))
 
         projections = h @ Q
         scores = (projections ** 2).sum(dim=1)
@@ -254,16 +258,17 @@ class RandomSubspaceLogDetSelector(Selector):
             cand_idx = topk.indices
             X = projections[cand_idx].clone()
         else:
-            cand_idx = torch.arange(n)
+            cand_idx = torch.arange(n, device=dev)
             X = projections.clone()
 
-        A_inv = torch.eye(r, dtype=X.dtype) / eps
+        A_inv = torch.eye(r, dtype=X.dtype, device=dev) / eps
         selected_local = []
-        available = torch.ones(len(X), dtype=torch.bool)
+        available = torch.ones(len(X), dtype=torch.bool, device=dev)
 
+        neg_inf = torch.tensor(-float('inf'), device=dev, dtype=X.dtype)
         for t in range(k):
             gains = (X @ A_inv * X).sum(dim=1)
-            gains[~available] = -float('inf')
+            gains = torch.where(available, gains, neg_inf)
             best = gains.argmax().item()
             selected_local.append(best)
             available[best] = False
@@ -271,7 +276,7 @@ class RandomSubspaceLogDetSelector(Selector):
             Ax = A_inv @ x
             A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
 
-        return cand_idx[torch.tensor(selected_local)].tolist()
+        return cand_idx[torch.tensor(selected_local, device=dev)].tolist()
 
 
 @register_selector('grad_norm_topk')

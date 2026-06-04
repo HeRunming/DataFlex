@@ -557,6 +557,14 @@ class DynamicFinetuningArguments(
         default=0,
         metadata={"help": "Optional total training steps. If set, overrides num_train_epochs."},
     )
+    dataflex_warmup_only: bool = field(
+        default=False,
+        metadata={
+            "help": "If True, after `warmup_step` random batches, save the LoRA adapter + "
+                    "optimizer state to <output_dir>/warmup_ckpt/ and exit cleanly. "
+                    "Used by LESS-aligned offline pipeline (Phase C)."
+        },
+    )
     freeze_gate: bool = field(
         default=False,
         metadata={"help": "Whether to freeze gate parameters in MoE models during SFT training."},

@@ -176,37 +176,13 @@ class OptGCSSelector(Selector):
         return num_params
 
     def _prepare_optimizer_state(self, model, optimizer_state: Optional[Dict] = None) -> Tuple[Optional[torch.Tensor], Optional[torch.Tensor]]:
-        """Prepare Adam first/second moment estimates for optimizer-induced update."""
+        """Concatenate Adam (m, v) tensors via the shared base-class utility."""
         if self.gradient_type == "sgd":
             return None, None
-
-        avg_list, avg_sq_list = [], []
-
-        if self.accelerator.state.deepspeed_plugin is not None:
-            from deepspeed.utils import safe_get_full_optimizer_state
-            for param in model.parameters():
-                if param.requires_grad:
-                    exp_avg = safe_get_full_optimizer_state(param, "exp_avg")
-                    exp_avg_sq = safe_get_full_optimizer_state(param, "exp_avg_sq")
-                    if exp_avg is not None and exp_avg_sq is not None:
-                        avg_list.append(exp_avg.view(-1))
-                        avg_sq_list.append(exp_avg_sq.view(-1))
-        else:
-            if optimizer_state is None:
-                logger.warning("[OptGCS] No optimizer_state provided, falling back to SGD gradients.")
-                return None, None
-            for param in model.parameters():
-                if param.requires_grad:
-                    if param in optimizer_state and "exp_avg" in optimizer_state[param]:
-                        avg_list.append(optimizer_state[param]["exp_avg"].view(-1))
-                        avg_sq_list.append(optimizer_state[param]["exp_avg_sq"].view(-1))
-
-        if not avg_list:
-            return None, None
-
-        avg = torch.cat(avg_list).to(self.device)
-        avg_sq = torch.cat(avg_sq_list).to(self.device)
-        return avg, avg_sq
+        m, v = Selector.gather_optimizer_state(model, self.accelerator, optimizer_state)
+        if m is None or v is None:
+            logger.warning("[OptGCS] No optimizer_state available, falling back to SGD gradients.")
+        return m, v
 
     def _obtain_gradients(self, model, batch, gradient_type: str,
                           m: Optional[torch.Tensor] = None,
@@ -246,19 +222,14 @@ class OptGCSSelector(Selector):
         if gradient_type == "sgd" or m is None or v is None:
             pass
         elif gradient_type == "adam_diag":
+            # Backwards-compat: diagonal-only preconditioning (no momentum, no g² update term)
             eps = 1e-08
             denom = v.clamp(min=1e-16).sqrt().add_(eps)
             vectorized_grads = vectorized_grads / denom
             vectorized_grads = vectorized_grads.clamp(-1e4, 1e4)
         elif gradient_type == "adam":
-            beta1, beta2, eps = 0.9, 0.999, 1e-08
-            denom = v.mul(beta2)
-            denom.addcmul_(vectorized_grads, vectorized_grads, value=(1 - beta2))
-            denom.clamp_(min=1e-16).sqrt_().add_(eps)
-            vectorized_grads.mul_(1 - beta1).add_(m, alpha=beta1)
-            vectorized_grads.div_(denom)
-            vectorized_grads = vectorized_grads.clamp(-1e4, 1e4)
-            del denom
+            # Use shared base-class utility (LESS-paper formula)
+            vectorized_grads = Selector.adam_precondition_grads(vectorized_grads, m, v)
         else:
             raise ValueError(f"Unknown gradient_type: {gradient_type}")
 
@@ -668,24 +639,30 @@ class OptGCSSelector(Selector):
         k = min(num_samples, n)
         eps = self.logdet_eps
 
+        # GPU-accelerate the greedy loop (CPU version overruns watchdog on 13K+ k)
+        dev = self.device if torch.cuda.is_available() else torch.device("cpu")
+        projections = projections.to(dev)
+        scores = scores.to(dev)
+
         prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
         if prefilter_k < n:
             topk = torch.topk(scores, k=prefilter_k, largest=True)
             candidate_indices = topk.indices
             X = projections[candidate_indices].clone()
         else:
-            candidate_indices = torch.arange(n)
+            candidate_indices = torch.arange(n, device=dev)
             X = projections.clone()
 
         num_candidates = len(X)
-        A_inv = torch.eye(r, dtype=X.dtype) / eps
+        A_inv = torch.eye(r, dtype=X.dtype, device=dev) / eps
 
         selected_local = []
-        available = torch.ones(num_candidates, dtype=torch.bool)
+        available = torch.ones(num_candidates, dtype=torch.bool, device=dev)
 
+        neg_inf = torch.tensor(-float('inf'), device=dev, dtype=X.dtype)
         for t in range(k):
             gains = (X @ A_inv * X).sum(dim=1)
-            gains[~available] = -float('inf')
+            gains = torch.where(available, gains, neg_inf)
 
             best_local = gains.argmax().item()
             selected_local.append(best_local)
@@ -695,10 +672,10 @@ class OptGCSSelector(Selector):
             Ax = A_inv @ x
             A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
 
-            if (t + 1) % 500 == 0:
+            if (t + 1) % 2000 == 0:
                 logger.info(f"[OptGCS-LogDet] Selected {t+1}/{k}, gain={gains[best_local]:.4f}")
 
-        return candidate_indices[torch.tensor(selected_local)].tolist()
+        return candidate_indices[torch.tensor(selected_local, device=dev)].tolist()
 
     def _select_by_hybrid_add(self, projections: torch.Tensor, scores: torch.Tensor,
                                num_samples: int) -> List[int]:
@@ -715,6 +692,11 @@ class OptGCSSelector(Selector):
         eps = self.logdet_eps
         lam = self.hybrid_lambda
 
+        # GPU-accelerate the greedy loop
+        dev = self.device if torch.cuda.is_available() else torch.device("cpu")
+        projections = projections.to(dev)
+        scores = scores.to(dev)
+
         # Prefilter by score
         prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
         if prefilter_k < n:
@@ -723,12 +705,12 @@ class OptGCSSelector(Selector):
             X = projections[candidate_indices].clone()
             S = scores[candidate_indices].clone()
         else:
-            candidate_indices = torch.arange(n)
+            candidate_indices = torch.arange(n, device=dev)
             X = projections.clone()
             S = scores.clone()
 
         num_candidates = len(X)
-        A_inv = torch.eye(r, dtype=X.dtype) / eps
+        A_inv = torch.eye(r, dtype=X.dtype, device=dev) / eps
 
         # Precompute normalized log-score term
         log_scores = torch.log(S + 1e-10)
@@ -737,8 +719,9 @@ class OptGCSSelector(Selector):
         score_z = (log_scores - score_mean) / score_std
 
         selected_local = []
-        available = torch.ones(num_candidates, dtype=torch.bool)
+        available = torch.ones(num_candidates, dtype=torch.bool, device=dev)
 
+        neg_inf = torch.tensor(-float('inf'), device=dev, dtype=X.dtype)
         for t in range(k):
             # Coverage gain
             coverage_gains = (X @ A_inv * X).sum(dim=1)
@@ -749,7 +732,7 @@ class OptGCSSelector(Selector):
             cov_z = (log_cov - cov_mean) / cov_std
 
             gains = cov_z + lam * score_z
-            gains[~available] = -float('inf')
+            gains = torch.where(available, gains, neg_inf)
 
             best_local = gains.argmax().item()
             selected_local.append(best_local)
@@ -759,10 +742,10 @@ class OptGCSSelector(Selector):
             Ax = A_inv @ x
             A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
 
-            if (t + 1) % 500 == 0:
+            if (t + 1) % 2000 == 0:
                 logger.info(f"[OptGCS-HybridAdd] Selected {t+1}/{k}, gain={gains[best_local]:.4f}")
 
-        return candidate_indices[torch.tensor(selected_local)].tolist()
+        return candidate_indices[torch.tensor(selected_local, device=dev)].tolist()
 
     def _select_by_hybrid_mul(self, projections: torch.Tensor, scores: torch.Tensor,
                                num_samples: int) -> List[int]:
@@ -781,6 +764,11 @@ class OptGCSSelector(Selector):
         eps = self.logdet_eps
         gamma = self.hybrid_gamma
 
+        # GPU-accelerate the greedy loop
+        dev = self.device if torch.cuda.is_available() else torch.device("cpu")
+        projections = projections.to(dev)
+        scores = scores.to(dev)
+
         prefilter_k = min(int(self.prefilter_ratio * k), n) if self.prefilter_ratio > 0 else n
         if prefilter_k < n:
             topk = torch.topk(scores, k=prefilter_k, largest=True)
@@ -788,23 +776,24 @@ class OptGCSSelector(Selector):
             X = projections[candidate_indices].clone()
             S = scores[candidate_indices].clone()
         else:
-            candidate_indices = torch.arange(n)
+            candidate_indices = torch.arange(n, device=dev)
             X = projections.clone()
             S = scores.clone()
 
         num_candidates = len(X)
-        A_inv = torch.eye(r, dtype=X.dtype) / eps
+        A_inv = torch.eye(r, dtype=X.dtype, device=dev) / eps
 
         # Precompute normalized score weights
         score_weights = (S / S.mean().clamp(min=1e-10)).clamp(min=1e-6).pow(gamma)
 
         selected_local = []
-        available = torch.ones(num_candidates, dtype=torch.bool)
+        available = torch.ones(num_candidates, dtype=torch.bool, device=dev)
 
+        neg_inf = torch.tensor(-float('inf'), device=dev, dtype=X.dtype)
         for t in range(k):
             coverage_gains = (X @ A_inv * X).sum(dim=1)
             gains = torch.log1p(coverage_gains) * score_weights
-            gains[~available] = -float('inf')
+            gains = torch.where(available, gains, neg_inf)
 
             best_local = gains.argmax().item()
             selected_local.append(best_local)
@@ -814,10 +803,10 @@ class OptGCSSelector(Selector):
             Ax = A_inv @ x
             A_inv -= torch.outer(Ax, Ax) / (1.0 + x @ Ax)
 
-            if (t + 1) % 500 == 0:
+            if (t + 1) % 2000 == 0:
                 logger.info(f"[OptGCS-HybridMul] Selected {t+1}/{k}, gain={gains[best_local]:.4f}")
 
-        return candidate_indices[torch.tensor(selected_local)].tolist()
+        return candidate_indices[torch.tensor(selected_local, device=dev)].tolist()
 
     # ========================================================================
     # Main Entry Point

@@ -74,7 +74,7 @@ selectors:
     name: spec_gcs
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -90,7 +90,7 @@ selectors:
     name: spec_gcs_logdet
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -108,7 +108,7 @@ selectors:
     name: spec_gcs_score
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_score_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -122,7 +122,7 @@ selectors:
     name: spec_gcs_diverse
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_diverse_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -138,7 +138,7 @@ selectors:
     name: opt_gcs_logdet
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -155,7 +155,7 @@ selectors:
     name: opt_gcs_unwhitened
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_unwhitened_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -172,7 +172,7 @@ selectors:
     name: opt_gcs_raw_sgd
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_raw_sgd_output
-      gradient_type: sgd
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -206,7 +206,7 @@ selectors:
     name: opt_gcs_logdet
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_rank50_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -224,7 +224,7 @@ selectors:
     name: opt_gcs_logdet
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_rank100_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -269,7 +269,7 @@ selectors:
     name: opt_gcs_hybrid_add
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_hybrid_add_l025_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -286,7 +286,7 @@ selectors:
     name: opt_gcs_hybrid_add
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_hybrid_add_l05_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -303,7 +303,7 @@ selectors:
     name: opt_gcs_hybrid_add
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_hybrid_add_l10_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -320,7 +320,7 @@ selectors:
     name: opt_gcs_hybrid_add
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_hybrid_add_l20_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -337,7 +337,7 @@ selectors:
     name: opt_gcs_hybrid_mul
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_hybrid_mul_g025_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -354,7 +354,7 @@ selectors:
     name: opt_gcs_hybrid_mul
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_hybrid_mul_g05_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -371,7 +371,7 @@ selectors:
     name: opt_gcs_hybrid_mul
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_hybrid_mul_g10_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -389,7 +389,7 @@ selectors:
     name: opt_gcs_score_beta0
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_score_beta0_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -403,7 +403,7 @@ selectors:
     name: opt_gcs_score_beta0.25
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_score_beta025_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -418,7 +418,7 @@ selectors:
     name: opt_gcs_logdet_pref20
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_pref20_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16
@@ -434,7 +434,7 @@ selectors:
     name: opt_gcs_logdet_no_prefilter
     params:
       cache_dir: /jizhicfs/karonhe/dataflex_saves/opt_gcs_logdet_nopref_output
-      gradient_type: adam_diag
+      gradient_type: adam
       proj_dim: 4096
       seed: 42
       save_interval: 16

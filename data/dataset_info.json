@@ -804,6 +804,14 @@
       "response": "output"
     }
   },
+  "tulu2_270k": {
+    "file_name": "tulu2_270k.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
   "mmlu_valid_cot": {
     "file_name": "MMLU_valid_cot.json",
     "columns": {
@@ -814,6 +822,142 @@
   },
   "mmlu_test": {
     "file_name": "MMLUSubset_test.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_270k_warmup_5pct": {
+    "file_name": "tulu2_270k_warmup_5pct.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_random_s42": {
+    "file_name": "tulu2_270k_sel_random_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_loss_s42": {
+    "file_name": "tulu2_270k_sel_loss_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_less_s42": {
+    "file_name": "tulu2_270k_sel_less_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_fisher_sft_s42": {
+    "file_name": "tulu2_270k_sel_fisher_sft_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_grad_norm_topk_s42": {
+    "file_name": "tulu2_270k_sel_grad_norm_topk_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_rsub_own_seed1": {
+    "file_name": "tulu2_270k_sel_rsub_own_seed1.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_rsub_own_seed2": {
+    "file_name": "tulu2_270k_sel_rsub_own_seed2.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_rsub_own_seed3": {
+    "file_name": "tulu2_270k_sel_rsub_own_seed3.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_hybrid_add_l025_s42": {
+    "file_name": "tulu2_270k_sel_hybrid_add_l025_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_hybrid_mul_g025_s42": {
+    "file_name": "tulu2_270k_sel_hybrid_mul_g025_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_hybrid_mul_g05_s42": {
+    "file_name": "tulu2_270k_sel_hybrid_mul_g05_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_logdet_nopref_s42": {
+    "file_name": "tulu2_270k_sel_logdet_nopref_s42.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_hybrid_add_l025_s1": {
+    "file_name": "tulu2_270k_sel_hybrid_add_l025_s1.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_hybrid_add_l025_s2": {
+    "file_name": "tulu2_270k_sel_hybrid_add_l025_s2.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_hybrid_mul_g025_s1": {
+    "file_name": "tulu2_270k_sel_hybrid_mul_g025_s1.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "tulu2_sel_hybrid_mul_g025_s2": {
+    "file_name": "tulu2_270k_sel_hybrid_mul_g025_s2.json",
     "columns": {
       "prompt": "instruction",
       "query": "input",

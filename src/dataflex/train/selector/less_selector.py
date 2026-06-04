@@ -69,42 +69,25 @@ class LessSelector(Selector):
         return num_params
 
     def _prepare_optimizer_state(self, model, optimizer_state: Optional[Dict] = None) -> (torch.Tensor, torch.Tensor):
-        """从优化器状态中准备 Adam 的一阶和二阶矩估计（兼容 DeepSpeed ZeRO-3）。"""
-        avg_list, avg_sq_list = [], []
+        """Concatenate Adam (m, v) tensors via the shared base-class utility.
 
-        if self.accelerator.state.deepspeed_plugin is not None:
-            # DeepSpeed 模式：使用 safe_get_full_optimizer_state 获取完整优化器状态
-            from deepspeed.utils import safe_get_full_optimizer_state
-            for param in model.parameters():
-                if param.requires_grad:
-                    exp_avg = safe_get_full_optimizer_state(param, "exp_avg")
-                    exp_avg_sq = safe_get_full_optimizer_state(param, "exp_avg_sq")
-                    if exp_avg is not None and exp_avg_sq is not None:
-                        avg_list.append(exp_avg.view(-1))
-                        avg_sq_list.append(exp_avg_sq.view(-1))
-        else:
-            # 非 DeepSpeed 模式：从传入的 optimizer_state 字典中获取
-            if optimizer_state is None:
-                raise ValueError("optimizer_state must be provided for non-DeepSpeed 'adam' gradient type.")
-            for param in model.parameters():
-                if param.requires_grad:
-                    avg_list.append(optimizer_state[param]["exp_avg"].view(-1))
-                    avg_sq_list.append(optimizer_state[param]["exp_avg_sq"].view(-1))
-
-        avg = torch.cat(avg_list).to(self.device)
-        avg_list.clear()
-        avg_sq = torch.cat(avg_sq_list).to(self.device)
-        avg_sq_list.clear()
-        return avg, avg_sq
+        Kept as a thin wrapper for backwards-compat; new code should call
+        ``Selector.gather_optimizer_state(...)`` directly.
+        """
+        m, v = Selector.gather_optimizer_state(model, self.accelerator, optimizer_state)
+        if m is None or v is None:
+            raise ValueError(
+                "Adam optimizer state unavailable — ensure warmup_step is large enough "
+                "and the optimizer is AdamW."
+            )
+        return m, v
 
     def _obtain_gradients(self, model, batch, gradient_type, m: Optional[torch.Tensor] = None, v: Optional[torch.Tensor] = None) -> torch.Tensor:
-        """根据指定的类型计算单个样本的梯度向量。"""
-        # 必须先对当前 batch 做 forward + backward，才能产生对应的梯度
+        """Compute per-sample gradient vector with optional Adam preconditioning."""
+        # Forward + backward to populate p.grad
         if self.accelerator.state.deepspeed_plugin is not None:
-            # DeepSpeed 模式：直接调用 model forward/backward
             loss = model(**batch).loss
             model.backward(loss)
-            # 使用 safe_get_full_grad 获取完整梯度（ZeRO 分区下需要 gather）
             from deepspeed.utils import safe_get_full_grad
             grads = []
             for name, p in model.named_parameters():
@@ -112,9 +95,7 @@ class LessSelector(Selector):
                 if g is not None:
                     grads.append(g.contiguous().view(-1))
             vectorized_grads = torch.cat(grads) if grads else None
-            
         else:
-            # 非 DeepSpeed 模式
             with self.accelerator.no_sync(model):
                 loss = model(**batch).loss
                 self.accelerator.backward(loss)
@@ -125,18 +106,13 @@ class LessSelector(Selector):
         if gradient_type == "adam":
             if m is None or v is None:
                 raise ValueError("Adam optimizer states (m, v) must be provided for 'adam' gradient type.")
-            beta1, beta2, eps = 0.9, 0.999, 1e-08
-            denom = v.mul(beta2)
-            denom.addcmul_(vectorized_grads, vectorized_grads, value=(1 - beta2))
-            denom.sqrt_().add_(eps)
-            vectorized_grads.mul_(1 - beta1).add_(m, alpha=beta1)
-            vectorized_grads.div_(denom)
-            del denom
+            # Use shared base-class utility (LESS-paper formula)
+            vectorized_grads = Selector.adam_precondition_grads(vectorized_grads, m, v)
         elif gradient_type == "sgd":
             pass
         else:
             assert False, f"Unknown gradient type: {gradient_type}"
-        
+
         model.zero_grad()
         return vectorized_grads
 

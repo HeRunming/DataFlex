@@ -152,38 +152,44 @@ class FisherSFTSelector(Selector):
         self.accelerator.wait_for_everyone()
 
     def _select_by_logdet(self, embeddings: torch.Tensor, num_samples: int) -> List[int]:
-        """Greedy logdet selection in embedding space."""
+        """Greedy logdet selection in embedding space (GPU-accelerated)."""
         n, d = embeddings.shape
         k = min(num_samples, n)
         eps = self.logdet_eps
 
+        # Run the greedy loop on GPU when available — the CPU version is ~100x
+        # slower and overruns the distributed watchdog on 13K+ selections.
+        dev = self.device if torch.cuda.is_available() else torch.device("cpu")
+        embeddings = embeddings.to(dev)
+
         # For large d, project to lower dimension first
         if d > 512:
             # Random projection to 512 dims
-            torch.manual_seed(self.seed)
-            R = torch.randn(d, 512) / (512 ** 0.5)
+            gen = torch.Generator(device=dev).manual_seed(self.seed)
+            R = torch.randn(d, 512, generator=gen, device=dev) / (512 ** 0.5)
             X = embeddings @ R
         else:
             X = embeddings
 
         r = X.shape[1]
-        A_inv = torch.eye(r, dtype=X.dtype) / eps
+        A_inv = torch.eye(r, dtype=X.dtype, device=dev) / eps
 
         selected = []
-        available = torch.ones(n, dtype=torch.bool)
+        available = torch.ones(n, dtype=torch.bool, device=dev)
 
         # Prefilter by norm (proxy for Fisher information magnitude)
         scores = (X ** 2).sum(dim=1)
         prefilter_k = min(int(self.prefilter_ratio * k), n)
         if prefilter_k < n:
             topk = torch.topk(scores, k=prefilter_k, largest=True)
-            candidate_mask = torch.zeros(n, dtype=torch.bool)
+            candidate_mask = torch.zeros(n, dtype=torch.bool, device=dev)
             candidate_mask[topk.indices] = True
             available = available & candidate_mask
 
+        neg_inf = torch.tensor(-float('inf'), device=dev, dtype=X.dtype)
         for t in range(k):
             gains = (X @ A_inv * X).sum(dim=1)
-            gains[~available] = -float('inf')
+            gains = torch.where(available, gains, neg_inf)
 
             best = gains.argmax().item()
             selected.append(best)
@@ -194,7 +200,7 @@ class FisherSFTSelector(Selector):
             denom = 1.0 + x @ Ax
             A_inv -= torch.outer(Ax, Ax) / denom
 
-            if (t + 1) % 500 == 0:
+            if (t + 1) % 1000 == 0:
                 logger.info(f"[FisherSFT] Selected {t+1}/{k}")
 
         return selected

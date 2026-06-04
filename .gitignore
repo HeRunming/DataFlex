@@ -9,3 +9,13 @@ output.txt
 data/Openhermes_train.json
 data/MMLU_valid_cot.json
 data/MMLUSubset_test.json
+
+# LESS-aligned data files (regenerate via experiments/less_aligned/data/download_less_data.py
+# and run_final_sft.sh's per-method dataset builder)
+data/tulu2_270k.json
+data/tulu2_270k_sel_*.json
+data/tulu2_270k_warmup_5pct.json
+data/tulu2_270k_warmup_5pct_indices.npy
+
+# stray backup
+src/dataflex/configs/components.yaml.bak
