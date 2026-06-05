@@ -7,3 +7,9 @@ output.txt
 experiments/less_aligned/results/
 *.pt
 *.safetensors
+
+# Large regenerable data artifacts (rebuild via scripts/build_less_pool.py)
+data/less_train_all.jsonl
+data/less_warmup_5pct.jsonl
+data/less_warmup_5pct_indices.npy
+*.npy

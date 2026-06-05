@@ -1185,5 +1185,18 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "less_warmup_5pct": {
+    "file_name": "less_warmup_5pct.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
