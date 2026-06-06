@@ -1,0 +1,42 @@
+selectors:
+  # ===== Smoke-test variants: small candidate subsample, isolated cache =====
+  # Used only to validate the fp32 Adam-preconditioning fix end-to-end:
+  #   - target gradients must be NON-ZERO (the bf16 bug zeroed 100% of them)
+  #   - grad_rbf vs grad_cov selections must NOT collapse to identical sets
+  less_adam_smoke:
+    name: less
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/smoke/less_adam_output
+      gradient_type: adam
+      proj_dim: 8192
+      seed: 123
+      save_interval: 16
+      candidate_subsample: 2000
+
+  mmd_grad_rbf_adam_smoke:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/smoke/mmd_grad_rbf_adam_output
+      kernel_type: grad_rbf
+      sigma: null
+      proj_dim: 8192
+      gradient_type: adam
+      target_gradient_type: sgd
+      save_interval: 16
+      seed: 123
+      candidate_subsample: 2000
+      greedy_device: auto
+
+  mmd_grad_cov_adam_smoke:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/smoke/mmd_grad_cov_adam_output
+      kernel_type: grad_cov
+      sigma: null
+      proj_dim: 8192
+      gradient_type: adam
+      target_gradient_type: sgd
+      save_interval: 16
+      seed: 123
+      candidate_subsample: 2000
+      greedy_device: auto

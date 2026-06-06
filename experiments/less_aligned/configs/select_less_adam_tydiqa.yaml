@@ -45,7 +45,7 @@ train_step: 2
 ### dynamic_train
 train_type: dynamic_select
 components_cfg_file: src/dataflex/configs/components_targets.yaml
-component_name: less_tydiqa
+component_name: less_adam_tydiqa
 warmup_step: 1
 update_step: 1
 update_times: 1

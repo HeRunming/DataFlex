@@ -1,6 +1,7 @@
 ###############################################################################
-# Adam-aware mmd_grad_cov_adam selection for target=mmlu
-# Uses per-target component mmd_grad_cov_mmlu from components_targets.yaml
+# Smoke-test Adam selection (validates fp32 fix). Override component_name on CLI:
+#   component_name=less_adam_smoke / mmd_grad_rbf_adam_smoke / mmd_grad_cov_adam_smoke
+# Uses candidate_subsample=2000 (set in components_smoke.yaml) for speed.
 ###############################################################################
 
 ### model
@@ -25,7 +26,7 @@ overwrite_cache: true
 preprocessing_num_workers: 16
 
 ### output
-output_dir: /jizhicfs/karonhe/dataflex_saves/less_aligned/mmd_grad_cov_adam_mmlu
+output_dir: /jizhicfs/karonhe/dataflex_saves/smoke/train_output
 logging_steps: 10
 overwrite_output_dir: true
 save_steps: 99999
@@ -44,8 +45,8 @@ train_step: 2
 
 ### dynamic_train
 train_type: dynamic_select
-components_cfg_file: src/dataflex/configs/components_targets.yaml
-component_name: mmd_grad_cov_adam_mmlu
+components_cfg_file: src/dataflex/configs/components_smoke.yaml
+component_name: mmd_grad_rbf_adam_smoke
 warmup_step: 1
 update_step: 1
 update_times: 1
@@ -53,6 +54,6 @@ selection_ratio: 0.05
 
 optimizer_state_path: /jizhicfs/karonhe/dataflex_saves/sft_results/random_selected/checkpoint-1692
 
-target_dataset: mmlu_target
-eval_dataset: mmlu_target
+target_dataset: bbh_target_100
+eval_dataset: bbh_target_100
 eval_strategy: "no"
