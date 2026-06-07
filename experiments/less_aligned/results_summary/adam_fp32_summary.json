@@ -1,0 +1,23 @@
+[
+  {
+    "method": "less_adam",
+    "bbh_cot_3shot": 0.37260021502073415,
+    "mmlu_5shot_acc": 0.4574134738641219,
+    "tydiqa_macro_f1": 0.541806089056119,
+    "tydiqa_macro_em": 0.43169177302617645
+  },
+  {
+    "method": "mmd_grad_rbf_adam",
+    "bbh_cot_3shot": 0.3744432498848103,
+    "mmlu_5shot_acc": 0.45420880216493376,
+    "tydiqa_macro_f1": 0.5610212383198047,
+    "tydiqa_macro_em": 0.4268983567813702
+  },
+  {
+    "method": "mmd_grad_cov_adam",
+    "bbh_cot_3shot": 0.38212256181846105,
+    "mmlu_5shot_acc": 0.45271328870531263,
+    "tydiqa_macro_f1": 0.5735487834826785,
+    "tydiqa_macro_em": 0.44259611069251775
+  }
+]
