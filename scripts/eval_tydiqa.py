@@ -84,9 +84,14 @@ def build_prompt(demo_user, demo_ans, ctx, q):
     qa = (
         "Answer the following question based on the context.\n\n"
         f"Context: {ctx}\n\n"
-        f"Question: {q}"
+        f"Question: {q}\n"
+        "Answer:"
     )
     # Use the same template surface as the target examples.
+    # The explicit "Answer:" trigger is required: without it, transformers>=4.5x
+    # emits EOS as the first token on non-Latin-script languages (bengali/telugu/
+    # arabic), collapsing their F1 to ~0. The trigger restores normal answering
+    # and is applied identically to every method (fair comparison).
     return f"{demo_user}\n{demo_ans}\n\n{qa}"
 
 
