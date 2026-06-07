@@ -1,0 +1,45 @@
+###############################################################################
+# LESS-aligned SGD selection: mmd_emb_rbf (target=mmlu)
+###############################################################################
+model_name_or_path: /jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf
+trust_remote_code: true
+
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_rank: 128
+lora_alpha: 512
+lora_target: q_proj,k_proj,v_proj,o_proj
+lora_dropout: 0.1
+
+dataset: less_train_all
+template: llama2
+cutoff_len: 2048
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+output_dir: /jizhicfs/karonhe/dataflex_saves/less_aligned/mmd_emb_rbf_mmlu
+logging_steps: 10
+overwrite_output_dir: true
+save_steps: 99999
+report_to: none
+
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 2.0e-5
+num_train_epochs: 1.0
+bf16: true
+ddp_timeout: 180000000
+train_step: 2
+
+train_type: dynamic_select
+components_cfg_file: src/dataflex/configs/components_targets.yaml
+component_name: mmd_emb_rbf_mmlu
+warmup_step: 1
+update_step: 1
+update_times: 1
+selection_ratio: 0.05
+
+target_dataset: mmlu_target
+eval_dataset: mmlu_target
+eval_strategy: "no"
