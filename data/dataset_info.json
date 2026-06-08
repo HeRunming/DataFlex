@@ -1237,5 +1237,70 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "less_sgd_bbh_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/less_sgd_bbh_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "mmd_grad_rbf_sgd_bbh_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/mmd_grad_rbf_sgd_bbh_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "mmd_grad_cov_sgd_bbh_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/mmd_grad_cov_sgd_bbh_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "mmd_emb_rbf_bbh_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/mmd_emb_rbf_bbh_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "mmd_emb_rbf_stochastic_bbh_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/mmd_emb_rbf_stochastic_bbh_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
