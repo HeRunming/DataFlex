@@ -1,0 +1,144 @@
+{
+  "results": {
+    "bbh_cot_fewshot": {
+      "exact_match,get-answer": 0.3873444939333436,
+      "exact_match_stderr,get-answer": 0.005420227884329411,
+      "alias": "bbh_cot_fewshot"
+    },
+    "bbh_cot_fewshot_boolean_expressions": {
+      "alias": " - bbh_cot_fewshot_boolean_expressions",
+      "exact_match,get-answer": 0.58,
+      "exact_match_stderr,get-answer": 0.03127799950463661
+    },
+    "bbh_cot_fewshot_causal_judgement": {
+      "alias": " - bbh_cot_fewshot_causal_judgement",
+      "exact_match,get-answer": 0.5454545454545454,
+      "exact_match_stderr,get-answer": 0.03650996949556816
+    },
+    "bbh_cot_fewshot_date_understanding": {
+      "alias": " - bbh_cot_fewshot_date_understanding",
+      "exact_match,get-answer": 0.68,
+      "exact_match_stderr,get-answer": 0.029561724955241044
+    },
+    "bbh_cot_fewshot_disambiguation_qa": {
+      "alias": " - bbh_cot_fewshot_disambiguation_qa",
+      "exact_match,get-answer": 0.492,
+      "exact_match_stderr,get-answer": 0.0316821564314138
+    },
+    "bbh_cot_fewshot_dyck_languages": {
+      "alias": " - bbh_cot_fewshot_dyck_languages",
+      "exact_match,get-answer": 0.008,
+      "exact_match_stderr,get-answer": 0.005645483676690177
+    },
+    "bbh_cot_fewshot_formal_fallacies": {
+      "alias": " - bbh_cot_fewshot_formal_fallacies",
+      "exact_match,get-answer": 0.536,
+      "exact_match_stderr,get-answer": 0.031603975145223735
+    },
+    "bbh_cot_fewshot_geometric_shapes": {
+      "alias": " - bbh_cot_fewshot_geometric_shapes",
+      "exact_match,get-answer": 0.42,
+      "exact_match_stderr,get-answer": 0.03127799950463661
+    },
+    "bbh_cot_fewshot_hyperbaton": {
+      "alias": " - bbh_cot_fewshot_hyperbaton",
+      "exact_match,get-answer": 0.516,
+      "exact_match_stderr,get-answer": 0.03166998503010742
+    },
+    "bbh_cot_fewshot_logical_deduction_five_objects": {
+      "alias": " - bbh_cot_fewshot_logical_deduction_five_objects",
+      "exact_match,get-answer": 0.264,
+      "exact_match_stderr,get-answer": 0.02793451895769091
+    },
+    "bbh_cot_fewshot_logical_deduction_seven_objects": {
+      "alias": " - bbh_cot_fewshot_logical_deduction_seven_objects",
+      "exact_match,get-answer": 0.26,
+      "exact_match_stderr,get-answer": 0.02779731575264431
+    },
+    "bbh_cot_fewshot_logical_deduction_three_objects": {
+      "alias": " - bbh_cot_fewshot_logical_deduction_three_objects",
+      "exact_match,get-answer": 0.524,
+      "exact_match_stderr,get-answer": 0.03164968895968782
+    },
+    "bbh_cot_fewshot_movie_recommendation": {
+      "alias": " - bbh_cot_fewshot_movie_recommendation",
+      "exact_match,get-answer": 0.664,
+      "exact_match_stderr,get-answer": 0.029933259094191516
+    },
+    "bbh_cot_fewshot_multistep_arithmetic_two": {
+      "alias": " - bbh_cot_fewshot_multistep_arithmetic_two",
+      "exact_match,get-answer": 0.0,
+      "exact_match_stderr,get-answer": 0.0
+    },
+    "bbh_cot_fewshot_navigate": {
+      "alias": " - bbh_cot_fewshot_navigate",
+      "exact_match,get-answer": 0.5,
+      "exact_match_stderr,get-answer": 0.031686212526223896
+    },
+    "bbh_cot_fewshot_object_counting": {
+      "alias": " - bbh_cot_fewshot_object_counting",
+      "exact_match,get-answer": 0.372,
+      "exact_match_stderr,get-answer": 0.030630325944558313
+    },
+    "bbh_cot_fewshot_penguins_in_a_table": {
+      "alias": " - bbh_cot_fewshot_penguins_in_a_table",
+      "exact_match,get-answer": 0.3493150684931507,
+      "exact_match_stderr,get-answer": 0.03959223638776496
+    },
+    "bbh_cot_fewshot_reasoning_about_colored_objects": {
+      "alias": " - bbh_cot_fewshot_reasoning_about_colored_objects",
+      "exact_match,get-answer": 0.48,
+      "exact_match_stderr,get-answer": 0.031660853408495185
+    },
+    "bbh_cot_fewshot_ruin_names": {
+      "alias": " - bbh_cot_fewshot_ruin_names",
+      "exact_match,get-answer": 0.38,
+      "exact_match_stderr,get-answer": 0.030760116042626046
+    },
+    "bbh_cot_fewshot_salient_translation_error_detection": {
+      "alias": " - bbh_cot_fewshot_salient_translation_error_detection",
+      "exact_match,get-answer": 0.26,
+      "exact_match_stderr,get-answer": 0.027797315752644308
+    },
+    "bbh_cot_fewshot_snarks": {
+      "alias": " - bbh_cot_fewshot_snarks",
+      "exact_match,get-answer": 0.5393258426966292,
+      "exact_match_stderr,get-answer": 0.0374658773638787
+    },
+    "bbh_cot_fewshot_sports_understanding": {
+      "alias": " - bbh_cot_fewshot_sports_understanding",
+      "exact_match,get-answer": 0.824,
+      "exact_match_stderr,get-answer": 0.024133497525457123
+    },
+    "bbh_cot_fewshot_temporal_sequences": {
+      "alias": " - bbh_cot_fewshot_temporal_sequences",
+      "exact_match,get-answer": 0.14,
+      "exact_match_stderr,get-answer": 0.02198940964524027
+    },
+    "bbh_cot_fewshot_tracking_shuffled_objects_five_objects": {
+      "alias": " - bbh_cot_fewshot_tracking_shuffled_objects_five_objects",
+      "exact_match,get-answer": 0.124,
+      "exact_match_stderr,get-answer": 0.02088638225867326
+    },
+    "bbh_cot_fewshot_tracking_shuffled_objects_seven_objects": {
+      "alias": " - bbh_cot_fewshot_tracking_shuffled_objects_seven_objects",
+      "exact_match,get-answer": 0.116,
+      "exact_match_stderr,get-answer": 0.02029342980308385
+    },
+    "bbh_cot_fewshot_tracking_shuffled_objects_three_objects": {
+      "alias": " - bbh_cot_fewshot_tracking_shuffled_objects_three_objects",
+      "exact_match,get-answer": 0.3,
+      "exact_match_stderr,get-answer": 0.029040893477575845
+    },
+    "bbh_cot_fewshot_web_of_lies": {
+      "alias": " - bbh_cot_fewshot_web_of_lies",
+      "exact_match,get-answer": 0.592,
+      "exact_match_stderr,get-answer": 0.03114520984654851
+    },
+    "bbh_cot_fewshot_word_sorting": {
+      "alias": " - bbh_cot_fewshot_word_sorting",
+      "exact_match,get-answer": 0.06,
+      "exact_match_stderr,get-answer": 0.015050117079158749
+    }
+  }
+}
