@@ -1302,5 +1302,44 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "tsds_bbh_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/tsds_bbh_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "tsds_mmlu_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/tsds_mmlu_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "tsds_tydiqa_selected": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/tsds_tydiqa_selected.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
