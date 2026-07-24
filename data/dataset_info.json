@@ -3798,5 +3798,70 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "moment_a0.0_stem80_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/moment_a0.0_stem80_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "moment_a0.25_stem80_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/moment_a0.25_stem80_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "moment_a0.5_stem80_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/moment_a0.5_stem80_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "moment_a0.75_stem80_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/moment_a0.75_stem80_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "moment_a1.0_stem80_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/moment_a1.0_stem80_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
