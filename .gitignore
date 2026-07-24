@@ -13,3 +13,4 @@ data/less_train_all.jsonl
 data/less_warmup_5pct.jsonl
 data/less_warmup_5pct_indices.npy
 *.npy
+data/less_warmup_5pct_seed*.jsonl

@@ -1,0 +1,19 @@
+{
+  "method": "nice",
+  "pipeline": "transformers-4.50",
+  "bbh_aggregate": 0.383,
+  "bbh_macro_27": 0.3849,
+  "mmlu_5shot_acc": 0.4547,
+  "tydiqa_macro_f1": 0.572,
+  "tydiqa_macro_em": 0.3967,
+  "candidate_grads": "reused less_output adam TRAK-8192",
+  "mc": 16,
+  "temperature": 1.0,
+  "reward": "task-metric (mmlu letter-EM / bbh CoT-EM / tydiqa F1)",
+  "nice_vs_less_adam_bbh_overlap": 0.018,
+  "signal_coverage": {
+    "mmlu": "266/285",
+    "bbh": "77/100",
+    "tydiqa": "8/9"
+  }
+}

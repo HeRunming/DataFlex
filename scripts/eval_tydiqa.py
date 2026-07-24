@@ -28,7 +28,7 @@ LANGS = ["arabic", "russian", "bengali", "telugu", "finnish",
 
 # 1-shot demonstrations: one (context, question, answer) per language taken from
 # data/tydiqa_target.jsonl (the same 1-shot examples LESS uses as the target set).
-DEMO_PATH = "/jizhicfs/karonhe/DataFlex/data/tydiqa_target.jsonl"
+DEMO_PATH = "/jizhicfs/karonhe/DataFlex_fa/data/tydiqa_target.jsonl"
 
 
 # ---------- SQuAD F1 / EM (official-style) ----------
