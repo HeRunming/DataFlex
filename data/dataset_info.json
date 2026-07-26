@@ -3863,5 +3863,31 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "lmoment_l0.02_stem80_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/lmoment_l0.02_stem80_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "lmoment_l0.07_stem80_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/lmoment_l0.07_stem80_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
