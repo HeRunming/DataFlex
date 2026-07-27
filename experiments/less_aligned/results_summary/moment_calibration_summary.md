@@ -9,9 +9,10 @@ Moment kernel on L2-normalized projected gradients:
 
 Diagnostic (`diag_moment_components.py`): the first-order greedy marginal has ~14.5× the
 cross-candidate spread of the second-order one (σ_lin=0.00581 vs σ_quad=0.00040). So in
-`k_α`, any α>0 lets the first-order term hijack the ranking. This explains why the earlier
-`α∈{0,.25,.5,.75,1}` sweep never explored a balanced joint — every α>0 was already
-first-order-dominated.
+`k_α` the first-order term dominates the ranking well before α reaches the middle of [0,1].
+This explains why the earlier **coarse grid** `α∈{0.25,0.5,0.75,1}` never explored a balanced
+joint — every tested α>0 was already first-order-dominated. (A very small α need not be
+instantly dominated; the point is the tested grid was, not that any α>0 strictly is.)
 
 ## 2. Random-MMD normalization fixes the *level* but not the *marginal spread*
 
@@ -45,9 +46,11 @@ coefficient ratio (`select_moment_lambda.py`):
 | 0.10  | 0.15908 | 0.14595 | 0.486          | 0.826         | 2463     |
 | 0.20  | 0.15780 | 0.14612 | 0.452          | 0.886         | 2465     |
 
-λ interpolates **smoothly** (unlike β). Every interior λ is a Pareto improvement in selection
-geometry: D1 falls, D2 nearly flat (≤0.4%), eff_rank rises. Two training candidates:
-λ=0.02 (GradCov-preserving) and λ=0.07 (marginal-balanced).
+λ interpolates **smoothly** (unlike β). Increasing λ traces a smooth trade-off rather than a
+strict Pareto improvement: it substantially reduces D1, incurs only a small increase in D2, and
+generally raises effective rank for λ≥0.02 (note eff_rank actually *dips* at λ=0.005, 0.01:
+2398→2380→2385, so it is not monotone and not a Pareto improvement everywhere). Two training
+candidates: λ=0.02 (GradCov-preserving) and λ=0.07 (marginal-balanced).
 
 ## 4. Phase-2 downstream (single seed 42)
 
