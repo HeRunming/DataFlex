@@ -63,7 +63,8 @@ candidates: λ=0.02 (GradCov-preserving) and λ=0.07 (marginal-balanced).
 
 **Monotone ladder**: balanced accuracy falls monotonically with first-order weight
 (0.411 > 0.402 > 0.393 > 0.385); STEM and Humanities degrade together (not a minority tradeoff).
-Notably the selection-geometry Pareto improvement did **not** translate downstream.
+Notably the favorable first-moment/second-moment trade-off in the selection diagnostics did
+**not** translate into better downstream performance.
 
 Careful statement (single realization; do not overclaim): *Adding a signed first-moment
 component improves the measured first-moment discrepancy (D1) while preserving the aggregate
@@ -102,7 +103,8 @@ Headline → **Directional Second-Moment Coresets** (candidate names DSMC / GDMC
 "GradCov" is a misnomer since gradients are per-sample L2-normalized, so it matches
 M_P = E_{u~P}[u uᵀ] with u = Πg/‖Πg‖, not raw covariance).
 
-Immediate: slim **T_hum80 mirror** — {λ=0, λ=0.02, linear} × paired seeds {42,1,2}, re-selected
+Immediate: slim **T_hum80 mirror** — GradCov (λ=0) and joint (λ=0.02) × seeds {42,1,2}, plus
+linear (α=1) × seed 42 only (7 SFT; add linear seeds 1,2 only if it lands near GradCov), re-selected
 via the SAME offline greedy (the existing hum80 GradCov used the online selector → different
 code path → not an exact-config reuse). Tests skew-direction invariance:
   - GradCov ≥ λ=.02 > linear on hum80 too → close the joint branch with confidence;

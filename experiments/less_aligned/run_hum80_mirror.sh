@@ -26,19 +26,27 @@ mkdir -p $EVAL/skew $LOGD $SUB
 log(){ echo "[$(date +%m-%d_%H:%M:%S)] $*"; }
 trap 'log "[FATAL] line=$LINENO command=$BASH_COMMAND"' ERR
 
-# fail-fast selection wrapper: run, then require a well-formed step_1.json
-run_selection(){
-  local name=$1 out=$2; shift 2
-  if [[ -s "$out/step_1.json" ]]; then log "[skip select] $name"; return; fi
-  log "SELECT $name"
-  if ! "$@" > "$LOGD/sel_${name}.log" 2>&1; then log "[FAIL select] $name (see sel_${name}.log)"; exit 1; fi
-  $PY - "$out/step_1.json" "$K" <<'PYV'
+# validate a step_1.json: count, uniqueness, index range. Runs on BOTH fresh and skip paths so
+# a resumed run (selection ok, later stage failed) still re-checks the cached selection.
+validate_selection(){
+  $PY - "$1" "$K" <<'PYV'
 import json,sys
 d=json.load(open(sys.argv[1])); K=int(sys.argv[2]); idx=d["indices"]
 assert len(idx)==K, f"{len(idx)}!={K}"
 assert len(set(idx))==K, "duplicate indices"
 assert min(idx)>=0 and max(idx)<270679, "index out of candidate range"
 PYV
+}
+# fail-fast selection wrapper: run (or skip), then require a well-formed step_1.json either way
+run_selection(){
+  local name=$1 out=$2; shift 2
+  if [[ -s "$out/step_1.json" ]]; then
+    if ! validate_selection "$out/step_1.json"; then log "[FAIL select] $name (stale/invalid cache)"; exit 1; fi
+    log "[skip select, validated] $name"; return
+  fi
+  log "SELECT $name"
+  if ! "$@" > "$LOGD/sel_${name}.log" 2>&1; then log "[FAIL select] $name (see sel_${name}.log)"; exit 1; fi
+  if ! validate_selection "$out/step_1.json"; then log "[FAIL select] $name (invalid output)"; exit 1; fi
   log "[done select] $name"
 }
 
@@ -52,6 +60,30 @@ run_selection joint002 $SAVES/hmoment_l0.02_hum80_output \
 run_selection linear $SAVES/hmoment_linear_hum80_output \
   $PY scripts/select_moment_mmd.py --train_grads $CANDGRAD --target_grads $TGT \
   --out_cache_dir $SAVES/hmoment_linear_hum80_output --num_select $K --alpha 1.0
+
+# ---- 1b. reproducibility manifest (full hashes, shapes, protocol) ----
+CKPT=$SAVES/sft_results/warmup_seed42/checkpoint-1692
+$PY - "$CANDGRAD" "$TGT" "$CKPT" "$K" <<'PYM'
+import json,sys,hashlib,os,torch
+cg,tg,ckpt,K=sys.argv[1],sys.argv[2],sys.argv[3],int(sys.argv[4])
+def sh(p):
+    h=hashlib.sha256()
+    with open(p,"rb") as f:
+        for b in iter(lambda:f.read(1<<20),b""): h.update(b)
+    return h.hexdigest()
+c=torch.load(cg,map_location="cpu"); t=torch.load(tg,map_location="cpu")
+man={"git_commit":os.popen("git rev-parse --short HEAD").read().strip(),
+     "candidate_grad_path":cg,"target_grad_path":tg,
+     "candidate_shape":list(c.shape),"target_shape":list(t.shape),
+     "adapter_sha256":sh(f"{ckpt}/adapter_model.safetensors"),
+     "optimizer_sha256":sh(f"{ckpt}/optimizer.pt"),
+     "selection_budget":K,"protocol":"candidate_adam_target_sgd",
+     "points":{"gradcov":"select_moment_mmd --alpha 0.0","joint002":"select_moment_lambda --lam 0.02",
+               "linear":"select_moment_mmd --alpha 1.0"}}
+out="/jizhicfs/karonhe/dataflex_saves/eval_results/skew/hum80_mirror_manifest.json"
+json.dump(man,open(out,"w"),indent=2); print("manifest ->",out); print(json.dumps(man,indent=2))
+PYM
+log "manifest written"
 
 # ---- 2. export + register subsets (fail-fast; validate 13533 unique rows) ----
 $PY - "$K" <<'PYEOF'
@@ -117,11 +149,12 @@ run_eval(){
 for s in 42 1 2; do run_eval gradcov $s; port=$((port+1)); run_eval joint002 $s; port=$((port+1)); done
 run_eval linear 42; port=$((port+1))
 
-# ---- 5. completeness check + CSV (do not trust the COMPLETE log line) ----
-expected=7
-actual=$(find "$EVAL/skew" -path "*_hum80_seed*" -name "results_*.json" 2>/dev/null | \
-         grep -E "/(gradcov|joint002|linear)_hum80_seed(42|1|2)/" | wc -l)
-if [[ "$actual" -ne "$expected" ]]; then log "[FATAL] expected $expected eval outputs, found $actual"; exit 1; fi
+# ---- 5. completeness check (per expected run, not a total count) + CSV ----
+for spec in gradcov:42 gradcov:1 gradcov:2 joint002:42 joint002:1 joint002:2 linear:42; do
+  nm=${spec%%:*}; sd=${spec##*:}; od="$EVAL/skew/${nm}_hum80_seed${sd}"
+  c=$(find "$od" -name "results_*.json" 2>/dev/null | wc -l)
+  if [[ "$c" -lt 1 ]]; then log "[FATAL] no eval result for $nm seed=$sd"; exit 1; fi
+done
 $PY - <<'PYS'
 import json,glob,os
 rows=[("gradcov",42),("gradcov",1),("gradcov",2),("joint002",42),("joint002",1),("joint002",2),("linear",42)]
