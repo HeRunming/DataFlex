@@ -68,15 +68,61 @@ second-moment discrepancy (D2), yet is associated with lower downstream accuracy
 regime.* D2 being "≈unchanged" does not mean all second-order structure is controlled — the two
 subsets still differ in ~28% of samples.
 
-## 5. Status / next
+## 5. Paired-seed confirmation (choice_0726.md) — pivot confirmed
 
-Per choice_0726.md: running **paired-seed confirmation** (seeds 1,2 for GradCov λ=0 vs best
-joint λ=0.02, fixed subsets, vary only SFT seed) → `run_moment_lambda_seeds.sh`. If all three
-paired diffs (s∈{42,1,2}) are negative, pivot the headline to **Directional Second-Moment
-Coresets for Robust Targeted Instruction Tuning**, with Moment-MMD retained as the unifying
-framework + fully-diagnosed negative ablation. Then a slim `T_hum80` mirror (λ=0, 0.02, linear)
-for direction-invariance, and refocus compute on 2nd-order external validity (target draws,
-budgets, selector/representation decoupling) rather than further λ tuning.
+GradCov (λ=0) vs best joint (λ=0.02), **fixed** seed-42 selected subsets, vary only the SFT
+seed ∈ {42,1,2}. `run_moment_lambda_seeds.sh`.
+
+| seed | GradCov bal | joint λ=0.02 bal | Δ = joint − GradCov |
+|------|-------------|------------------|---------------------|
+| 42   | 0.4110      | 0.4017           | −0.93 pt            |
+| 1    | 0.4092      | 0.4015           | −0.77 pt            |
+| 2    | 0.4057      | 0.4051           | −0.07 pt            |
+| mean | 0.4086      | 0.4028           | **−0.59 pt**        |
+
+All three paired diffs are negative; the joint never outperforms GradCov. **But seed 2 is
+essentially a tie** (−0.07) and n=3 is small (sd of diffs ≈0.46 pt, se ≈0.26 pt), so a
+conventional CI still covers zero. Defensible claim (NOT stronger):
+
+> Pure directional second-moment is at least as strong as the best calibrated joint on average,
+> and the joint never outperforms it across three paired seeds in this target regime.
+
+Do NOT claim "first-order info is necessarily harmful", "any nonzero λ strictly hurts",
+"second-order is significantly better", or "airtight". This result is enough to **stop a
+low-return branch** (freeze λ=0 as default), not to carry the paper's main statistical evidence.
+
+## 6. Decision & next (per review_0727.md)
+
+**Pivot confirmed. Freeze λ_default = 0. No further λ sweeps or new static normalizations.**
+
+Headline → **Directional Second-Moment Coresets** (candidate names DSMC / GDMC / DM-MMD;
+"GradCov" is a misnomer since gradients are per-sample L2-normalized, so it matches
+M_P = E_{u~P}[u uᵀ] with u = Πg/‖Πg‖, not raw covariance).
+
+Immediate: slim **T_hum80 mirror** — {λ=0, λ=0.02, linear} × paired seeds {42,1,2}, re-selected
+via the SAME offline greedy (the existing hum80 GradCov used the online selector → different
+code path → not an exact-config reuse). Tests skew-direction invariance:
+  - GradCov ≥ λ=.02 > linear on hum80 too → close the joint branch with confidence;
+  - joint clearly wins on hum80 → value of 1st-order is target-geometry-dependent (conditional method);
+  - GradCov ≈ joint → "joint does not stably improve the endpoint" (not "1st-order harmful").
+
+Then shift compute to **second-order external validity** (NOT more Moment-MMD tuning):
+  - Statistical unit = independent **target draws**, not just SFT seeds. Min design: 2 skew
+    directions × 5 draws × 1 shared seed; methods = DSMC, LESS, NICE, Random, gradient RR, GIST;
+    then +2 seeds on one representative draw per direction for training variance.
+  - **Representation × selector 2×2 decoupling**: {signed 1st-order, 2nd-order (uᵀv)²} ×
+    {relevance/round-robin, MMD coreset} + ablations (target-subspace scoring, 2nd-order top-k,
+    2nd-order MMD w/o repulsion) — to attribute gains to representation vs MMD diversity.
+  - Keep Random + token-matched Random; validate a lower (1%) budget.
+  - **GIST (arXiv 2602.18584)** is the must-address related work (target subspace via SVD +
+    alignment scoring). Differentiator: we match the 2nd moment of unit gradient *directions* and
+    control target coverage + candidate redundancy jointly via a coreset objective. Add mechanism
+    contrasts: subspace-recovery error ‖P̂_S − P̂_T‖_F / principal angles, and skew stability
+    (selected-set Jaccard, subspace variance, eff_rank, downstream variance across target draws).
+
+Moment-MMD stays in the paper as the unifying family k_λ(u,v)=(uᵀv)²+λ(1+uᵀv)/2 with the
+one-line result "the 2nd-order endpoint is consistently ≥ the best calibrated joint on the
+studied skewed target"; the full scale diagnosis / Jaccard / D1,D2 / sweep go to the appendix.
 
 Scripts: `select_moment_normalized.py`, `select_moment_lambda.py`, `diag_moment_normalized.py`,
 `diag_moment_lambda.py`, `diag_moment_components.py`, `run_moment_lambda.sh`,
