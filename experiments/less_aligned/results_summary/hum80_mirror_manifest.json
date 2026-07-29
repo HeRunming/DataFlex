@@ -1,0 +1,22 @@
+{
+  "git_commit": "809593d",
+  "candidate_grad_path": "/jizhicfs/karonhe/dataflex_saves/less_output/train/1/all_projected_grads.pt",
+  "target_grad_path": "/jizhicfs/karonhe/dataflex_saves/mmd_grad_cov_adam_hum80_output/target/1/all_projected_grads.pt",
+  "candidate_shape": [
+    270679,
+    8192
+  ],
+  "target_shape": [
+    80,
+    8192
+  ],
+  "adapter_sha256": "44d9c580ca18583a4498dd7c3b5bad4094144e02b3ee83a86509e7d88beb2fdc",
+  "optimizer_sha256": "10a0169e7c5843aafdb4e3089b6e8ae1dab882c6b6e1af0cfedd5d97c9c31a25",
+  "selection_budget": 13533,
+  "protocol": "candidate_adam_target_sgd",
+  "points": {
+    "gradcov": "select_moment_mmd --alpha 0.0",
+    "joint002": "select_moment_lambda --lam 0.02",
+    "linear": "select_moment_mmd --alpha 1.0"
+  }
+}

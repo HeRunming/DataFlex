@@ -95,7 +95,34 @@ Do NOT claim "first-order info is necessarily harmful", "any nonzero λ strictly
 "second-order is significantly better", or "airtight". This result is enough to **stop a
 low-return branch** (freeze λ=0 as default), not to carry the paper's main statistical evidence.
 
-## 6. Decision & next (per review_0727.md)
+## 6. T_hum80 mirror (skew-direction invariance) — joint branch closed
+
+Same offline greedy code paths as stem80; GradCov (λ=0) & joint (λ=0.02) × seeds {42,1,2},
+linear (α=1) × seed 42. Provenance manifest: `eval_results/skew/hum80_mirror_manifest.json`
+(candidate+target both from warmup_seed42/ckpt-1692, adapter sha256 44d9c58…, optimizer 10a0169…).
+`run_hum80_mirror.sh` → `hum80_mirror_results.csv`.
+
+| method       | seed 42 | seed 1 | seed 2 | mean balanced |
+|--------------|---------|--------|--------|---------------|
+| GradCov (λ=0)| 0.4054  | 0.4074 | 0.4080 | **0.4069**    |
+| joint λ=0.02 | 0.4028  | 0.4012 | 0.4007 | **0.4016**    |
+| linear (α=1) | 0.3824  | —      | —      | 0.3824        |
+
+Paired Δ (joint − GradCov) by seed: −0.26 / −0.62 / −0.73 pt, **mean −0.54, all three negative**.
+Linear is −2.30 pt vs GradCov (seed 42). The ordering is **identical to stem80**:
+
+| target  | GradCov | joint λ=0.02 | linear | mean Δ (joint−GC) |
+|---------|---------|--------------|--------|-------------------|
+| stem80  | 0.4086  | 0.4028       | 0.3847 | −0.59 pt          |
+| hum80   | 0.4069  | 0.4016       | 0.3824 | −0.54 pt          |
+
+**Conclusion**: pure directional second-moment ≥ the best calibrated joint > linear under **both**
+skew directions — the earlier stem80 result is **not a STEM-target artifact**. The joint branch is
+closed. Careful wording still holds (n=3 per direction, small effect): "the joint does not stably
+improve on the second-order endpoint across two skew directions", not "first-order is harmful".
+(Note: on hum80 the joint's loss is monotone across seeds too — no tie this time, unlike stem80 seed 2.)
+
+## 7. Decision & next (per review_0727.md)
 
 **Pivot confirmed. Freeze λ_default = 0. No further λ sweeps or new static normalizations.**
 
