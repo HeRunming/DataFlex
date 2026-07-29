@@ -1,5 +1,6 @@
 {
-  "git_commit": "809593d",
+  "run_git_commit": "809593d",
+  "results_commit": "286f44d",
   "candidate_grad_path": "/jizhicfs/karonhe/dataflex_saves/less_output/train/1/all_projected_grads.pt",
   "target_grad_path": "/jizhicfs/karonhe/dataflex_saves/mmd_grad_cov_adam_hum80_output/target/1/all_projected_grads.pt",
   "candidate_shape": [

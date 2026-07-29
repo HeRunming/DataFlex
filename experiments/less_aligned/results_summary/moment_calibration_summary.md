@@ -109,18 +109,25 @@ linear (α=1) × seed 42. Provenance manifest: `eval_results/skew/hum80_mirror_m
 | linear (α=1) | 0.3824  | —      | —      | 0.3824        |
 
 Paired Δ (joint − GradCov) by seed: −0.26 / −0.62 / −0.73 pt, **mean −0.54, all three negative**.
-Linear is −2.30 pt vs GradCov (seed 42). The ordering is **identical to stem80**:
+Linear is −2.30 pt vs GradCov (seed 42). The **balanced-aggregate** ordering matches stem80:
 
 | target  | GradCov | joint λ=0.02 | linear | mean Δ (joint−GC) |
 |---------|---------|--------------|--------|-------------------|
 | stem80  | 0.4086  | 0.4028       | 0.3847 | −0.59 pt          |
 | hum80   | 0.4069  | 0.4016       | 0.3824 | −0.54 pt          |
 
-**Conclusion**: pure directional second-moment ≥ the best calibrated joint > linear under **both**
-skew directions — the earlier stem80 result is **not a STEM-target artifact**. The joint branch is
-closed. Careful wording still holds (n=3 per direction, small effect): "the joint does not stably
-improve on the second-order endpoint across two skew directions", not "first-order is harmful".
-(Note: on hum80 the joint's loss is monotone across seeds too — no tie this time, unlike stem80 seed 2.)
+The result also survives the **target-weighted** metric (matching the actual 80/20 skew, so the
+conclusion is not an artifact of the balanced metric): stem80 (0.8·STEM+0.2·HUM) GradCov 0.3974 vs
+joint 0.3896; hum80 (0.2·STEM+0.8·HUM) GradCov 0.4198 vs joint 0.4124 (−0.74 pt). Both metrics
+agree in both directions.
+
+**Conclusion**: DSMC (pure directional second-moment) achieves the **best balanced aggregate under
+both skew directions**, with linear well behind — so the stem80 result is **not a STEM-target
+artifact**. Careful scope (n=3 per direction, ~0.5 pt effect): "the calibrated joint does not
+stably improve on the second-order endpoint across two skew directions", **not** "DSMC dominates
+the joint on every subdomain/seed" (it does not — e.g. hum80 seed 42 the joint's STEM subscore
+0.3853 > GradCov 0.3809; the joint just loses more on Humanities). And **not** "first-order is
+harmful" in general.
 
 ## 7. Decision & next (per review_0727.md)
 

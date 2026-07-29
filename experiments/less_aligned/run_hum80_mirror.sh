@@ -72,7 +72,8 @@ def sh(p):
         for b in iter(lambda:f.read(1<<20),b""): h.update(b)
     return h.hexdigest()
 c=torch.load(cg,map_location="cpu"); t=torch.load(tg,map_location="cpu")
-man={"git_commit":os.popen("git rev-parse --short HEAD").read().strip(),
+man={"run_git_commit":os.popen("git rev-parse --short HEAD").read().strip(),
+     "results_commit":None,  # filled in by the commit that adds the results (see summary)
      "candidate_grad_path":cg,"target_grad_path":tg,
      "candidate_shape":list(c.shape),"target_shape":list(t.shape),
      "adapter_sha256":sh(f"{ckpt}/adapter_model.safetensors"),
