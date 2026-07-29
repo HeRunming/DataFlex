@@ -88,9 +88,9 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
 ## 7. Scope / sequencing (from review_0729)
 
 1. **(prereq) rep×selector 2×2 attribution gate** on the existing fixed stem80/hum80 — running
-   now (`run_attribution_2x2.sh`). If Second-RR ≥ DSMC, revisit the method before this protocol.
+   now (`run_attribution_2x2.sh`). If Second-TopK ≥ DSMC, revisit the method before this protocol.
 2. **This protocol → pilot**: 2 directions × **2 draws** × 6 methods = 24 SFT
-   (DSMC, Second-RR, LESS, GIST, NICE, token-matched Random). Validate pipeline + attribution.
+   (DSMC, Second-TopK, LESS, GIST, NICE, token-matched Random). Validate pipeline + attribution.
 3. Expand to **5 draws/direction** only after the pilot is clean.
 4. One representative draw per direction → **+3 paired training seeds** for training variance.
 5. **Later axes** (separate, not now): target size n_T ∈ {16,64,128}, budget K ∈ {1%,5%}, keeping
@@ -103,4 +103,9 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
   engineering cost of the pilot.
 - **token-matched Random**: Random subset matched to DSMC's selected token count (not just example
   count); the review prefers this over plain Random as the primary random baseline.
-- **Second-RR** as a pilot method comes free from the 2×2 selector just built.
+- **Second-TopK** as a pilot method comes free from the 2×2 selector just built (relevance
+  top-k on the 2nd-order representation). NOTE it is top-k, not greedy round-robin.
+- **True round-robin (First-RR / Second-RR)**: the 2026 systematic study's RR selects, per query,
+  the nearest unpicked candidate and cycles over queries; it is often strong at low budget. This
+  is a *separate* selector still to be implemented for the external-validity phase — Second-TopK
+  does not stand in for it.

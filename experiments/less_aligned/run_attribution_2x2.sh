@@ -5,11 +5,13 @@
 # Existing cells (reuse, do NOT retrain):
 #   1st × MMD  = Linear-MMD : stem80 moment_a1.0_stem80 ; hum80 linear_hum80_seed42
 #   2nd × MMD  = DSMC       : stem80 moment_a0.0_stem80 ; hum80 gradcov_hum80_seed42
-# NEW cells (this script) = the relevance/top-k column:
-#   1st × RR   = First-RR   : select_relevance_topk --order first
-#   2nd × RR   = Second-RR  : select_relevance_topk --order second
+# NEW cells (this script) = the relevance top-k column (NOT round-robin; code_review_0729):
+#   1st × TopK = First-TopK   : select_relevance_topk --order first
+#   2nd × TopK = Second-TopK  : select_relevance_topk --order second
 # => 4 selections + 4 SFT + 4 eval, seed 42. Decides attribution (representation vs diversity)
 #    BEFORE any target-draw matrix. Same offline caches / warmup provenance as the mirror.
+#    (cache dir / dataset keys keep firstrr/secondrr names; only the CSV labels say TopK.)
+#    A true greedy round-robin selector is deferred to the external-validity phase.
 set -Eeuo pipefail
 ENVBIN=/jizhicfs/karonhe/envs/dataflex-fa/bin; PY=$ENVBIN/python
 SAVES=/jizhicfs/karonhe/dataflex_saves
@@ -122,20 +124,22 @@ def bal(name):
     if not fs: return None
     r=json.load(open(sorted(fs)[-1]))["results"]; s=acc(r,"mmlu_stem"); h=acc(r,"mmlu_humanities")
     return s,h,(s+h)/2
-# 2x2 cells per direction: (representation, selector) -> eval dir name
+# 2x2 cells per direction: (representation, selector) -> eval dir name.
+# NB cache dirs keep the firstrr/secondrr filenames (already written), but the cells are
+# relevance TOP-K not round-robin (code_review_0729) -> labelled First-TopK / Second-TopK.
 cells={
- "stem80":{"1st-RR":"firstrr_stem80_seed42","1st-MMD":"moment_a1.0_stem80",
-           "2nd-RR":"secondrr_stem80_seed42","2nd-MMD(DSMC)":"moment_a0.0_stem80"},
- "hum80":{"1st-RR":"firstrr_hum80_seed42","1st-MMD":"linear_hum80_seed42",
-          "2nd-RR":"secondrr_hum80_seed42","2nd-MMD(DSMC)":"gradcov_hum80_seed42"},
+ "stem80":{"1st-TopK":"firstrr_stem80_seed42","1st-MMD(Linear)":"moment_a1.0_stem80",
+           "2nd-TopK":"secondrr_stem80_seed42","2nd-MMD(DSMC)":"moment_a0.0_stem80"},
+ "hum80":{"1st-TopK":"firstrr_hum80_seed42","1st-MMD(Linear)":"linear_hum80_seed42",
+          "2nd-TopK":"secondrr_hum80_seed42","2nd-MMD(DSMC)":"gradcov_hum80_seed42"},
 }
 out="/jizhicfs/karonhe/dataflex_saves/eval_results/skew/attribution_2x2_results.csv"
 lines=["target,cell,representation,selector,stem,hum,balanced"]
 for t,d in cells.items():
     for cell,name in d.items():
         v=bal(name)
-        if not v: lines.append(f"{t},{cell},,,NA,NA,NA"); continue
-        rep="2nd" if cell.startswith("2nd") else "1st"; selr="MMD" if "MMD" in cell else "RR"
+        rep="2nd" if cell.startswith("2nd") else "1st"; selr="MMD" if "MMD" in cell else "TopK"
+        if not v: lines.append(f"{t},{cell},{rep},{selr},NA,NA,NA"); continue
         lines.append(f"{t},{cell},{rep},{selr},{v[0]:.4f},{v[1]:.4f},{v[2]:.4f}")
 open(out,"w").write("\n".join(lines)+"\n"); print("wrote",out); print("\n".join(lines))
 PYS

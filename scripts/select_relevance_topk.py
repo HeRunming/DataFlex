@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 """
 Relevance top-k selection (no coreset repulsion) — the selector-axis control for the
-representation×selector 2x2 attribution gate (review_0729).
+representation×selector 2x2 attribution gate (review_0729 / code_review_0729).
 
 MMD-coreset selectors (select_moment_mmd.py) add a repulsion/diversity term via the greedy
 marginal  score = r_T(x) - (r_S(x)+k(x,x)/2)/(|S|+1). This script keeps ONLY the target-
 relevance term r_T(x) and takes the top-K — i.e. the SAME representation, selector stripped of
-diversity. Contrast (DSMC vs Second-RR) isolates how much of DSMC's effect is the 2nd-order
+diversity. Contrast (DSMC vs Second-TopK) isolates how much of DSMC's effect is the 2nd-order
 representation vs the MMD diversity.
 
-  --order first : r_T(x) = mean_t k_lin(x,t) = (1 + <x, mu_T>)/2   (monotone in <x,mu_T>)
-                  -> top-k by <x,mu_T>  == LESS-like first-order relevance ("First-RR").
-  --order second: r_T(x) = mean_t k_quad(x,t) = x^T M_T x , M_T = E_t[t t^T]
-                  -> top-k by x^T M_T x  ("Second-RR").
+  --order first : r_T(x) = mean_t k_lin(x,t) = (1 + <x, mu_T>)/2   (monotone in mean_t <x,t>)
+                  -> top-k by mean_t <x,t>  == LESS-like first-order relevance ("First-TopK").
+  --order second: r_T(x) = mean_t k_quad(x,t) = mean_t <x,t>^2 = x^T M_T x , M_T = E_t[t t^T]
+                  -> top-k by mean_t <x,t>^2  ("Second-TopK").
 
-Unit-normalized projected gradients, same caches/guards as select_moment_mmd.py. Top-k has no
-sequential state so there is no round-robin ordering to tune; "RR" in the 2x2 table denotes the
-relevance/non-coreset cell, realized here as pure relevance top-k.
+NOTE (code_review_0729): this is relevance TOP-K, NOT greedy round-robin (RR selects, per query,
+the nearest unpicked candidate, cycling over queries). The 2x2 cells are therefore First-TopK /
+Second-TopK; a true First-RR/Second-RR is a separate selector for the external-validity phase.
+Unit-normalized projected gradients, same caches/guards as select_moment_mmd.py.
+
 """
 import argparse, json, os
 import numpy as np
@@ -41,6 +43,8 @@ def main():
     Tg = torch.load(args.target_grads, map_location="cpu").float().to(dev)
     if X.ndim != 2 or Tg.ndim != 2 or X.shape[1] != Tg.shape[1]:
         raise ValueError("bad cache shapes")
+    if X.shape[0] == 0 or Tg.shape[0] == 0:
+        raise ValueError("candidate and target caches must be non-empty")
     if not torch.isfinite(X).all() or not torch.isfinite(Tg).all():
         raise ValueError("cache has NaN/Inf")
     if (Tg.norm(dim=1) <= 1e-12).any():
@@ -54,12 +58,16 @@ def main():
         raise ValueError(f"budget {args.num_select} > valid {valid}")
     K = args.num_select
 
+    # Both orders via the M target inner-products (O(NDM)); avoids materializing the
+    # D×D moment matrix and the N×D product (O(ND^2), ~8.9GB at D=8192). Identity used:
+    #   x^T (1/M sum_t t t^T) x = (1/M) sum_t (x^T t)^2  = mean_t <x,t>^2
+    #   mean_t k_lin relevance is monotone in <x,mu_T> = mean_t <x,t>
+    XT = X @ Tg.T                              # (N, M), M small (~80)
     if args.order == "first":
-        muT = Tg.mean(0)                       # (D,)
-        rel = X @ muT                          # <x, mu_T>  (N,)
+        rel = XT.mean(1)                       # monotone in <x, mu_T>  -> First-TopK
     else:
-        MT = (Tg.T @ Tg) / M                   # (D,D)
-        rel = ((X @ MT) * X).sum(1)            # x^T M_T x  (N,)
+        rel = XT.square().mean(1)              # x^T M_T x = mean_t <x,t>^2  -> Second-TopK
+    del XT
     rel = torch.where(avail, rel, torch.tensor(float("-inf"), device=dev))
     sel = torch.topk(rel, K).indices
     selected = sel.tolist()
