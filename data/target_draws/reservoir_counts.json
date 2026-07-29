@@ -1,0 +1,9 @@
+{
+  "source": "hails/mmlu_no_train validation split (offline arrow cache)",
+  "subject_map": "Hendrycks STEM(19)/Humanities(13) as used by lm-eval mmlu_stem/mmlu_humanities",
+  "stem_total": 335,
+  "hum_total": 518,
+  "note": "n_T=80 rho=0.8 needs 64 maj+16 min per draw; 5 disjoint draws/direction feasible (stem80 uses 320/335 STEM).",
+  "stem_per_subject": {"elementary_mathematics":41,"high_school_biology":32,"high_school_mathematics":29,"conceptual_physics":26,"high_school_statistics":23,"high_school_chemistry":22,"high_school_physics":17,"astronomy":16,"college_biology":16,"electrical_engineering":16,"anatomy":14,"abstract_algebra":11,"college_computer_science":11,"college_mathematics":11,"college_physics":11,"computer_security":11,"machine_learning":11,"high_school_computer_science":9,"college_chemistry":8},
+  "hum_per_subject": {"professional_law":170,"moral_scenarios":100,"moral_disputes":38,"prehistory":35,"philosophy":34,"high_school_world_history":26,"high_school_us_history":22,"world_religions":19,"high_school_european_history":18,"logical_fallacies":18,"formal_logic":14,"international_law":13,"jurisprudence":11}
+}
