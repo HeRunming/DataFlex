@@ -1,6 +1,8 @@
-# Preregistered target-draw protocol (review_0729)
+# Preregistered target-draw protocol (review_0729 → code_review_0730/_2/_3)
 
-**Status: DRAFT for review — no gradients/selection/training run yet.**
+**Status: FROZEN (2026-07-30).** Sampling design, methods, seeds, metrics, and GIST rank rule are
+fixed. Next step is artifact generation only (10 draw JSON/meta + allocation + overlap matrices) for
+a data-level review; NO gradients/selection/SFT until those artifacts are approved.
 This defines how globally non-overlapping skewed target sets are sampled so that the statistical unit of the
 main DSMC evaluation is the *target draw*, not the training seed or the eval item.
 
@@ -73,14 +75,17 @@ examples may cap its achievable share — if so, document the deviation). Primar
 lm-eval micro-average; we additionally report a **subject-macro** robustness number (equal per
 subject) since sampling and metric are never perfectly matched.
 
-**Feasibility table generated** (`data/target_draws/subject_allocation_feasibility.json`): HUM is
-comfortable (need 320 ≤ val 518, all subjects feasible). **STEM is tight** (need 318 ≤ val 335) and
-**two subjects fall short** under strict micro-weight allocation: `college_chemistry` (need 10, val
-8) and `high_school_computer_science` (need 10, val 9). **Fallback (pre-registered)**: cap each
-short subject at its available validation count and redistribute the deficit proportionally to the
-remaining STEM subjects that still have slack; record the realized per-subject composition and the
-small deviation from exact micro weights in each draw's meta. This keeps all 10 draws globally
-disjoint while staying as close to P\* as the reservoir allows.
+**Joint allocation computed** (`scripts/allocate_target_subjects.py` →
+`data/target_draws/subject_allocation_plan.json`): a deterministic joint integer allocator assigns
+**exactly 320 STEM and 320 Humanities** slots across the ten 51/13 blocks — per-block
+largest-remainder rounding (exact block totals) followed by a deterministic cap-repair that moves
+units off over-cap subjects. All block totals (51/13) and reservoir caps are satisfied; the two
+tight STEM subjects `college_chemistry` (cap 8) and `high_school_computer_science` (cap 9) sit
+exactly at cap with the deficit absorbed by subjects that still have slack. The realized aggregate
+subject distribution deviates from the ideal micro-weighted distribution by column-TVD ≈ 0.017
+(STEM) / 0.046 (HUM). The allocator does not solve for a global optimum — it is a deterministic
+heuristic that keeps the deviation small. (The earlier per-subject `round(w·320)` table summed to
+318 and is superseded: `superseded_subject_allocation_feasibility.json`.)
 
 ## 4. Sampling procedure — JOINT generation, deterministic (revised per code_review_0730)
 
@@ -134,8 +139,8 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
 1. **(prereq) rep×selector 2×2 attribution gate** — DONE (`attribution_2x2_summary.md`). DSMC best
    in both directions; 2nd-order representation is the primary driver, MMD-diversity complementary
    (hypothesis). Gate passed → DSMC stays the headline.
-2. **This protocol → pilot** (LAUNCH ONLY AFTER: protocol approved+frozen AND GIST fidelity gate
-   resolved): 2 directions × **2 draws** × **8 method rows** (LESS and First-RR are distinct
+2. **This protocol → pilot** (LAUNCH ONLY AFTER the draw artifacts are generated and data-reviewed):
+   2 directions × **2 draws** × **8 method rows** (LESS and First-RR are distinct
    selectors — not collapsed into one parenthetical):
    1. DSMC
    2. true **Second-RR** (per-query nearest, cycling — NOT Second-TopK; that stays in the 2×2 ablation)
@@ -164,12 +169,12 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
   (top-k right singular vectors), so whitening ≡ plain top-k by construction; and at **k = M** target
   row-scaling is provably irrelevant (normalized-vs-rescaled Jaccard 1.0000 at k=M; <1 only k<M) —
   so re-extracting raw-target norms would not change selection at the official rank. **Rank rule =
-  fixed by a development gate on the OLD STEM80/HUM80** (choose one global rule ∈ {k=M, EVR95},
-  1 seed × 2 directions = 4 SFT, pick by mean balanced acc, then freeze — do NOT tune rank on the new
-  draws). Caveat: `target_dim=150` caps to k=min(150,M); at M=64 that is the full row span (no
-  spectral truncation), so the EVR95 (k<M) variant is the one that actually exercises GIST's spectral
-  filtering — hence the gate. `select_gist_jlnorm.py` (95%-EVR on normalized cache) is an appendix
-  ablation.
+  fixed at the official default `k = min(150, M) = M`** (no downstream selection). We do NOT run a
+  test-accuracy rank gate: the pilot reports on MMLU test, so choosing GIST's rank by test accuracy
+  would be test-set tuning while DSMC is frozen. `select_gist_jlnorm.py` (EVR95, k<M) is a
+  **predeclared sensitivity ablation**, not a test-selected alternative. Caveat: at M=64,
+  `k=min(150,64)=64` is the full row span (no spectral truncation) — a faithful consequence of the
+  official fixed `target_dim`, and the EVR95 ablation is what exercises GIST's spectral filtering.
 - **Random-K** (primary): uniformly sample exactly K=13,533 without replacement. **Random-subset
   seed varies by draw index** (e.g. 2000+d) so we capture random-selection variance; the STEM/HUM
   draws sharing a draw index reuse the same Random-K adapter (same training seed) → only **5**

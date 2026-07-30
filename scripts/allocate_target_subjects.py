@@ -9,7 +9,8 @@ deterministic JOINT integer allocation over the ten blocks of a domain:
 Constraints (per domain):
   * each block b sums EXACTLY to its size B_b (51 or 13)  -> domain total = 5*51+5*13 = 320 exactly
   * per-subject column sum <= validation reservoir count cap_s
-  * minimize deviation from the ideal B_b * w_s (w_s = lm-eval micro weight = test-doc proportion)
+  * deterministically keep deviation from the ideal B_b * w_s small (w_s = lm-eval micro weight =
+    test-doc proportion) — largest-remainder + greedy cap-repair, NOT a proven global optimum
 Algorithm: per-block largest-remainder rounding of B_b*w_s (exact row sums), then a deterministic
 repair pass that moves units, WITHIN a block, from over-cap subjects to the most under-ideal
 subject with remaining cap+room. Guaranteed to satisfy caps when sum_s cap_s >= 320 (STEM 335,
