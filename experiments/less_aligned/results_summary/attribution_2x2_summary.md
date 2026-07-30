@@ -28,24 +28,28 @@ DSMC is the best cell in **both** directions.
 | selector (MMD − TopK), representation = 1st | −1.30 | −1.07 |
 | selector (MMD − TopK), representation = 2nd | +0.42 | +0.62 |
 
-## Reading (matches code_review_0729's interpretation rules)
+## Reading (matches code_review_0729 / choice_0730 interpretation rules)
 
-1. **The representation is the primary driver.** Moving 1st→2nd helps under *both* selectors and
-   *both* directions (+0.6 to +2.6 pp). Second-order beats first-order everywhere.
-2. **MMD diversity helps only *on top of* the 2nd-order representation — there is a strong
-   interaction.** With 1st-order, adding MMD repulsion *hurts* (−1.30 / −1.07 pp: Linear-MMD is the
-   worst cell). With 2nd-order, adding MMD repulsion *helps* (+0.42 / +0.62 pp: DSMC > Second-TopK).
-   So MMD's diversity is only beneficial in the directional-second-moment space.
-3. **Second-TopK is close to DSMC but does not beat it** (0.4068 vs 0.4110; 0.3992 vs 0.4054). Per
-   the review's rule this means: keep DSMC as the headline (no need to switch the method to a
-   second-order relevance selector), and the contribution is **2nd-order representation + coreset
-   diversity**, not representation alone.
+1. **The representation is the primary driver (strong conclusion).** Moving 1st→2nd helps under
+   *both* selectors and *both* directions: +0.91/+0.61 pp (TopK) and +2.63/+2.30 pp (MMD). Second-
+   order beats first-order in every cell.
+2. **MMD diversity appears complementary to the 2nd-order representation — a promising *hypothesis*,
+   not yet proven necessary.** There is a clean interaction (difference-in-differences, nearly
+   identical across directions): stem80 (+0.42)−(−1.30)=**+1.72 pp**, hum80 (+0.62)−(−1.07)=**+1.69
+   pp**. With 1st-order, adding MMD repulsion *hurts* (−1.30/−1.07: Linear-MMD is the worst cell);
+   with 2nd-order it *helps* (+0.42/+0.62: DSMC > Second-TopK). BUT the direct DSMC−Second-TopK gain
+   is only +0.42/+0.62 pp at a single seed — within the training-noise band (paired-seed sd ≈0.46
+   pp). So state "MMD diversity is complementary in the 2nd-order space" as a mechanism hypothesis;
+   do **not** write "MMD repulsion is statistically proven necessary."
+3. **Second-TopK is close but never beats DSMC** → keep DSMC as the headline (no need to switch to a
+   relevance selector). Contribution framed as **2nd-order representation (primary) + coreset
+   diversity (complementary hypothesis)**. The upcoming independent target draws will supply the
+   extra paired observations to test the diversity effect — no need to add seeds to the 2×2 cells.
 
 **Attribution conclusion**: *DSMC's gains come primarily from matching the second-order (directional)
-moment of gradients; the MMD coreset objective adds a further, consistent gain that materialises
-specifically in that second-order space, while it is harmful in the first-order space.* This is the
-cleanest possible outcome for the paper's mechanism story — representation is necessary, and the
-coreset objective is complementary rather than redundant.
+moment of gradients; the MMD coreset objective plausibly adds a further gain that is specific to the
+second-order space (harmful in the first-order space), but that increment is within single-seed noise
+and is left for the target-draw phase to confirm.*
 
 ## Caveats (keep scope honest)
 

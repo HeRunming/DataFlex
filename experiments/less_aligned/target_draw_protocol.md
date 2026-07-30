@@ -85,27 +85,43 @@ For each method m vs DSMC, per direction, Δ_d = score_DSMC,d − score_m,d over
 
 Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 draws.**
 
-## 7. Scope / sequencing (from review_0729)
+## 7. Scope / sequencing (from review_0729 + choice_0730)
 
-1. **(prereq) rep×selector 2×2 attribution gate** on the existing fixed stem80/hum80 — running
-   now (`run_attribution_2x2.sh`). If Second-TopK ≥ DSMC, revisit the method before this protocol.
-2. **This protocol → pilot**: 2 directions × **2 draws** × 6 methods = 24 SFT
-   (DSMC, Second-TopK, LESS, GIST, NICE, token-matched Random). Validate pipeline + attribution.
+1. **(prereq) rep×selector 2×2 attribution gate** — DONE (`attribution_2x2_summary.md`). DSMC best
+   in both directions; 2nd-order representation is the primary driver, MMD-diversity complementary
+   (hypothesis). Gate passed → DSMC stays the headline.
+2. **This protocol → pilot** (LAUNCH ONLY AFTER: protocol approved+frozen AND GIST passes numerical
+   review): 2 directions × **2 draws** × 7 method-rows:
+   1. DSMC
+   2. true **Second-RR** (per-query nearest, cycling — NOT Second-TopK; that stays in the 2×2 ablation)
+   3. LESS (+ true First-RR as the 1st-order relevance/RR reference)
+   4. GIST (arXiv 2602.18584)
+   5. NICE
+   6. **Random-K** (uniform fixed-K, PRIMARY random baseline)
+   7. **Random-K-LengthMatched** (fixed-K, length-histogram-matched; compute/length control)
 3. Expand to **5 draws/direction** only after the pilot is clean.
 4. One representative draw per direction → **+3 paired training seeds** for training variance.
 5. **Later axes** (separate, not now): target size n_T ∈ {16,64,128}, budget K ∈ {1%,5%}, keeping
-   only {DSMC, strongest gradient baseline, GIST, token-matched Random}.
+   only {DSMC, strongest gradient baseline, GIST, Random-K}.
 
-## 8. Open items needing a baseline decision before the pilot
+## 8. Baseline definitions (resolved per choice_0730)
 
-- **GIST** (arXiv 2602.18584): target-subspace via SVD of target validation gradients + alignment
-  scoring. No implementation in-repo yet — needs to be written and validated. This is the main new
-  engineering cost of the pilot.
-- **token-matched Random**: Random subset matched to DSMC's selected token count (not just example
-  count); the review prefers this over plain Random as the primary random baseline.
-- **Second-TopK** as a pilot method comes free from the 2×2 selector just built (relevance
-  top-k on the 2nd-order representation). NOTE it is top-k, not greedy round-robin.
-- **True round-robin (First-RR / Second-RR)**: the 2026 systematic study's RR selects, per query,
-  the nearest unpicked candidate and cycles over queries; it is often strong at low budget. This
-  is a *separate* selector still to be implemented for the external-validity phase — Second-TopK
-  does not stand in for it.
+- **GIST** (arXiv 2602.18584, v2): SVD of target validation gradients → low-rank task subspace;
+  project candidates onto it; score by target-direction alignment. No official repo — implement from
+  v2 formulas and pass a numerical review on STEM80/HUM80 (SVD input/centering/normalization, rank
+  rule, exact score formula, shared projection, orthonormal basis, rotation-invariance, full-rank
+  degeneration, LESS-aligned Adam/SGD alignment) BEFORE the pilot. Also report selection storage /
+  FLOPs / wall-clock, since GIST claims efficiency and is the closest conceptual competitor.
+- **Random-K** (primary): uniformly sample exactly K=13,533 without replacement; multiple random
+  seeds. Target-independent → the SAME adapter can be reused across target draws at a fixed training
+  seed (only depends on random-subset seed + training seed + pool). Fixed selection budget, matched
+  optimizer steps to all methods.
+- **Random-K-LengthMatched** (compute/length control): still exactly K examples, but the
+  post-tokenization length histogram (buckets [0,256),[256,512),[512,1024),[1024,1536),[1536,2048])
+  is matched per-bucket to the DSMC subset for that draw. Draw-specific (must be regenerated per
+  draw). Uses effective length after tokenizer+template+cutoff_len=2048, NOT raw string length.
+  Do **not** change K to match tokens — match the distribution at fixed K.
+- **true First-RR / Second-RR**: greedy round-robin (per query, nearest unpicked candidate, cycle
+  over queries until K). Distinct from relevance top-k; often strong at low budget. Second-TopK from
+  the 2×2 is retained ONLY as a mechanism ablation, not a pilot baseline.
+- **Second-TopK / Linear-MMD / DSMC**: already computed in the 2×2 gate.
