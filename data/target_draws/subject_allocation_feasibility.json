@@ -1,0 +1,278 @@
+{
+  "note": "micro weights from test doc counts; need=round(w*(5*51 maj+5*13 min)) both directions; feasible if val reservoir>=need",
+  "groups": {
+    "STEM": {
+      "subjects": {
+        "abstract_algebra": {
+          "test": 100,
+          "micro_w": 0.0317,
+          "val": 11,
+          "need": 10,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "anatomy": {
+          "test": 135,
+          "micro_w": 0.0428,
+          "val": 14,
+          "need": 14,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "astronomy": {
+          "test": 152,
+          "micro_w": 0.0482,
+          "val": 16,
+          "need": 15,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "college_biology": {
+          "test": 144,
+          "micro_w": 0.0457,
+          "val": 16,
+          "need": 15,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "college_chemistry": {
+          "test": 100,
+          "micro_w": 0.0317,
+          "val": 8,
+          "need": 10,
+          "feasible": false,
+          "shortfall": 2
+        },
+        "college_computer_science": {
+          "test": 100,
+          "micro_w": 0.0317,
+          "val": 11,
+          "need": 10,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "college_mathematics": {
+          "test": 100,
+          "micro_w": 0.0317,
+          "val": 11,
+          "need": 10,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "college_physics": {
+          "test": 102,
+          "micro_w": 0.0324,
+          "val": 11,
+          "need": 10,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "computer_security": {
+          "test": 100,
+          "micro_w": 0.0317,
+          "val": 11,
+          "need": 10,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "conceptual_physics": {
+          "test": 235,
+          "micro_w": 0.0745,
+          "val": 26,
+          "need": 24,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "electrical_engineering": {
+          "test": 145,
+          "micro_w": 0.046,
+          "val": 16,
+          "need": 15,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "elementary_mathematics": {
+          "test": 378,
+          "micro_w": 0.1199,
+          "val": 41,
+          "need": 38,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_biology": {
+          "test": 310,
+          "micro_w": 0.0983,
+          "val": 32,
+          "need": 31,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_chemistry": {
+          "test": 203,
+          "micro_w": 0.0644,
+          "val": 22,
+          "need": 21,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_computer_science": {
+          "test": 100,
+          "micro_w": 0.0317,
+          "val": 9,
+          "need": 10,
+          "feasible": false,
+          "shortfall": 1
+        },
+        "high_school_mathematics": {
+          "test": 270,
+          "micro_w": 0.0856,
+          "val": 29,
+          "need": 27,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_physics": {
+          "test": 151,
+          "micro_w": 0.0479,
+          "val": 17,
+          "need": 15,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_statistics": {
+          "test": 216,
+          "micro_w": 0.0685,
+          "val": 23,
+          "need": 22,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "machine_learning": {
+          "test": 112,
+          "micro_w": 0.0355,
+          "val": 11,
+          "need": 11,
+          "feasible": true,
+          "shortfall": 0
+        }
+      },
+      "val_total": 335,
+      "need_total": 318,
+      "infeasible_subjects": [
+        "college_chemistry",
+        "high_school_computer_science"
+      ]
+    },
+    "HUM": {
+      "subjects": {
+        "formal_logic": {
+          "test": 126,
+          "micro_w": 0.0268,
+          "val": 14,
+          "need": 9,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_european_history": {
+          "test": 165,
+          "micro_w": 0.0351,
+          "val": 18,
+          "need": 11,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_us_history": {
+          "test": 204,
+          "micro_w": 0.0434,
+          "val": 22,
+          "need": 14,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "high_school_world_history": {
+          "test": 237,
+          "micro_w": 0.0504,
+          "val": 26,
+          "need": 16,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "international_law": {
+          "test": 121,
+          "micro_w": 0.0257,
+          "val": 13,
+          "need": 8,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "jurisprudence": {
+          "test": 108,
+          "micro_w": 0.023,
+          "val": 11,
+          "need": 7,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "logical_fallacies": {
+          "test": 163,
+          "micro_w": 0.0346,
+          "val": 18,
+          "need": 11,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "moral_disputes": {
+          "test": 346,
+          "micro_w": 0.0735,
+          "val": 38,
+          "need": 24,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "moral_scenarios": {
+          "test": 895,
+          "micro_w": 0.1902,
+          "val": 100,
+          "need": 61,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "philosophy": {
+          "test": 311,
+          "micro_w": 0.0661,
+          "val": 34,
+          "need": 21,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "prehistory": {
+          "test": 324,
+          "micro_w": 0.0689,
+          "val": 35,
+          "need": 22,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "professional_law": {
+          "test": 1534,
+          "micro_w": 0.326,
+          "val": 170,
+          "need": 104,
+          "feasible": true,
+          "shortfall": 0
+        },
+        "world_religions": {
+          "test": 171,
+          "micro_w": 0.0363,
+          "val": 19,
+          "need": 12,
+          "feasible": true,
+          "shortfall": 0
+        }
+      },
+      "val_total": 518,
+      "need_total": 320,
+      "infeasible_subjects": []
+    }
+  }
+}

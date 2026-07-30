@@ -11,39 +11,59 @@ implementation was NOT an exact reproduction. We now keep two scripts:
   → max over targets → top-k. (The whitening `Sₖ⁻¹` is the "Isometric" in GIST; the paper's Eq-15
   `Π=Uᵀ` text and the official code differ — we follow the official code.)
 
-## Key finding — on OUR normalized caches the fidelity fixes mostly collapse
+## Key finding — corrected explanation (per choice_0730_2)
 
-Selection-only alignment test on STEM80 (candidate=less_output adam, target=stem80, K=13533):
+**Correction to an earlier wrong claim.** I previously said "whitening is a no-op because cosine
+cancels S⁻¹". That is wrong. The real reason is a pure **algebraic identity**: for the target
+matrix `G = UΣVᵀ`, the official projector `P = Gᵀ Uₖ Σₖ⁻¹ = Vₖ` (the top-k **right** singular
+vectors) — *always*, independent of normalization or the later cosine. So "official Gram + whitening"
+and "plain top-k right singular vectors of the target matrix" are **identical by construction**,
+which is why faithful(r=62) ≡ JL-Norm(r=62) gave Jaccard 1.0. It is an identity, not an empirical
+coincidence.
 
-| comparison | Jaccard | what it isolates |
-|------------|---------|------------------|
-| faithful (rank 62) vs JL-Norm (rank 62) | **1.000** | whitening + Gram vs plain Uᵀ, **same rank** |
-| faithful rank 150(→80) vs faithful rank 62 | 0.761 | **rank** effect (the only real lever here) |
-| faithful rank 150 vs JL-Norm (r=62) | 0.761 | = rank effect (since whitening is a no-op at equal rank) |
-| faithful rank 150 vs DSMC | 0.297 | GIST ≠ DSMC |
-| faithful rank 150 vs First-TopK (LESS-like) | 0.466 | closest to relevance top-k |
+What *actually* changes the GIST selection:
+1. **rank k** relative to M (see below);
+2. **raw vs unit-normalized target gradients** — but *only when k < M*;
+3. raw LoRA space vs 8192-D JL space (not testable without full raw re-extraction);
+4. paper-vs-official target aggregation details.
 
-**Why whitening is a no-op here**: our cached target grads are unit-norm, so the Gram is a
-correlation matrix and the `Sₖ⁻¹` whitening rescales axes that the subsequent **cosine** then undoes
-— at equal rank the projected-cosine ranking is identical to plain `Uᵣᵀ`. So on normalized caches,
-GIST-faithful-math ≡ GIST-JL-Norm; the **only** thing that moves the selection is the **rank k**
-(k=80 vs 62 → 24% different) — and, untestable here, whether the target Gram is built from **raw**
-vs normalized gradients.
+### The rank-vs-M scale-invariance (verified empirically)
 
-## What remains genuinely un-reproduced (needs a decision)
+Rescaling each target row by an arbitrary positive scalar (mimicking raw norms) then running the
+full GIST projector, top-13533 Jaccard vs the normalized target:
 
-Exact/byte-faithful GIST needs **raw (un-normalized) LoRA gradients** for the target Gram and for
-projecting candidates. Our on-disk caches are unit-normalized and the raw pre-normalization chunks
-were deleted, so faithful mode currently runs the official math on normalized inputs
-(`exact_reproduction=false` in meta). A truly faithful run requires **re-extracting** raw target
-grads (cheap: 80 examples) and ideally raw candidate grads (expensive: 270k). Decision needed:
-whether the raw-Gram effect is worth a re-extraction, or whether "official math on the shared
-normalized caches + rank sweep" is a fair, controlled baseline for the pilot.
+| k | Jaccard (normalized vs rescaled target) | max score diff |
+|---|------------------------------------------|----------------|
+| **80 = M** | **1.0000** | 8.7e-6 |
+| 64 | 0.9117 | 0.18 |
+| 40 | 0.8715 | 0.36 |
+| 20 | 0.8538 | 0.47 |
 
-## Numerical checks (JL-Norm, still valid as sanity)
+**At k = M the target row-scaling is provably irrelevant** (full row space is recovered); below M it
+matters. **Consequence for the pilot**: GIST's official default `target_dim = 150` caps to
+`k = min(150, M) = min(150, 64) = 64 = M` for our n=64 draws → **raw-target and normalized-target
+GIST select identically**. Re-extracting raw *target* gradients would therefore change nothing at
+the official rank; it only matters for the 95%-EVR adaptation (which gives k < M).
 
-r=62 @95% EVR; basis orthonormality 3.6e-5; rotation-invariance 2e-6; target numerical rank 80=M;
-cosine scores in [−0.18, 0.79]. Faithful r150: scores [−0.157, 0.744].
+## GIST scripts (final)
+
+- `select_gist_faithful.py` — official Gram/eigendecomp/whitening/cosine/max, fixed rank
+  (default 150 → capped to M). At the pilot's n=64 this equals the exact official-rank target
+  subspace regardless of target normalization (shown above). The remaining gap to byte-exact
+  official GIST is only the **space** (our shared 8192-D JL projection vs raw LoRA dim) — reused
+  deliberately so every method sits on one identical projection.
+- `select_gist_jlnorm.py` — labelled 95%-EVR adaptation (k<M), appendix/ablation only.
+
+**Streaming note**: the official repo streams candidates through the raw-space projector without
+saving a raw cache. Our candidates are already the shared 8192-D cache, so no streaming/extra
+storage is needed here; the low-storage property is a property of GIST's *own* pipeline, which we
+cite rather than reproduce (we hold representation fixed across methods on purpose).
+
+## Numerical checks (still valid)
+
+r=62 @95% EVR (jlnorm); basis orthonormality 3.6e-5; rotation-invariance 2e-6; faithful r150→k=80
+scores in [−0.157, 0.744]. Selection overlap: GIST(faithful,r150) vs DSMC 0.297, vs First-TopK
+(LESS-like) 0.466 → GIST is a distinct method.
 
 Doc-wording fix (code_review_0730): `G_val` is **numerically full row rank (80)**, and its leading
 62 components explain 95% of the spectral energy — *not* a claim that targets are statistically

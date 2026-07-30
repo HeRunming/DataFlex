@@ -62,18 +62,18 @@ def main():
     g = torch.Generator(device="cpu"); g.manual_seed(args.perm_seed)
     query_order = torch.randperm(M, generator=g).tolist()
 
-    # per-query candidate ranking (descending similarity). For K<<N we don't need a full sort of
-    # all N per query; but M is small (<=80) and a full argsort per query is simple + exact.
-    # sim_j = <x, t_j> ; second order squares it. Rank descending.
-    # Build an (M, N) ranking lazily per query to bound memory: argsort one query at a time.
-    INVALID = ~avail_mask  # candidates to never pick
-    ranked = []            # ranked[j] = LongTensor of candidate idx, best-first, for query j
+    # Per-query candidate ranking, descending similarity. Each query only ever needs its own
+    # top-K candidates: RR appends <=1 per query per round and stops at K total, so a query can
+    # advance its pointer past at most K-1 already-taken candidates before the global count hits K.
+    # Hence storing top-K per query is EXACT (not an approximation), and cuts memory O(MN)->O(MK).
+    # sim_j = <x, t_j> ; second order squares it.
+    ranked = []            # ranked[j] = list of candidate idx, best-first (length K), for query j
     for j in range(M):
         sim = X @ Tg[j]                       # (N,)
         if args.order == "second":
             sim = sim * sim
         sim = torch.where(avail_mask, sim, torch.tensor(float("-inf"), device=dev))
-        ranked.append(torch.argsort(sim, descending=True).tolist())
+        ranked.append(torch.topk(sim, K, largest=True, sorted=True).indices.cpu().tolist())
 
     selected = []
     selected_set = set()
@@ -85,12 +85,12 @@ def main():
         for j in query_order:
             if len(selected) >= K:
                 break
-            lst = ranked[j]; p = ptr[j]
+            lst = ranked[j]; p = ptr[j]; L = len(lst)
             # advance past already-selected candidates
-            while p < N and lst[p] in selected_set:
+            while p < L and lst[p] in selected_set:
                 p += 1
             ptr[j] = p
-            if p < N:
+            if p < L:
                 cand = lst[p]
                 ptr[j] = p + 1
                 selected.append(cand); selected_set.add(cand)
