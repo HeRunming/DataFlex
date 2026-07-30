@@ -1,7 +1,7 @@
 # Preregistered target-draw protocol (review_0729)
 
 **Status: DRAFT for review — no gradients/selection/training run yet.**
-This defines how independent skewed target sets are sampled so that the statistical unit of the
+This defines how globally non-overlapping skewed target sets are sampled so that the statistical unit of the
 main DSMC evaluation is the *target draw*, not the training seed or the eval item.
 
 ## 1. What "skew" means here (the claim being tested)
@@ -141,7 +141,7 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
    2. true **Second-RR** (per-query nearest, cycling — NOT Second-TopK; that stays in the 2×2 ablation)
    3. **LESS** (Adam-preconditioned mean-gradient relevance top-k)
    4. true **First-RR** (1st-order round-robin)
-   5. **GIST** (faithful variant; see §8 fidelity gate)
+   5. **GIST-SharedProj** (GIST scoring on the shared LESS-aligned projected features; see §8)
    6. **NICE**
    7. **Random-K** (uniform fixed-K, PRIMARY random baseline)
    8. **Random-K-LengthMatched** (fixed-K, length-histogram-matched; compute/length control)
@@ -153,23 +153,23 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
 
 ## 8. Baseline definitions (resolved per choice_0730 + code_review_0730)
 
-- **GIST** (main baseline = `select_gist_faithful.py`, official algorithm, fixed rank
-  `k = min(target_dim, M)` with `target_dim=150` per the paper → **k=64=M** at our n=64):
-  official Gram/eigendecomp + isometric whitening `P=G_valᵀUₖSₖ⁻¹`. **Resolved (choice_0730_2 +
-  gist_validation.md)**: `P = G_valᵀUₖSₖ⁻¹ = Vₖ` is an algebraic identity (top-k right singular
-  vectors), so "whitening" vs "plain top-k" is identical by construction — not a cache artifact.
-  And at **k = M the target row-scaling is provably irrelevant** (verified: normalized-vs-rescaled
-  target Jaccard 1.0000 at k=M; <1 only for k<M). **Therefore, at the pilot's fixed official rank
-  k=min(150,64)=64=M, raw-target and normalized-target GIST select IDENTICALLY — no raw re-extraction
-  is needed.** The only residual gap to byte-exact official GIST is raw LoRA space vs our shared
-  8192-D JL projection, which we keep fixed on purpose (every method rides one common projection);
-  GIST's own low-storage streaming pipeline is cited, not reproduced. `select_gist_jlnorm.py`
-  (95%-EVR, k<M) is an appendix ablation only.
-- **Random-K** (primary): uniformly sample exactly K=13,533 without replacement. **Random-subset
-  seed varies by draw index** (e.g. 2000+d) so we capture random-selection variance; the STEM/HUM
-  draws sharing a draw index reuse the same Random-K adapter (same training seed) → only **5**
-  Random-K adapters, not 10. Do NOT reuse a single random subset across all draws (would understate
-  variance).
+- **GIST-SharedProj** (main GIST baseline = `select_gist_faithful.py`): the GIST scoring algorithm
+  (official Gram/eigendecomp + isometric whitening `P=G_valᵀUₖSₖ⁻¹`, max-relevance top-k) run on our
+  **shared LESS-aligned projected-gradient features**. It is **algorithm-faithful, not byte-faithful
+  official GIST** — two deliberate adaptations remain: (1) raw LoRA gradient space → shared 8192-D
+  JL/TRAK projection; (2) our LESS-aligned **Adam-preconditioned candidate / SGD target** protocol
+  (this can change gradient *direction*, not just scale, so it is NOT undone by cosine). Using the
+  same cache for all methods makes this a controlled comparison; we do NOT claim GIST's paper
+  storage/compute numbers. Math notes (verified): `P = G_valᵀUₖSₖ⁻¹ = Vₖ` is an algebraic identity
+  (top-k right singular vectors), so whitening ≡ plain top-k by construction; and at **k = M** target
+  row-scaling is provably irrelevant (normalized-vs-rescaled Jaccard 1.0000 at k=M; <1 only k<M) —
+  so re-extracting raw-target norms would not change selection at the official rank. **Rank rule =
+  fixed by a development gate on the OLD STEM80/HUM80** (choose one global rule ∈ {k=M, EVR95},
+  1 seed × 2 directions = 4 SFT, pick by mean balanced acc, then freeze — do NOT tune rank on the new
+  draws). Caveat: `target_dim=150` caps to k=min(150,M); at M=64 that is the full row span (no
+  spectral truncation), so the EVR95 (k<M) variant is the one that actually exercises GIST's spectral
+  filtering — hence the gate. `select_gist_jlnorm.py` (95%-EVR on normalized cache) is an appendix
+  ablation.
 - **Random-K** (primary): uniformly sample exactly K=13,533 without replacement. **Random-subset
   seed varies by draw index** (e.g. 2000+d) so we capture random-selection variance; the STEM/HUM
   draws sharing a draw index reuse the same Random-K adapter (same training seed) → only **5**
@@ -181,6 +181,8 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
   draw). Uses effective length after tokenizer+template+cutoff_len=2048, NOT raw string length.
   Do **not** change K to match tokens — match the distribution at fixed K.
 - **true First-RR / Second-RR**: greedy round-robin (per query, nearest unpicked candidate, cycle
-  over queries until K). Distinct from relevance top-k; often strong at low budget. Second-TopK from
-  the 2×2 is retained ONLY as a mechanism ablation, not a pilot baseline.
+  over queries until K). Distinct from relevance top-k; often strong at low budget. **Per-draw RR
+  permutation seed** = `3000 + draw_id` (recorded in meta); First-RR and Second-RR use the SAME
+  target-query visiting order within a draw. Second-TopK from the 2×2 is retained ONLY as a mechanism
+  ablation, not a pilot baseline. (RR top-K-per-query memory optimization is exact, not approximate.)
 - **Second-TopK / Linear-MMD / DSMC**: already computed in the 2×2 gate.
