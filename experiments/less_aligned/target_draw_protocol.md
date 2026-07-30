@@ -26,45 +26,56 @@ balanced target-capability distribution.*
 |-------|------|-----|
 | **validation** | **target-draw reservoir** (build Q_ρ) | large enough for disjoint draws; never evaluated on |
 | **dev** | fixed 5-shot demonstrations for eval only | standard Hendrycks few-shot; already used by lm-eval |
-| **test** | evaluation (mmlu_stem, mmlu_humanities), untouched | 18,738 items; the reported numbers, comparable to all prior runs |
+| **test** | evaluation (mmlu_stem, mmlu_humanities), untouched | the reported numbers, comparable to all prior runs |
 
 Target reservoir = validation only ⇒ **fully disjoint from the test eval set** (no leakage) and
 disjoint from the dev demonstrations. This matches the directive: val→targets, dev→demos,
-test→eval.
+test→eval. (Do NOT hardcode a test item count; record the STEM/Humanities eval item counts that
+the current lm-eval version actually reports at run time. Standard cais/mmlu has dev 285 /
+validation 1,531 / test 14,042 total across all 57 subjects.)
 
 ## 3. Measured reservoir sizes (offline, `hails/mmlu_no_train` validation, lm-eval subject map)
 
 STEM = 19 subjects, **335** validation examples. Humanities = 13 subjects, **518**.
-(Per-subject counts saved in `target_draws/reservoir_counts.json` when generated.)
+(Per-subject counts in `target_draws/reservoir_counts.json`.)
 
-Feasibility of **5 disjoint draws per direction** at n_T = 80, ρ = 0.8 (64 majority + 16 minority):
+**Target size n_T = 64 (revised from 80, per code_review_0730)** so that all **10 draws are
+GLOBALLY disjoint** (not just within-direction). At ρ=0.8, n_T=64 → **51 majority + 13 minority**
+(= 79.7/20.3%, reported precisely, not called exactly 64/16). Five stem-majority + five
+hum-majority draws need, in total:
 
-| direction | needs (5 draws) | reservoir | slack |
-|-----------|-----------------|-----------|-------|
-| stem80 | 320 STEM + 80 HUM | 335 STEM / 518 HUM | STEM tight (15 spare) |
-| hum80  | 320 HUM + 80 STEM | 518 HUM / 335 STEM | comfortable |
+| group | consumed by 5 stem80 draws | consumed by 5 hum80 draws | total | reservoir |
+|-------|----------------------------|---------------------------|-------|-----------|
+| STEM  | 5×51 = 255 (majority)      | 5×13 = 65 (minority)      | 320   | 335 ✓ (15 spare) |
+| HUM   | 5×13 = 65 (minority)       | 5×51 = 255 (majority)     | 320   | 518 ✓ (comfortable) |
 
-→ **5 fully-disjoint draws are feasible within each skew direction.** stem80 consumes almost the
-entire STEM validation pool (320/335), so its minority (HUM) and the hum80 draws still have slack,
-but a 6th disjoint stem80 draw would not fit. **Decision: 5 draws/direction, disjoint WITHIN a
-direction.** Across opposite directions overlap is unavoidable (both dip into both groups) and is
-**recorded** (§5), per the review.
+→ **10 globally-disjoint draws fit** (STEM 320≤335, HUM 320≤518). This makes each draw a genuinely
+independent statistical unit and cleans up the direction-interaction analysis. The existing n=80
+STEM80/HUM80 runs remain valid as preliminary/mechanism experiments; n=64 is also a planned
+target-size point, so this is not an extra axis.
 
-## 4. Sampling procedure (deterministic, seeded)
+## 4. Sampling procedure — JOINT generation, deterministic (revised per code_review_0730)
 
-For draw d ∈ {0..4} in direction dir ∈ {stem80, hum80}:
-1. Fix a global RNG seed = `1000 + 100·dir_id + d` (recorded).
-2. Within the majority group: sample 64 examples **without replacement across the 5 draws**
-   (partition the shuffled majority reservoir into 5 disjoint blocks, take block d), balancing
-   across subjects as evenly as the per-subject counts allow (round-robin over subjects, then
-   fill). Same for 16 minority examples.
-3. Format identical to existing `data/mmlu_target_stem80.jsonl` (sharegpt messages, the exact
-   Hendrycks 5-shot prompt template already in `build_skewed_mmlu_target.py`).
-4. Write `data/target_draws/{dir}_draw{d}.jsonl`.
+All 10 draws are generated **in one pass** (not per-draw independent sampling + dedup), so global
+disjointness is guaranteed by construction:
+1. One **master seed** (recorded).
+2. Shuffle the STEM reservoir once and the HUM reservoir once (with the master seed).
+3. Allocate blocks in a single pass: 5 stem80 draws take disjoint majority blocks of 51 from the
+   STEM shuffle and disjoint minority blocks of 13 from the HUM shuffle; 5 hum80 draws take
+   disjoint majority blocks of 51 from HUM and minority blocks of 13 from STEM — all drawn from the
+   *remaining* (unused) portions, so STEM usage = 255+65=320 and HUM usage = 65+255=320, both ≤
+   reservoir with no overlap across any of the 10 draws. Subjects balanced round-robin within each
+   block as counts allow.
+4. Write `data/target_draws/{dir}_draw{d}.jsonl` + `.meta.json`; format identical to
+   `data/mmlu_target_stem80.jsonl` (sharegpt, the Hendrycks 5-shot template in
+   `build_skewed_mmlu_target.py`).
 
-Training seed is **rotated across draws** (not fixed to 42) so results don't all ride one
-training trajectory, but is **shared by all methods within a draw** (paired comparison):
-draw 0→42, 1→1, 2→2, 3→42, 4→1. Recorded per draw.
+**Training seeds**: 5 **distinct** values, one per draw index, shared by all methods within a draw
+(paired design): draw 0→42, 1→1, 2→2, 3→3, 4→4. (No seed repeats — paired design already controls
+the seed nuisance, so there's no reason to reuse 42/1.)
+
+**Representative draw for the +3-seed variance study is pre-registered as draw 0** (chosen now, not
+after seeing downstream results, to avoid post-hoc selection).
 
 ## 5. Provenance recorded per draw (`target_draws/{dir}_draw{d}.meta.json`)
 
@@ -73,6 +84,7 @@ draw 0→42, 1→1, 2→2, 3→42, 4→1. Recorded per draw.
 - shared training seed for that draw
 - candidate cache sha256 (same 270k seed-42 cache throughout)
 - **pairwise overlap matrix** across all 10 draws (example-ID Jaccard) → `target_draws/overlap_matrix.csv`
+  (expected ≈0 off-diagonal by construction; reported to confirm global disjointness)
 - selection indices sha256 per method (added at selection time)
 
 ## 6. Statistical analysis (unit = target draw)
@@ -90,32 +102,39 @@ Explicit guardrail: **DSMC is frozen; no hyperparameter is tuned on these 10 dra
 1. **(prereq) rep×selector 2×2 attribution gate** — DONE (`attribution_2x2_summary.md`). DSMC best
    in both directions; 2nd-order representation is the primary driver, MMD-diversity complementary
    (hypothesis). Gate passed → DSMC stays the headline.
-2. **This protocol → pilot** (LAUNCH ONLY AFTER: protocol approved+frozen AND GIST passes numerical
-   review): 2 directions × **2 draws** × 7 method-rows:
+2. **This protocol → pilot** (LAUNCH ONLY AFTER: protocol approved+frozen AND GIST fidelity gate
+   resolved): 2 directions × **2 draws** × **8 method rows** (LESS and First-RR are distinct
+   selectors — not collapsed into one parenthetical):
    1. DSMC
    2. true **Second-RR** (per-query nearest, cycling — NOT Second-TopK; that stays in the 2×2 ablation)
-   3. LESS (+ true First-RR as the 1st-order relevance/RR reference)
-   4. GIST (arXiv 2602.18584)
-   5. NICE
-   6. **Random-K** (uniform fixed-K, PRIMARY random baseline)
-   7. **Random-K-LengthMatched** (fixed-K, length-histogram-matched; compute/length control)
+   3. **LESS** (Adam-preconditioned mean-gradient relevance top-k)
+   4. true **First-RR** (1st-order round-robin)
+   5. **GIST** (faithful variant; see §8 fidelity gate)
+   6. **NICE**
+   7. **Random-K** (uniform fixed-K, PRIMARY random baseline)
+   8. **Random-K-LengthMatched** (fixed-K, length-histogram-matched; compute/length control)
 3. Expand to **5 draws/direction** only after the pilot is clean.
-4. One representative draw per direction → **+3 paired training seeds** for training variance.
+4. Pre-registered representative draw (draw 0) per direction → **+3 paired training seeds** for
+   training variance.
 5. **Later axes** (separate, not now): target size n_T ∈ {16,64,128}, budget K ∈ {1%,5%}, keeping
    only {DSMC, strongest gradient baseline, GIST, Random-K}.
 
-## 8. Baseline definitions (resolved per choice_0730)
+## 8. Baseline definitions (resolved per choice_0730 + code_review_0730)
 
-- **GIST** (arXiv 2602.18584, v2): SVD of target validation gradients → low-rank task subspace;
-  project candidates onto it; score by target-direction alignment. No official repo — implement from
-  v2 formulas and pass a numerical review on STEM80/HUM80 (SVD input/centering/normalization, rank
-  rule, exact score formula, shared projection, orthonormal basis, rotation-invariance, full-rank
-  degeneration, LESS-aligned Adam/SGD alignment) BEFORE the pilot. Also report selection storage /
-  FLOPs / wall-clock, since GIST claims efficiency and is the closest conceptual competitor.
-- **Random-K** (primary): uniformly sample exactly K=13,533 without replacement; multiple random
-  seeds. Target-independent → the SAME adapter can be reused across target draws at a fixed training
-  seed (only depends on random-subset seed + training seed + pool). Fixed selection budget, matched
-  optimizer steps to all methods.
+- **GIST**: official repo = github.com/GuanghuiMin/GIST. Two scripts exist: `select_gist_faithful.py`
+  (official Gram/eigendecomp + isometric whitening `P=G_valᵀUₖSₖ⁻¹` + fixed rank, default 150) and
+  `select_gist_jlnorm.py` (labelled adaptation). **Finding (gist_validation.md)**: on our unit-norm
+  caches the whitening is a no-op at equal rank (cosine undoes the Sₖ⁻¹ rescale) → faithful ≡ JL-Norm
+  at the same rank; only the **rank** and **raw-vs-normalized target Gram** actually move the
+  selection. **Fidelity gate before pilot**: decide (with user) whether to re-extract RAW target
+  grads (cheap, 80 ex) — and possibly raw candidate grads (expensive, 270k) — for a byte-faithful
+  Gram, or accept "official math on shared normalized caches + a small rank setting" as the
+  controlled baseline. Report selection storage / FLOPs / wall-clock (GIST claims efficiency).
+- **Random-K** (primary): uniformly sample exactly K=13,533 without replacement. **Random-subset
+  seed varies by draw index** (e.g. 2000+d) so we capture random-selection variance; the STEM/HUM
+  draws sharing a draw index reuse the same Random-K adapter (same training seed) → only **5**
+  Random-K adapters, not 10. Do NOT reuse a single random subset across all draws (would understate
+  variance).
 - **Random-K-LengthMatched** (compute/length control): still exactly K examples, but the
   post-tokenization length histogram (buckets [0,256),[256,512),[512,1024),[1024,1536),[1536,2048])
   is matched per-bucket to the DSMC subset for that draw. Draw-specific (must be regenerated per

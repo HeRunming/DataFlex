@@ -1,31 +1,18 @@
 #!/usr/bin/env python3
 """
-GIST selection (Gradient Isometric Subspace Transformation), arXiv 2602.18584 v2.
-Baseline for the external-validity pilot (review_0729 / choice_0730). Closest conceptual
-competitor to DSMC: both recover a target-relevant subspace from gradients.
+GIST-JL-Norm: an ADAPTATION of GIST (arXiv 2602.18584) to our shared normalized 8192-D caches.
+NOT an exact reproduction (see code_review_0730). Official GIST = github.com/GuanghuiMin/GIST.
+Differences from official GIST:
+  1. operates on unit-normalized 8192-D JL-projected grads (official: raw d-dim LoRA grads);
+  2. normalizes target grads BEFORE SVD (official: raw target Gram matrix) -> different subspace;
+  3. plain projector Pi=U_r^T (official: whitening/isometric P = G_val^T U_k S_k^{-1});
+  4. rank via 95% EVR (official target_dim is a FIXED arg, default 150; EVR is only how they pick it).
+Kept as a cheap, clearly-labelled ablation / sensitivity point; meta records the deviations so it
+is never mistaken for faithful GIST. A faithful variant that adds the S^{-1} whitening + fixed rank
++ no pre-SVD normalization is `select_gist_faithful.py`.
 
-Paper algorithm (Eqs 14-17), same LESS 270k / LoRA-warmup / MMLU-val setting as ours:
-  Step 2 (task subspace): build target gradient matrix G_val = [g_val^1 ... g_val^M] in R^{d x M}
-    (one column per target example), SVD G_val = U Σ V^T (Eq 14). Effective rank r = smallest r
-    with cumulative explained variance (sum σ_i^2) >= tau (paper: 95%). Target projector
-    Π = U_r^T in R^{r x d}, top-r left singular vectors (Eq 15).
-  Step 3 (geometric scoring): Sim(z_i, z_val^j) = cos(Π g_i , Π g_val^j)   (Eq 16)
-  Aggregate (Eq 17, max-relevance like LESS): FinalScore(z_i) = max_j Sim(z_i, z_val^j); top-k.
-
-ADAPTATION TO OUR CACHES (documented for the numerical review):
-  * The paper does SVD in the raw d-dim LoRA gradient space. We only have the shared 8192-dim
-    TRAK/Johnson-Lindenstrauss-projected gradients (seed 123) used by LESS and DSMC. SVD of the
-    projected target grads recovers the JL image of the same task subspace; using the SAME
-    projected caches as every other method is the controlled, apples-to-apples choice here and
-    keeps candidate & target in one common projection (a paper requirement).
-  * Our cached grads are unit-normalized per example (like DSMC/LESS). We therefore SVD the
-    unit-normalized target grads, so every target example contributes equally to the subspace
-    (consistent with DSMC). Cosine in Eq 16 makes the candidate scoring scale-invariant anyway.
-  * Optimizer protocol (Adam-candidate / SGD-target vs raw/raw) is a CLI choice via the cache
-    paths, NOT hardcoded — the protocol-alignment decision is made by the caller. Recorded in meta.
-Sanity properties (asserted/reported): Π has orthonormal rows (U_r columns orthonormal); score is
-invariant to any orthonormal rotation of the subspace basis; r == M reproduces full-subspace
-cosine on the M target directions. Verify before the pilot.
+Algorithm here: SVD of unit-normalized target matrix -> top-r left singular vectors (95% EVR) ->
+projected cosine (Eq 16) -> max over targets (Eq 17) -> top-k.
 """
 import argparse, json, os
 import numpy as np
@@ -113,7 +100,9 @@ def main():
         output = [int(mp[i]) for i in selected]
 
     os.makedirs(args.out_cache_dir, exist_ok=True)
-    meta = {"kernel": "gist", "rank": r, "evr_rule": args.evr,
+    meta = {"kernel": "gist_jlnorm", "raw_or_projected": "JL_projected_8192",
+            "normalize_before_svd": True, "aggregation": "max_per_example",
+            "rank_rule": "95pct_evr", "rank": r, "evr_rule": args.evr,
             "cum_evr_at_r": float(evr[r-1]), "ortho_err": ortho_err,
             "num_select": K, "n_candidates": N, "n_target": M, "proj_dim": Dp,
             "train_grads": os.path.abspath(args.train_grads),
