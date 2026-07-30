@@ -1,8 +1,8 @@
 # Preregistered target-draw protocol (review_0729 → code_review_0730/_2/_3)
 
 **Status: FROZEN (2026-07-30).** Sampling design, methods, seeds, metrics, and GIST rank rule are
-fixed. Next step is artifact generation only (10 draw JSON/meta + allocation + overlap matrices) for
-a data-level review; NO gradients/selection/SFT until those artifacts are approved.
+fixed. Draw artifacts have been generated and are pending data-level approval; NO gradients,
+selection, or SFT have been run.
 This defines how globally non-overlapping skewed target sets are sampled so that the statistical unit of the
 main DSMC evaluation is the *target draw*, not the training seed or the eval item.
 
@@ -98,10 +98,17 @@ disjointness is guaranteed by construction:
    disjoint majority blocks of 51 from HUM and minority blocks of 13 from STEM — all drawn from the
    *remaining* (unused) portions, so STEM usage = 255+65=320 and HUM usage = 65+255=320, both ≤
    reservoir with no overlap across any of the 10 draws. **Within-category subject composition**
-   (see §3b) matches lm-eval's micro-average evaluation weights, not uniform-over-subjects.
-4. Write `data/target_draws/{dir}_draw{d}.jsonl` + `.meta.json`; format identical to
-   `data/mmlu_target_stem80.jsonl` (sharegpt, the Hendrycks 5-shot template in
-   `build_skewed_mmlu_target.py`).
+   (see §3b) targets lm-eval's micro-average evaluation weights, not uniform-over-subjects — but the
+   exact per-draw composition varies slightly (integer + finite-reservoir constraints, esp. block 0
+   which the cap-repair touches first); draws are NOT identical in subject mix. Diagnostics
+   `subject_composition_matrix.csv` (per-draw counts + TVD-to-P\*) and `subject_composition_tvd.csv`
+   (pairwise within-direction) quantify this: per-draw TVD-to-P\* ≈ 0.08–0.14, pairwise ≈ 0.03–0.09.
+4. Write `data/target_draws/{dir}_draw{d}.jsonl` + `.meta.json`. Format = **single-example
+   supervised MMLU** (task description + 1 question + 4 options + answer letter), identical to
+   `data/mmlu_target_stem80.jsonl`. This is **0-shot** (`target_num_fewshot=0`), NOT a 5-shot prompt;
+   lm-eval separately uses 5 dev demonstrations at eval time (`evaluation_num_fewshot=5`). Keeping the
+   target 0-shot preserves comparability with all prior mechanism experiments; whether target and
+   eval contexts should match is a separate future ablation, not a change to this frozen protocol.
 
 **Training seeds**: 5 **distinct** values, one per draw index, shared by all methods within a draw
 (paired design): draw 0→42, 1→1, 2→2, 3→3, 4→4. (No seed repeats — paired design already controls

@@ -10,6 +10,14 @@
   "train_seed": 3,
   "rr_perm_seed": 3003,
   "master_seed": 20260730,
+  "source_dataset": "hails/mmlu_no_train",
+  "source_split": "validation",
+  "source_snapshot_or_revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60",
+  "generator_commit": "8e6ad2e",
+  "allocation_plan_sha256": "40cd3e14301371217834f50af591522916c62382c7b29638ff2787f2a455bee5",
+  "prompt_schema": "mmlu_single_example_supervised_v1",
+  "target_num_fewshot": 0,
+  "evaluation_num_fewshot": 5,
   "subject_composition": {
     "abstract_algebra": 2,
     "anatomy": 2,
@@ -105,5 +113,7 @@
     "mmlu_professional_law_val52",
     "mmlu_world_religions_val8"
   ],
-  "target_ids_sha256": "87b7b1979e8b4d2ba066d3cda7d0ab76ee6c3f759f661988d00f78eb95785ce2"
+  "target_file_sha256": "80c2443527f1026b60c71abb50956dfb0b6d2c76ce33c492317d18cc32819899",
+  "ordered_target_ids_sha256": "67d2312ff9ce6a2f3fc4e6d3f98bb8c5834261ca260df7692539452efcf53906",
+  "unordered_target_ids_sha256": "87b7b1979e8b4d2ba066d3cda7d0ab76ee6c3f759f661988d00f78eb95785ce2"
 }

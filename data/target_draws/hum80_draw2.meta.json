@@ -10,6 +10,14 @@
   "train_seed": 2,
   "rr_perm_seed": 3002,
   "master_seed": 20260730,
+  "source_dataset": "hails/mmlu_no_train",
+  "source_split": "validation",
+  "source_snapshot_or_revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60",
+  "generator_commit": "8e6ad2e",
+  "allocation_plan_sha256": "40cd3e14301371217834f50af591522916c62382c7b29638ff2787f2a455bee5",
+  "prompt_schema": "mmlu_single_example_supervised_v1",
+  "target_num_fewshot": 0,
+  "evaluation_num_fewshot": 5,
   "subject_composition": {
     "formal_logic": 1,
     "high_school_european_history": 2,
@@ -103,5 +111,7 @@
     "mmlu_high_school_statistics_val9",
     "mmlu_machine_learning_val6"
   ],
-  "target_ids_sha256": "f352c7cc9e0a296f614e8af979ddcf04bdb647e0276e794e2936055d166cbcf9"
+  "target_file_sha256": "514f5d56d225c65286257e07faad0b8aabb3cd7e610b1001f80173ad75bce874",
+  "ordered_target_ids_sha256": "da25675565993361fe90f47fd4cd6b684ef1dccfea4e1e0d2b43115e711a2e79",
+  "unordered_target_ids_sha256": "f352c7cc9e0a296f614e8af979ddcf04bdb647e0276e794e2936055d166cbcf9"
 }

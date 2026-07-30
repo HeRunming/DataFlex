@@ -1,17 +1,84 @@
 {
   "draws": [
-    "stem80_draw0",
-    "stem80_draw1",
-    "stem80_draw2",
-    "stem80_draw3",
-    "stem80_draw4",
-    "hum80_draw0",
-    "hum80_draw1",
-    "hum80_draw2",
-    "hum80_draw3",
-    "hum80_draw4"
+    {
+      "name": "stem80_draw0",
+      "target_file_sha256": "1dac7a2a0c6c620acbb4fc5edf9d195eb9657004b4a8b045276052319304d95f",
+      "ordered_target_ids_sha256": "ac7951875dddbf529bb7e5007d7567c1b4df6bc48c13951aa4bccb2a1ef83250",
+      "train_seed": 42,
+      "rr_perm_seed": 3000
+    },
+    {
+      "name": "stem80_draw1",
+      "target_file_sha256": "8c3203ce49111c60bb01cee0bab048cdc77f63758974d5518cf2eaba49ca359a",
+      "ordered_target_ids_sha256": "37e61ffe21930196db4ddfc617f19534f570d0e402e6fb8439633ed63f95cbf4",
+      "train_seed": 1,
+      "rr_perm_seed": 3001
+    },
+    {
+      "name": "stem80_draw2",
+      "target_file_sha256": "e7f9bc7c719c016be4bbc3465caf3c79aa4fdd08f8576e6df2f022eceb600e36",
+      "ordered_target_ids_sha256": "9e980fcd21bc8863b01464f515740332df810108d0d330595f43449832faad55",
+      "train_seed": 2,
+      "rr_perm_seed": 3002
+    },
+    {
+      "name": "stem80_draw3",
+      "target_file_sha256": "80c2443527f1026b60c71abb50956dfb0b6d2c76ce33c492317d18cc32819899",
+      "ordered_target_ids_sha256": "67d2312ff9ce6a2f3fc4e6d3f98bb8c5834261ca260df7692539452efcf53906",
+      "train_seed": 3,
+      "rr_perm_seed": 3003
+    },
+    {
+      "name": "stem80_draw4",
+      "target_file_sha256": "1570ec390c4e818fac285e101114a622c7c2f44e2deaf41bd172833fb6ca582f",
+      "ordered_target_ids_sha256": "deb261baf20816841f3106b9326878146480e2a2252e4d39a08d62233beb3b73",
+      "train_seed": 4,
+      "rr_perm_seed": 3004
+    },
+    {
+      "name": "hum80_draw0",
+      "target_file_sha256": "1cd5f3ae909302932e9aab78ab1e33aba9d2f745fe0d29c159381f4424b8b6ad",
+      "ordered_target_ids_sha256": "98353e5a030750eae57c01c3185a57b8d5ecd132ef049b767ef53214b4a3531f",
+      "train_seed": 42,
+      "rr_perm_seed": 3000
+    },
+    {
+      "name": "hum80_draw1",
+      "target_file_sha256": "7c52cd8f1e13f3302cf5324a8d4c04152ff2acc4f522fed7e4b5e9c58182b571",
+      "ordered_target_ids_sha256": "786d1778ab827dccd9fbcdc4919c43a7b622fdc6aa58c209e248d3b67bb5e55e",
+      "train_seed": 1,
+      "rr_perm_seed": 3001
+    },
+    {
+      "name": "hum80_draw2",
+      "target_file_sha256": "514f5d56d225c65286257e07faad0b8aabb3cd7e610b1001f80173ad75bce874",
+      "ordered_target_ids_sha256": "da25675565993361fe90f47fd4cd6b684ef1dccfea4e1e0d2b43115e711a2e79",
+      "train_seed": 2,
+      "rr_perm_seed": 3002
+    },
+    {
+      "name": "hum80_draw3",
+      "target_file_sha256": "aec14319bf39742e70cfc68be06c0535faa43cdbf0a54be0c33a34918c49a92a",
+      "ordered_target_ids_sha256": "9ba7957abffca3249c677505d6b10e530141d8f4887c99d85fab7ac5de0e83ed",
+      "train_seed": 3,
+      "rr_perm_seed": 3003
+    },
+    {
+      "name": "hum80_draw4",
+      "target_file_sha256": "94b11a272f9f103f1399a6bb8cf70f8609658b150612737e0e0c2613ebca582d",
+      "ordered_target_ids_sha256": "6d44ea51c8d03a6cbd66c8fba0d75216bbd3060fe3c16cfae0f9d080ea3c818a",
+      "train_seed": 4,
+      "rr_perm_seed": 3004
+    }
   ],
   "master_seed": 20260730,
+  "generator_commit": "8e6ad2e",
+  "source_dataset": "hails/mmlu_no_train",
+  "source_split": "validation",
+  "source_snapshot_or_revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60",
+  "allocation_plan_sha256": "40cd3e14301371217834f50af591522916c62382c7b29638ff2787f2a455bee5",
   "max_offdiag_jaccard": 0.0,
-  "total_unique": 640
+  "total_unique": 640,
+  "target_num_fewshot": 0,
+  "evaluation_num_fewshot": 5
 }
