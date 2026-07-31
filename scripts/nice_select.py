@@ -28,8 +28,12 @@ Faithful to JTWang2000/NICE obtain_policy_gradients (vanilla policy):
 
 Differences from official NICE, matched to our pipeline:
   - 1 checkpoint (our checkpoint-1692), not 4 (our LESS/MMD use single ckpt).
-  - reward = task metric (MMLU gold-token prob / BBH exact-match / TyDiQA F1),
-    not a reward model.
+  - reward = TASK METRIC via generation. For MMLU this is FROZEN as **NICE-MMLU-EM**: exact-match of
+    the model's first emitted A-D letter against the gold letter (NOT gold-token probability). BBH =
+    answer exact-match, TyDiQA = F1. (An earlier doc line said "gold-token prob"; there is no such
+    code path — the implemented and frozen MMLU reward is generation exact-match.)
+  Frozen sampling (do not change after viewing selections): do_sample=True, top_k=50, top_p=0.95,
+  temperature=1.0, mc=8, max_new_tokens per CLI, generation seed = --seed (determinism needs it).
 """
 import argparse
 import json
@@ -112,7 +116,7 @@ def reward_mmlu_exactmatch(gen_text, gold_text):
 REWARD_FNS = {
     "bbh": reward_bbh,
     "tydiqa": reward_tydiqa,
-    "mmlu": reward_mmlu_exactmatch,   # note: MMLU also has a special gold-prob path below
+    "mmlu": reward_mmlu_exactmatch,   # FROZEN NICE-MMLU-EM: first A-D letter exact match
 }
 
 
@@ -167,7 +171,7 @@ def build_llama2_prompt(user_text):
 def policy_gradient_for_target(
     model, tokenizer, user_text, gold_text, reward_fn, target_name,
     mc, temperature, max_new_tokens, max_prompt_len, device,
-    trainable_params,
+    trainable_params, gen_seed=None,
 ):
     """
     Vanilla NICE REINFORCE policy gradient for one target example.
@@ -180,8 +184,13 @@ def policy_gradient_for_target(
     input_ids = enc["input_ids"].to(device)
     prompt_len = input_ids.shape[1]
 
-    # --- MC generation ---
+    # --- MC generation (per-target re-seed so output is independent of target order / prior RNG
+    #     consumption; makes NICE reproducible under a frozen seed) ---
     with torch.no_grad():
+        if gen_seed is not None:
+            torch.manual_seed(gen_seed)
+            if torch.cuda.is_available():
+                torch.cuda.manual_seed_all(gen_seed)
         gen = model.generate(
             input_ids=input_ids,
             attention_mask=torch.ones_like(input_ids),
@@ -195,15 +204,12 @@ def policy_gradient_for_target(
         cont = gen[i, prompt_len:]
         seqs.append(tokenizer.decode(cont, skip_special_tokens=True))
 
-    # MMLU special: continuous reward = predicted prob of gold token (more signal
-    # than 0/1 exact-match on a single-letter answer). Handled by caller via
-    # target_name=='mmlu_prob' path; here reward_fn already chosen.
-
-    # rewards for each sampled sequence
+    # rewards for each sampled sequence (NICE-MMLU-EM: 0/1 first-letter exact match)
     rewards = [reward_fn(s, gold_text) for s in seqs]
 
+    rmean = float(sum(rewards)) / max(1, len(rewards))
     if sum(rewards) == 0.0:
-        return None  # no positive signal; vanilla -> zero vector, skip
+        return None, rmean  # no positive signal; vanilla -> zero vector, skip
 
     # --- reward-weighted summed-NLL gradients, vanilla = pure sum ---
     model.zero_grad(set_to_none=True)
@@ -226,7 +232,7 @@ def policy_gradient_for_target(
         g = torch.cat([p.grad.reshape(-1) for p in trainable_params if p.grad is not None])
         acc = g.clone() if acc is None else acc + g
         model.zero_grad(set_to_none=True)
-    return acc
+    return acc, rmean
 
 
 def main():
@@ -245,6 +251,8 @@ def main():
     ap.add_argument("--max_new_tokens", type=int, default=512)
     ap.add_argument("--max_prompt_len", type=int, default=2048)
     ap.add_argument("--selection_ratio", type=float, default=0.05)
+    ap.add_argument("--num_select", type=int, default=0,
+                    help="if >0, select exactly this many (overrides ratio rounding; keeps K identical across methods)")
     ap.add_argument("--val_grads_out", default=None, help="optional: save target policy grads .pt")
     args = ap.parse_args()
 
@@ -294,13 +302,16 @@ def main():
 
     val_grads = []
     n_zero = 0
-    for ex in tqdm(targets, desc="[NICE] target policy grads"):
+    reward_means = []   # per-target mean reward over MC samples (diagnostics)
+    for ti, ex in enumerate(tqdm(targets, desc="[NICE] target policy grads")):
         user, gold = split_prompt_answer(ex["messages"])
-        g = policy_gradient_for_target(
+        g, rmean = policy_gradient_for_target(
             model, tok, user, gold, reward_fn, args.target_name,
             mc=args.mc, temperature=args.temperature, max_new_tokens=args.max_new_tokens,
             max_prompt_len=args.max_prompt_len, device=device, trainable_params=trainable_params,
+            gen_seed=args.seed * 100003 + ti,   # per-target, order-independent
         )
+        reward_means.append(rmean)
         if g is None:
             n_zero += 1
             continue
@@ -322,20 +333,37 @@ def main():
     # --- score = mean_t <g_cand, g_val_t>, top-k ---
     # candidate rows already L2-normalized (from LESS merge); val rows normalized above.
     scores = (cand @ val.T).mean(dim=1)  # [N]
-    k = max(1, int(round(N * args.selection_ratio)))
+    k = args.num_select if args.num_select > 0 else max(1, int(round(N * args.selection_ratio)))
     topk = torch.topk(scores, k=k, largest=True)
     selected = topk.indices.tolist()
     print(f"[NICE] selected {len(selected)} / {N} (ratio {args.selection_ratio})")
 
     os.makedirs(args.out_cache_dir, exist_ok=True)
     step_path = os.path.join(args.out_cache_dir, "step_1.json")
+    # reward histogram over per-target mean rewards (diagnostics)
+    import numpy as _np
+    rm = _np.array(reward_means, dtype=float)
+    hist_edges = [0.0, 0.001, 0.25, 0.5, 0.75, 1.0001]
+    hist = [int(((rm >= hist_edges[i]) & (rm < hist_edges[i+1])).sum()) for i in range(len(hist_edges)-1)]
     payload = {
         "indices": selected,
-        "metric": {"nice_score": [float(scores[i]) for i in selected]},
+        "metric": {
+            "kernel": "nice_mmlu_em" if args.target_name == "mmlu" else f"nice_{args.target_name}",
+            "reward_def": "generation_first_letter_exact_match" if args.target_name == "mmlu" else args.target_name,
+            "mc": args.mc, "temperature": args.temperature, "top_k": 50, "top_p": 0.95,
+            "max_new_tokens": args.max_new_tokens, "gen_seed": args.seed,
+            "n_targets": len(targets), "n_zero_signal": n_zero, "n_retained_rows": len(val_grads),
+            "reward_mean_overall": float(rm.mean()), "reward_mean_min": float(rm.min()),
+            "reward_mean_max": float(rm.max()),
+            "reward_hist_edges": hist_edges, "reward_hist_counts": hist,
+            "nice_score": [float(scores[i]) for i in selected],
+        },
     }
     with open(step_path, "w") as f:
         json.dump(payload, f)
     print(f"[NICE] wrote {step_path}")
+    print(f"[NICE] reward diag: mean={rm.mean():.3f} zero_signal={n_zero}/{len(targets)} "
+          f"retained={len(val_grads)} hist(edges {hist_edges})={hist}")
 
 
 if __name__ == "__main__":
