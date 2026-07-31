@@ -1,0 +1,22 @@
+{
+  "draw": "stem80_draw0",
+  "K": 13533,
+  "env": {
+    "torch": "2.10.0+cu128",
+    "transformers": "4.50.0",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "gpu": "NVIDIA H20"
+  },
+  "nice_mode": "strict_deterministic (CUBLAS_WORKSPACE_CONFIG=:4096:8, use_deterministic_algorithms, math SDPA, no TF32)",
+  "selection_sha256": {
+    "dsmc": "e77c3fe69bc4c74cb4112cc05d826f9eb2db3f9c01077714af8afdc5d0894917",
+    "less": "977d904ad10648aa0a17afcaac54c71ddb23dd11688cffd5411b32e5bd331e00",
+    "first_rr": "d3c2b0a0b70386a67470eabcf202710e4b20a33382421e71fbc6a870fb0dbd30",
+    "second_rr": "00505b76f509c1cc5065794190e63d4a3db6affae74d7977552b1b2be4c933b7",
+    "gist": "1c1824bfc6dc8dcfe963bc08eae750b718ec151c66607a6440d1245ec3422f00",
+    "nice": "e8ec10125753224671a366839bfff1defc159179d1edd4b61cbb72142980af3b",
+    "randk": "a6c10baa72e7980fdb4cbb89e5bf19a00a104399cf8d10b18582d7eacd6b169c",
+    "randk_lenmatch": "c36f6fb85ab57ed01a44c466831c52429aabc4ee59a0f7dda82b5483aa78a8d4"
+  }
+}

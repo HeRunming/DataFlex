@@ -4,20 +4,20 @@
   first_rr         size=13533 sha=d3c2b0a0b703 tot_tok=4042763 meanlen=299
   second_rr        size=13533 sha=00505b76f509 tot_tok=3991498 meanlen=295
   gist             size=13533 sha=1c1824bfc6dc tot_tok=4431671 meanlen=327
-  nice             size=13533 sha=1878116fb05a tot_tok=4727041 meanlen=349
+  nice             size=13533 sha=e8ec10125753 tot_tok=4900059 meanlen=362
   randk            size=13533 sha=a6c10baa72e7 tot_tok=4665188 meanlen=345
   randk_lenmatch   size=13533 sha=c36f6fb85ab5 tot_tok=4729127 meanlen=349
 
   pairwise Jaccard:
        dsmc      less  first_rr second_rr      gist      nice     randk randk_len
-  dsmc              1.000     0.339     0.338     0.354     0.257     0.046     0.024     0.030
-  less              0.339     1.000     0.437     0.237     0.378     0.021     0.026     0.028
-  first_rr          0.338     0.437     1.000     0.420     0.435     0.053     0.025     0.030
-  second_rr         0.354     0.237     0.420     1.000     0.282     0.128     0.024     0.031
-  gist              0.257     0.378     0.435     0.282     1.000     0.043     0.024     0.030
-  nice              0.046     0.021     0.053     0.128     0.043     1.000     0.024     0.029
-  randk             0.024     0.026     0.025     0.024     0.024     0.024     1.000     0.026
-  randk_lenmatch    0.030     0.028     0.030     0.031     0.030     0.029     0.026     1.000
+  dsmc              1.000     0.339     0.338     0.354     0.257     0.055     0.024     0.030
+  less              0.339     1.000     0.437     0.237     0.378     0.011     0.026     0.028
+  first_rr          0.338     0.437     1.000     0.420     0.435     0.028     0.025     0.030
+  second_rr         0.354     0.237     0.420     1.000     0.282     0.130     0.024     0.031
+  gist              0.257     0.378     0.435     0.282     1.000     0.017     0.024     0.030
+  nice              0.055     0.011     0.028     0.130     0.017     1.000     0.025     0.028
+  randk             0.024     0.026     0.025     0.024     0.024     0.025     1.000     0.026
+  randk_lenmatch    0.030     0.028     0.030     0.031     0.030     0.028     0.026     1.000
 
   post-tok length histogram (buckets 0-256/256-512/512-1024/1024-1536/1536+):
     dsmc             [8998, 2009, 1228, 493, 805]
@@ -25,13 +25,9 @@
     first_rr         [9220, 2223, 1195, 413, 482]
     second_rr        [9536, 2008, 1044, 422, 523]
     gist             [8253, 2669, 1725, 486, 400]
-    nice             [8140, 2568, 1862, 526, 437]
+    nice             [7752, 2878, 1852, 563, 488]
     randk            [7264, 3475, 2036, 413, 345]
     randk_lenmatch   [8998, 2009, 1228, 493, 805]
 
 [ok] all present selections exactly 13533 unique indices
-[07-31_16:07:18] === DIAG COMPLETE (stem80_draw0) ===
-
-NICE reward diag: [NICE] reward diag: mean=0.314 zero_signal=13/64 retained=51 hist(edges [0.0, 0.001, 0.25, 0.5, 0.75, 1.0001])=[13, 16, 18, 7, 10]
-randk_lenmatch: 
-determinism: dsmc/second_rr/gist bit-identical on rerun; NICE NOT bit-identical (CUDA sampling nondeterminism)
+[07-31_17:21:51] === DIAG COMPLETE (stem80_draw0) ===

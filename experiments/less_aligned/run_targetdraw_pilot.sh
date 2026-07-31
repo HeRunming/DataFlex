@@ -144,14 +144,15 @@ json.dump({"indices":idx,"metric":{"kernel":"random_k","seed":seed,"num_select":
 PYR
     validate_sel $out/step_1.json; log "[done select] randk"
   fi
-  # nice (NICE-MMLU-EM; needs the draw target jsonl + warmup policy model)
+  # nice (NICE-MMLU-EM; strict-deterministic so selection is bit-reproducible — verified draw0)
   out=$SAVES/sel_${DRAW}_nice
   if [[ -s $out/step_1.json ]]; then validate_sel $out/step_1.json; log "[skip select] nice"; else
-    log "SELECT nice ($DRAW) NICE-MMLU-EM"
-    if ! CUDA_VISIBLE_DEVICES=0 $PY scripts/nice_select.py --candidate_grads $CANDGRAD \
+    log "SELECT nice ($DRAW) NICE-MMLU-EM strict-deterministic"
+    if ! CUBLAS_WORKSPACE_CONFIG=:4096:8 CUDA_VISIBLE_DEVICES=0 $PY scripts/nice_select.py --candidate_grads $CANDGRAD \
         --base_model $BASE --adapter $WARMUP --target_data data/target_draws/${DRAW}.jsonl \
         --target_name mmlu --out_cache_dir $out --proj_dim 8192 --seed 123 --mc 8 \
-        --temperature 1.0 --max_new_tokens 16 --num_select $K \
+        --temperature 1.0 --max_new_tokens 16 --num_select $K --strict_deterministic \
+        --val_grads_out $out/val_grads.pt \
         > $LOGD/sel_${DRAW}_nice.log 2>&1; then log "[FAIL select] nice"; exit 1; fi
     validate_sel $out/step_1.json; log "[done select] nice"
   fi

@@ -254,7 +254,26 @@ def main():
     ap.add_argument("--num_select", type=int, default=0,
                     help="if >0, select exactly this many (overrides ratio rounding; keeps K identical across methods)")
     ap.add_argument("--val_grads_out", default=None, help="optional: save target policy grads .pt")
+    ap.add_argument("--strict_deterministic", action="store_true",
+                    help="enable torch deterministic algorithms + math SDPA + no TF32 (repro diagnostic)")
     args = ap.parse_args()
+
+    if args.strict_deterministic:
+        # strict-determinism diagnostic (choice_0731). Requires CUBLAS_WORKSPACE_CONFIG=:4096:8 in env.
+        import os as _os
+        _os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+        torch.use_deterministic_algorithms(True, warn_only=False)
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        try:
+            torch.backends.cuda.enable_flash_sdp(False)
+            torch.backends.cuda.enable_mem_efficient_sdp(False)
+            torch.backends.cuda.enable_math_sdp(True)
+        except Exception as _e:
+            print(f"[NICE] SDPA backend pin skipped: {_e}")
+        print("[NICE] strict-deterministic mode ON (deterministic algos, math SDPA, no TF32)")
 
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
@@ -302,6 +321,7 @@ def main():
 
     val_grads = []
     n_zero = 0
+    zero_ids = []
     reward_means = []   # per-target mean reward over MC samples (diagnostics)
     for ti, ex in enumerate(tqdm(targets, desc="[NICE] target policy grads")):
         user, gold = split_prompt_answer(ex["messages"])
@@ -314,6 +334,7 @@ def main():
         reward_means.append(rmean)
         if g is None:
             n_zero += 1
+            zero_ids.append(ex.get("id", f"idx{ti}"))
             continue
         # project to proj_dim, then L2-normalize (row)
         gp = projector.project(g.to(device, torch.float16).unsqueeze(0), model_id=0).cpu().float()
@@ -353,6 +374,7 @@ def main():
             "mc": args.mc, "temperature": args.temperature, "top_k": 50, "top_p": 0.95,
             "max_new_tokens": args.max_new_tokens, "gen_seed": args.seed,
             "n_targets": len(targets), "n_zero_signal": n_zero, "n_retained_rows": len(val_grads),
+            "zero_signal_target_ids": zero_ids,
             "reward_mean_overall": float(rm.mean()), "reward_mean_min": float(rm.min()),
             "reward_mean_max": float(rm.max()),
             "reward_hist_edges": hist_edges, "reward_hist_counts": hist,
