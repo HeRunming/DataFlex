@@ -1,0 +1,12 @@
+=== selection diagnostics: stem80_draw0 ===
+method       size     dsmc     less first_rr second_r     gist    randk
+dsmc        13533    1.000    0.339    0.338    0.354    0.257    0.024
+less        13533    0.339    1.000    0.437    0.237    0.378    0.026
+first_rr    13533    0.338    0.437    1.000    0.420    0.435    0.025
+second_rr   13533    0.354    0.237    0.420    1.000    0.282    0.024
+gist        13533    0.257    0.378    0.435    0.282    1.000    0.024
+randk       13533    0.024    0.026    0.025    0.024    0.024    1.000
+
+[note] pairwise Jaccard above; all sizes must equal 13533.
+[ok] all selections exactly 13533 unique indices
+[07-31_15:14:20] === DIAG COMPLETE (stem80_draw0) ===
