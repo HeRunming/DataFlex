@@ -11,7 +11,7 @@ train seed) -> the STEM and HUM draws of the same index reuse ONE adapter. All o
 draw-specific. => 7*4 + 2 = 30 unique adapters, but the aggregation table keeps all 32 cells.
 Per-draw train seed: draw0->42, draw1->1 (from each draw's frozen meta).
 """
-import argparse, json, os
+import argparse, json, os, hashlib
 
 DRAWS = ["stem80_draw0", "stem80_draw1", "hum80_draw0", "hum80_draw1"]
 METHODS = ["dsmc", "less", "first_rr", "second_rr", "gist", "nice", "randk", "randk_lenmatch"]
@@ -19,12 +19,21 @@ SAVES = "/jizhicfs/karonhe/dataflex_saves"
 ROOT = "/jizhicfs/karonhe/DataFlex_fa"
 
 
+def fsha(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=f"{ROOT}/experiments/less_aligned/pilot_run_plan.json")
     args = ap.parse_args()
     cells = []           # 32 method-draw cells (aggregation rows)
-    adapters = {}        # adapter_id -> {dataset_key, train_seed, subset_jsonl}
+    adapters = {}        # adapter_id -> {dataset_key, train_seed, subset_jsonl, subset_sha256}
+    randk_hash_by_idx = {}   # idx -> {draw: sha} to assert shared subsets are byte-identical
     for draw in DRAWS:
         meta = json.load(open(f"{ROOT}/data/target_draws/{draw}.meta.json"))
         seed = meta["train_seed"]; idx = draw.split("draw")[-1]
@@ -38,6 +47,9 @@ def main():
                 adapter_id = f"{draw}_{m}_seed{seed}"
                 dataset_key = f"{draw}_{m}_sel"
                 subset = f"{SAVES}/sft_subsets/{draw}_{m}_sel.jsonl"
+            subset_sha = fsha(subset)
+            if m == "randk":
+                randk_hash_by_idx.setdefault(idx, {})[draw] = subset_sha
             cells.append({"draw": draw, "direction": meta["direction"], "method": m,
                           "train_seed": seed, "adapter_id": adapter_id,
                           "dataset_key": dataset_key,
@@ -46,7 +58,12 @@ def main():
                           "shared_adapter": (m == "randk")})
             if adapter_id not in adapters:
                 adapters[adapter_id] = {"dataset_key": dataset_key, "train_seed": seed,
-                                        "subset_jsonl": subset, "method": m}
+                                        "subset_jsonl": subset, "subset_sha256": subset_sha,
+                                        "method": m}
+    # shared Random-K: assert the two directional subsets at a draw index are byte-identical
+    for idx, hs in randk_hash_by_idx.items():
+        uniq = set(hs.values())
+        assert len(uniq) == 1, f"Random-K drawidx{idx} subsets differ across directions: {hs}"
     plan = {"draws": DRAWS, "methods": METHODS, "n_cells": len(cells),
             "n_unique_adapters": len(adapters), "cells": cells, "adapters": adapters}
     json.dump(plan, open(args.out, "w"), indent=2)
