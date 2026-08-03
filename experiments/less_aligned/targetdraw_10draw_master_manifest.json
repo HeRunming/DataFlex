@@ -1,0 +1,1122 @@
+{
+  "env": {
+    "torch": "2.10.0+cu128",
+    "transformers": "4.50.0",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "gpu": "NVIDIA H20"
+  },
+  "candidate_cache": {
+    "path": "/jizhicfs/karonhe/dataflex_saves/less_output/train/1/all_projected_grads.pt",
+    "sha256": "4bef1bf85e774c768300a7700540049276a94e9937d53e90bda232cb03d12654",
+    "shape": [
+      270679,
+      8192
+    ]
+  },
+  "warmup_ckpt": {
+    "adapter_sha256": "44d9c580ca18583a4498dd7c3b5bad4094144e02b3ee83a86509e7d88beb2fdc",
+    "optimizer_sha256": "10a0169e7c5843aafdb4e3089b6e8ae1dab882c6b6e1af0cfedd5d97c9c31a25"
+  },
+  "proj_dim": 8192,
+  "proj_seed": 123,
+  "gradient_type_candidate": "adam",
+  "gradient_type_target": "sgd",
+  "nice_mode": "strict_deterministic",
+  "draws": {
+    "stem80_draw0": {
+      "train_seed": 42,
+      "rr_perm_seed": 3000,
+      "target_jsonl_sha256": "1dac7a2a0c6c620acbb4fc5edf9d195eb9657004b4a8b045276052319304d95f",
+      "target_jsonl_sha256_frozenmeta": "1dac7a2a0c6c620acbb4fc5edf9d195eb9657004b4a8b045276052319304d95f",
+      "target_grad_sha256": "196f514921edc99fdc605ba208b83b8c6f6fa1fc0f7cfd649c3ca59fe5418fbb",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2000,
+      "selections": {
+        "dsmc": "e77c3fe69bc4c74cb4112cc05d826f9eb2db3f9c01077714af8afdc5d0894917",
+        "less": "977d904ad10648aa0a17afcaac54c71ddb23dd11688cffd5411b32e5bd331e00",
+        "first_rr": "d3c2b0a0b70386a67470eabcf202710e4b20a33382421e71fbc6a870fb0dbd30",
+        "second_rr": "00505b76f509c1cc5065794190e63d4a3db6affae74d7977552b1b2be4c933b7",
+        "gist": "1c1824bfc6dc8dcfe963bc08eae750b718ec151c66607a6440d1245ec3422f00",
+        "nice": "e8ec10125753224671a366839bfff1defc159179d1edd4b61cbb72142980af3b",
+        "randk": "a6c10baa72e7980fdb4cbb89e5bf19a00a104399cf8d10b18582d7eacd6b169c",
+        "randk_lenmatch": "c36f6fb85ab57ed01a44c466831c52429aabc4ee59a0f7dda82b5483aa78a8d4"
+      },
+      "subsets": {
+        "dsmc": "4c649e2657f829904720be7095808822f7478520ceedb1b7a05e2feeabfcd4a6",
+        "less": "169524ed923c497e794ad4b1f14960b61dc5bbf5f3601df236257a0bf0d9c5ba",
+        "first_rr": "439329973617adf0e75f07e9dc7e6b62f15380c2f399480f67aa8054d22b6872",
+        "second_rr": "99c042d4c092075f89369bb1969bf5b284755c3d351b3dc2ce0a2432fd9e1d1c",
+        "gist": "b8a1401a27e3f3281b5589c4e3bbbfb2d15491fa620a3927685e33e4c4ef42af",
+        "nice": "481c30ffed7443ec2436a77d56e7164f7e16bbf980b77aeaf2c7d775b7e071e6",
+        "randk": "b4d2a6aad09f16a7da6629ed70789a697d8bf0517503925e1b94457770a09439",
+        "randk_lenmatch": "0219da98ac2ef61f03e16a64f963142a942652c6dac3eb2d2e6daf8c706fcc75"
+      },
+      "nice": {
+        "val_grad_sha256": "86c6e4637d0ce96c94b1e3ec5e5da2cd91b35b34f96373616fa28728b122b914",
+        "n_zero_signal": 14,
+        "zero_signal_target_ids": [
+          "mmlu_abstract_algebra_val1",
+          "mmlu_astronomy_val0",
+          "mmlu_astronomy_val2",
+          "mmlu_college_computer_science_val0",
+          "mmlu_electrical_engineering_val2",
+          "mmlu_electrical_engineering_val7",
+          "mmlu_elementary_mathematics_val13",
+          "mmlu_elementary_mathematics_val29",
+          "mmlu_elementary_mathematics_val26",
+          "mmlu_high_school_biology_val16",
+          "mmlu_high_school_mathematics_val25",
+          "mmlu_high_school_statistics_val7",
+          "mmlu_prehistory_val31",
+          "mmlu_world_religions_val11"
+        ],
+        "reward_mean": 0.3359375,
+        "reward_hist": [
+          14,
+          13,
+          16,
+          10,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8998,
+            "picked": 8998,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2009,
+            "picked": 2009,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1228,
+            "picked": 1228,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 493,
+            "picked": 493,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 805,
+            "picked": 805,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 106217
+      }
+    },
+    "stem80_draw1": {
+      "train_seed": 1,
+      "rr_perm_seed": 3001,
+      "target_jsonl_sha256": "8c3203ce49111c60bb01cee0bab048cdc77f63758974d5518cf2eaba49ca359a",
+      "target_jsonl_sha256_frozenmeta": "8c3203ce49111c60bb01cee0bab048cdc77f63758974d5518cf2eaba49ca359a",
+      "target_grad_sha256": "bc77daf343442af555bf3b43e5b17024a5c9852ca69ed4a2b36004a30a19464b",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2001,
+      "selections": {
+        "dsmc": "c462dd58e7e682335691ff061bb829e9c476ca7d8b46e6e753f894914654a7f5",
+        "less": "70c1eec6333dfcdf903b4ed83e51d55c767a89e0a0b413d5193c0386feae0cdd",
+        "first_rr": "29ec5ec82a8646a727b8852b7f9ac34801157658166597fdc8547fdbf22eae86",
+        "second_rr": "597dff5c0cc8e5a5c7a3f1f63671a6caf98f6ff184f2b2c34c2066c2f5f80620",
+        "gist": "ca644e04c921da7ce3f5edffdce882157c34ea2eeacd7639e3a086a200f80e90",
+        "nice": "77cfe1a0fb7b717e28f17ad4dc8026143dfcfa742e7e5b6b386e67fdebeaa1c6",
+        "randk": "dc1621fc5886946b92b0876df1164331a6a5bf70bea760a6147eb4885929547b",
+        "randk_lenmatch": "7aa34010382b7d70f63627a137573a4bf822338a303599ea6b9f6c35b282304b"
+      },
+      "subsets": {
+        "dsmc": "87f0a74b868f0b79b8b0a9e801016172d1bbc7b710dab6a9218dc487351ed1e3",
+        "less": "3e599d30964ca6c39452beae02a7633aa92efbc03f2178eef88ca23080d8bff3",
+        "first_rr": "2b2883282c7737cfb2ae2174d4fdac24d373219d4af230edee73582a0ec70e8d",
+        "second_rr": "b3859d0255a44c95b2b7e1f6c39c14661670193fa30bd4b67882b0caf46d1868",
+        "gist": "c26c16f850da03688a8056ad1f3d9eb63acecb2b6fc53d23e5ea681f00e659e0",
+        "nice": "a54c4f8dc7a5f808f0354cd6e82576ede085675232a3a4785c2fed1373f1c5e0",
+        "randk": "35513c3d19a22617d98ce0ffeca987ba41eb3bef17d34d0029a7d9a17703d2d0",
+        "randk_lenmatch": "c0e7acc4180b914a863747988a895a9a7829d6872419d2594562fbbdebc1ebf1"
+      },
+      "nice": {
+        "val_grad_sha256": "a9075a03abb6316b0c8449c17acd5c5a6768eedefb255fa2dfe921fcebe76c53",
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_astronomy_val8",
+          "mmlu_college_biology_val7",
+          "mmlu_college_chemistry_val3",
+          "mmlu_computer_security_val9",
+          "mmlu_elementary_mathematics_val15",
+          "mmlu_high_school_biology_val4",
+          "mmlu_high_school_biology_val11",
+          "mmlu_high_school_biology_val14",
+          "mmlu_high_school_mathematics_val1",
+          "mmlu_philosophy_val11"
+        ],
+        "reward_mean": 0.30078125,
+        "reward_hist": [
+          10,
+          22,
+          12,
+          13,
+          7
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8911,
+            "picked": 8911,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2026,
+            "picked": 2026,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1261,
+            "picked": 1261,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 495,
+            "picked": 495,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 840,
+            "picked": 840,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 96922
+      }
+    },
+    "stem80_draw2": {
+      "train_seed": 2,
+      "rr_perm_seed": 3002,
+      "target_jsonl_sha256": "e7f9bc7c719c016be4bbc3465caf3c79aa4fdd08f8576e6df2f022eceb600e36",
+      "target_jsonl_sha256_frozenmeta": "e7f9bc7c719c016be4bbc3465caf3c79aa4fdd08f8576e6df2f022eceb600e36",
+      "target_grad_sha256": "84abb7492144dac8a84b692f0ee8aab68d66d1d59e681bb21961262e855620f8",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2002,
+      "selections": {
+        "dsmc": "66b2de772f7c817f18aea3a0e4bac12e266122ea7d5d167068d7ee058f7580ce",
+        "less": "965697849be8e74cf12b353a521b53022deb7decc992ae88ac72afac34d518c4",
+        "first_rr": "c80e5500c0984759f5f3b238e1edf9cbd6217c5370d0ed326233ddc1b4345d21",
+        "second_rr": "1c59ca6bfb80900bf5dfc11d75c3d236af9c8efb5629ff1e8e527f47e86b1d2b",
+        "gist": "bb8eb2591fa3dc312460e6675c0fc9ecc8960d3b5453312c5a55f851c167f0a7",
+        "nice": "f9d706d57dfb5688b7985a9c4f9d1a958bed882df99e9327c14a057590b8a2d7",
+        "randk": "06628c53c9d360c093c7faadc3e1fd4fedf56d4a2f32c5c94d51749db6b7b517",
+        "randk_lenmatch": "9ae494541b0af11defd51044c52547d3a73ae288ad3c2ce335ce2a51df5a3201"
+      },
+      "subsets": {
+        "dsmc": "5b8b25baecef2f1eed46b5dd0af7fd74ff01f258abf07fc6e994d833d9625dc1",
+        "less": "04c9f6908f1d5888052ec6a07102c6a2b84598fb38c45fc87e96b7ed5f32d469",
+        "first_rr": "ac66458a42d2c530da21be7f5e4995382e1f52a7d37d3650a7c3580148158c3e",
+        "second_rr": "4a36a4c3f241a597a513cb03ad4b737856d8a774a28fd96c9a5e88a76d1239e1",
+        "gist": "b61d719a4b059b1c7bca0944238bb34637f0ccdd944652e9b5c38df571dae69b",
+        "nice": "e32c2fc8e04ecd33b7273383767db4b159ef415fbdbcce3733be4a6e3f5f0dad",
+        "randk": "d6559e380637ff4415c2d66982839ec56a081545a9606629df382aa6c77fb12b",
+        "randk_lenmatch": "e5df73e9c94aa324ffc85b2c7367cec5471c774471d1b4fd1ce248c95c0c1042"
+      },
+      "nice": {
+        "val_grad_sha256": "8cb38119755e31c67caa210702a2baeca061dd7797ed2fb82066e7b901216c0e",
+        "n_zero_signal": 14,
+        "zero_signal_target_ids": [
+          "mmlu_abstract_algebra_val8",
+          "mmlu_astronomy_val10",
+          "mmlu_college_chemistry_val1",
+          "mmlu_conceptual_physics_val6",
+          "mmlu_conceptual_physics_val1",
+          "mmlu_elementary_mathematics_val33",
+          "mmlu_elementary_mathematics_val39",
+          "mmlu_elementary_mathematics_val17",
+          "mmlu_high_school_chemistry_val10",
+          "mmlu_high_school_computer_science_val8",
+          "mmlu_high_school_mathematics_val14",
+          "mmlu_high_school_mathematics_val28",
+          "mmlu_philosophy_val1",
+          "mmlu_professional_law_val163"
+        ],
+        "reward_mean": 0.25390625,
+        "reward_hist": [
+          14,
+          16,
+          22,
+          7,
+          5
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8991,
+            "picked": 8991,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 1999,
+            "picked": 1999,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1224,
+            "picked": 1224,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 502,
+            "picked": 502,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 817,
+            "picked": 817,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 85190
+      }
+    },
+    "stem80_draw3": {
+      "train_seed": 3,
+      "rr_perm_seed": 3003,
+      "target_jsonl_sha256": "80c2443527f1026b60c71abb50956dfb0b6d2c76ce33c492317d18cc32819899",
+      "target_jsonl_sha256_frozenmeta": "80c2443527f1026b60c71abb50956dfb0b6d2c76ce33c492317d18cc32819899",
+      "target_grad_sha256": "4038dd014e0a331437795701fad33f1be63e36821b815a0e9e7f75ac24ae8b1e",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2003,
+      "selections": {
+        "dsmc": "c6f72b6eff2bcafa5f8d1f127c1f275684854cf5d15c0425dae542fff2e5dff8",
+        "less": "8112b8fc77844515bec7e8c6c9a904d136f909a300d351209d9b2562e46f36a8",
+        "first_rr": "8ef3409f50ccca57a8beff95185949a001dbb55033d3c9b8632bb2abcdfb9e53",
+        "second_rr": "cd57e3b2cfcacdbc1ea5d4a2012afcd02f1b17f0b54accd94a1afcf1ca74a710",
+        "gist": "51956b4bbc31ab45156df8d34558dba165f37ec71527ab385edc7df6e6e57559",
+        "nice": "76ba6d4d4e24d5bedae93bc4e95892358f70c5d0408823ca7460438ae82cb289",
+        "randk": "13838c0123c9510bb36e9c363dc41eb648fee2ffc9efd6018d290421289f2809",
+        "randk_lenmatch": "ed7a4a34869635adade0a19211046639100e52f39c93af01ab90a365fe031c44"
+      },
+      "subsets": {
+        "dsmc": "651f5fa397f1ac8bca039f93912a4f8c2dbfcd239e6dbd7cd2c9d23bfa2e936a",
+        "less": "7ca4dfded7204f5b70f45bcfa039b8d5e3d47b6c7afce8112ef02b3e992d783d",
+        "first_rr": "7718ca3d981ac3548751a5dfeb62d5a72d7685e5873383367a6992f0c42bfa65",
+        "second_rr": "969751dc95ef99d40aede7da9a56d5aee045e131daacc4ab5d8fe3493afe91d1",
+        "gist": "da00944fc009ae23261be7a9669d957bfb7abfe7b99b69e3fe3036f8d3c4b4c4",
+        "nice": "dd17d591e8a36adac37a093b410a12aea86edf3fd73a56c350febd0668f4c1f7",
+        "randk": "a2ab36445df9c334005d74ed9fea858f5d8c33c181e75f0272ceb422041dbff3",
+        "randk_lenmatch": "5f55881b8df4539261e094fd2943c52bd88547bdbc7181a9a1f1059809cf8d1d"
+      },
+      "nice": {
+        "val_grad_sha256": "0e2b85fb23aed38fb83b5de2e4ed28da8b7c2b8929afb8c036bebc75f926f6d6",
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_abstract_algebra_val0",
+          "mmlu_college_chemistry_val2",
+          "mmlu_college_computer_science_val5",
+          "mmlu_conceptual_physics_val21",
+          "mmlu_conceptual_physics_val14",
+          "mmlu_elementary_mathematics_val1",
+          "mmlu_high_school_computer_science_val4",
+          "mmlu_moral_scenarios_val16",
+          "mmlu_philosophy_val6",
+          "mmlu_professional_law_val107"
+        ],
+        "reward_mean": 0.3828125,
+        "reward_hist": [
+          10,
+          11,
+          18,
+          14,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8930,
+            "picked": 8930,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2029,
+            "picked": 2029,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1262,
+            "picked": 1262,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 493,
+            "picked": 493,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 819,
+            "picked": 819,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 83590
+      }
+    },
+    "stem80_draw4": {
+      "train_seed": 4,
+      "rr_perm_seed": 3004,
+      "target_jsonl_sha256": "1570ec390c4e818fac285e101114a622c7c2f44e2deaf41bd172833fb6ca582f",
+      "target_jsonl_sha256_frozenmeta": "1570ec390c4e818fac285e101114a622c7c2f44e2deaf41bd172833fb6ca582f",
+      "target_grad_sha256": "d21dd848def5b49f072e4284a462e87339b06c5532ddcb83af4ca575b7adfe45",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2004,
+      "selections": {
+        "dsmc": "ac6a6b060bdfcf65d964d2d64852b60ef90c356db53f4a00ddb18b6bc34d2f59",
+        "less": "13b6b624879b7fd34586f1e36c056070d5a200f20dd6489955f7a3a40f58453e",
+        "first_rr": "b454e5a1208a1c10cbf5fa7936a6039f572a989aefc3596b85a1835828643c22",
+        "second_rr": "689792f66f9e0c0617f10262c2d0df75ac5d3fe5ccb625dce75e4d52833bc7ad",
+        "gist": "97ee0fd1c39d337edc29029671a03f9a18e5cd0a4acef8f6088f3d827be78dbf",
+        "nice": "3614e475bed6aeed1ed33fe5236dbdda65229738c8be65fb7ccae99c7c9f5e9d",
+        "randk": "747178600cbcee0ecb6374d24cfc3a2392720a090c11377a9584f5b9b77def5b",
+        "randk_lenmatch": "0b826371b59159aca57784347fe55fd3e02cf859e98483650020f9bc0c1fc354"
+      },
+      "subsets": {
+        "dsmc": "e7bea256d6d40a9b05e5fe47c9b6b9a23e8b40e731f2384e18aab09f71d2106f",
+        "less": "ab2758a883ac577277b764349dcc0448d19d1a3c8709d0947030fd22d6cd11e2",
+        "first_rr": "83d1245adc3897ba516732fb6a9937ad5c1545d9b9386e6e7cdf5b17bf1f1f34",
+        "second_rr": "7bb6c3c5506a45757b38aa42737b77d97cb14484ec390f12c1022f745532cdd5",
+        "gist": "c215bbbef3586dee7e03eebbee03d88885717804016b273b1bebc833e1aec66e",
+        "nice": "dc605f1e279e38f392f6f76b0243a3816962aca3f27eaebef115ae4abd6d1183",
+        "randk": "81844d05a3475f55621600b4f95bce873fdb6f754db45196ad48069cc8ab97bd",
+        "randk_lenmatch": "61c78a72fb1bb759859b44c4600d2e93e1356f2a42011e8c78c67c044223bc68"
+      },
+      "nice": {
+        "val_grad_sha256": "a7025623be55084d4bd61b0ed8ebc0ddafb18096b503dca66d6e803a4aff763d",
+        "n_zero_signal": 14,
+        "zero_signal_target_ids": [
+          "mmlu_anatomy_val12",
+          "mmlu_astronomy_val14",
+          "mmlu_college_chemistry_val0",
+          "mmlu_elementary_mathematics_val5",
+          "mmlu_high_school_biology_val28",
+          "mmlu_high_school_chemistry_val16",
+          "mmlu_high_school_mathematics_val13",
+          "mmlu_high_school_mathematics_val18",
+          "mmlu_high_school_physics_val5",
+          "mmlu_machine_learning_val4",
+          "mmlu_machine_learning_val0",
+          "mmlu_moral_scenarios_val72",
+          "mmlu_prehistory_val9",
+          "mmlu_professional_law_val117"
+        ],
+        "reward_mean": 0.318359375,
+        "reward_hist": [
+          14,
+          19,
+          14,
+          6,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8937,
+            "picked": 8937,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2001,
+            "picked": 2001,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1245,
+            "picked": 1245,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 503,
+            "picked": 503,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 847,
+            "picked": 847,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 83331
+      }
+    },
+    "hum80_draw0": {
+      "train_seed": 42,
+      "rr_perm_seed": 3000,
+      "target_jsonl_sha256": "1cd5f3ae909302932e9aab78ab1e33aba9d2f745fe0d29c159381f4424b8b6ad",
+      "target_jsonl_sha256_frozenmeta": "1cd5f3ae909302932e9aab78ab1e33aba9d2f745fe0d29c159381f4424b8b6ad",
+      "target_grad_sha256": "f17246ee61b868e2ba4686376574741eceef9fccb76bb8c09b52f7315f5f98e6",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2000,
+      "selections": {
+        "dsmc": "f724dde3a5ee099a844125dcbea48ddaa0d2c7fc3960943f032de83957306f00",
+        "less": "ac12efb1fb9fef5d5db5f0b6180370ec2776afcfa00f66c824e0a727f6eb3fce",
+        "first_rr": "ffc9ccb3d18d9b8ebc3d1354b6ad74ec63275c23fbb52b6399b840342c834c7d",
+        "second_rr": "383d6d3570b85f3ad4732d37a41365ba3d35a28d3eddfcc2cd3950b75411dc6f",
+        "gist": "793e17a0e00cb351cac7e4deb2625f166627f5fec7cc022ef6b1be0d05f987f0",
+        "nice": "d15784a85d665dedf104bff102064332a5253e4fdf24331de9cbb6d0d865050f",
+        "randk": "a6c10baa72e7980fdb4cbb89e5bf19a00a104399cf8d10b18582d7eacd6b169c",
+        "randk_lenmatch": "7bb99341397eabcbe0b32dadbccec358bd025b3b0ac34a2f2a00bc620c4ac82f"
+      },
+      "subsets": {
+        "dsmc": "f5069394b4f53a24ffbae62aaeb5ea9d5e72eef279b89c0b5bd0d8b8398b2ef3",
+        "less": "422406ef5ecc4eb3f204f84dda44804a9b837df0dcc040ecba67ceb75140aa8a",
+        "first_rr": "f4cf6c2cc89900eb2cf99131df89f766dbb3abf82bada874498e002ede58f52f",
+        "second_rr": "f08af82188f463a26294904acb5e68559262c43a256707220a409c467e7dada9",
+        "gist": "6ef7be29411a2fe782c5fa8c83df22f874690f0084fb6d1e2b2e5aea41eaf838",
+        "nice": "613c1e1ba1595f2ced4970754240674ee9581ec6c62fdf6d26c708968b188f24",
+        "randk": "b4d2a6aad09f16a7da6629ed70789a697d8bf0517503925e1b94457770a09439",
+        "randk_lenmatch": "dc45c64581911d1d8a9201884b75cf6f8037a123740aceed6a426e9d6af5f1f7"
+      },
+      "nice": {
+        "val_grad_sha256": "6eec407985da6a776dad43ad529a4bd897c638537a6a59a0835eae2281cd583c",
+        "n_zero_signal": 12,
+        "zero_signal_target_ids": [
+          "mmlu_formal_logic_val10",
+          "mmlu_high_school_european_history_val8",
+          "mmlu_high_school_world_history_val5",
+          "mmlu_moral_disputes_val26",
+          "mmlu_moral_scenarios_val41",
+          "mmlu_moral_scenarios_val82",
+          "mmlu_moral_scenarios_val39",
+          "mmlu_moral_scenarios_val44",
+          "mmlu_philosophy_val19",
+          "mmlu_anatomy_val10",
+          "mmlu_high_school_biology_val10",
+          "mmlu_high_school_chemistry_val11"
+        ],
+        "reward_mean": 0.3671875,
+        "reward_hist": [
+          12,
+          9,
+          20,
+          11,
+          12
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8707,
+            "picked": 8707,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2089,
+            "picked": 2089,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1317,
+            "picked": 1317,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 532,
+            "picked": 532,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 888,
+            "picked": 888,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 77673
+      }
+    },
+    "hum80_draw1": {
+      "train_seed": 1,
+      "rr_perm_seed": 3001,
+      "target_jsonl_sha256": "7c52cd8f1e13f3302cf5324a8d4c04152ff2acc4f522fed7e4b5e9c58182b571",
+      "target_jsonl_sha256_frozenmeta": "7c52cd8f1e13f3302cf5324a8d4c04152ff2acc4f522fed7e4b5e9c58182b571",
+      "target_grad_sha256": "fe3df5700348f6601dcc04042e3fc1037cdb5e06c39c2b8392f2bc39b85cc34e",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2001,
+      "selections": {
+        "dsmc": "43be27edec7742f9275de2f20235ae77c28a65cec8472e80c43ed60e8bf28cc5",
+        "less": "7503dfbb014eb9a8aed77bcf11280fc52051d3a7609adee45009db858f6ee3f8",
+        "first_rr": "e9257af0119de8ab2cf99c998cf849799e8b831c4b6c41c151df7ca7dc29a657",
+        "second_rr": "826bd34a2d053af5f60b1fd408cc9c86d3163a8aba22996aa0064deb76df5c12",
+        "gist": "fd3c109ea67fa73728cf7f026507903f01ead1781ebe537bd0a6762325015680",
+        "nice": "9b1c5ef5a56d4086f1cfa3f2f444796e8bceb70287eeea6b021f92eb10749ec3",
+        "randk": "dc1621fc5886946b92b0876df1164331a6a5bf70bea760a6147eb4885929547b",
+        "randk_lenmatch": "490108574d5d7947da6f15949f529627aaac4310a941699fdc440c86cb098810"
+      },
+      "subsets": {
+        "dsmc": "f179614e9487045eae24fd627517f79a1ba656ad9e1e28902114e374df652109",
+        "less": "144100acfa6cdd6e9dc601d487ab4c1161f2f9066cebeed8c8e48c62f6ea364e",
+        "first_rr": "76a1cb03a1187d7161bf91ed0c8844416baeb05774f5709e3d1f3daa613c0963",
+        "second_rr": "83db440dddcec6c5700381861ea94b7c6b95d38b6a5e546b8caa9bdfeb2df68b",
+        "gist": "59a052a894911ee740dc71beaa62e4eee4c5a6ba7e184d66bd29eb298db88eff",
+        "nice": "82c57a0d70a84cb524b53379b285747e7565cc01c4e376bb1a8d07362feaf84e",
+        "randk": "35513c3d19a22617d98ce0ffeca987ba41eb3bef17d34d0029a7d9a17703d2d0",
+        "randk_lenmatch": "9bd6738eeb8acf70068ad8222e87c5f4e8244d2b1167fa6b9d4ae18e64e32940"
+      },
+      "nice": {
+        "val_grad_sha256": "0c11aabdb977038211556ce34a428ebf17c8911a040569bfa0f8a1bf5c85297e",
+        "n_zero_signal": 13,
+        "zero_signal_target_ids": [
+          "mmlu_high_school_world_history_val10",
+          "mmlu_high_school_world_history_val25",
+          "mmlu_moral_scenarios_val57",
+          "mmlu_moral_scenarios_val91",
+          "mmlu_moral_scenarios_val46",
+          "mmlu_philosophy_val22",
+          "mmlu_prehistory_val3",
+          "mmlu_professional_law_val76",
+          "mmlu_professional_law_val135",
+          "mmlu_professional_law_val91",
+          "mmlu_professional_law_val10",
+          "mmlu_elementary_mathematics_val25",
+          "mmlu_machine_learning_val9"
+        ],
+        "reward_mean": 0.3359375,
+        "reward_hist": [
+          13,
+          12,
+          18,
+          13,
+          8
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8675,
+            "picked": 8675,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2130,
+            "picked": 2130,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1329,
+            "picked": 1329,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 515,
+            "picked": 515,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 884,
+            "picked": 884,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 59468
+      }
+    },
+    "hum80_draw2": {
+      "train_seed": 2,
+      "rr_perm_seed": 3002,
+      "target_jsonl_sha256": "514f5d56d225c65286257e07faad0b8aabb3cd7e610b1001f80173ad75bce874",
+      "target_jsonl_sha256_frozenmeta": "514f5d56d225c65286257e07faad0b8aabb3cd7e610b1001f80173ad75bce874",
+      "target_grad_sha256": "5f20b857db968b09957d6607e743f2098443af6bf70319944b6e6672a0eb646f",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2002,
+      "selections": {
+        "dsmc": "48a29a884722f0c9b9fa87a14373d51430ea1fc3c49a7dd2335f65f417c00438",
+        "less": "a3732a7682c6f398e5e4e7791b9c5d244ff32c9fd77374c634956c8260331576",
+        "first_rr": "22f64ad8a6147a82edfe0bf30fbc0563fc662277e54f5575b8d4717e45a91e8d",
+        "second_rr": "9d440d6489468e98bad8503b8f17268b1676e50c47a6d5573fab5b15e4fa830b",
+        "gist": "4ee96014a5b34747dbf2878cf645a95fb3342dd4f02d43064c72be863c8473db",
+        "nice": "5284aff2412ba62e45c70ce5e3d38772985b3379b65ee34f18a7e7be2f8620ad",
+        "randk": "06628c53c9d360c093c7faadc3e1fd4fedf56d4a2f32c5c94d51749db6b7b517",
+        "randk_lenmatch": "36f4b1aeda522c1bba8eac562ddce966cf0db063b45ed4a2092e2545c331476c"
+      },
+      "subsets": {
+        "dsmc": "b6e0cd5e33418a7b72dfb5c5a35fc22b8f82ebd1a21f5f0ebf4d7e62fda72a89",
+        "less": "6191fd521a75f8860e4bcc9a172fa2546e97c8477e8f3a826d1db71095b3c9f6",
+        "first_rr": "00340663d41db484052fb84515d507d9f86951d0aec591dc463053dc863bc5d6",
+        "second_rr": "74abec615cf4f712709c31005d8c89ae00512b75d2af4fa166504b6a84f459e1",
+        "gist": "3277619c62ad07f4d0aae5005425f1f6f886f972890b985850fadb3cc9242ef7",
+        "nice": "116645128e658dc209e6ce48fabd64949fcfc324dcbd368f9ae0cc1f46e1d75a",
+        "randk": "d6559e380637ff4415c2d66982839ec56a081545a9606629df382aa6c77fb12b",
+        "randk_lenmatch": "74bfd5495afa8e7e9c1f0dc582548b8797e9ee9cf3bade9a430032ef3d003a6d"
+      },
+      "nice": {
+        "val_grad_sha256": "6205bf18fc8727ca7ca77434b29de593a2d598fb02b6e15338249b58d9c7f932",
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_international_law_val5",
+          "mmlu_jurisprudence_val5",
+          "mmlu_moral_disputes_val27",
+          "mmlu_moral_scenarios_val43",
+          "mmlu_philosophy_val25",
+          "mmlu_professional_law_val31",
+          "mmlu_professional_law_val139",
+          "mmlu_professional_law_val36",
+          "mmlu_professional_law_val97",
+          "mmlu_high_school_physics_val2"
+        ],
+        "reward_mean": 0.37890625,
+        "reward_hist": [
+          10,
+          12,
+          18,
+          11,
+          13
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8654,
+            "picked": 8654,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2121,
+            "picked": 2121,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1322,
+            "picked": 1322,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 531,
+            "picked": 531,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 905,
+            "picked": 905,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 46018
+      }
+    },
+    "hum80_draw3": {
+      "train_seed": 3,
+      "rr_perm_seed": 3003,
+      "target_jsonl_sha256": "aec14319bf39742e70cfc68be06c0535faa43cdbf0a54be0c33a34918c49a92a",
+      "target_jsonl_sha256_frozenmeta": "aec14319bf39742e70cfc68be06c0535faa43cdbf0a54be0c33a34918c49a92a",
+      "target_grad_sha256": "95956def5a3d08704ebc2c7a161bcd8712e56f28cb6cc6025a63d6b0f5263cc4",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2003,
+      "selections": {
+        "dsmc": "0fd467fe1f9a6b9f95e75a6eed38f52962c8b566b23c19b7bd03b453257d3954",
+        "less": "994f3a654a2c581c5756e5b4527e3e58b0cefdbaf116521b9286bf6dafa1fc0f",
+        "first_rr": "64e08336dc66e1c4232b2c7c485c696fd85d89213ca501719e8d7c2a22816c50",
+        "second_rr": "5f69e4ed4906a02a8f850b4c510806f53f309bbde47144c18fbf1dd8c551a123",
+        "gist": "9789cd59f38658ef53723affbea0761c334948bcc3a782873a19eec6a4c3a4c9",
+        "nice": "b2dd9e243100fdfcaf34ee5afbb6f907c0cdfbadaa7acbf224f936e521b7f47f",
+        "randk": "13838c0123c9510bb36e9c363dc41eb648fee2ffc9efd6018d290421289f2809",
+        "randk_lenmatch": "05a071f3b3e98e1ca33b662b303794c36a3c5a8f6bd6fa67861dc9f237e54f0e"
+      },
+      "subsets": {
+        "dsmc": "918d9b45119bad78930cf78da1523bc86c75c12416851f8cc0fd3a79884dfb9f",
+        "less": "7fde811aa7f4ce75e9285b108ac7eeb54ed07c82728f0fd287262242f763cf46",
+        "first_rr": "53e2e5c2f2362e7136197a7a12a9f3586c487164ff35187ba483fd5aec715c80",
+        "second_rr": "57ef821d60716b95556911fbd849e3d4f4d204afb4e3f8da337508446bcda113",
+        "gist": "c2a1c9edc495a666a9987b928b5a6dd911a85c49c692bbc366672aec6bc0b2ab",
+        "nice": "6d39664fc42302161d2f2dee0c34c10af9aa1cfef2892aea7fba9a615a631717",
+        "randk": "a2ab36445df9c334005d74ed9fea858f5d8c33c181e75f0272ceb422041dbff3",
+        "randk_lenmatch": "b59bdfef282b01723e85c25bd42f5404b482b3268eafd78483f7f54d6779dc51"
+      },
+      "nice": {
+        "val_grad_sha256": "bcbf3dcd00a4ede1081be28cd9ab0f976f327e7d5101f87d1bdb45aa46403ea0",
+        "n_zero_signal": 7,
+        "zero_signal_target_ids": [
+          "mmlu_moral_scenarios_val90",
+          "mmlu_philosophy_val30",
+          "mmlu_philosophy_val20",
+          "mmlu_professional_law_val54",
+          "mmlu_professional_law_val88",
+          "mmlu_professional_law_val129",
+          "mmlu_high_school_statistics_val18"
+        ],
+        "reward_mean": 0.392578125,
+        "reward_hist": [
+          7,
+          12,
+          22,
+          11,
+          12
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8637,
+            "picked": 8637,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2120,
+            "picked": 2120,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1349,
+            "picked": 1349,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 533,
+            "picked": 533,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 894,
+            "picked": 894,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 53035
+      }
+    },
+    "hum80_draw4": {
+      "train_seed": 4,
+      "rr_perm_seed": 3004,
+      "target_jsonl_sha256": "94b11a272f9f103f1399a6bb8cf70f8609658b150612737e0e0c2613ebca582d",
+      "target_jsonl_sha256_frozenmeta": "94b11a272f9f103f1399a6bb8cf70f8609658b150612737e0e0c2613ebca582d",
+      "target_grad_sha256": "1f5bf7009f54804eac112c67f97aae0e1a790033026eed9abe3820bbfdd6b87b",
+      "target_grad_shape": [
+        64,
+        8192
+      ],
+      "randk_seed": 2004,
+      "selections": {
+        "dsmc": "d18b5a5ccc1144be5e2de4e030ea1752ec9eea04812af3d85375664e26901ce0",
+        "less": "23a02a0b204b37241a6a161f7231bd8dc13c8220f3fbc9b9ac817129281d941e",
+        "first_rr": "b3123afb8d6830d025aa196e34163c85fc965ba62c5b687f8192e1950db522b5",
+        "second_rr": "ed4750a1bf91aa6ccf00856a0b2c3b8f257c6b9eccd15320219df5c5250701be",
+        "gist": "ab9a7ab4ae20f3914cab420762116cc32ba7521e74392c13cca4274861f37b67",
+        "nice": "1a57503aa1fec817243672430264482cf4415340000572cfff066f67f097c84b",
+        "randk": "747178600cbcee0ecb6374d24cfc3a2392720a090c11377a9584f5b9b77def5b",
+        "randk_lenmatch": "f16a8769fb9eb8aa773a026490db9e1e0c50c920745acdaef5b0c8b3d98f89f8"
+      },
+      "subsets": {
+        "dsmc": "e70b62907126a763dd58e3450df28df89d415f8ee280e8dab8dd843184ddba04",
+        "less": "696fc7a80dc1516ab2a02e710f7960a60f4d0c2bd9cee40fa13f0c38e6a39ebe",
+        "first_rr": "a81e0a721b7663aa33f9a6ccf17b848cfc2b28e9b55f5795c0ed9f149f7c7a24",
+        "second_rr": "f49833640186d18da48654aa1c20bc64251b943ef806a3ecc29538ace4340890",
+        "gist": "444cd3b3abd677a1d0eede54a065d06f195710f89849940fc3d99fc8e3fb7118",
+        "nice": "8f2693450cc6d6249573f3a4ca4f00cb72b81a71873b2e2957e5beb41d847f57",
+        "randk": "81844d05a3475f55621600b4f95bce873fdb6f754db45196ad48069cc8ab97bd",
+        "randk_lenmatch": "c4776ca0ee2c605e548fcc17457d583c2f4e06c672e7c428887d9109899bc0a5"
+      },
+      "nice": {
+        "val_grad_sha256": "bde040d77f93279479e70418235f1f492adde73c718b6c713dd74cb5aaa1b5de",
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_high_school_us_history_val20",
+          "mmlu_moral_disputes_val30",
+          "mmlu_moral_scenarios_val51",
+          "mmlu_moral_scenarios_val3",
+          "mmlu_moral_scenarios_val28",
+          "mmlu_philosophy_val33",
+          "mmlu_prehistory_val21",
+          "mmlu_professional_law_val29",
+          "mmlu_professional_law_val123",
+          "mmlu_high_school_chemistry_val15"
+        ],
+        "reward_mean": 0.37109375,
+        "reward_hist": [
+          10,
+          15,
+          16,
+          12,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8624,
+            "picked": 8624,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2102,
+            "picked": 2102,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1358,
+            "picked": 1358,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 535,
+            "picked": 535,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 914,
+            "picked": 914,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 47024
+      }
+    }
+  }
+}

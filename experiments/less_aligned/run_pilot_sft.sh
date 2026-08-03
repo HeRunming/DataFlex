@@ -1,6 +1,6 @@
 #!/bin/bash
 # Target-draw pilot SFT/eval/aggregate driver (staged, resume + fail-fast). advice_0731 / code_review_0801.
-# Consumes experiments/less_aligned/pilot_run_plan.json (32 cells -> 30 unique adapters).
+# Consumes experiments/less_aligned/pilot_run_plan.json (80 cells -> 75 unique adapters, 5 draws/dir).
 # Phases via PHASES env: register train eval aggregate. Optional ADAPTERS="id1 id2" restricts
 # TRAIN+EVAL to specific adapter_ids (canary). NOTE: register ALWAYS processes all 30 datasets
 # (cheap, idempotent) regardless of ADAPTERS — datasets are shared config, not per-canary state.
@@ -9,13 +9,13 @@
 #              resume skips only a HASH-VALIDATED matching adapter (not mere file existence)
 #   eval     : lm_eval mmlu_stem+humanities into a UNIQUE run subdir; require exactly 1 results file;
 #              write eval_manifest; resume skips only a hash-validated matching eval
-#   aggregate: expand 30 adapters -> 32 cells; DSMC-method paired diff; 51/64,13/64 weights
+#   aggregate: expand 75 adapters -> 80 cells; DSMC-method paired diff; 51/64,13/64 weights
 set -Eeuo pipefail
 ENVBIN=/jizhicfs/karonhe/envs/dataflex-fa/bin; PY=$ENVBIN/python
 SAVES=/jizhicfs/karonhe/dataflex_saves; ROOT=/jizhicfs/karonhe/DataFlex_fa
 BASE=/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf
 LOGD=$SAVES/logs; PLAN=$ROOT/experiments/less_aligned/pilot_run_plan.json
-MASTER=$ROOT/experiments/less_aligned/pilot_4draw_master_manifest.json
+MASTER=$ROOT/experiments/less_aligned/targetdraw_10draw_master_manifest.json
 PROV="$PY scripts/pilot_provenance.py"; K=13533
 export PATH=$ENVBIN:$PATH; cd $ROOT; mkdir -p $LOGD $SAVES/eval_results/skew
 log(){ echo "[$(date +%m-%d_%H:%M:%S)] $*"; }

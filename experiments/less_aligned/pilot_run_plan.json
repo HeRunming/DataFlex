@@ -2,8 +2,14 @@
   "draws": [
     "stem80_draw0",
     "stem80_draw1",
+    "stem80_draw2",
+    "stem80_draw3",
+    "stem80_draw4",
     "hum80_draw0",
-    "hum80_draw1"
+    "hum80_draw1",
+    "hum80_draw2",
+    "hum80_draw3",
+    "hum80_draw4"
   ],
   "methods": [
     "dsmc",
@@ -15,8 +21,8 @@
     "randk",
     "randk_lenmatch"
   ],
-  "n_cells": 32,
-  "n_unique_adapters": 30,
+  "n_cells": 80,
+  "n_unique_adapters": 75,
   "cells": [
     {
       "draw": "stem80_draw0",
@@ -195,6 +201,270 @@
       "shared_adapter": false
     },
     {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 2,
+      "adapter_id": "stem80_draw2_dsmc_seed2",
+      "dataset_key": "stem80_draw2_dsmc_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw2_dsmc_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw2_dsmc_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 2,
+      "adapter_id": "stem80_draw2_less_seed2",
+      "dataset_key": "stem80_draw2_less_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw2_less_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw2_less_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 2,
+      "adapter_id": "stem80_draw2_first_rr_seed2",
+      "dataset_key": "stem80_draw2_first_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw2_first_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw2_first_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 2,
+      "adapter_id": "stem80_draw2_second_rr_seed2",
+      "dataset_key": "stem80_draw2_second_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw2_second_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw2_second_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 2,
+      "adapter_id": "stem80_draw2_gist_seed2",
+      "dataset_key": "stem80_draw2_gist_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw2_gist_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw2_gist_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 2,
+      "adapter_id": "stem80_draw2_nice_seed2",
+      "dataset_key": "stem80_draw2_nice_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw2_nice_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw2_nice_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 2,
+      "adapter_id": "randk_drawidx2_seed2",
+      "dataset_key": "randk_drawidx2_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_randk_drawidx2_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_randk_drawidx2_seed2",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 2,
+      "adapter_id": "stem80_draw2_randk_lenmatch_seed2",
+      "dataset_key": "stem80_draw2_randk_lenmatch_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw2_randk_lenmatch_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw2_randk_lenmatch_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 3,
+      "adapter_id": "stem80_draw3_dsmc_seed3",
+      "dataset_key": "stem80_draw3_dsmc_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw3_dsmc_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw3_dsmc_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 3,
+      "adapter_id": "stem80_draw3_less_seed3",
+      "dataset_key": "stem80_draw3_less_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw3_less_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw3_less_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 3,
+      "adapter_id": "stem80_draw3_first_rr_seed3",
+      "dataset_key": "stem80_draw3_first_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw3_first_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw3_first_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 3,
+      "adapter_id": "stem80_draw3_second_rr_seed3",
+      "dataset_key": "stem80_draw3_second_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw3_second_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw3_second_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 3,
+      "adapter_id": "stem80_draw3_gist_seed3",
+      "dataset_key": "stem80_draw3_gist_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw3_gist_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw3_gist_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 3,
+      "adapter_id": "stem80_draw3_nice_seed3",
+      "dataset_key": "stem80_draw3_nice_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw3_nice_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw3_nice_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 3,
+      "adapter_id": "randk_drawidx3_seed3",
+      "dataset_key": "randk_drawidx3_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_randk_drawidx3_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_randk_drawidx3_seed3",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 3,
+      "adapter_id": "stem80_draw3_randk_lenmatch_seed3",
+      "dataset_key": "stem80_draw3_randk_lenmatch_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw3_randk_lenmatch_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw3_randk_lenmatch_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 4,
+      "adapter_id": "stem80_draw4_dsmc_seed4",
+      "dataset_key": "stem80_draw4_dsmc_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw4_dsmc_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw4_dsmc_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 4,
+      "adapter_id": "stem80_draw4_less_seed4",
+      "dataset_key": "stem80_draw4_less_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw4_less_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw4_less_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 4,
+      "adapter_id": "stem80_draw4_first_rr_seed4",
+      "dataset_key": "stem80_draw4_first_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw4_first_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw4_first_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 4,
+      "adapter_id": "stem80_draw4_second_rr_seed4",
+      "dataset_key": "stem80_draw4_second_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw4_second_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw4_second_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 4,
+      "adapter_id": "stem80_draw4_gist_seed4",
+      "dataset_key": "stem80_draw4_gist_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw4_gist_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw4_gist_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 4,
+      "adapter_id": "stem80_draw4_nice_seed4",
+      "dataset_key": "stem80_draw4_nice_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw4_nice_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw4_nice_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 4,
+      "adapter_id": "randk_drawidx4_seed4",
+      "dataset_key": "randk_drawidx4_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_randk_drawidx4_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_randk_drawidx4_seed4",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 4,
+      "adapter_id": "stem80_draw4_randk_lenmatch_seed4",
+      "dataset_key": "stem80_draw4_randk_lenmatch_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw4_randk_lenmatch_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_stem80_draw4_randk_lenmatch_seed4",
+      "shared_adapter": false
+    },
+    {
       "draw": "hum80_draw0",
       "direction": "hum80",
       "method": "dsmc",
@@ -369,6 +639,270 @@
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw1_randk_lenmatch_seed1",
       "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw1_randk_lenmatch_seed1",
       "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 2,
+      "adapter_id": "hum80_draw2_dsmc_seed2",
+      "dataset_key": "hum80_draw2_dsmc_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw2_dsmc_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw2_dsmc_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 2,
+      "adapter_id": "hum80_draw2_less_seed2",
+      "dataset_key": "hum80_draw2_less_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw2_less_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw2_less_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 2,
+      "adapter_id": "hum80_draw2_first_rr_seed2",
+      "dataset_key": "hum80_draw2_first_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw2_first_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw2_first_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 2,
+      "adapter_id": "hum80_draw2_second_rr_seed2",
+      "dataset_key": "hum80_draw2_second_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw2_second_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw2_second_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 2,
+      "adapter_id": "hum80_draw2_gist_seed2",
+      "dataset_key": "hum80_draw2_gist_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw2_gist_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw2_gist_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 2,
+      "adapter_id": "hum80_draw2_nice_seed2",
+      "dataset_key": "hum80_draw2_nice_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw2_nice_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw2_nice_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 2,
+      "adapter_id": "randk_drawidx2_seed2",
+      "dataset_key": "randk_drawidx2_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_randk_drawidx2_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_randk_drawidx2_seed2",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 2,
+      "adapter_id": "hum80_draw2_randk_lenmatch_seed2",
+      "dataset_key": "hum80_draw2_randk_lenmatch_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw2_randk_lenmatch_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw2_randk_lenmatch_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 3,
+      "adapter_id": "hum80_draw3_dsmc_seed3",
+      "dataset_key": "hum80_draw3_dsmc_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw3_dsmc_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw3_dsmc_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 3,
+      "adapter_id": "hum80_draw3_less_seed3",
+      "dataset_key": "hum80_draw3_less_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw3_less_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw3_less_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 3,
+      "adapter_id": "hum80_draw3_first_rr_seed3",
+      "dataset_key": "hum80_draw3_first_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw3_first_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw3_first_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 3,
+      "adapter_id": "hum80_draw3_second_rr_seed3",
+      "dataset_key": "hum80_draw3_second_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw3_second_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw3_second_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 3,
+      "adapter_id": "hum80_draw3_gist_seed3",
+      "dataset_key": "hum80_draw3_gist_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw3_gist_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw3_gist_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 3,
+      "adapter_id": "hum80_draw3_nice_seed3",
+      "dataset_key": "hum80_draw3_nice_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw3_nice_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw3_nice_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 3,
+      "adapter_id": "randk_drawidx3_seed3",
+      "dataset_key": "randk_drawidx3_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_randk_drawidx3_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_randk_drawidx3_seed3",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 3,
+      "adapter_id": "hum80_draw3_randk_lenmatch_seed3",
+      "dataset_key": "hum80_draw3_randk_lenmatch_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw3_randk_lenmatch_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw3_randk_lenmatch_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 4,
+      "adapter_id": "hum80_draw4_dsmc_seed4",
+      "dataset_key": "hum80_draw4_dsmc_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw4_dsmc_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw4_dsmc_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 4,
+      "adapter_id": "hum80_draw4_less_seed4",
+      "dataset_key": "hum80_draw4_less_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw4_less_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw4_less_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 4,
+      "adapter_id": "hum80_draw4_first_rr_seed4",
+      "dataset_key": "hum80_draw4_first_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw4_first_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw4_first_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 4,
+      "adapter_id": "hum80_draw4_second_rr_seed4",
+      "dataset_key": "hum80_draw4_second_rr_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw4_second_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw4_second_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 4,
+      "adapter_id": "hum80_draw4_gist_seed4",
+      "dataset_key": "hum80_draw4_gist_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw4_gist_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw4_gist_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 4,
+      "adapter_id": "hum80_draw4_nice_seed4",
+      "dataset_key": "hum80_draw4_nice_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw4_nice_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw4_nice_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 4,
+      "adapter_id": "randk_drawidx4_seed4",
+      "dataset_key": "randk_drawidx4_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_randk_drawidx4_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_randk_drawidx4_seed4",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 4,
+      "adapter_id": "hum80_draw4_randk_lenmatch_seed4",
+      "dataset_key": "hum80_draw4_randk_lenmatch_sel",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_hum80_draw4_randk_lenmatch_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot_hum80_draw4_randk_lenmatch_seed4",
+      "shared_adapter": false
     }
   ],
   "adapters": {
@@ -484,6 +1018,174 @@
       "subset_sha256": "c0e7acc4180b914a863747988a895a9a7829d6872419d2594562fbbdebc1ebf1",
       "method": "randk_lenmatch"
     },
+    "stem80_draw2_dsmc_seed2": {
+      "dataset_key": "stem80_draw2_dsmc_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_dsmc_sel.jsonl",
+      "subset_sha256": "5b8b25baecef2f1eed46b5dd0af7fd74ff01f258abf07fc6e994d833d9625dc1",
+      "method": "dsmc"
+    },
+    "stem80_draw2_less_seed2": {
+      "dataset_key": "stem80_draw2_less_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_less_sel.jsonl",
+      "subset_sha256": "04c9f6908f1d5888052ec6a07102c6a2b84598fb38c45fc87e96b7ed5f32d469",
+      "method": "less"
+    },
+    "stem80_draw2_first_rr_seed2": {
+      "dataset_key": "stem80_draw2_first_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_first_rr_sel.jsonl",
+      "subset_sha256": "ac66458a42d2c530da21be7f5e4995382e1f52a7d37d3650a7c3580148158c3e",
+      "method": "first_rr"
+    },
+    "stem80_draw2_second_rr_seed2": {
+      "dataset_key": "stem80_draw2_second_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_second_rr_sel.jsonl",
+      "subset_sha256": "4a36a4c3f241a597a513cb03ad4b737856d8a774a28fd96c9a5e88a76d1239e1",
+      "method": "second_rr"
+    },
+    "stem80_draw2_gist_seed2": {
+      "dataset_key": "stem80_draw2_gist_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_gist_sel.jsonl",
+      "subset_sha256": "b61d719a4b059b1c7bca0944238bb34637f0ccdd944652e9b5c38df571dae69b",
+      "method": "gist"
+    },
+    "stem80_draw2_nice_seed2": {
+      "dataset_key": "stem80_draw2_nice_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_nice_sel.jsonl",
+      "subset_sha256": "e32c2fc8e04ecd33b7273383767db4b159ef415fbdbcce3733be4a6e3f5f0dad",
+      "method": "nice"
+    },
+    "randk_drawidx2_seed2": {
+      "dataset_key": "randk_drawidx2_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_randk_sel.jsonl",
+      "subset_sha256": "d6559e380637ff4415c2d66982839ec56a081545a9606629df382aa6c77fb12b",
+      "method": "randk"
+    },
+    "stem80_draw2_randk_lenmatch_seed2": {
+      "dataset_key": "stem80_draw2_randk_lenmatch_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_randk_lenmatch_sel.jsonl",
+      "subset_sha256": "e5df73e9c94aa324ffc85b2c7367cec5471c774471d1b4fd1ce248c95c0c1042",
+      "method": "randk_lenmatch"
+    },
+    "stem80_draw3_dsmc_seed3": {
+      "dataset_key": "stem80_draw3_dsmc_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_dsmc_sel.jsonl",
+      "subset_sha256": "651f5fa397f1ac8bca039f93912a4f8c2dbfcd239e6dbd7cd2c9d23bfa2e936a",
+      "method": "dsmc"
+    },
+    "stem80_draw3_less_seed3": {
+      "dataset_key": "stem80_draw3_less_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_less_sel.jsonl",
+      "subset_sha256": "7ca4dfded7204f5b70f45bcfa039b8d5e3d47b6c7afce8112ef02b3e992d783d",
+      "method": "less"
+    },
+    "stem80_draw3_first_rr_seed3": {
+      "dataset_key": "stem80_draw3_first_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_first_rr_sel.jsonl",
+      "subset_sha256": "7718ca3d981ac3548751a5dfeb62d5a72d7685e5873383367a6992f0c42bfa65",
+      "method": "first_rr"
+    },
+    "stem80_draw3_second_rr_seed3": {
+      "dataset_key": "stem80_draw3_second_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_second_rr_sel.jsonl",
+      "subset_sha256": "969751dc95ef99d40aede7da9a56d5aee045e131daacc4ab5d8fe3493afe91d1",
+      "method": "second_rr"
+    },
+    "stem80_draw3_gist_seed3": {
+      "dataset_key": "stem80_draw3_gist_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_gist_sel.jsonl",
+      "subset_sha256": "da00944fc009ae23261be7a9669d957bfb7abfe7b99b69e3fe3036f8d3c4b4c4",
+      "method": "gist"
+    },
+    "stem80_draw3_nice_seed3": {
+      "dataset_key": "stem80_draw3_nice_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_nice_sel.jsonl",
+      "subset_sha256": "dd17d591e8a36adac37a093b410a12aea86edf3fd73a56c350febd0668f4c1f7",
+      "method": "nice"
+    },
+    "randk_drawidx3_seed3": {
+      "dataset_key": "randk_drawidx3_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_randk_sel.jsonl",
+      "subset_sha256": "a2ab36445df9c334005d74ed9fea858f5d8c33c181e75f0272ceb422041dbff3",
+      "method": "randk"
+    },
+    "stem80_draw3_randk_lenmatch_seed3": {
+      "dataset_key": "stem80_draw3_randk_lenmatch_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_randk_lenmatch_sel.jsonl",
+      "subset_sha256": "5f55881b8df4539261e094fd2943c52bd88547bdbc7181a9a1f1059809cf8d1d",
+      "method": "randk_lenmatch"
+    },
+    "stem80_draw4_dsmc_seed4": {
+      "dataset_key": "stem80_draw4_dsmc_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_dsmc_sel.jsonl",
+      "subset_sha256": "e7bea256d6d40a9b05e5fe47c9b6b9a23e8b40e731f2384e18aab09f71d2106f",
+      "method": "dsmc"
+    },
+    "stem80_draw4_less_seed4": {
+      "dataset_key": "stem80_draw4_less_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_less_sel.jsonl",
+      "subset_sha256": "ab2758a883ac577277b764349dcc0448d19d1a3c8709d0947030fd22d6cd11e2",
+      "method": "less"
+    },
+    "stem80_draw4_first_rr_seed4": {
+      "dataset_key": "stem80_draw4_first_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_first_rr_sel.jsonl",
+      "subset_sha256": "83d1245adc3897ba516732fb6a9937ad5c1545d9b9386e6e7cdf5b17bf1f1f34",
+      "method": "first_rr"
+    },
+    "stem80_draw4_second_rr_seed4": {
+      "dataset_key": "stem80_draw4_second_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_second_rr_sel.jsonl",
+      "subset_sha256": "7bb6c3c5506a45757b38aa42737b77d97cb14484ec390f12c1022f745532cdd5",
+      "method": "second_rr"
+    },
+    "stem80_draw4_gist_seed4": {
+      "dataset_key": "stem80_draw4_gist_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_gist_sel.jsonl",
+      "subset_sha256": "c215bbbef3586dee7e03eebbee03d88885717804016b273b1bebc833e1aec66e",
+      "method": "gist"
+    },
+    "stem80_draw4_nice_seed4": {
+      "dataset_key": "stem80_draw4_nice_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_nice_sel.jsonl",
+      "subset_sha256": "dc605f1e279e38f392f6f76b0243a3816962aca3f27eaebef115ae4abd6d1183",
+      "method": "nice"
+    },
+    "randk_drawidx4_seed4": {
+      "dataset_key": "randk_drawidx4_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_randk_sel.jsonl",
+      "subset_sha256": "81844d05a3475f55621600b4f95bce873fdb6f754db45196ad48069cc8ab97bd",
+      "method": "randk"
+    },
+    "stem80_draw4_randk_lenmatch_seed4": {
+      "dataset_key": "stem80_draw4_randk_lenmatch_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_randk_lenmatch_sel.jsonl",
+      "subset_sha256": "61c78a72fb1bb759859b44c4600d2e93e1356f2a42011e8c78c67c044223bc68",
+      "method": "randk_lenmatch"
+    },
     "hum80_draw0_dsmc_seed42": {
       "dataset_key": "hum80_draw0_dsmc_sel",
       "train_seed": 42,
@@ -580,6 +1282,153 @@
       "train_seed": 1,
       "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_randk_lenmatch_sel.jsonl",
       "subset_sha256": "9bd6738eeb8acf70068ad8222e87c5f4e8244d2b1167fa6b9d4ae18e64e32940",
+      "method": "randk_lenmatch"
+    },
+    "hum80_draw2_dsmc_seed2": {
+      "dataset_key": "hum80_draw2_dsmc_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_dsmc_sel.jsonl",
+      "subset_sha256": "b6e0cd5e33418a7b72dfb5c5a35fc22b8f82ebd1a21f5f0ebf4d7e62fda72a89",
+      "method": "dsmc"
+    },
+    "hum80_draw2_less_seed2": {
+      "dataset_key": "hum80_draw2_less_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_less_sel.jsonl",
+      "subset_sha256": "6191fd521a75f8860e4bcc9a172fa2546e97c8477e8f3a826d1db71095b3c9f6",
+      "method": "less"
+    },
+    "hum80_draw2_first_rr_seed2": {
+      "dataset_key": "hum80_draw2_first_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_first_rr_sel.jsonl",
+      "subset_sha256": "00340663d41db484052fb84515d507d9f86951d0aec591dc463053dc863bc5d6",
+      "method": "first_rr"
+    },
+    "hum80_draw2_second_rr_seed2": {
+      "dataset_key": "hum80_draw2_second_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_second_rr_sel.jsonl",
+      "subset_sha256": "74abec615cf4f712709c31005d8c89ae00512b75d2af4fa166504b6a84f459e1",
+      "method": "second_rr"
+    },
+    "hum80_draw2_gist_seed2": {
+      "dataset_key": "hum80_draw2_gist_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_gist_sel.jsonl",
+      "subset_sha256": "3277619c62ad07f4d0aae5005425f1f6f886f972890b985850fadb3cc9242ef7",
+      "method": "gist"
+    },
+    "hum80_draw2_nice_seed2": {
+      "dataset_key": "hum80_draw2_nice_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_nice_sel.jsonl",
+      "subset_sha256": "116645128e658dc209e6ce48fabd64949fcfc324dcbd368f9ae0cc1f46e1d75a",
+      "method": "nice"
+    },
+    "hum80_draw2_randk_lenmatch_seed2": {
+      "dataset_key": "hum80_draw2_randk_lenmatch_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_randk_lenmatch_sel.jsonl",
+      "subset_sha256": "74bfd5495afa8e7e9c1f0dc582548b8797e9ee9cf3bade9a430032ef3d003a6d",
+      "method": "randk_lenmatch"
+    },
+    "hum80_draw3_dsmc_seed3": {
+      "dataset_key": "hum80_draw3_dsmc_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_dsmc_sel.jsonl",
+      "subset_sha256": "918d9b45119bad78930cf78da1523bc86c75c12416851f8cc0fd3a79884dfb9f",
+      "method": "dsmc"
+    },
+    "hum80_draw3_less_seed3": {
+      "dataset_key": "hum80_draw3_less_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_less_sel.jsonl",
+      "subset_sha256": "7fde811aa7f4ce75e9285b108ac7eeb54ed07c82728f0fd287262242f763cf46",
+      "method": "less"
+    },
+    "hum80_draw3_first_rr_seed3": {
+      "dataset_key": "hum80_draw3_first_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_first_rr_sel.jsonl",
+      "subset_sha256": "53e2e5c2f2362e7136197a7a12a9f3586c487164ff35187ba483fd5aec715c80",
+      "method": "first_rr"
+    },
+    "hum80_draw3_second_rr_seed3": {
+      "dataset_key": "hum80_draw3_second_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_second_rr_sel.jsonl",
+      "subset_sha256": "57ef821d60716b95556911fbd849e3d4f4d204afb4e3f8da337508446bcda113",
+      "method": "second_rr"
+    },
+    "hum80_draw3_gist_seed3": {
+      "dataset_key": "hum80_draw3_gist_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_gist_sel.jsonl",
+      "subset_sha256": "c2a1c9edc495a666a9987b928b5a6dd911a85c49c692bbc366672aec6bc0b2ab",
+      "method": "gist"
+    },
+    "hum80_draw3_nice_seed3": {
+      "dataset_key": "hum80_draw3_nice_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_nice_sel.jsonl",
+      "subset_sha256": "6d39664fc42302161d2f2dee0c34c10af9aa1cfef2892aea7fba9a615a631717",
+      "method": "nice"
+    },
+    "hum80_draw3_randk_lenmatch_seed3": {
+      "dataset_key": "hum80_draw3_randk_lenmatch_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_randk_lenmatch_sel.jsonl",
+      "subset_sha256": "b59bdfef282b01723e85c25bd42f5404b482b3268eafd78483f7f54d6779dc51",
+      "method": "randk_lenmatch"
+    },
+    "hum80_draw4_dsmc_seed4": {
+      "dataset_key": "hum80_draw4_dsmc_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_dsmc_sel.jsonl",
+      "subset_sha256": "e70b62907126a763dd58e3450df28df89d415f8ee280e8dab8dd843184ddba04",
+      "method": "dsmc"
+    },
+    "hum80_draw4_less_seed4": {
+      "dataset_key": "hum80_draw4_less_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_less_sel.jsonl",
+      "subset_sha256": "696fc7a80dc1516ab2a02e710f7960a60f4d0c2bd9cee40fa13f0c38e6a39ebe",
+      "method": "less"
+    },
+    "hum80_draw4_first_rr_seed4": {
+      "dataset_key": "hum80_draw4_first_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_first_rr_sel.jsonl",
+      "subset_sha256": "a81e0a721b7663aa33f9a6ccf17b848cfc2b28e9b55f5795c0ed9f149f7c7a24",
+      "method": "first_rr"
+    },
+    "hum80_draw4_second_rr_seed4": {
+      "dataset_key": "hum80_draw4_second_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_second_rr_sel.jsonl",
+      "subset_sha256": "f49833640186d18da48654aa1c20bc64251b943ef806a3ecc29538ace4340890",
+      "method": "second_rr"
+    },
+    "hum80_draw4_gist_seed4": {
+      "dataset_key": "hum80_draw4_gist_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_gist_sel.jsonl",
+      "subset_sha256": "444cd3b3abd677a1d0eede54a065d06f195710f89849940fc3d99fc8e3fb7118",
+      "method": "gist"
+    },
+    "hum80_draw4_nice_seed4": {
+      "dataset_key": "hum80_draw4_nice_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_nice_sel.jsonl",
+      "subset_sha256": "8f2693450cc6d6249573f3a4ca4f00cb72b81a71873b2e2957e5beb41d847f57",
+      "method": "nice"
+    },
+    "hum80_draw4_randk_lenmatch_seed4": {
+      "dataset_key": "hum80_draw4_randk_lenmatch_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_randk_lenmatch_sel.jsonl",
+      "subset_sha256": "c4776ca0ee2c605e548fcc17457d583c2f4e06c672e7c428887d9109899bc0a5",
       "method": "randk_lenmatch"
     }
   }
