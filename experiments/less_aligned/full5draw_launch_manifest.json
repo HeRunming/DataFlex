@@ -1,0 +1,14 @@
+{
+  "experiment": "full_5draw_5pct",
+  "launch_commit": "9dc145946ede6d3bd28d06ec4b9f1a96e106c7e8",
+  "run_plan": "experiments/less_aligned/pilot_run_plan.json",
+  "master_manifest": "experiments/less_aligned/targetdraw_10draw_master_manifest.json",
+  "n_cells": 80,
+  "n_unique_adapters": 75,
+  "already_trained": 30,
+  "to_train": 45,
+  "draws_0_1_provenance": "original pilot launch (commit da24929 era)",
+  "draws_2_4_provenance": "this launch commit",
+  "budget": "5pct K=13533",
+  "note": "1pct budget is a separate preregistered follow-up"
+}

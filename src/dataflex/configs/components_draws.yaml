@@ -12,3 +12,120 @@ selectors:
       sigma: null
       kernel_type: grad_cov
       target_gradient_type: sgd
+  stem80_draw1:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_stem80_draw1_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  hum80_draw0:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_hum80_draw0_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  hum80_draw1:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_hum80_draw1_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  stem80_draw2:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_stem80_draw2_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  stem80_draw3:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_stem80_draw3_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  stem80_draw4:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_stem80_draw4_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  hum80_draw2:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_hum80_draw2_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  hum80_draw3:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_hum80_draw3_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  hum80_draw4:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/draw_hum80_draw4_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
