@@ -25,25 +25,41 @@ DSMC absolute balanced per draw: stem0 0.4107, stem1 0.3980, hum0 0.4085, hum1 0
 
 ## Reading (descriptive, pilot-scale)
 
-1. **DSMC beats every gradient/geometry baseline on average and consistently**: LESS, First-RR,
-   Second-RR, GIST all lose to DSMC in **4/4** draws (means +0.007 to +0.016 balanced). GIST — the
-   closest conceptual competitor — is the *most* behind on average (+0.0158), though with high
-   draw-to-draw variance (+0.0007 on stem1 to +0.0382 on hum0).
-2. **DSMC ≈ Random-K** (mean +0.0000 balanced, −0.0015 target-weighted; DSMC wins 2/4). This is the
-   important honest caveat: at 5% budget on these skewed targets, **plain Random-K matches DSMC** —
-   consistent with the large-scale-selection literature that Random is a strong baseline at
-   non-tiny budgets. randk_lenmatch behaves the same (mean ≈0), so the DSMC-vs-random gap is not a
-   length/token-count artifact.
-3. NICE is the one baseline DSMC does not always beat (loses on hum0 by 0.0095); otherwise behind.
+1. **DSMC beats LESS, First-RR, Second-RR, and GIST in 4/4 replicates** (means +0.007 to +0.016
+   balanced). GIST — the closest conceptual competitor — is the *most* behind on average (+0.0158),
+   though with high draw-to-draw variance (+0.0007 on stem1 to +0.0382 on hum0). **NICE is mixed**:
+   DSMC wins both STEM draws (+0.0171, +0.0279) but on HUM the two draws split (−0.0095, +0.0045),
+   so NICE is slightly *ahead* of DSMC on the HUM-direction 2-draw average (~−0.25 pp balanced, a bit
+   more under target-weighted). So: DSMC > {LESS, First-RR, Second-RR, GIST} in every replicate;
+   NICE mixed but DSMC better on the 4-replicate average.
+   Also DSMC > Second-RR in 4/4 — the win is not just the 2nd-order representation; the MMD coreset
+   selector adds over 2nd-order RR in these replicates too (reinforces the earlier 2×2 mechanism).
+2. **DSMC ≈ Random-K** (mean +0.0000 balanced, −0.0015 target-weighted; DSMC wins 2/4). IMPORTANT
+   caveat on the evidence strength: Random-K reuses ONE adapter per draw index across both
+   directions, so there are only **2 unique Random adapters**, and the sign is perfectly **blocked by
+   draw index**: DSMC wins both direction cells at index 0 (+0.43, +0.21 pp) and loses both at index
+   1 (−0.43, −0.20 pp). So the apparent tie is largely two blocks cancelling, not 4 independent
+   Random comparisons — expanding to draws 2–4 (3 new Random subsets + seeds) is what actually
+   resolves whether the tie is stable. randk_lenmatch supports the **same overall conclusion** (mean
+   ≈0) — but is not identical per-draw (e.g. stem1 LenMatched +1.00 pp over DSMC, hum0 DSMC +0.86
+   pp). So: **the tie is not explained by coarse post-tokenization length-bucket composition** (not a
+   claim that all token-exposure confounding is eliminated — the control matches bucket counts, not
+   exact total tokens).
 
-**Headline caveat for the paper**: the pilot supports "DSMC ≥ other *targeted* selectors (LESS,
-GIST, RR, NICE) across both skew directions", but does **NOT** support "DSMC beats Random" at this
-5% budget — DSMC and Random-K are tied. This directly motivates the pre-registered **1% budget**
-axis (targeted selection's advantage over Random is expected to widen at low budget), and is exactly
-the kind of result the "Critical Look at Targeted Instruction Selection" work warns to check.
+**Headline for the paper (pilot-scale)**: DSMC ≥ existing *targeted* selectors (LESS, GIST, RR;
+NICE on average) across both skew directions, but does **NOT** beat well-controlled Random at 5%
+budget — they are tied within the current 2-block Random evidence. Motivates (a) expanding 5% to 5
+draws to test whether the Random tie is stable vs block-cancellation, then (b) the pre-registered
+**1% budget** axis as a budget-interaction follow-up (targeted selection's edge over Random is
+expected to widen at low budget — an empirical trend, not guaranteed here).
 
-## Next (per advice_0731 — analysis before expansion)
+## Next (per advice_0731 / choice_0803 — analysis before 1%)
 
-Do NOT expand to 5 draws yet. Options to weigh: (a) expand these 2-draw results to 5 draws/direction
-for tighter draw-clustered intervals; (b) add the **1% budget** condition where DSMC-vs-Random should
-separate; (c) both. No method/hyperparameter changes — the pilot is a clean, frozen result.
+**Decision: expand the frozen 5% condition to 5 draws/direction FIRST** (draws 2,3,4 × 2 dir already
+generated + globally disjoint), THEN the 1% budget axis as a separate pre-registered
+budget-interaction experiment. Rationale: the Random tie currently rests on only 2 unique Random
+adapters with sign perfectly blocked by draw index — 3 more draw indices directly test whether it's
+stable or block-cancellation. Do NOT jump to 1% first (would read as switching to a friendlier budget
+after the main budget didn't beat Random). Both budgets will be reported; no outcome-dependent
+expansion. Keep all 8 methods frozen. Analysis will treat Random-K as **5 unique Random/seed blocks**,
+not 10 direction cells; statistical unit = target-draw/training-seed replicate; descriptive intervals.

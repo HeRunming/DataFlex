@@ -13,10 +13,15 @@ Per-draw train seed: draw0->42, draw1->1 (from each draw's frozen meta).
 """
 import argparse, json, os, hashlib
 
-DRAWS = ["stem80_draw0", "stem80_draw1", "hum80_draw0", "hum80_draw1"]
+# Full 5%-primary experiment: 5 draws per direction (choice_0803). draws 0,1 = original pilot.
+DRAWS = ["stem80_draw0", "stem80_draw1", "stem80_draw2", "stem80_draw3", "stem80_draw4",
+         "hum80_draw0", "hum80_draw1", "hum80_draw2", "hum80_draw3", "hum80_draw4"]
 METHODS = ["dsmc", "less", "first_rr", "second_rr", "gist", "nice", "randk", "randk_lenmatch"]
 SAVES = "/jizhicfs/karonhe/dataflex_saves"
 ROOT = "/jizhicfs/karonhe/DataFlex_fa"
+# expected counts: 7 draw-specific x 10 draws + 5 shared Random-K (one per draw index 0..4) = 75
+N_CELLS_EXPECT = len(DRAWS) * len(METHODS)          # 80
+N_ADAPTERS_EXPECT = 7 * len(DRAWS) + 5              # 75
 
 
 def fsha(p):
@@ -67,8 +72,8 @@ def main():
     plan = {"draws": DRAWS, "methods": METHODS, "n_cells": len(cells),
             "n_unique_adapters": len(adapters), "cells": cells, "adapters": adapters}
     json.dump(plan, open(args.out, "w"), indent=2)
-    print(f"cells={len(cells)} (expect 32)  unique_adapters={len(adapters)} (expect 30)")
-    assert len(cells) == 32 and len(adapters) == 30, "run plan cell/adapter count mismatch"
+    print(f"cells={len(cells)} (expect {N_CELLS_EXPECT})  unique_adapters={len(adapters)} (expect {N_ADAPTERS_EXPECT})")
+    assert len(cells) == N_CELLS_EXPECT and len(adapters) == N_ADAPTERS_EXPECT, "run plan cell/adapter count mismatch"
     # human table
     print(f"\n{'draw':16s} {'method':16s} {'seed':4s} {'shared':6s} adapter_id")
     for c in cells:

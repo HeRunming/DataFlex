@@ -77,9 +77,10 @@ def main():
                     f"{int(r['shared_adapter'])},{fmt(r['stem'])},{fmt(r['hum'])},"
                     f"{fmt(r['balanced'])},{fmt(r['target_weighted'])},{dbal},{dtw}{nl}")
     done = sum(1 for r in rows if r["stem"] is not None)
-    print(f"wrote {out}  (cells with results: {done}/32)")
-    if done < 32 and not args.allow_partial:
-        raise SystemExit(f"[FATAL] full pilot requires 32/32 cells, have {done}. Use --allow-partial for canary.")
+    total = len(rows)
+    print(f"wrote {out}  (cells with results: {done}/{total})")
+    if done < total and not args.allow_partial:
+        raise SystemExit(f"[FATAL] full run requires {total}/{total} cells, have {done}. Use --allow-partial for canary.")
 
 
 if __name__ == "__main__":
