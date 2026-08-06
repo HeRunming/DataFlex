@@ -39,14 +39,13 @@ if has train; then
   export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
   for aid in "${AIDS[@]}"; do
     want "$aid" || continue
-    read -r dkey seed <<< "$($PY -c "import json;a=json.load(open('$PLAN'))['adapters']['$aid'];print(a['dataset_key'],a['train_seed'])")"
-    out=$SAVES/sft_results/pilot_${aid}
+    read -r dkey seed out <<< "$($PY -c "import json;p=json.load(open('$PLAN'));a=p['adapters']['$aid'];c=[c for c in p['cells'] if c['adapter_id']=='$aid'][0];print(a['dataset_key'],a['train_seed'],c.get('sft_out','$SAVES/sft_results/pilot_$aid'))")"
     if $PROV check_train --plan $PLAN --aid $aid --adapter_dir $out; then log "[skip train, validated] $aid"; continue; fi
     log "TRAIN $aid (dataset=$dkey seed=$seed)"
     if ! dataflex-cli train experiments/less_aligned/configs/train_llama7b_lora.yaml \
         dataset=$dkey output_dir=$out seed=$seed \
         per_device_train_batch_size=4 gradient_accumulation_steps=4 lora_alpha=512 num_train_epochs=4 \
-        > $LOGD/pilot_train_${aid}.log 2>&1; then log "[FAIL train] $aid"; exit 1; fi
+        > $LOGD/${aid}_train.log 2>&1; then log "[FAIL train] $aid"; exit 1; fi
     [[ -f $out/adapter_model.safetensors ]] || { log "[FAIL train] $aid no adapter"; exit 1; }
     $PROV write_train_manifest --plan $PLAN --aid $aid --adapter_dir $out --master $MASTER --base_model $BASE
     log "[done train] $aid"
@@ -58,7 +57,7 @@ if has eval; then
   port=29720
   for aid in "${AIDS[@]}"; do
     want "$aid" || { port=$((port+1)); continue; }
-    ad=$SAVES/sft_results/pilot_${aid}; base=$SAVES/eval_results/skew/pilot_${aid}
+    read -r ad base <<< "$($PY -c "import json;c=[c for c in json.load(open('$PLAN'))['cells'] if c['adapter_id']=='$aid'][0];print(c.get('sft_out','$SAVES/sft_results/pilot_$aid'),c.get('eval_out','$SAVES/eval_results/skew/pilot_$aid'))")"
     [[ -f $ad/adapter_model.safetensors ]] || { log "[no adapter] $aid"; exit 1; }
     if $PROV check_eval --eval_dir $base --adapter_dir $ad; then log "[skip eval, validated] $aid"; port=$((port+1)); continue; fi
     # fresh unique run subdir so results are never mixed across runs
@@ -69,7 +68,7 @@ if has eval; then
       accelerate launch --num_processes 8 --main_process_port $port -m lm_eval --model hf \
         --model_args "pretrained=$BASE,peft=$ad,dtype=bfloat16,trust_remote_code=True" \
         --tasks mmlu_stem,mmlu_humanities --num_fewshot 5 --batch_size 16 --output_path "$run" \
-        > $LOGD/pilot_eval_${aid}.log 2>&1; then log "[FAIL eval] $aid"; exit 1; fi
+        > $LOGD/${aid}_eval.log 2>&1; then log "[FAIL eval] $aid"; exit 1; fi
     # require exactly one authoritative results file, then pin it in eval_manifest
     $PROV find_eval --eval_dir "$run" >/dev/null || { log "[FAIL eval] $aid not exactly 1 results file"; exit 1; }
     $PROV write_eval_manifest --aid $aid --adapter_dir $ad --eval_dir "$base"

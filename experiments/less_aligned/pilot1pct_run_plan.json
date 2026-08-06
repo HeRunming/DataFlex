@@ -1,0 +1,1592 @@
+{
+  "draws": [
+    "stem80_draw0",
+    "stem80_draw1",
+    "stem80_draw2",
+    "stem80_draw3",
+    "stem80_draw4",
+    "hum80_draw0",
+    "hum80_draw1",
+    "hum80_draw2",
+    "hum80_draw3",
+    "hum80_draw4"
+  ],
+  "methods": [
+    "dsmc",
+    "less",
+    "first_rr",
+    "second_rr",
+    "gist",
+    "nice",
+    "randk",
+    "randk_lenmatch"
+  ],
+  "tag": "pilot1pct",
+  "budget": 2707,
+  "n_cells": 80,
+  "n_unique_adapters": 75,
+  "cells": [
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_stem80_draw0_dsmc_seed42",
+      "dataset_key": "pilot1pct_stem80_draw0_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_dsmc_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_dsmc_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_stem80_draw0_less_seed42",
+      "dataset_key": "pilot1pct_stem80_draw0_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_less_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_less_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_stem80_draw0_first_rr_seed42",
+      "dataset_key": "pilot1pct_stem80_draw0_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_first_rr_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_first_rr_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_stem80_draw0_second_rr_seed42",
+      "dataset_key": "pilot1pct_stem80_draw0_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_second_rr_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_second_rr_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_stem80_draw0_gist_seed42",
+      "dataset_key": "pilot1pct_stem80_draw0_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_gist_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_gist_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_stem80_draw0_nice_seed42",
+      "dataset_key": "pilot1pct_stem80_draw0_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_nice_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_nice_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_randk_drawidx0_seed42",
+      "dataset_key": "pilot1pct_randk_drawidx0_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx0_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx0_seed42",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw0",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_stem80_draw0_randk_lenmatch_seed42",
+      "dataset_key": "pilot1pct_stem80_draw0_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_randk_lenmatch_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_randk_lenmatch_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_stem80_draw1_dsmc_seed1",
+      "dataset_key": "pilot1pct_stem80_draw1_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw1_dsmc_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw1_dsmc_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_stem80_draw1_less_seed1",
+      "dataset_key": "pilot1pct_stem80_draw1_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw1_less_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw1_less_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_stem80_draw1_first_rr_seed1",
+      "dataset_key": "pilot1pct_stem80_draw1_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw1_first_rr_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw1_first_rr_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_stem80_draw1_second_rr_seed1",
+      "dataset_key": "pilot1pct_stem80_draw1_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw1_second_rr_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw1_second_rr_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_stem80_draw1_gist_seed1",
+      "dataset_key": "pilot1pct_stem80_draw1_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw1_gist_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw1_gist_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_stem80_draw1_nice_seed1",
+      "dataset_key": "pilot1pct_stem80_draw1_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw1_nice_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw1_nice_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_randk_drawidx1_seed1",
+      "dataset_key": "pilot1pct_randk_drawidx1_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx1_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx1_seed1",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw1",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_stem80_draw1_randk_lenmatch_seed1",
+      "dataset_key": "pilot1pct_stem80_draw1_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw1_randk_lenmatch_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw1_randk_lenmatch_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_stem80_draw2_dsmc_seed2",
+      "dataset_key": "pilot1pct_stem80_draw2_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw2_dsmc_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw2_dsmc_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_stem80_draw2_less_seed2",
+      "dataset_key": "pilot1pct_stem80_draw2_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw2_less_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw2_less_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_stem80_draw2_first_rr_seed2",
+      "dataset_key": "pilot1pct_stem80_draw2_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw2_first_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw2_first_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_stem80_draw2_second_rr_seed2",
+      "dataset_key": "pilot1pct_stem80_draw2_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw2_second_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw2_second_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_stem80_draw2_gist_seed2",
+      "dataset_key": "pilot1pct_stem80_draw2_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw2_gist_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw2_gist_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_stem80_draw2_nice_seed2",
+      "dataset_key": "pilot1pct_stem80_draw2_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw2_nice_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw2_nice_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_randk_drawidx2_seed2",
+      "dataset_key": "pilot1pct_randk_drawidx2_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx2_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx2_seed2",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw2",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_stem80_draw2_randk_lenmatch_seed2",
+      "dataset_key": "pilot1pct_stem80_draw2_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw2_randk_lenmatch_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw2_randk_lenmatch_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_stem80_draw3_dsmc_seed3",
+      "dataset_key": "pilot1pct_stem80_draw3_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw3_dsmc_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw3_dsmc_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_stem80_draw3_less_seed3",
+      "dataset_key": "pilot1pct_stem80_draw3_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw3_less_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw3_less_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_stem80_draw3_first_rr_seed3",
+      "dataset_key": "pilot1pct_stem80_draw3_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw3_first_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw3_first_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_stem80_draw3_second_rr_seed3",
+      "dataset_key": "pilot1pct_stem80_draw3_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw3_second_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw3_second_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_stem80_draw3_gist_seed3",
+      "dataset_key": "pilot1pct_stem80_draw3_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw3_gist_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw3_gist_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_stem80_draw3_nice_seed3",
+      "dataset_key": "pilot1pct_stem80_draw3_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw3_nice_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw3_nice_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_randk_drawidx3_seed3",
+      "dataset_key": "pilot1pct_randk_drawidx3_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx3_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx3_seed3",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw3",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_stem80_draw3_randk_lenmatch_seed3",
+      "dataset_key": "pilot1pct_stem80_draw3_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw3_randk_lenmatch_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw3_randk_lenmatch_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "dsmc",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_stem80_draw4_dsmc_seed4",
+      "dataset_key": "pilot1pct_stem80_draw4_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw4_dsmc_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw4_dsmc_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "less",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_stem80_draw4_less_seed4",
+      "dataset_key": "pilot1pct_stem80_draw4_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw4_less_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw4_less_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "first_rr",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_stem80_draw4_first_rr_seed4",
+      "dataset_key": "pilot1pct_stem80_draw4_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw4_first_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw4_first_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "second_rr",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_stem80_draw4_second_rr_seed4",
+      "dataset_key": "pilot1pct_stem80_draw4_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw4_second_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw4_second_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "gist",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_stem80_draw4_gist_seed4",
+      "dataset_key": "pilot1pct_stem80_draw4_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw4_gist_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw4_gist_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "nice",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_stem80_draw4_nice_seed4",
+      "dataset_key": "pilot1pct_stem80_draw4_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw4_nice_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw4_nice_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "randk",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_randk_drawidx4_seed4",
+      "dataset_key": "pilot1pct_randk_drawidx4_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx4_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx4_seed4",
+      "shared_adapter": true
+    },
+    {
+      "draw": "stem80_draw4",
+      "direction": "stem80",
+      "method": "randk_lenmatch",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_stem80_draw4_randk_lenmatch_seed4",
+      "dataset_key": "pilot1pct_stem80_draw4_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw4_randk_lenmatch_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw4_randk_lenmatch_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_hum80_draw0_dsmc_seed42",
+      "dataset_key": "pilot1pct_hum80_draw0_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw0_dsmc_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw0_dsmc_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_hum80_draw0_less_seed42",
+      "dataset_key": "pilot1pct_hum80_draw0_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw0_less_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw0_less_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_hum80_draw0_first_rr_seed42",
+      "dataset_key": "pilot1pct_hum80_draw0_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw0_first_rr_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw0_first_rr_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_hum80_draw0_second_rr_seed42",
+      "dataset_key": "pilot1pct_hum80_draw0_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw0_second_rr_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw0_second_rr_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_hum80_draw0_gist_seed42",
+      "dataset_key": "pilot1pct_hum80_draw0_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw0_gist_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw0_gist_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_hum80_draw0_nice_seed42",
+      "dataset_key": "pilot1pct_hum80_draw0_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw0_nice_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw0_nice_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_randk_drawidx0_seed42",
+      "dataset_key": "pilot1pct_randk_drawidx0_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx0_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx0_seed42",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw0",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 42,
+      "adapter_id": "pilot1pct_hum80_draw0_randk_lenmatch_seed42",
+      "dataset_key": "pilot1pct_hum80_draw0_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw0_randk_lenmatch_seed42",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw0_randk_lenmatch_seed42",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_hum80_draw1_dsmc_seed1",
+      "dataset_key": "pilot1pct_hum80_draw1_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw1_dsmc_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw1_dsmc_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_hum80_draw1_less_seed1",
+      "dataset_key": "pilot1pct_hum80_draw1_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw1_less_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw1_less_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_hum80_draw1_first_rr_seed1",
+      "dataset_key": "pilot1pct_hum80_draw1_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw1_first_rr_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw1_first_rr_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_hum80_draw1_second_rr_seed1",
+      "dataset_key": "pilot1pct_hum80_draw1_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw1_second_rr_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw1_second_rr_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_hum80_draw1_gist_seed1",
+      "dataset_key": "pilot1pct_hum80_draw1_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw1_gist_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw1_gist_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_hum80_draw1_nice_seed1",
+      "dataset_key": "pilot1pct_hum80_draw1_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw1_nice_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw1_nice_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_randk_drawidx1_seed1",
+      "dataset_key": "pilot1pct_randk_drawidx1_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx1_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx1_seed1",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw1",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 1,
+      "adapter_id": "pilot1pct_hum80_draw1_randk_lenmatch_seed1",
+      "dataset_key": "pilot1pct_hum80_draw1_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw1_randk_lenmatch_seed1",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw1_randk_lenmatch_seed1",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_hum80_draw2_dsmc_seed2",
+      "dataset_key": "pilot1pct_hum80_draw2_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw2_dsmc_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw2_dsmc_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_hum80_draw2_less_seed2",
+      "dataset_key": "pilot1pct_hum80_draw2_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw2_less_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw2_less_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_hum80_draw2_first_rr_seed2",
+      "dataset_key": "pilot1pct_hum80_draw2_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw2_first_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw2_first_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_hum80_draw2_second_rr_seed2",
+      "dataset_key": "pilot1pct_hum80_draw2_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw2_second_rr_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw2_second_rr_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_hum80_draw2_gist_seed2",
+      "dataset_key": "pilot1pct_hum80_draw2_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw2_gist_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw2_gist_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_hum80_draw2_nice_seed2",
+      "dataset_key": "pilot1pct_hum80_draw2_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw2_nice_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw2_nice_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_randk_drawidx2_seed2",
+      "dataset_key": "pilot1pct_randk_drawidx2_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx2_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx2_seed2",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw2",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 2,
+      "adapter_id": "pilot1pct_hum80_draw2_randk_lenmatch_seed2",
+      "dataset_key": "pilot1pct_hum80_draw2_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw2_randk_lenmatch_seed2",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw2_randk_lenmatch_seed2",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_hum80_draw3_dsmc_seed3",
+      "dataset_key": "pilot1pct_hum80_draw3_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw3_dsmc_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw3_dsmc_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_hum80_draw3_less_seed3",
+      "dataset_key": "pilot1pct_hum80_draw3_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw3_less_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw3_less_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_hum80_draw3_first_rr_seed3",
+      "dataset_key": "pilot1pct_hum80_draw3_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw3_first_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw3_first_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_hum80_draw3_second_rr_seed3",
+      "dataset_key": "pilot1pct_hum80_draw3_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw3_second_rr_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw3_second_rr_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_hum80_draw3_gist_seed3",
+      "dataset_key": "pilot1pct_hum80_draw3_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw3_gist_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw3_gist_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_hum80_draw3_nice_seed3",
+      "dataset_key": "pilot1pct_hum80_draw3_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw3_nice_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw3_nice_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_randk_drawidx3_seed3",
+      "dataset_key": "pilot1pct_randk_drawidx3_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx3_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx3_seed3",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw3",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 3,
+      "adapter_id": "pilot1pct_hum80_draw3_randk_lenmatch_seed3",
+      "dataset_key": "pilot1pct_hum80_draw3_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw3_randk_lenmatch_seed3",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw3_randk_lenmatch_seed3",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "dsmc",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_hum80_draw4_dsmc_seed4",
+      "dataset_key": "pilot1pct_hum80_draw4_dsmc_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw4_dsmc_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw4_dsmc_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "less",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_hum80_draw4_less_seed4",
+      "dataset_key": "pilot1pct_hum80_draw4_less_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw4_less_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw4_less_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "first_rr",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_hum80_draw4_first_rr_seed4",
+      "dataset_key": "pilot1pct_hum80_draw4_first_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw4_first_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw4_first_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "second_rr",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_hum80_draw4_second_rr_seed4",
+      "dataset_key": "pilot1pct_hum80_draw4_second_rr_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw4_second_rr_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw4_second_rr_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "gist",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_hum80_draw4_gist_seed4",
+      "dataset_key": "pilot1pct_hum80_draw4_gist_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw4_gist_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw4_gist_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "nice",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_hum80_draw4_nice_seed4",
+      "dataset_key": "pilot1pct_hum80_draw4_nice_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw4_nice_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw4_nice_seed4",
+      "shared_adapter": false
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "randk",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_randk_drawidx4_seed4",
+      "dataset_key": "pilot1pct_randk_drawidx4_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_randk_drawidx4_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx4_seed4",
+      "shared_adapter": true
+    },
+    {
+      "draw": "hum80_draw4",
+      "direction": "hum80",
+      "method": "randk_lenmatch",
+      "train_seed": 4,
+      "adapter_id": "pilot1pct_hum80_draw4_randk_lenmatch_seed4",
+      "dataset_key": "pilot1pct_hum80_draw4_randk_lenmatch_sel",
+      "budget": 2707,
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_hum80_draw4_randk_lenmatch_seed4",
+      "eval_out": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_hum80_draw4_randk_lenmatch_seed4",
+      "shared_adapter": false
+    }
+  ],
+  "adapters": {
+    "pilot1pct_stem80_draw0_dsmc_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_dsmc_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "e98a29942b3f5c0958f86764ffe09934413f06abbcecfddfb178bf12ae1455ae",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw0_less_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_less_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_less_1pct_sel.jsonl",
+      "subset_sha256": "abb971a2ff13cbdf87670202c70e164359143867e407cc67508025a53385d525",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw0_first_rr_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_first_rr_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "7451a09e8c398529f0944f81d9db026d1c914668c93942fd09df321d46c18f3e",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw0_second_rr_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_second_rr_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "e736a97da7915ccf0b140634f4b93f1197a9a93043b3d763e71239fa6e6a3725",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw0_gist_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_gist_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_gist_1pct_sel.jsonl",
+      "subset_sha256": "51855c7f8babb782929d886d4e840e81f37779d1bc0b046ea905e3c81cdd40c3",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw0_nice_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_nice_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_nice_1pct_sel.jsonl",
+      "subset_sha256": "63072f9ae13c668665301b1e8e9a0bd4c2f4552065ab5a38e3aece4452376a51",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_randk_drawidx0_seed42": {
+      "dataset_key": "pilot1pct_randk_drawidx0_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_randk_1pct_sel.jsonl",
+      "subset_sha256": "8b2efc2e978180b435f71cd5a199c10129cd9314a4063c439732c451f35ac3e2",
+      "method": "randk",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw0_randk_lenmatch_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_randk_lenmatch_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "0d1edbb07fa763a4fe6739f685c270462a5bce4898e81d616eaa475017d9fac9",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw1_dsmc_seed1": {
+      "dataset_key": "pilot1pct_stem80_draw1_dsmc_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "4445d0330f3ec2279584e88bcb10b69b60a69bd48a11c8f4791630b0309e9b06",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw1_less_seed1": {
+      "dataset_key": "pilot1pct_stem80_draw1_less_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_less_1pct_sel.jsonl",
+      "subset_sha256": "395c042c2588cb099f56129e6d9f95e8ed1e100240d485c8faf160b1ccbd4097",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw1_first_rr_seed1": {
+      "dataset_key": "pilot1pct_stem80_draw1_first_rr_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "cb16782ee6938cd2573860898fd3119eaca93bf7dac669d91c910cb6585c4a9f",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw1_second_rr_seed1": {
+      "dataset_key": "pilot1pct_stem80_draw1_second_rr_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "a1f5229c307bb7c919edf428afa65866ce4371737cdaab11108d3e7fd69f1ec4",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw1_gist_seed1": {
+      "dataset_key": "pilot1pct_stem80_draw1_gist_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_gist_1pct_sel.jsonl",
+      "subset_sha256": "4b5b305af246d6f92f4361aa0574b232442143c9bb5eb3d264a1dfb9b83de38a",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw1_nice_seed1": {
+      "dataset_key": "pilot1pct_stem80_draw1_nice_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_nice_1pct_sel.jsonl",
+      "subset_sha256": "a612da53f21796a6e8ac6f8adbc8d69c34744c2673abab9bc4d958d4b1b7f4dc",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_randk_drawidx1_seed1": {
+      "dataset_key": "pilot1pct_randk_drawidx1_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_randk_1pct_sel.jsonl",
+      "subset_sha256": "70c90e86a7a1e771e33d138ad3de6e2d500b2a2f6b9ffb55890e50244341ba37",
+      "method": "randk",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw1_randk_lenmatch_seed1": {
+      "dataset_key": "pilot1pct_stem80_draw1_randk_lenmatch_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "d653017b3430ac106b152070e3098f89aa2fd0a221ec1f5d2cef550cea2a591e",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw2_dsmc_seed2": {
+      "dataset_key": "pilot1pct_stem80_draw2_dsmc_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "698eb6d8ccfbf58f3e7a47c9864ca75a7a5e81b0e233eeb6841e7b206ddbad2d",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw2_less_seed2": {
+      "dataset_key": "pilot1pct_stem80_draw2_less_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_less_1pct_sel.jsonl",
+      "subset_sha256": "911c3c8d79f5933549b355898b7006be400918a6899cf5eb74b54037f8777e01",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw2_first_rr_seed2": {
+      "dataset_key": "pilot1pct_stem80_draw2_first_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "555c2244bc6013c3f131edd27fb7897cb468584fa76204405ead53a7d58dd71b",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw2_second_rr_seed2": {
+      "dataset_key": "pilot1pct_stem80_draw2_second_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "035feaf479a854f0eff20ccc51d8e4454de0e77ede56249293fae60f2cf19731",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw2_gist_seed2": {
+      "dataset_key": "pilot1pct_stem80_draw2_gist_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_gist_1pct_sel.jsonl",
+      "subset_sha256": "fdf7ed4b4d4ac5fc467e77f6f69feef6160d9dff9de732c0b8228e2935bf8f71",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw2_nice_seed2": {
+      "dataset_key": "pilot1pct_stem80_draw2_nice_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_nice_1pct_sel.jsonl",
+      "subset_sha256": "603468cdb0fac67484b0809ddd8e255442aaa214b9610cd59d7f5a8a7b4476b5",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_randk_drawidx2_seed2": {
+      "dataset_key": "pilot1pct_randk_drawidx2_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_randk_1pct_sel.jsonl",
+      "subset_sha256": "1d28ac6a0668017c5d057e4fa48efc7cfc0cecb27f3876ce17e83b2fedc4a336",
+      "method": "randk",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw2_randk_lenmatch_seed2": {
+      "dataset_key": "pilot1pct_stem80_draw2_randk_lenmatch_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "4138c9de05936f6083db475c553562cb4e9070952c7cf01e9acbce41815523b0",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw3_dsmc_seed3": {
+      "dataset_key": "pilot1pct_stem80_draw3_dsmc_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "1ff7e2f934102fac78c727165f3566b762fa9e188fae628307dedc33c6b384de",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw3_less_seed3": {
+      "dataset_key": "pilot1pct_stem80_draw3_less_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_less_1pct_sel.jsonl",
+      "subset_sha256": "8d7c01cba668d525a421b1be3360124a9b3642d0225e1d880d4d32ac4bc73d75",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw3_first_rr_seed3": {
+      "dataset_key": "pilot1pct_stem80_draw3_first_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "184ea4fa1f274030d02558243a1c14cf4ebbde9c11920be0545b04db5ef556f0",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw3_second_rr_seed3": {
+      "dataset_key": "pilot1pct_stem80_draw3_second_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "a28520d6384d1a64b576fd4329b598d3165f38e2812f765d2e4d77640f5913d5",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw3_gist_seed3": {
+      "dataset_key": "pilot1pct_stem80_draw3_gist_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_gist_1pct_sel.jsonl",
+      "subset_sha256": "a7f1029ed6c30fac280804a792a983467e1424f38aeb883974d7b2c99263bee3",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw3_nice_seed3": {
+      "dataset_key": "pilot1pct_stem80_draw3_nice_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_nice_1pct_sel.jsonl",
+      "subset_sha256": "0a50996372e916456f3a23c9208cda4db91a85517760f9f6e09414b1b367df35",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_randk_drawidx3_seed3": {
+      "dataset_key": "pilot1pct_randk_drawidx3_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_randk_1pct_sel.jsonl",
+      "subset_sha256": "0096accd66a7dc9350d06bab3cea18b6e8db2f13592e7a2ecd3f8cfe87616895",
+      "method": "randk",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw3_randk_lenmatch_seed3": {
+      "dataset_key": "pilot1pct_stem80_draw3_randk_lenmatch_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "69a627bb8e04c6d022acf8fcc30650f672848594cb726f5a80547f7f8dac2f33",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw4_dsmc_seed4": {
+      "dataset_key": "pilot1pct_stem80_draw4_dsmc_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "460141b32102c2218470c30b52048c32c8234eeaf3ea589a5b5be00708f2252b",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw4_less_seed4": {
+      "dataset_key": "pilot1pct_stem80_draw4_less_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_less_1pct_sel.jsonl",
+      "subset_sha256": "b9a2a55d399bc979e9cd95bb95ede94f11020a18fc72459ceeef96afca3f65d9",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw4_first_rr_seed4": {
+      "dataset_key": "pilot1pct_stem80_draw4_first_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "9ef6624e1c6454358827e21201c9c632db8e79ad667f671f003ba36d55455cb3",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw4_second_rr_seed4": {
+      "dataset_key": "pilot1pct_stem80_draw4_second_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "fc66acdfff12bf97edefb51b69c4aa9670dc9514eaf5aa88cda4640211277931",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw4_gist_seed4": {
+      "dataset_key": "pilot1pct_stem80_draw4_gist_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_gist_1pct_sel.jsonl",
+      "subset_sha256": "a37897652b3dd5322d454d87ac969693c5c31bde6f0d3fef4a15efd3e6d6e5e0",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw4_nice_seed4": {
+      "dataset_key": "pilot1pct_stem80_draw4_nice_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_nice_1pct_sel.jsonl",
+      "subset_sha256": "9eb31e788b896c64e841396b6419fe7f96ee934b638d65d1a1483dcbbe771a49",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_randk_drawidx4_seed4": {
+      "dataset_key": "pilot1pct_randk_drawidx4_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_randk_1pct_sel.jsonl",
+      "subset_sha256": "cc4161c9b18dd659744c898e31bc8ab222c6c629f8a3fbe96ef70ec8d16b84f2",
+      "method": "randk",
+      "budget": 2707
+    },
+    "pilot1pct_stem80_draw4_randk_lenmatch_seed4": {
+      "dataset_key": "pilot1pct_stem80_draw4_randk_lenmatch_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "9ee472777e871ba6f107884156c3488b4fb9df2b7c9551d77786286b789cde5a",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw0_dsmc_seed42": {
+      "dataset_key": "pilot1pct_hum80_draw0_dsmc_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "981540f1097422ae0fd5a2b5a27eb67cbaa26f50c1fbcd2db1b407c8c0f13413",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw0_less_seed42": {
+      "dataset_key": "pilot1pct_hum80_draw0_less_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_less_1pct_sel.jsonl",
+      "subset_sha256": "6fb6907a7672f6548a02948415626bff20f9e2816abca69f13526926e692107d",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw0_first_rr_seed42": {
+      "dataset_key": "pilot1pct_hum80_draw0_first_rr_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "5fb86168edb1cd4c58e0e9153c899241aaf9585a513b25d4da76650b49d43b28",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw0_second_rr_seed42": {
+      "dataset_key": "pilot1pct_hum80_draw0_second_rr_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "d8d480d14df120da52767897aeb5ce819746a4a880049e1c38c26bc104714edf",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw0_gist_seed42": {
+      "dataset_key": "pilot1pct_hum80_draw0_gist_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_gist_1pct_sel.jsonl",
+      "subset_sha256": "14d013e131ee9d42d73cc476a121e86e4f13af8e7975b3ee40b5042a948dd42e",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw0_nice_seed42": {
+      "dataset_key": "pilot1pct_hum80_draw0_nice_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_nice_1pct_sel.jsonl",
+      "subset_sha256": "918f342619f4a5e02a1a24d2d6156f480166d37b3046a3f409d3fb3ba23a5005",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw0_randk_lenmatch_seed42": {
+      "dataset_key": "pilot1pct_hum80_draw0_randk_lenmatch_sel",
+      "train_seed": 42,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "88d4af269a3e75276489a76a033df82364810d3a3cd1c9ebbb95d8d8f7959e49",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw1_dsmc_seed1": {
+      "dataset_key": "pilot1pct_hum80_draw1_dsmc_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "f34cd840fba129d25b7a8e0ce05854191cb7300f70171f0ce0aa056a78ef97b1",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw1_less_seed1": {
+      "dataset_key": "pilot1pct_hum80_draw1_less_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_less_1pct_sel.jsonl",
+      "subset_sha256": "778232eda332b217b18101e896268e24a25b05e5620ec63d8eb08fbe6a7fa5a6",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw1_first_rr_seed1": {
+      "dataset_key": "pilot1pct_hum80_draw1_first_rr_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "40c50ac85040e1b3c6b2fc414e3eb52be5f80007b5139a8ad8e0bee0cea91c56",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw1_second_rr_seed1": {
+      "dataset_key": "pilot1pct_hum80_draw1_second_rr_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "12683cddbfb6d341dd2fc7efc86a72686ffa7fc05772b42250dca9152fe11a95",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw1_gist_seed1": {
+      "dataset_key": "pilot1pct_hum80_draw1_gist_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_gist_1pct_sel.jsonl",
+      "subset_sha256": "fbb3cf7d2a8a52f2138173a7a6ae11e80ffd11b43def547477b30ce906e8a137",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw1_nice_seed1": {
+      "dataset_key": "pilot1pct_hum80_draw1_nice_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_nice_1pct_sel.jsonl",
+      "subset_sha256": "4ceb54774772ad44043a73b4d7e6e5d908215e66fc8018481093be0f25b71149",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw1_randk_lenmatch_seed1": {
+      "dataset_key": "pilot1pct_hum80_draw1_randk_lenmatch_sel",
+      "train_seed": 1,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "b420c7bf53322b87a419d84b2235c6c5cc5fb63758c25c67d9fe094d71eca64c",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw2_dsmc_seed2": {
+      "dataset_key": "pilot1pct_hum80_draw2_dsmc_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "8b9f7a7fd294388b3b55b70dee7cfb89f620235752a74db73188ba07b166b691",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw2_less_seed2": {
+      "dataset_key": "pilot1pct_hum80_draw2_less_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_less_1pct_sel.jsonl",
+      "subset_sha256": "af8a0e77324c1b6ae05d861427efb11fb709c6ae1897ff9926ceca2069a20a6c",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw2_first_rr_seed2": {
+      "dataset_key": "pilot1pct_hum80_draw2_first_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "d52d5f7624141d8a9c84d2efaef211bb4c0fa8295c84fe50154bcf69f9001ff0",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw2_second_rr_seed2": {
+      "dataset_key": "pilot1pct_hum80_draw2_second_rr_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "17860b5d518d3644e019bfb95d1c384a0a7ed60d6f39ca84361cc69118660705",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw2_gist_seed2": {
+      "dataset_key": "pilot1pct_hum80_draw2_gist_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_gist_1pct_sel.jsonl",
+      "subset_sha256": "5442209c8a429edd59f456db2085a2d9f1dba5a7d13967582042e9c871fffe74",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw2_nice_seed2": {
+      "dataset_key": "pilot1pct_hum80_draw2_nice_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_nice_1pct_sel.jsonl",
+      "subset_sha256": "a20590099b2cc117384d8a25d4777883677172f4ac69f01ad2b335f6da17f82e",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw2_randk_lenmatch_seed2": {
+      "dataset_key": "pilot1pct_hum80_draw2_randk_lenmatch_sel",
+      "train_seed": 2,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "e8296003f49e789b76d3d57b878b33e41101efe9b971478284550c7c0f4406c4",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw3_dsmc_seed3": {
+      "dataset_key": "pilot1pct_hum80_draw3_dsmc_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "aa1b9bbc7d9753786dc2e9e1cb70d6b406055fccfbbbf7c215c2feffeb41a6e2",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw3_less_seed3": {
+      "dataset_key": "pilot1pct_hum80_draw3_less_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_less_1pct_sel.jsonl",
+      "subset_sha256": "77a52a26d4d288acb2fdc652c1537830e4e9342c7e6a3e88cfe6312b487abb0b",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw3_first_rr_seed3": {
+      "dataset_key": "pilot1pct_hum80_draw3_first_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "cff7ad741949ae78ea9e15a29fb26fad3384dc24773c6bd11b15704cef549887",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw3_second_rr_seed3": {
+      "dataset_key": "pilot1pct_hum80_draw3_second_rr_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "1216bb36978149d64b083b4f44ece5089f01ae8214e6b02b66ac0b4367b6ae37",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw3_gist_seed3": {
+      "dataset_key": "pilot1pct_hum80_draw3_gist_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_gist_1pct_sel.jsonl",
+      "subset_sha256": "6cb382f5618aad96332bdb638debb9afda0485312c60096ff5353b2cc11951ea",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw3_nice_seed3": {
+      "dataset_key": "pilot1pct_hum80_draw3_nice_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_nice_1pct_sel.jsonl",
+      "subset_sha256": "5adc5296edba9f48bc1b57d04a46fe7c3cb1949267f8e319c37380205975d922",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw3_randk_lenmatch_seed3": {
+      "dataset_key": "pilot1pct_hum80_draw3_randk_lenmatch_sel",
+      "train_seed": 3,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "a91903cf937773f15f725d143804bd5919acab5d4812393ae96749b6cbe46109",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw4_dsmc_seed4": {
+      "dataset_key": "pilot1pct_hum80_draw4_dsmc_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_dsmc_1pct_sel.jsonl",
+      "subset_sha256": "9279b67fad1e0b606d8f5042659351731197535d802a05373bf26bfb118b39c1",
+      "method": "dsmc",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw4_less_seed4": {
+      "dataset_key": "pilot1pct_hum80_draw4_less_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_less_1pct_sel.jsonl",
+      "subset_sha256": "cf984f643a5f8405aef7a2ac980a32ed8ea0cce49dfe3c1c46bca81c87fdec27",
+      "method": "less",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw4_first_rr_seed4": {
+      "dataset_key": "pilot1pct_hum80_draw4_first_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_first_rr_1pct_sel.jsonl",
+      "subset_sha256": "693dec5da274b0ef4a7b03d59f9dc0eb5a9ad0c122231a19b65c45dbe622955e",
+      "method": "first_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw4_second_rr_seed4": {
+      "dataset_key": "pilot1pct_hum80_draw4_second_rr_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_second_rr_1pct_sel.jsonl",
+      "subset_sha256": "48de114e4763dfe30d65ab86152fae62be98bcdb8ffcbdacef6fe6357ef93c30",
+      "method": "second_rr",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw4_gist_seed4": {
+      "dataset_key": "pilot1pct_hum80_draw4_gist_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_gist_1pct_sel.jsonl",
+      "subset_sha256": "5922a94306e68b53fc46e5a5a769994655b87cf856fdecdf55af6bef0413a5f3",
+      "method": "gist",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw4_nice_seed4": {
+      "dataset_key": "pilot1pct_hum80_draw4_nice_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_nice_1pct_sel.jsonl",
+      "subset_sha256": "8f7fa9ddc0253d823e2528facd693998f2d63d0a45f538d045172184309c8b05",
+      "method": "nice",
+      "budget": 2707
+    },
+    "pilot1pct_hum80_draw4_randk_lenmatch_seed4": {
+      "dataset_key": "pilot1pct_hum80_draw4_randk_lenmatch_sel",
+      "train_seed": 4,
+      "subset_jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_randk_lenmatch_1pct_sel.jsonl",
+      "subset_sha256": "3f21602fc661f129a89768c1a76438c156cee0061ee27c363f66775f1a6dd6ec",
+      "method": "randk_lenmatch",
+      "budget": 2707
+    }
+  }
+}
