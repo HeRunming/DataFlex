@@ -1,0 +1,20 @@
+{
+  "experiment": "full_1pct_budget_interaction",
+  "launch_commit_pending": "see launch_commit after this commit",
+  "run_plan": "experiments/less_aligned/pilot1pct_run_plan.json",
+  "shared_target_geometry_manifest": "experiments/less_aligned/targetdraw_10draw_master_manifest.json",
+  "budget_selection_manifest": "experiments/less_aligned/pilot1pct_selection_manifest.json",
+  "budget": 2707,
+  "n_cells": 80,
+  "n_unique_adapters": 75,
+  "canary_done": 3,
+  "to_train": 72,
+  "optimizer_steps_per_adapter": 84,
+  "epochs": 4,
+  "effective_batch": 128,
+  "epochs_note": "4 epochs frozen at BOTH budgets -> data/compute-budget interaction, NOT equal-step",
+  "base_model_reference": "experiments/less_aligned/results_summary/base_model_reference.json",
+  "primary_analysis": "5-block direction-averaged [DSMC-Random]_1pct - [DSMC-Random]_5pct (balanced primary, target-weighted secondary)",
+  "reporting": "both budgets reported regardless of outcome; Random-K = 5 unique blocks not 10 cells; descriptive only",
+  "prefix_audit": "all 70 prefixable (draw,method) pairs verified nested prefixes of frozen 5% ordering"
+}
