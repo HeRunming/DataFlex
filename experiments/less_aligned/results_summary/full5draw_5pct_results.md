@@ -32,21 +32,26 @@ less +0.0100 (9/10), second_rr +0.0090 (10/10), randk −0.0004 (4/10), randk_le
 | 3 (3)  | −0.0041 | −0.0079 | −0.0060 |
 | 4 (4)  | −0.0084 | −0.0052 | −0.0068 |
 
-**5-block mean = −0.0001; DSMC wins 2/5 blocks.** The pilot's apparent block-cancellation was real
-and it holds up: across 5 independent Random subsets/seeds, DSMC vs Random-K is a genuine tie (mean
-≈0, split 2/5), not an artifact of the original two draws.
+**5-block mean = −0.0001; DSMC wins 2/5 blocks.** Per-block DSMC−Random: +0.32, −0.32, +1.22,
+−0.60, −0.68 pp. Correct statement: **at 5%, DSMC shows no observed advantage over Random-K; their
+mean performance is practically indistinguishable at the resolution of five paired blocks.** This is
+NOT a proven statistical tie/equivalence — with only 5 paired blocks and non-trivial spread, we have
+not defined a practical-equivalence margin or run an equivalence test; we report "no observed
+advantage", not "equivalent". randk_lenmatch gives the **same qualitative conclusion** (mean ≈0), not
+identical per-draw.
 
 ## Findings (5-draw scale)
 
 1. **DSMC consistently beats every *targeted* selector.** vs LESS, First-RR, Second-RR: **10/10**
-   replicates, means +0.009 to +0.016 balanced. vs GIST 9/10 (+0.0151), vs NICE 9/10 (+0.0111). The
-   pilot's NICE ambiguity resolved: over 5 draws NICE is behind DSMC 9/10 (its earlier HUM edge was
-   the small-n draws 0–1; note NICE's gain is very direction-split — strong on STEM +0.0202, ~flat on
-   HUM +0.0020). DSMC > Second-RR 10/10 confirms the MMD coreset adds over 2nd-order relevance, not
-   just the representation.
-2. **DSMC ties well-controlled Random at 5% budget** (mean −0.0001, 4/10 cells, 2/5 blocks;
-   randk_lenmatch identical conclusion −0.0006). This is the honest headline limit: targeted
-   selection as a whole does not beat budget-/length-matched Random at 5% here.
+   replicates, means +0.009 to +0.016 balanced. vs GIST 9/10 (+0.0151), vs NICE 9/10 (+0.0111) on
+   **balanced** — but NICE is only 6/10 on target-weighted, so "highly consistent over NICE" applies
+   to the primary balanced endpoint only (NICE's balanced gain is very direction-split: strong on
+   STEM +0.0202, ~flat on HUM +0.0020). DSMC > Second-RR 10/10 (+0.0088): the second-order MMD
+   objective provides a **consistent additional benefit over second-order round-robin in the primary
+   balanced metric** — not a causal proof that MMD repulsion is necessary.
+2. **At 5%, DSMC shows no observed advantage over well-controlled Random** (mean −0.0001, 4/10 cells,
+   2/5 blocks; randk_lenmatch same qualitative conclusion −0.0006). Reported as "no observed
+   advantage", not statistical equivalence.
 
 **Paper headline (defensible)**: *Directional second-moment matching substantially and consistently
 improves over existing targeted selectors (LESS, GIST, first/second-order round-robin, NICE) under
