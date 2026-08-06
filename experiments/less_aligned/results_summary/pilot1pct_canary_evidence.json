@@ -1,0 +1,139 @@
+{
+  "canary": "1pct 3-adapter engineering canary",
+  "budget": 2707,
+  "optimizer_steps_per_adapter": 84,
+  "steps_5pct_reference": 420,
+  "adapters": {
+    "pilot1pct_stem80_draw0_dsmc_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_dsmc_sel",
+      "train_seed": 42,
+      "subset_sha256": "e98a29942b3f5c0958f86764ffe09934413f06abbcecfddfb178bf12ae1455ae",
+      "adapter_sha256": "a2da5df5b358cedeb26e36dd9502a90d8959c7102924b39467316652eecf0a03",
+      "train_args": {
+        "per_device_train_batch_size": 4,
+        "gradient_accumulation_steps": 4,
+        "lora_alpha": 512,
+        "num_train_epochs": 4,
+        "effective_batch": 128,
+        "dataset_key": "pilot1pct_stem80_draw0_dsmc_sel",
+        "seed": 42
+      },
+      "git_commit": "c702750",
+      "eval_result_path": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_dsmc_seed42/run_1786002712_29720/__jizhicfs__karonhe__dataflex_saves__sft_results__pilot1pct_stem80_draw0_dsmc_seed42/results_2026-08-06T15-58-27.875864.json",
+      "eval_result_sha256": "73794fd3bf6212cf436499397ec9b1239f6663bedd22245576cd25fb08b567d4",
+      "n_results_files": 1,
+      "num_fewshot": 5,
+      "tasks": [
+        "mmlu_stem",
+        "mmlu_humanities"
+      ]
+    },
+    "pilot1pct_randk_drawidx0_seed42": {
+      "dataset_key": "pilot1pct_randk_drawidx0_sel",
+      "train_seed": 42,
+      "subset_sha256": "8b2efc2e978180b435f71cd5a199c10129cd9314a4063c439732c451f35ac3e2",
+      "adapter_sha256": "2344d2b81b2d5c340eea2aaafb00c661e1be2ed797c865ec7b306ace35f825df",
+      "train_args": {
+        "per_device_train_batch_size": 4,
+        "gradient_accumulation_steps": 4,
+        "lora_alpha": 512,
+        "num_train_epochs": 4,
+        "effective_batch": 128,
+        "dataset_key": "pilot1pct_randk_drawidx0_sel",
+        "seed": 42
+      },
+      "git_commit": "e63e5d2",
+      "eval_result_path": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_randk_drawidx0_seed42/run_1786003134_29726/__jizhicfs__karonhe__dataflex_saves__sft_results__pilot1pct_randk_drawidx0_seed42/results_2026-08-06T16-05-57.130622.json",
+      "eval_result_sha256": "19d9d230691575d550c8e9c72f86d3cd4ada3724735404f82760130820e68906",
+      "n_results_files": 1,
+      "num_fewshot": 5,
+      "tasks": [
+        "mmlu_stem",
+        "mmlu_humanities"
+      ]
+    },
+    "pilot1pct_stem80_draw0_randk_lenmatch_seed42": {
+      "dataset_key": "pilot1pct_stem80_draw0_randk_lenmatch_sel",
+      "train_seed": 42,
+      "subset_sha256": "0d1edbb07fa763a4fe6739f685c270462a5bce4898e81d616eaa475017d9fac9",
+      "adapter_sha256": "8de908a8ebfd6f4e5873110d5ad16df10728317f41828175a36fe289d2690187",
+      "train_args": {
+        "per_device_train_batch_size": 4,
+        "gradient_accumulation_steps": 4,
+        "lora_alpha": 512,
+        "num_train_epochs": 4,
+        "effective_batch": 128,
+        "dataset_key": "pilot1pct_stem80_draw0_randk_lenmatch_sel",
+        "seed": 42
+      },
+      "git_commit": "e63e5d2",
+      "eval_result_path": "/jizhicfs/karonhe/dataflex_saves/eval_results/skew/pilot1pct_stem80_draw0_randk_lenmatch_seed42/run_1786004483_29727/__jizhicfs__karonhe__dataflex_saves__sft_results__pilot1pct_stem80_draw0_randk_lenmatch_seed42/results_2026-08-06T16-29-26.523361.json",
+      "eval_result_sha256": "b36994abfc199de7b6e8abe20cbc354cd123f25071c6eb14657dd276eb0b92d0",
+      "n_results_files": 1,
+      "num_fewshot": 5,
+      "tasks": [
+        "mmlu_stem",
+        "mmlu_humanities"
+      ]
+    }
+  },
+  "lenmatch_1pct_draw0": {
+    "per_bucket": [
+      {
+        "bucket": [
+          0,
+          256
+        ],
+        "dsmc": 1864,
+        "picked": 1864,
+        "candidates_available": 144886
+      },
+      {
+        "bucket": [
+          256,
+          512
+        ],
+        "dsmc": 368,
+        "picked": 368,
+        "candidates_available": 68865
+      },
+      {
+        "bucket": [
+          512,
+          1024
+        ],
+        "dsmc": 243,
+        "picked": 243,
+        "candidates_available": 41036
+      },
+      {
+        "bucket": [
+          1024,
+          1536
+        ],
+        "dsmc": 85,
+        "picked": 85,
+        "candidates_available": 9170
+      },
+      {
+        "bucket": [
+          1536,
+          2049
+        ],
+        "dsmc": 147,
+        "picked": 147,
+        "candidates_available": 6722
+      }
+    ],
+    "all_buckets_matched": true,
+    "token_diff": 25319
+  },
+  "partial_aggregate_cells": "4/80 (DSMC draw0 + LenMatched draw0 + shared Random-K in BOTH draw-0 cells)",
+  "validated_resume": "confirmed: rerun train+eval instant-skipped all completed artifacts (hash-validated)",
+  "incident": {
+    "what": "3rd eval failed with HTTP 429 from huggingface.co (8 ranks hitting Hub API)",
+    "root_cause": "transient rate-limit, not code/data/provenance",
+    "fix": "HF_HUB_OFFLINE/HF_DATASETS_OFFLINE/TRANSFORMERS_OFFLINE=1 in eval (dataset already cached)",
+    "retry": "succeeded, 0 429s"
+  }
+}

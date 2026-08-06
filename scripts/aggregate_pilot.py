@@ -18,9 +18,10 @@ def acc(r, k):
     return None
 
 
-def scores(saves, aid):
-    # prefer the eval_manifest-pinned authoritative result; fall back to a single results file
-    base = f"{saves}/eval_results/skew/pilot_{aid}"
+def scores(saves, aid, eval_out=None):
+    # prefer the eval_manifest-pinned authoritative result; fall back to a single results file.
+    # eval_out comes from the run plan (budget-specific namespace); fall back to the 5% convention.
+    base = eval_out or f"{saves}/eval_results/skew/pilot_{aid}"
     mf = f"{base}/eval_manifest.json"
     path = None
     if os.path.exists(mf):
@@ -45,7 +46,7 @@ def main():
     plan = json.load(open(args.plan))
     rows = []
     for c in plan["cells"]:
-        sc = scores(args.saves, c["adapter_id"])
+        sc = scores(args.saves, c["adapter_id"], c.get("eval_out"))
         row = dict(c)
         if sc and sc[0] is not None and sc[1] is not None:
             stem, hum = sc
@@ -59,7 +60,8 @@ def main():
     by_draw = {}
     for r in rows:
         by_draw.setdefault(r["draw"], {})[r["method"]] = r
-    out = args.out or f"{args.saves}/eval_results/skew/pilot_aggregate.csv"
+    tag = plan.get("tag", "pilot")
+    out = args.out or f"{args.saves}/eval_results/skew/{tag}_aggregate.csv"
     with open(out, "w") as f:
         # FROZEN convention: paired difference = DSMC - method
         f.write("draw,direction,method,adapter_id,shared,stem,hum,balanced,target_weighted,"

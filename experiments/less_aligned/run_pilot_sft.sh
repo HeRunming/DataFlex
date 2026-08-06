@@ -66,7 +66,10 @@ if has eval; then
     # fresh unique run subdir so results are never mixed across runs
     run="$base/run_$(date +%s)_$port"; mkdir -p "$run"
     log "EVAL $aid -> $run"
-    if ! NCCL_P2P_DISABLE=1 NCCL_IB_DISABLE=1 http_proxy="http://hy-proxy.woa.com:3128" https_proxy="http://hy-proxy.woa.com:3128" \
+    # HF_*_OFFLINE: the mmlu dataset is already in the local HF cache; without this, 8 ranks each
+    # hit the Hub API and can get HTTP 429 rate-limited (observed in the 1% canary). Infra-only fix.
+    if ! HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
+      NCCL_P2P_DISABLE=1 NCCL_IB_DISABLE=1 http_proxy="http://hy-proxy.woa.com:3128" https_proxy="http://hy-proxy.woa.com:3128" \
       no_proxy=".woa.com,localhost,127.0.0.1,mirrors.tencent.com" \
       accelerate launch --num_processes 8 --main_process_port $port -m lm_eval --model hf \
         --model_args "pretrained=$BASE,peft=$ad,dtype=bfloat16,trust_remote_code=True" \
