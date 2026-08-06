@@ -1,0 +1,9 @@
+{
+  "reference": "base_model_noSFT",
+  "protocol": "mmlu_stem+humanities 5-shot, no selected-data SFT",
+  "stem": 0.3688550586742785,
+  "hum": 0.4316684378320935,
+  "balanced": 0.400261748253186,
+  "note": "common reference line, NOT a replicate; not in win counts/bootstrap",
+  "result_sha256": "81b0ef6ebdeb5ade1f304c69a83b7fd9d917e1ac6bff3373d20179e5e59a442a"
+}

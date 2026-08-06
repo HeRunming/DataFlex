@@ -14,7 +14,7 @@ set -Eeuo pipefail
 ENVBIN=/jizhicfs/karonhe/envs/dataflex-fa/bin; PY=$ENVBIN/python
 SAVES=/jizhicfs/karonhe/dataflex_saves; ROOT=/jizhicfs/karonhe/DataFlex_fa
 BASE=/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf
-LOGD=$SAVES/logs; PLAN=$ROOT/experiments/less_aligned/pilot_run_plan.json
+LOGD=$SAVES/logs; PLAN="${PLAN:-$ROOT/experiments/less_aligned/pilot_run_plan.json}"
 MASTER=$ROOT/experiments/less_aligned/targetdraw_10draw_master_manifest.json
 PROV="$PY scripts/pilot_provenance.py"; K=13533
 export PATH=$ENVBIN:$PATH; cd $ROOT; mkdir -p $LOGD $SAVES/eval_results/skew

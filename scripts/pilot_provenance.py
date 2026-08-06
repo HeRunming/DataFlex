@@ -33,8 +33,9 @@ def cmd_register(a):
     info = json.load(open(f"{ROOT}/data/dataset_info.json"))
     for aid, ad in plan["adapters"].items():
         j = ad["subset_jsonl"]
+        k = ad.get("budget", plan.get("budget", 13533))   # budget from plan, not hardcoded
         n = sum(1 for _ in open(j))
-        assert n == K, f"{aid}: {j} has {n} != {K}"
+        assert n == k, f"{aid}: {j} has {n} != {k}"
         got = fsha(j)
         assert got == ad["subset_sha256"], f"{aid}: subset SHA mismatch {got} != {ad['subset_sha256']}"
         info[ad["dataset_key"]] = {"file_name": j, "formatting": "sharegpt",
