@@ -1,0 +1,1358 @@
+{
+  "selection_budget": 13533,
+  "nested_prefix_of": null,
+  "ordering_semantics": {
+    "dsmc": "greedy append order (prefix = first-k greedy picks)",
+    "first_rr": "round-robin append order",
+    "second_rr": "round-robin append order",
+    "less": "topk score-descending",
+    "gist": "topk score-descending",
+    "nice": "topk score-descending",
+    "randk": "seeded randperm order",
+    "randk_lenmatch": "rebuilt at this budget (NOT a prefix)"
+  },
+  "env": {
+    "torch": "2.10.0+cu128",
+    "transformers": "4.50.0",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "gpu": "NVIDIA H20"
+  },
+  "shared_target_geometry_manifest": "experiments/less_aligned/targetdraw_10draw_master_manifest.json",
+  "draws": {
+    "stem80_draw0": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "2acb474f0a6d0696011187cac93f1ef7ec58745dcc51e83dc0ece298718b52f1",
+          "ordered_indices_sha256": "49dab593f83a82056609bcc33ed89f67831f2da970f3fce001b4e5ab17dd0d44"
+        },
+        "less": {
+          "step1_sha256": "e81a570ac2012b7cde919b9506b115dc44072f8ff724cff011f4be4a6524d57d",
+          "ordered_indices_sha256": "030c11c766a1c74dd7698498486726cf610f94975bfaec01a5930296295d5adf"
+        },
+        "first_rr": {
+          "step1_sha256": "e7a9f9c0d4e9a12dbaba935a7d8a40ab90d6aa01a9a4bc012926c020509ede69",
+          "ordered_indices_sha256": "46df3650f75bc2959829c86d135f83a92923e0c3af7598f166be4c2f41553c46"
+        },
+        "second_rr": {
+          "step1_sha256": "bfd872981fb1e8ba022f54a1b9ef85c79b76744358a43c355658f6074b2c4419",
+          "ordered_indices_sha256": "30a33be289cb2f267b20fb10edb343c8478db15675c55d2d0dc1e2dda0483c9c"
+        },
+        "gist": {
+          "step1_sha256": "55fc3d8ca6be881b4220f46b071c42ae8e98a76fd6bb06570ebdf81438be2bd3",
+          "ordered_indices_sha256": "3d657de9bb4e595a6d3867c08c661b1fda378dd12728a5f4eb02a24f38219359"
+        },
+        "nice": {
+          "step1_sha256": "3fb48fc33c88538ee78457212a6e60a20fd6ceed502a616602ab56cb2ca74458",
+          "ordered_indices_sha256": "23983316cc34da66c5a58e2aa2b216cad40d51fa4eb14ee56565a4eacba5ff2d"
+        },
+        "randk": {
+          "step1_sha256": "800292a53ed5e2d2bd8344822d675beaf1c4d4b1d18d1f9f21a24c5d58bbc04b",
+          "ordered_indices_sha256": "ad7ea02ff644b6957696e51886347cd4d45c3a5d441252c71f77d66285bfdc9c"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "0c8da514b20bdacf5febae8278e03fc1dcbce163bbec0de714954322ffcae0af",
+          "ordered_indices_sha256": "af8fe3d159a2713d4216083ec55ab14971c36d49c3ab99fea36357d8c1216d70"
+        }
+      },
+      "subsets": {
+        "dsmc": "4c649e2657f829904720be7095808822f7478520ceedb1b7a05e2feeabfcd4a6",
+        "less": "169524ed923c497e794ad4b1f14960b61dc5bbf5f3601df236257a0bf0d9c5ba",
+        "first_rr": "439329973617adf0e75f07e9dc7e6b62f15380c2f399480f67aa8054d22b6872",
+        "second_rr": "99c042d4c092075f89369bb1969bf5b284755c3d351b3dc2ce0a2432fd9e1d1c",
+        "gist": "b8a1401a27e3f3281b5589c4e3bbbfb2d15491fa620a3927685e33e4c4ef42af",
+        "nice": "481c30ffed7443ec2436a77d56e7164f7e16bbf980b77aeaf2c7d775b7e071e6",
+        "randk": "b4d2a6aad09f16a7da6629ed70789a697d8bf0517503925e1b94457770a09439",
+        "randk_lenmatch": "0219da98ac2ef61f03e16a64f963142a942652c6dac3eb2d2e6daf8c706fcc75"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8998,
+            "picked": 8998,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2009,
+            "picked": 2009,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1228,
+            "picked": 1228,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 493,
+            "picked": 493,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 805,
+            "picked": 805,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 106217,
+        "seed": 2000
+      },
+      "nice": {
+        "n_zero_signal": 14,
+        "zero_signal_target_ids": [
+          "mmlu_abstract_algebra_val1",
+          "mmlu_astronomy_val0",
+          "mmlu_astronomy_val2",
+          "mmlu_college_computer_science_val0",
+          "mmlu_electrical_engineering_val2",
+          "mmlu_electrical_engineering_val7",
+          "mmlu_elementary_mathematics_val13",
+          "mmlu_elementary_mathematics_val29",
+          "mmlu_elementary_mathematics_val26",
+          "mmlu_high_school_biology_val16",
+          "mmlu_high_school_mathematics_val25",
+          "mmlu_high_school_statistics_val7",
+          "mmlu_prehistory_val31",
+          "mmlu_world_religions_val11"
+        ],
+        "reward_mean_overall": 0.3359375,
+        "reward_hist_counts": [
+          14,
+          13,
+          16,
+          10,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "stem80_draw1": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "bb1c89f66964f0f8d2effa7e742010a0511915d47d0cff3b610e93e31fd296fa",
+          "ordered_indices_sha256": "489dc4726a719f59a5a1367caf9da015fa088974f78c91b81e2495ebbcc24382"
+        },
+        "less": {
+          "step1_sha256": "11a455fc8a99323edd108c4c3e5fd9edd4f30a54103dc1271763045a38dcdfa7",
+          "ordered_indices_sha256": "d129eaed83d1d71a4c38c6f3ab56412edcbf192a565d838aa5d13761a4308545"
+        },
+        "first_rr": {
+          "step1_sha256": "a38ef6697a377b05ccf68272f0f5b3678057e690722219daf036f217f21ba9b7",
+          "ordered_indices_sha256": "41d87453043e252205e72550ec3591efc190bf59ce558c06459be588ccf120c4"
+        },
+        "second_rr": {
+          "step1_sha256": "4ceec7a68ec08d39b967ee1e29f84ee1b913b01e500739cfb24064cc2d5f87cf",
+          "ordered_indices_sha256": "e79061a30350b01b965c212fbd735666d65b7d31653cb4e15c643093844b0daf"
+        },
+        "gist": {
+          "step1_sha256": "c76e93d4e2e7f6e0ae646ae771ef269c605cb6a79d443f11e83a16f09f215299",
+          "ordered_indices_sha256": "4a2284f50f77865db04f57f8984362c152f5f27cef995b972fabb2ed62aa05da"
+        },
+        "nice": {
+          "step1_sha256": "4661110c1f5a5aa555d5f1ef75e530abf5a854e6d2e637f2c2ff9b0c1a28011f",
+          "ordered_indices_sha256": "eaf1a903f357246541cc9369e19a46b47aa78f85bcdbef3512a444ac76b62f24"
+        },
+        "randk": {
+          "step1_sha256": "79b3ab2c4f36b3e647e61f3518b5310f778a76d59057fd62b307ccc32ee460e4",
+          "ordered_indices_sha256": "3560c4e826ed7a1030db23a9adf67a0f9e145fe00b91616264eba0bbe43afbaa"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "9d0eb3c46a87be911ddb044980afe6169b66d48a56ae3abb2d664d27d5eca2bf",
+          "ordered_indices_sha256": "b553f4c96e80531cae109b64e2fd97f28a5a45b8878b9310b85b97bd117640b0"
+        }
+      },
+      "subsets": {
+        "dsmc": "87f0a74b868f0b79b8b0a9e801016172d1bbc7b710dab6a9218dc487351ed1e3",
+        "less": "3e599d30964ca6c39452beae02a7633aa92efbc03f2178eef88ca23080d8bff3",
+        "first_rr": "2b2883282c7737cfb2ae2174d4fdac24d373219d4af230edee73582a0ec70e8d",
+        "second_rr": "b3859d0255a44c95b2b7e1f6c39c14661670193fa30bd4b67882b0caf46d1868",
+        "gist": "c26c16f850da03688a8056ad1f3d9eb63acecb2b6fc53d23e5ea681f00e659e0",
+        "nice": "a54c4f8dc7a5f808f0354cd6e82576ede085675232a3a4785c2fed1373f1c5e0",
+        "randk": "35513c3d19a22617d98ce0ffeca987ba41eb3bef17d34d0029a7d9a17703d2d0",
+        "randk_lenmatch": "c0e7acc4180b914a863747988a895a9a7829d6872419d2594562fbbdebc1ebf1"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8911,
+            "picked": 8911,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2026,
+            "picked": 2026,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1261,
+            "picked": 1261,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 495,
+            "picked": 495,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 840,
+            "picked": 840,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 96922,
+        "seed": 2001
+      },
+      "nice": {
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_astronomy_val8",
+          "mmlu_college_biology_val7",
+          "mmlu_college_chemistry_val3",
+          "mmlu_computer_security_val9",
+          "mmlu_elementary_mathematics_val15",
+          "mmlu_high_school_biology_val4",
+          "mmlu_high_school_biology_val11",
+          "mmlu_high_school_biology_val14",
+          "mmlu_high_school_mathematics_val1",
+          "mmlu_philosophy_val11"
+        ],
+        "reward_mean_overall": 0.30078125,
+        "reward_hist_counts": [
+          10,
+          22,
+          12,
+          13,
+          7
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "stem80_draw2": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "5b54b7018586ee7605f6a628bdfd8a896e6920badecfab2de1a20e5314989605",
+          "ordered_indices_sha256": "114dd09b13387f6ac9d437a2761057cfe2fb1a4581ef6e4bd2b4d007ff0415e1"
+        },
+        "less": {
+          "step1_sha256": "f289ac22c3392923671e2a44c4f28423d6a50c807ab1c0758b626503f19058c4",
+          "ordered_indices_sha256": "a4a7b3e6955d6d8f42865256236b0b3953c6cebfb6c14975417cb6eb38839bac"
+        },
+        "first_rr": {
+          "step1_sha256": "cc092d62fcd6a9b1083ebc2564da6f8192e12e0213455b9baffe1465f252e1d4",
+          "ordered_indices_sha256": "5b48785f3fd698fbb3c25e08ce73f9a279a71c234727e420d879128445f46fa4"
+        },
+        "second_rr": {
+          "step1_sha256": "89a12e4a168d13c1c9215ba438d7c8c7a0caaf86bea8846f2e6fdc37823dca39",
+          "ordered_indices_sha256": "daedf0dc7b4ed6e5b3248ab684ef581d4da6210852969668d0efd317c50d2fdc"
+        },
+        "gist": {
+          "step1_sha256": "563be6dc88fe5bfe7615cede0c7499ea3ab10b2814b027026d92ab19b32ce396",
+          "ordered_indices_sha256": "94be5031a2f5fd6ce8ad86aa00a87c822396b8847b4ec1b52cad26dda3b8e82d"
+        },
+        "nice": {
+          "step1_sha256": "16b207ddaa5298cdad24eada2befd94764537fe683171daadea5d0dc1fed5c07",
+          "ordered_indices_sha256": "eba13ccf1ffacea115fbaa1f9d621ae52b92af10be0a75fbbde4adcd4de39dfd"
+        },
+        "randk": {
+          "step1_sha256": "f14088b675f510f805fd726993ba7e48ffddcdf7cb33ceaa3d55565d4ea87e26",
+          "ordered_indices_sha256": "de849155d14c569732501289850b5bd262bf87d0ca8252e5b215c06b2a87e0f2"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "2c820280112c75e1b87d89984beb7b70f350b1f970923913980b428823ebca76",
+          "ordered_indices_sha256": "4387141e63b01a5907b5ea7034baa73f6cad21567b81a8e9515e7b6189aba7d9"
+        }
+      },
+      "subsets": {
+        "dsmc": "5b8b25baecef2f1eed46b5dd0af7fd74ff01f258abf07fc6e994d833d9625dc1",
+        "less": "04c9f6908f1d5888052ec6a07102c6a2b84598fb38c45fc87e96b7ed5f32d469",
+        "first_rr": "ac66458a42d2c530da21be7f5e4995382e1f52a7d37d3650a7c3580148158c3e",
+        "second_rr": "4a36a4c3f241a597a513cb03ad4b737856d8a774a28fd96c9a5e88a76d1239e1",
+        "gist": "b61d719a4b059b1c7bca0944238bb34637f0ccdd944652e9b5c38df571dae69b",
+        "nice": "e32c2fc8e04ecd33b7273383767db4b159ef415fbdbcce3733be4a6e3f5f0dad",
+        "randk": "d6559e380637ff4415c2d66982839ec56a081545a9606629df382aa6c77fb12b",
+        "randk_lenmatch": "e5df73e9c94aa324ffc85b2c7367cec5471c774471d1b4fd1ce248c95c0c1042"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8991,
+            "picked": 8991,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 1999,
+            "picked": 1999,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1224,
+            "picked": 1224,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 502,
+            "picked": 502,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 817,
+            "picked": 817,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 85190,
+        "seed": 2002
+      },
+      "nice": {
+        "n_zero_signal": 14,
+        "zero_signal_target_ids": [
+          "mmlu_abstract_algebra_val8",
+          "mmlu_astronomy_val10",
+          "mmlu_college_chemistry_val1",
+          "mmlu_conceptual_physics_val6",
+          "mmlu_conceptual_physics_val1",
+          "mmlu_elementary_mathematics_val33",
+          "mmlu_elementary_mathematics_val39",
+          "mmlu_elementary_mathematics_val17",
+          "mmlu_high_school_chemistry_val10",
+          "mmlu_high_school_computer_science_val8",
+          "mmlu_high_school_mathematics_val14",
+          "mmlu_high_school_mathematics_val28",
+          "mmlu_philosophy_val1",
+          "mmlu_professional_law_val163"
+        ],
+        "reward_mean_overall": 0.25390625,
+        "reward_hist_counts": [
+          14,
+          16,
+          22,
+          7,
+          5
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "stem80_draw3": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "4e083ed386f6117b8e24af53229b97cb01be9a47354319cbd155c5c8652be722",
+          "ordered_indices_sha256": "97f9766a68d1ba1e645e4aea8bd83f498ce06b51970f583083607030cba06440"
+        },
+        "less": {
+          "step1_sha256": "661c479dab1697b81f010aebc3cbfa06c371e0c8e8c723f56e41886673f677ed",
+          "ordered_indices_sha256": "b427736ac0b2c2c6f6a89a939a50126f0127ceab96878b3b62075b13aa7aa8fc"
+        },
+        "first_rr": {
+          "step1_sha256": "53114fe2a563e053c3c4c1f967f0b2e8a86ca1a70b38948c8dac9712a7b5fc71",
+          "ordered_indices_sha256": "18cfd801e79c3210de13a1f36846ee0aab98250e950f02edcefcfc25bc62d9fd"
+        },
+        "second_rr": {
+          "step1_sha256": "c9c4f0dbbdcf340ea78b44eb2fb5b43bad0c29753ee7ce5533054a2d13beaf8a",
+          "ordered_indices_sha256": "6e71c897048d86161bec0147dbafcd6ffb5f0f3135511005c88a3b44cbe16934"
+        },
+        "gist": {
+          "step1_sha256": "cef539cb69537ee976aac5a68ea1961ac1244ecfc7d11dd416cfdb4c1c5c3109",
+          "ordered_indices_sha256": "9b34517b87ef2abe08914560fd819b8378934cb1030c0dd4a5b6fbe34fa61ba0"
+        },
+        "nice": {
+          "step1_sha256": "d9cb69f6373e2fbb36e47bdc53904c45127f7a11cde815efd29fbcefbee80e72",
+          "ordered_indices_sha256": "2e93acc4e28e12419716d987b0cc2425be92b37410195f3254655563070b669b"
+        },
+        "randk": {
+          "step1_sha256": "fe6dee20adaba487ec03d69a25f5c224ec40b7ac32d96320573eba5f67900e82",
+          "ordered_indices_sha256": "80482d567ef8763c599d20faabba5cdab7f99fbff1fa11f602b8388a15cfdac5"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "d861ea970aff09160ef788e6c490fe6247a23d91489cb325d92f2d486a2dbd42",
+          "ordered_indices_sha256": "6a2b1b37f44892c74b552ec01c8b9ed403abd5446999326523725749ffb33b56"
+        }
+      },
+      "subsets": {
+        "dsmc": "651f5fa397f1ac8bca039f93912a4f8c2dbfcd239e6dbd7cd2c9d23bfa2e936a",
+        "less": "7ca4dfded7204f5b70f45bcfa039b8d5e3d47b6c7afce8112ef02b3e992d783d",
+        "first_rr": "7718ca3d981ac3548751a5dfeb62d5a72d7685e5873383367a6992f0c42bfa65",
+        "second_rr": "969751dc95ef99d40aede7da9a56d5aee045e131daacc4ab5d8fe3493afe91d1",
+        "gist": "da00944fc009ae23261be7a9669d957bfb7abfe7b99b69e3fe3036f8d3c4b4c4",
+        "nice": "dd17d591e8a36adac37a093b410a12aea86edf3fd73a56c350febd0668f4c1f7",
+        "randk": "a2ab36445df9c334005d74ed9fea858f5d8c33c181e75f0272ceb422041dbff3",
+        "randk_lenmatch": "5f55881b8df4539261e094fd2943c52bd88547bdbc7181a9a1f1059809cf8d1d"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8930,
+            "picked": 8930,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2029,
+            "picked": 2029,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1262,
+            "picked": 1262,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 493,
+            "picked": 493,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 819,
+            "picked": 819,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 83590,
+        "seed": 2003
+      },
+      "nice": {
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_abstract_algebra_val0",
+          "mmlu_college_chemistry_val2",
+          "mmlu_college_computer_science_val5",
+          "mmlu_conceptual_physics_val21",
+          "mmlu_conceptual_physics_val14",
+          "mmlu_elementary_mathematics_val1",
+          "mmlu_high_school_computer_science_val4",
+          "mmlu_moral_scenarios_val16",
+          "mmlu_philosophy_val6",
+          "mmlu_professional_law_val107"
+        ],
+        "reward_mean_overall": 0.3828125,
+        "reward_hist_counts": [
+          10,
+          11,
+          18,
+          14,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "stem80_draw4": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "11c5f9925200b715e330cee3302671ce4507d98aeb2052afc764078879faca40",
+          "ordered_indices_sha256": "cf4b31f1d8076948d5dcddaf44c5dd778cc9c54a34bfd73cc65054866cd27513"
+        },
+        "less": {
+          "step1_sha256": "29c7ab632700967ab34b3081abebf7355b4c5a757ecbd0ceeecf93ca2dd0d0ea",
+          "ordered_indices_sha256": "50ebb2c4e5e4169f94a9412ea344518758d2744aa7b6d35488b53824681a571b"
+        },
+        "first_rr": {
+          "step1_sha256": "845a9c1b371ce99003850e91d945160fc6f90e3ef5cd74a2fdeda629598dcb79",
+          "ordered_indices_sha256": "7361c5e5859c8b616c8a5aa0a2aaae5270673b11316272d10977e962da96ab53"
+        },
+        "second_rr": {
+          "step1_sha256": "e3d0da572992f2ca2539b4c89f7c3eac36f75f1592574082cc82e770c49921a3",
+          "ordered_indices_sha256": "bc2056cd621df606026e267def47dd25fb8a4ddf4365d8123b516b3ac07e80fa"
+        },
+        "gist": {
+          "step1_sha256": "67953ef8d16201741526faabbda22c58db2b14c92639b1c97dafadf23fa600c1",
+          "ordered_indices_sha256": "d2cf5b180316cedacc8c4c18ae4d301d0ce81e815978c3e37c561d41eff492c4"
+        },
+        "nice": {
+          "step1_sha256": "7577ce4e96a7ef44e5763b2ba44d69afa85c4b3d8dbf4b46e1470ba854c383b7",
+          "ordered_indices_sha256": "9d7cd8eb6ef2adeff50c384ffbc7f7d8e37b65ff505e6ada797106144dc22f53"
+        },
+        "randk": {
+          "step1_sha256": "b427d5736bf3cbdd6a5734c479a2d268d03d74bc89f665c615964ef3bded82b0",
+          "ordered_indices_sha256": "c40ebbca828ab7ec6c4f2862e70f0d3950faaa9afdefe7cebfde694fad4d9af1"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "3b8fb21851d7236ab6a0e89fd05be2c9f4ef925bd86bbfea328a88dfb1a4d230",
+          "ordered_indices_sha256": "f305e14f890ad1985969398f768a8fcda74b61fed363bcc8029d7988cdf2fdc9"
+        }
+      },
+      "subsets": {
+        "dsmc": "e7bea256d6d40a9b05e5fe47c9b6b9a23e8b40e731f2384e18aab09f71d2106f",
+        "less": "ab2758a883ac577277b764349dcc0448d19d1a3c8709d0947030fd22d6cd11e2",
+        "first_rr": "83d1245adc3897ba516732fb6a9937ad5c1545d9b9386e6e7cdf5b17bf1f1f34",
+        "second_rr": "7bb6c3c5506a45757b38aa42737b77d97cb14484ec390f12c1022f745532cdd5",
+        "gist": "c215bbbef3586dee7e03eebbee03d88885717804016b273b1bebc833e1aec66e",
+        "nice": "dc605f1e279e38f392f6f76b0243a3816962aca3f27eaebef115ae4abd6d1183",
+        "randk": "81844d05a3475f55621600b4f95bce873fdb6f754db45196ad48069cc8ab97bd",
+        "randk_lenmatch": "61c78a72fb1bb759859b44c4600d2e93e1356f2a42011e8c78c67c044223bc68"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8937,
+            "picked": 8937,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2001,
+            "picked": 2001,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1245,
+            "picked": 1245,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 503,
+            "picked": 503,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 847,
+            "picked": 847,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 83331,
+        "seed": 2004
+      },
+      "nice": {
+        "n_zero_signal": 14,
+        "zero_signal_target_ids": [
+          "mmlu_anatomy_val12",
+          "mmlu_astronomy_val14",
+          "mmlu_college_chemistry_val0",
+          "mmlu_elementary_mathematics_val5",
+          "mmlu_high_school_biology_val28",
+          "mmlu_high_school_chemistry_val16",
+          "mmlu_high_school_mathematics_val13",
+          "mmlu_high_school_mathematics_val18",
+          "mmlu_high_school_physics_val5",
+          "mmlu_machine_learning_val4",
+          "mmlu_machine_learning_val0",
+          "mmlu_moral_scenarios_val72",
+          "mmlu_prehistory_val9",
+          "mmlu_professional_law_val117"
+        ],
+        "reward_mean_overall": 0.318359375,
+        "reward_hist_counts": [
+          14,
+          19,
+          14,
+          6,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "hum80_draw0": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "3476d115a8fa0916a98aa5f56c900f52112e7d9030dd63023ed47c7790a0f537",
+          "ordered_indices_sha256": "d4346878133d520f9e858ea648d61d113a3bcb0035e198c3f1507ed14386bff8"
+        },
+        "less": {
+          "step1_sha256": "77abee3e155fd8de466724873e81304d88d5f51cfc79e93820240b755c548f22",
+          "ordered_indices_sha256": "f57ce1c200245d79876c364826e360787b6b9cf3dbf89d2e8478cdfb19b875b8"
+        },
+        "first_rr": {
+          "step1_sha256": "4f2368ee7eea82a30f98372217f2bdbad63c767db4e2b41b498b0252463281bf",
+          "ordered_indices_sha256": "0df431f566f5c33cd3d3f237f0cbf0fd12090ff31e716613be122088731f776a"
+        },
+        "second_rr": {
+          "step1_sha256": "29a9c60c3b3d34da5ce3f14f36d9823b11155fbd1103972f5dadb0825650c884",
+          "ordered_indices_sha256": "30ab93a820cada23d47da0860c5c815939925dac6a3a860a0b7176cde98b2398"
+        },
+        "gist": {
+          "step1_sha256": "fbeef206c948633b340d88e735bc3bb6f97b03e5624ce6c91b6daa97ffe2e919",
+          "ordered_indices_sha256": "c34fb4399e579b6665770515d54b6c6e6c7694ed509d567a4ee043577157aebc"
+        },
+        "nice": {
+          "step1_sha256": "122ffad038c86d385277f7db1153324866fe792ae5df88592bdb93e4f5aa3812",
+          "ordered_indices_sha256": "aed3c8e69ad2f72b7478f6a4fc2b3bbfe0b6d35477eb13da9dec52fc2f81b9fd"
+        },
+        "randk": {
+          "step1_sha256": "800292a53ed5e2d2bd8344822d675beaf1c4d4b1d18d1f9f21a24c5d58bbc04b",
+          "ordered_indices_sha256": "ad7ea02ff644b6957696e51886347cd4d45c3a5d441252c71f77d66285bfdc9c"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "77ed07a866e96b548daaa8c8d843abdb7bf52763f6ca1336bca1bdf3c04ff2e8",
+          "ordered_indices_sha256": "feb4a97edf1bbb41a1306b035c677ccc0acaa5802a00803215297d9781713d65"
+        }
+      },
+      "subsets": {
+        "dsmc": "f5069394b4f53a24ffbae62aaeb5ea9d5e72eef279b89c0b5bd0d8b8398b2ef3",
+        "less": "422406ef5ecc4eb3f204f84dda44804a9b837df0dcc040ecba67ceb75140aa8a",
+        "first_rr": "f4cf6c2cc89900eb2cf99131df89f766dbb3abf82bada874498e002ede58f52f",
+        "second_rr": "f08af82188f463a26294904acb5e68559262c43a256707220a409c467e7dada9",
+        "gist": "6ef7be29411a2fe782c5fa8c83df22f874690f0084fb6d1e2b2e5aea41eaf838",
+        "nice": "613c1e1ba1595f2ced4970754240674ee9581ec6c62fdf6d26c708968b188f24",
+        "randk": "b4d2a6aad09f16a7da6629ed70789a697d8bf0517503925e1b94457770a09439",
+        "randk_lenmatch": "dc45c64581911d1d8a9201884b75cf6f8037a123740aceed6a426e9d6af5f1f7"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8707,
+            "picked": 8707,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2089,
+            "picked": 2089,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1317,
+            "picked": 1317,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 532,
+            "picked": 532,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 888,
+            "picked": 888,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 77673,
+        "seed": 2000
+      },
+      "nice": {
+        "n_zero_signal": 12,
+        "zero_signal_target_ids": [
+          "mmlu_formal_logic_val10",
+          "mmlu_high_school_european_history_val8",
+          "mmlu_high_school_world_history_val5",
+          "mmlu_moral_disputes_val26",
+          "mmlu_moral_scenarios_val41",
+          "mmlu_moral_scenarios_val82",
+          "mmlu_moral_scenarios_val39",
+          "mmlu_moral_scenarios_val44",
+          "mmlu_philosophy_val19",
+          "mmlu_anatomy_val10",
+          "mmlu_high_school_biology_val10",
+          "mmlu_high_school_chemistry_val11"
+        ],
+        "reward_mean_overall": 0.3671875,
+        "reward_hist_counts": [
+          12,
+          9,
+          20,
+          11,
+          12
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "hum80_draw1": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "3a91724f174fbd1e3425af886897dd158861703368a1b2387cd06f418894c556",
+          "ordered_indices_sha256": "7ef158bfa3725997ac54a138c1e48a07e3d99350131876071d2888073f42fc13"
+        },
+        "less": {
+          "step1_sha256": "f47632455596ac11f3b3bf29f6e04dde7f0bfd4202a9a6a774fc302595abc470",
+          "ordered_indices_sha256": "567309a4bca8ecd954b1770304340a7a3cfab791eb05f0388a838bd5c2fdfc48"
+        },
+        "first_rr": {
+          "step1_sha256": "1bf1415caf5357fbcdf5447decbd7496ff0b10a6552c8f81c4c3531cb67b8c5c",
+          "ordered_indices_sha256": "ea35c2f8a755b72bbb307de199de10065cb067e09464a3d0c973e2860c08333d"
+        },
+        "second_rr": {
+          "step1_sha256": "bbbe149a7e671e0532e1be28f055208906a991ce00126cb93a0884f8bf77a4f6",
+          "ordered_indices_sha256": "5b95a2a34d6e627d5a09445df95fa59dc7910ed3cf91342c4908f9d5493d5886"
+        },
+        "gist": {
+          "step1_sha256": "9a441bc68d925d0c53ac7da49a44f9c2a8b5ff78fc363f0ef720396b40988797",
+          "ordered_indices_sha256": "3f76b253138151c4aaf398d27b0b5a15e17e09d5ab5719b5b401d874d5c22461"
+        },
+        "nice": {
+          "step1_sha256": "34d7356df13350f071feffed5ca24358340b6a43cafa3ed1a2a1f913bfe97ceb",
+          "ordered_indices_sha256": "ce6f92a3795835c84e7c949a55826a5dac3d40026399edbb4e1ca76159cbbcb4"
+        },
+        "randk": {
+          "step1_sha256": "79b3ab2c4f36b3e647e61f3518b5310f778a76d59057fd62b307ccc32ee460e4",
+          "ordered_indices_sha256": "3560c4e826ed7a1030db23a9adf67a0f9e145fe00b91616264eba0bbe43afbaa"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "8a8b9217c4f2cb51fd1e09211b20b615441affe428738a0fe93672c0f8264c33",
+          "ordered_indices_sha256": "552ab3137afe3a7902c8d83f4c76f7defb4f80d94f3b5ada6f75c93bb140d26c"
+        }
+      },
+      "subsets": {
+        "dsmc": "f179614e9487045eae24fd627517f79a1ba656ad9e1e28902114e374df652109",
+        "less": "144100acfa6cdd6e9dc601d487ab4c1161f2f9066cebeed8c8e48c62f6ea364e",
+        "first_rr": "76a1cb03a1187d7161bf91ed0c8844416baeb05774f5709e3d1f3daa613c0963",
+        "second_rr": "83db440dddcec6c5700381861ea94b7c6b95d38b6a5e546b8caa9bdfeb2df68b",
+        "gist": "59a052a894911ee740dc71beaa62e4eee4c5a6ba7e184d66bd29eb298db88eff",
+        "nice": "82c57a0d70a84cb524b53379b285747e7565cc01c4e376bb1a8d07362feaf84e",
+        "randk": "35513c3d19a22617d98ce0ffeca987ba41eb3bef17d34d0029a7d9a17703d2d0",
+        "randk_lenmatch": "9bd6738eeb8acf70068ad8222e87c5f4e8244d2b1167fa6b9d4ae18e64e32940"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8675,
+            "picked": 8675,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2130,
+            "picked": 2130,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1329,
+            "picked": 1329,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 515,
+            "picked": 515,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 884,
+            "picked": 884,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 59468,
+        "seed": 2001
+      },
+      "nice": {
+        "n_zero_signal": 13,
+        "zero_signal_target_ids": [
+          "mmlu_high_school_world_history_val10",
+          "mmlu_high_school_world_history_val25",
+          "mmlu_moral_scenarios_val57",
+          "mmlu_moral_scenarios_val91",
+          "mmlu_moral_scenarios_val46",
+          "mmlu_philosophy_val22",
+          "mmlu_prehistory_val3",
+          "mmlu_professional_law_val76",
+          "mmlu_professional_law_val135",
+          "mmlu_professional_law_val91",
+          "mmlu_professional_law_val10",
+          "mmlu_elementary_mathematics_val25",
+          "mmlu_machine_learning_val9"
+        ],
+        "reward_mean_overall": 0.3359375,
+        "reward_hist_counts": [
+          13,
+          12,
+          18,
+          13,
+          8
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "hum80_draw2": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "434d6ee838185fb2804c9063c699ab0480e90460455224eb683cf906ad26fb28",
+          "ordered_indices_sha256": "3bd7505277f33115fe9674728b835a4fd77036ff8a9047ef44e301db5f0560ce"
+        },
+        "less": {
+          "step1_sha256": "d15854c9dfdbbe29b3c53a7227b9adba16f51abc1aad7fbed0b7ed0ae374fb28",
+          "ordered_indices_sha256": "666754b821b0de84ec045405c3554dafa8d124484210ceedcde4047f6d5288cb"
+        },
+        "first_rr": {
+          "step1_sha256": "0628e99573b42830a500aa6b20cfd4eb6e7dc98c6dca663871236dae6be56111",
+          "ordered_indices_sha256": "c441d8e301f94515bf0f0a0fad744538a53855edbcfe958f583686263cb65b52"
+        },
+        "second_rr": {
+          "step1_sha256": "bc76791d4959374820608fc24bad338944ba99967e8b8df834b5ef20871fdd64",
+          "ordered_indices_sha256": "21d99e2170fc9333615293ab93d468d743c6b5f296d77640785306c93a568387"
+        },
+        "gist": {
+          "step1_sha256": "80e7a35a9826ec1d979e5ab5744052ace21ae21411649bace2e58258a8caed5f",
+          "ordered_indices_sha256": "1cb4250cf8082591b903e0c58f909376a0edad2285d17511d1be92464d55efa4"
+        },
+        "nice": {
+          "step1_sha256": "6295e9af9da0f7df27553964c331dcbbb0f28b075335c0a9d47d3487398e18ae",
+          "ordered_indices_sha256": "d91f00188bf6f2240a337fb0c15067b7cdbdc0aa5c43b36afae86e040db7e1a1"
+        },
+        "randk": {
+          "step1_sha256": "f14088b675f510f805fd726993ba7e48ffddcdf7cb33ceaa3d55565d4ea87e26",
+          "ordered_indices_sha256": "de849155d14c569732501289850b5bd262bf87d0ca8252e5b215c06b2a87e0f2"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "f7611d2be2a136c113e0699b1fb268bcfc1392158246c0bef0af29531efa55c6",
+          "ordered_indices_sha256": "4d85c1dbd0c8d113e379de6ff5c48d8a9213f8588a632af0ba8c3bd17835858c"
+        }
+      },
+      "subsets": {
+        "dsmc": "b6e0cd5e33418a7b72dfb5c5a35fc22b8f82ebd1a21f5f0ebf4d7e62fda72a89",
+        "less": "6191fd521a75f8860e4bcc9a172fa2546e97c8477e8f3a826d1db71095b3c9f6",
+        "first_rr": "00340663d41db484052fb84515d507d9f86951d0aec591dc463053dc863bc5d6",
+        "second_rr": "74abec615cf4f712709c31005d8c89ae00512b75d2af4fa166504b6a84f459e1",
+        "gist": "3277619c62ad07f4d0aae5005425f1f6f886f972890b985850fadb3cc9242ef7",
+        "nice": "116645128e658dc209e6ce48fabd64949fcfc324dcbd368f9ae0cc1f46e1d75a",
+        "randk": "d6559e380637ff4415c2d66982839ec56a081545a9606629df382aa6c77fb12b",
+        "randk_lenmatch": "74bfd5495afa8e7e9c1f0dc582548b8797e9ee9cf3bade9a430032ef3d003a6d"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8654,
+            "picked": 8654,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2121,
+            "picked": 2121,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1322,
+            "picked": 1322,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 531,
+            "picked": 531,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 905,
+            "picked": 905,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 46018,
+        "seed": 2002
+      },
+      "nice": {
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_international_law_val5",
+          "mmlu_jurisprudence_val5",
+          "mmlu_moral_disputes_val27",
+          "mmlu_moral_scenarios_val43",
+          "mmlu_philosophy_val25",
+          "mmlu_professional_law_val31",
+          "mmlu_professional_law_val139",
+          "mmlu_professional_law_val36",
+          "mmlu_professional_law_val97",
+          "mmlu_high_school_physics_val2"
+        ],
+        "reward_mean_overall": 0.37890625,
+        "reward_hist_counts": [
+          10,
+          12,
+          18,
+          11,
+          13
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "hum80_draw3": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "80bd25d514789557476e9f92ec41d577110870cc798e33c8f0e87b07038b294d",
+          "ordered_indices_sha256": "8492ebebadf71f41a99fbdac35b1a689612627e7e7e23acb7149a7194afe073d"
+        },
+        "less": {
+          "step1_sha256": "ade50c683d228c407b892c8788bdab5b3f0460e6062399e0974382facc04ca8d",
+          "ordered_indices_sha256": "ff8706f53de43cde4c2657ce14fc61e2ad91fd0eecdb142b71d93d40fc40f10b"
+        },
+        "first_rr": {
+          "step1_sha256": "6550585ca8c3dcdcaf2bf2e93bfcc4ec51678fd88466e19f1a86dde2165aaf68",
+          "ordered_indices_sha256": "7b62c6123717245e492444e8d0e964a1606286aaffc4c5a0baf1fd2fe04cafec"
+        },
+        "second_rr": {
+          "step1_sha256": "3b82be68ad0550dd3b5c542b2ddba097427c42907350e15d811f97a6dbb0f8a8",
+          "ordered_indices_sha256": "d74f9e3f1f7432987a161de71bea5e3264839a07ca36c565fd9569720eb521d7"
+        },
+        "gist": {
+          "step1_sha256": "2845b4c3cdb48da36c5fb20efab0d999869bf5dd4116553d09601abfc91d3a2e",
+          "ordered_indices_sha256": "de34ebfefc90b6b87969cb7e47acb2efe40f45a041c5924af8bdda1b7f502e3b"
+        },
+        "nice": {
+          "step1_sha256": "8bb22da70dfc6d23018457d8bdc6ff9d9e1283302abb3610d7f32717e0c69ca3",
+          "ordered_indices_sha256": "48e32c70e9a88c1481105fd7dde3d53c7fa91c55586469946be636692d81467e"
+        },
+        "randk": {
+          "step1_sha256": "fe6dee20adaba487ec03d69a25f5c224ec40b7ac32d96320573eba5f67900e82",
+          "ordered_indices_sha256": "80482d567ef8763c599d20faabba5cdab7f99fbff1fa11f602b8388a15cfdac5"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "a91457cb80d1a6f3c45c0092ae0ca7934150b5156797ba56bed55b6128854afe",
+          "ordered_indices_sha256": "186814eff5d4946c04114df66efc825278f94608520bfbc098e14267de79c1c7"
+        }
+      },
+      "subsets": {
+        "dsmc": "918d9b45119bad78930cf78da1523bc86c75c12416851f8cc0fd3a79884dfb9f",
+        "less": "7fde811aa7f4ce75e9285b108ac7eeb54ed07c82728f0fd287262242f763cf46",
+        "first_rr": "53e2e5c2f2362e7136197a7a12a9f3586c487164ff35187ba483fd5aec715c80",
+        "second_rr": "57ef821d60716b95556911fbd849e3d4f4d204afb4e3f8da337508446bcda113",
+        "gist": "c2a1c9edc495a666a9987b928b5a6dd911a85c49c692bbc366672aec6bc0b2ab",
+        "nice": "6d39664fc42302161d2f2dee0c34c10af9aa1cfef2892aea7fba9a615a631717",
+        "randk": "a2ab36445df9c334005d74ed9fea858f5d8c33c181e75f0272ceb422041dbff3",
+        "randk_lenmatch": "b59bdfef282b01723e85c25bd42f5404b482b3268eafd78483f7f54d6779dc51"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8637,
+            "picked": 8637,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2120,
+            "picked": 2120,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1349,
+            "picked": 1349,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 533,
+            "picked": 533,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 894,
+            "picked": 894,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 53035,
+        "seed": 2003
+      },
+      "nice": {
+        "n_zero_signal": 7,
+        "zero_signal_target_ids": [
+          "mmlu_moral_scenarios_val90",
+          "mmlu_philosophy_val30",
+          "mmlu_philosophy_val20",
+          "mmlu_professional_law_val54",
+          "mmlu_professional_law_val88",
+          "mmlu_professional_law_val129",
+          "mmlu_high_school_statistics_val18"
+        ],
+        "reward_mean_overall": 0.392578125,
+        "reward_hist_counts": [
+          7,
+          12,
+          22,
+          11,
+          12
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    },
+    "hum80_draw4": {
+      "selections": {
+        "dsmc": {
+          "step1_sha256": "24e39ee13cd1db4160adb8294f656214b30feb3b16feacf1c749ff3e534d4a27",
+          "ordered_indices_sha256": "587aee6949cd86005ccf2bee25f079d10fb41a3b217635bd4727c63655f9cb67"
+        },
+        "less": {
+          "step1_sha256": "d54b35226bed200358c50069be74bb94b2a430239d6ead7ddcdd4dc30783d92c",
+          "ordered_indices_sha256": "5ca70da478fb644f8b49530800536230925f88950497485df4a60d7258d5925f"
+        },
+        "first_rr": {
+          "step1_sha256": "3acde358ecf98666f752fa6657b0954a1331a6f86e7250064c41e99a667b0978",
+          "ordered_indices_sha256": "7f0277a0c799523d18f7ebfdd7cb8f01537acb77314b3ed418862dd652820b4b"
+        },
+        "second_rr": {
+          "step1_sha256": "ddafa2c49482557123752712174ecd878b30c3a8d09eb455421b20d5d101d92c",
+          "ordered_indices_sha256": "c0f02c6b9cd531ad38da079c1f80381d6046f1ed54ea8ad9ea078af0160d97a6"
+        },
+        "gist": {
+          "step1_sha256": "9ea91163af04f3ad72a5d1555db7294915782f718b7f62204cc47ae20397fcca",
+          "ordered_indices_sha256": "3c3a2de258fc6865e7ae1ed29f4117b6981aa852d6d7c6e47c20f5111cd09981"
+        },
+        "nice": {
+          "step1_sha256": "7069523bc1cf3206ded847143b83e3d6ef621a8716d980f2fd4a7163a8b45015",
+          "ordered_indices_sha256": "6ff501398b205e75e1aa93b4b6840021043f55acb87bca08bd8b473730b4c619"
+        },
+        "randk": {
+          "step1_sha256": "b427d5736bf3cbdd6a5734c479a2d268d03d74bc89f665c615964ef3bded82b0",
+          "ordered_indices_sha256": "c40ebbca828ab7ec6c4f2862e70f0d3950faaa9afdefe7cebfde694fad4d9af1"
+        },
+        "randk_lenmatch": {
+          "step1_sha256": "182786dacf1bfe189ff64e83a4311d5737332bc467152cf7a4cc2fca44f07064",
+          "ordered_indices_sha256": "2ce43f426b1d8f4c7b767e92f34165a5f4f0f130431ba1e02bc191183e3f2e29"
+        }
+      },
+      "subsets": {
+        "dsmc": "e70b62907126a763dd58e3450df28df89d415f8ee280e8dab8dd843184ddba04",
+        "less": "696fc7a80dc1516ab2a02e710f7960a60f4d0c2bd9cee40fa13f0c38e6a39ebe",
+        "first_rr": "a81e0a721b7663aa33f9a6ccf17b848cfc2b28e9b55f5795c0ed9f149f7c7a24",
+        "second_rr": "f49833640186d18da48654aa1c20bc64251b943ef806a3ecc29538ace4340890",
+        "gist": "444cd3b3abd677a1d0eede54a065d06f195710f89849940fc3d99fc8e3fb7118",
+        "nice": "8f2693450cc6d6249573f3a4ca4f00cb72b81a71873b2e2957e5beb41d847f57",
+        "randk": "81844d05a3475f55621600b4f95bce873fdb6f754db45196ad48069cc8ab97bd",
+        "randk_lenmatch": "c4776ca0ee2c605e548fcc17457d583c2f4e06c672e7c428887d9109899bc0a5"
+      },
+      "subset_rows": {
+        "dsmc": 13533,
+        "less": 13533,
+        "first_rr": 13533,
+        "second_rr": 13533,
+        "gist": 13533,
+        "nice": 13533,
+        "randk": 13533,
+        "randk_lenmatch": 13533
+      },
+      "randk_lenmatch": {
+        "per_bucket": [
+          {
+            "bucket": [
+              0,
+              256
+            ],
+            "dsmc": 8624,
+            "picked": 8624,
+            "candidates_available": 144886
+          },
+          {
+            "bucket": [
+              256,
+              512
+            ],
+            "dsmc": 2102,
+            "picked": 2102,
+            "candidates_available": 68865
+          },
+          {
+            "bucket": [
+              512,
+              1024
+            ],
+            "dsmc": 1358,
+            "picked": 1358,
+            "candidates_available": 41036
+          },
+          {
+            "bucket": [
+              1024,
+              1536
+            ],
+            "dsmc": 535,
+            "picked": 535,
+            "candidates_available": 9170
+          },
+          {
+            "bucket": [
+              1536,
+              2049
+            ],
+            "dsmc": 914,
+            "picked": 914,
+            "candidates_available": 6722
+          }
+        ],
+        "token_diff": 47024,
+        "seed": 2004
+      },
+      "nice": {
+        "n_zero_signal": 10,
+        "zero_signal_target_ids": [
+          "mmlu_high_school_us_history_val20",
+          "mmlu_moral_disputes_val30",
+          "mmlu_moral_scenarios_val51",
+          "mmlu_moral_scenarios_val3",
+          "mmlu_moral_scenarios_val28",
+          "mmlu_philosophy_val33",
+          "mmlu_prehistory_val21",
+          "mmlu_professional_law_val29",
+          "mmlu_professional_law_val123",
+          "mmlu_high_school_chemistry_val15"
+        ],
+        "reward_mean_overall": 0.37109375,
+        "reward_hist_counts": [
+          10,
+          15,
+          16,
+          12,
+          11
+        ],
+        "mc": 8,
+        "gen_seed": 123
+      }
+    }
+  }
+}

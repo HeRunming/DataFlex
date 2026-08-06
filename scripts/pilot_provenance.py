@@ -9,7 +9,8 @@
 """
 import argparse, json, os, glob, hashlib, subprocess
 
-K = 13533
+# NOTE: the selection budget K is always derived from the run plan (adapter["budget"] /
+# plan["budget"]) — never hardcoded, so the same helpers serve the 5% and 1% budgets.
 ROOT = "/jizhicfs/karonhe/DataFlex_fa"
 
 

@@ -1,22 +1,25 @@
 #!/bin/bash
-# Target-draw pilot SFT/eval/aggregate driver (staged, resume + fail-fast). advice_0731 / code_review_0801.
-# Consumes experiments/less_aligned/pilot_run_plan.json (80 cells -> 75 unique adapters, 5 draws/dir).
+# Target-draw SFT/eval/aggregate driver (staged, resume + fail-fast). advice_0731 / code_review_0801.
+# Budget-agnostic: PLAN env selects the run plan (default 5%; set PLAN=...pilot1pct_run_plan.json for
+# 1%). All budget checks derive K from the plan — nothing budget-specific is hardcoded here.
 # Phases via PHASES env: register train eval aggregate. Optional ADAPTERS="id1 id2" restricts
-# TRAIN+EVAL to specific adapter_ids (canary). NOTE: register ALWAYS processes all 30 datasets
-# (cheap, idempotent) regardless of ADAPTERS — datasets are shared config, not per-canary state.
-#   register : hash-validate (rows + SHA256 vs plan) + register each unique adapter's subset dataset key
+# TRAIN+EVAL to specific adapter_ids (canary). NOTE: register ALWAYS processes ALL adapters in the
+# plan (cheap, idempotent) regardless of ADAPTERS — datasets are shared config, not per-canary state.
+#   register : hash-validate (rows + SHA256 vs plan, at the plan's budget) + register dataset keys
 #   train    : SFT each unique adapter once (seed from plan, eff-batch 128, 4 epochs) + train_manifest;
 #              resume skips only a HASH-VALIDATED matching adapter (not mere file existence)
 #   eval     : lm_eval mmlu_stem+humanities into a UNIQUE run subdir; require exactly 1 results file;
 #              write eval_manifest; resume skips only a hash-validated matching eval
-#   aggregate: expand 75 adapters -> 80 cells; DSMC-method paired diff; 51/64,13/64 weights
+#   aggregate: expand adapters -> cells; DSMC-method paired diff; 51/64,13/64 weights
 set -Eeuo pipefail
 ENVBIN=/jizhicfs/karonhe/envs/dataflex-fa/bin; PY=$ENVBIN/python
 SAVES=/jizhicfs/karonhe/dataflex_saves; ROOT=/jizhicfs/karonhe/DataFlex_fa
 BASE=/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf
 LOGD=$SAVES/logs; PLAN="${PLAN:-$ROOT/experiments/less_aligned/pilot_run_plan.json}"
+# MASTER = shared, budget-INDEPENDENT target geometry (draws, target grads, ckpt, cache, projection,
+# env). The budget-DEPENDENT selection/subset hashes live in pilot{5,1}pct_selection_manifest.json.
 MASTER=$ROOT/experiments/less_aligned/targetdraw_10draw_master_manifest.json
-PROV="$PY scripts/pilot_provenance.py"; K=13533
+PROV="$PY scripts/pilot_provenance.py"
 export PATH=$ENVBIN:$PATH; cd $ROOT; mkdir -p $LOGD $SAVES/eval_results/skew
 log(){ echo "[$(date +%m-%d_%H:%M:%S)] $*"; }
 trap 'log "[FATAL] line=$LINENO cmd=$BASH_COMMAND"' ERR
@@ -28,7 +31,7 @@ has(){ [[ ",$PHASES," == *",$1,"* ]]; }
 want(){ [[ -z "$ADAPTERS" ]] || [[ " $ADAPTERS " == *" $1 "* ]]; }
 mapfile -t AIDS < <($PY -c "import json;print('\n'.join(json.load(open('$PLAN'))['adapters']))")
 
-# ───────────── register (all 30; hash-validated) ─────────────
+# ───────────── register (all adapters in plan; rows+SHA hash-validated at the plan budget) ─────────────
 if has register; then
   $PROV register --plan $PLAN
   log "register done"
