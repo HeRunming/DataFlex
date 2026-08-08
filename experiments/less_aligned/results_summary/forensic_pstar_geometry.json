@@ -1,0 +1,2728 @@
+{
+  "P_star": {
+    "n": 640,
+    "note": "union of 10 disjoint target draws, balanced 320 STEM / 320 HUM"
+  },
+  "budgets": {
+    "1pct": {
+      "dsmc": {
+        "mean": {
+          "D2_to_Q": 0.16895267367362976,
+          "D2_to_Pstar": 0.15206103026866913,
+          "D1_to_Q": 0.37026970386505126,
+          "D1_to_Pstar": 0.3563499301671982,
+          "source_entropy": 0.9653434031901078,
+          "eff_rank": 1589.0411376953125,
+          "mean_pairwise_cos": 0.014150718227028847,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.14226680994033813,
+            "D2_to_Pstar": 0.15207797288894653,
+            "D1_to_Q": 0.32272279262542725,
+            "D1_to_Pstar": 0.3565472960472107,
+            "source_entropy": 0.9859153501735769,
+            "n_unique_sources": 4,
+            "eff_rank": 1598.142578125,
+            "mean_pairwise_cos": 0.013649314641952515,
+            "source_dist": {
+              "cot": 481,
+              "dolly": 445,
+              "flan_v2": 1713,
+              "oasst1": 68
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.15086489915847778,
+            "D2_to_Pstar": 0.15202197432518005,
+            "D1_to_Q": 0.34411248564720154,
+            "D1_to_Pstar": 0.35458076000213623,
+            "source_entropy": 0.9869820683229747,
+            "n_unique_sources": 4,
+            "eff_rank": 1599.28466796875,
+            "mean_pairwise_cos": 0.013950848020613194,
+            "source_dist": {
+              "cot": 485,
+              "dolly": 434,
+              "flan_v2": 1716,
+              "oasst1": 72
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.1443016231060028,
+            "D2_to_Pstar": 0.1521461308002472,
+            "D1_to_Q": 0.3377442955970764,
+            "D1_to_Pstar": 0.35822534561157227,
+            "source_entropy": 0.9706318425472285,
+            "n_unique_sources": 4,
+            "eff_rank": 1599.2425537109375,
+            "mean_pairwise_cos": 0.01322564110159874,
+            "source_dist": {
+              "cot": 507,
+              "dolly": 418,
+              "flan_v2": 1725,
+              "oasst1": 57
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.17111879587173462,
+            "D2_to_Pstar": 0.15205596387386322,
+            "D1_to_Q": 0.3748491108417511,
+            "D1_to_Pstar": 0.35653799772262573,
+            "source_entropy": 0.9873671648107955,
+            "n_unique_sources": 4,
+            "eff_rank": 1586.5845947265625,
+            "mean_pairwise_cos": 0.014219323173165321,
+            "source_dist": {
+              "cot": 488,
+              "dolly": 439,
+              "flan_v2": 1711,
+              "oasst1": 69
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.13024994730949402,
+            "D2_to_Pstar": 0.15207572281360626,
+            "D1_to_Q": 0.31840962171554565,
+            "D1_to_Pstar": 0.35730481147766113,
+            "source_entropy": 0.9674229698670895,
+            "n_unique_sources": 4,
+            "eff_rank": 1597.6717529296875,
+            "mean_pairwise_cos": 0.013242791406810284,
+            "source_dist": {
+              "cot": 462,
+              "dolly": 436,
+              "flan_v2": 1745,
+              "oasst1": 64
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.18180137872695923,
+            "D2_to_Pstar": 0.15201899409294128,
+            "D1_to_Q": 0.39248114824295044,
+            "D1_to_Pstar": 0.3565835952758789,
+            "source_entropy": 0.9533985023173898,
+            "n_unique_sources": 4,
+            "eff_rank": 1580.5528564453125,
+            "mean_pairwise_cos": 0.014227575622498989,
+            "source_dist": {
+              "cot": 438,
+              "dolly": 423,
+              "flan_v2": 1778,
+              "oasst1": 68
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.19291184842586517,
+            "D2_to_Pstar": 0.15204110741615295,
+            "D1_to_Q": 0.4013574719429016,
+            "D1_to_Pstar": 0.35527756810188293,
+            "source_entropy": 0.9518964467378824,
+            "n_unique_sources": 4,
+            "eff_rank": 1586.5770263671875,
+            "mean_pairwise_cos": 0.01468043215572834,
+            "source_dist": {
+              "cot": 427,
+              "dolly": 422,
+              "flan_v2": 1786,
+              "oasst1": 72
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.200027734041214,
+            "D2_to_Pstar": 0.15205734968185425,
+            "D1_to_Q": 0.4194139242172241,
+            "D1_to_Pstar": 0.35681819915771484,
+            "source_entropy": 0.9453035985251168,
+            "n_unique_sources": 4,
+            "eff_rank": 1579.071044921875,
+            "mean_pairwise_cos": 0.014604362659156322,
+            "source_dist": {
+              "cot": 442,
+              "dolly": 402,
+              "flan_v2": 1794,
+              "oasst1": 69
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.18438617885112762,
+            "D2_to_Pstar": 0.15205129981040955,
+            "D1_to_Q": 0.3890904188156128,
+            "D1_to_Pstar": 0.3557758927345276,
+            "source_entropy": 0.9473868169299328,
+            "n_unique_sources": 4,
+            "eff_rank": 1573.964599609375,
+            "mean_pairwise_cos": 0.014675764366984367,
+            "source_dist": {
+              "cot": 421,
+              "dolly": 424,
+              "flan_v2": 1792,
+              "oasst1": 70
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.19159752130508423,
+            "D2_to_Pstar": 0.15206378698349,
+            "D1_to_Q": 0.4025157690048218,
+            "D1_to_Pstar": 0.3558478355407715,
+            "source_entropy": 0.9571292716690913,
+            "n_unique_sources": 4,
+            "eff_rank": 1589.3197021484375,
+            "mean_pairwise_cos": 0.015031129121780396,
+            "source_dist": {
+              "cot": 437,
+              "dolly": 422,
+              "flan_v2": 1776,
+              "oasst1": 72
+            }
+          }
+        ]
+      },
+      "randk": {
+        "mean": {
+          "D2_to_Q": 0.19331316500902176,
+          "D2_to_Pstar": 0.17626867592334747,
+          "D1_to_Q": 0.4797650933265686,
+          "D1_to_Pstar": 0.46547136306762693,
+          "source_entropy": 1.226616911403776,
+          "eff_rank": 1012.687060546875,
+          "mean_pairwise_cos": 0.09423227310180664,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.16658413410186768,
+            "D2_to_Pstar": 0.1765792965888977,
+            "D1_to_Q": 0.4287909269332886,
+            "D1_to_Pstar": 0.4651123881340027,
+            "source_entropy": 1.2256109983823211,
+            "n_unique_sources": 4,
+            "eff_rank": 997.6268310546875,
+            "mean_pairwise_cos": 0.09376313537359238,
+            "source_dist": {
+              "cot": 999,
+              "dolly": 159,
+              "flan_v2": 1001,
+              "oasst1": 548
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.17609155178070068,
+            "D2_to_Pstar": 0.17732810974121094,
+            "D1_to_Q": 0.45505744218826294,
+            "D1_to_Pstar": 0.46776193380355835,
+            "source_entropy": 1.2229627857027559,
+            "n_unique_sources": 4,
+            "eff_rank": 986.6832885742188,
+            "mean_pairwise_cos": 0.09710033982992172,
+            "source_dist": {
+              "cot": 1025,
+              "dolly": 150,
+              "flan_v2": 966,
+              "oasst1": 566
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.16780973970890045,
+            "D2_to_Pstar": 0.1757216900587082,
+            "D1_to_Q": 0.4419870376586914,
+            "D1_to_Pstar": 0.4647613763809204,
+            "source_entropy": 1.225294644208585,
+            "n_unique_sources": 4,
+            "eff_rank": 1027.447265625,
+            "mean_pairwise_cos": 0.093497134745121,
+            "source_dist": {
+              "cot": 954,
+              "dolly": 148,
+              "flan_v2": 1020,
+              "oasst1": 585
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.19196122884750366,
+            "D2_to_Pstar": 0.17270731925964355,
+            "D1_to_Q": 0.47557786107063293,
+            "D1_to_Pstar": 0.4584835171699524,
+            "source_entropy": 1.2218339660983337,
+            "n_unique_sources": 4,
+            "eff_rank": 1098.4993896484375,
+            "mean_pairwise_cos": 0.0873277559876442,
+            "source_dist": {
+              "cot": 1041,
+              "dolly": 149,
+              "flan_v2": 951,
+              "oasst1": 566
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.15690089762210846,
+            "D2_to_Pstar": 0.17900696396827698,
+            "D1_to_Q": 0.43167465925216675,
+            "D1_to_Pstar": 0.4712375998497009,
+            "source_entropy": 1.2373821626268842,
+            "n_unique_sources": 4,
+            "eff_rank": 953.1785278320312,
+            "mean_pairwise_cos": 0.0994729995727539,
+            "source_dist": {
+              "cot": 961,
+              "dolly": 170,
+              "flan_v2": 1006,
+              "oasst1": 570
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.20658239722251892,
+            "D2_to_Pstar": 0.1765792965888977,
+            "D1_to_Q": 0.5034006237983704,
+            "D1_to_Pstar": 0.4651123881340027,
+            "source_entropy": 1.2256109983823211,
+            "n_unique_sources": 4,
+            "eff_rank": 997.6268310546875,
+            "mean_pairwise_cos": 0.09376313537359238,
+            "source_dist": {
+              "cot": 999,
+              "dolly": 159,
+              "flan_v2": 1001,
+              "oasst1": 548
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.21858179569244385,
+            "D2_to_Pstar": 0.17732810974121094,
+            "D1_to_Q": 0.5158741474151611,
+            "D1_to_Pstar": 0.46776193380355835,
+            "source_entropy": 1.2229627857027559,
+            "n_unique_sources": 4,
+            "eff_rank": 986.6832885742188,
+            "mean_pairwise_cos": 0.09710033982992172,
+            "source_dist": {
+              "cot": 1025,
+              "dolly": 150,
+              "flan_v2": 966,
+              "oasst1": 566
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.22422198951244354,
+            "D2_to_Pstar": 0.1757216900587082,
+            "D1_to_Q": 0.530609667301178,
+            "D1_to_Pstar": 0.4647613763809204,
+            "source_entropy": 1.225294644208585,
+            "n_unique_sources": 4,
+            "eff_rank": 1027.447265625,
+            "mean_pairwise_cos": 0.093497134745121,
+            "source_dist": {
+              "cot": 954,
+              "dolly": 148,
+              "flan_v2": 1020,
+              "oasst1": 585
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.20546625554561615,
+            "D2_to_Pstar": 0.17270731925964355,
+            "D1_to_Q": 0.4936201274394989,
+            "D1_to_Pstar": 0.4584835171699524,
+            "source_entropy": 1.2218339660983337,
+            "n_unique_sources": 4,
+            "eff_rank": 1098.4993896484375,
+            "mean_pairwise_cos": 0.0873277559876442,
+            "source_dist": {
+              "cot": 1041,
+              "dolly": 149,
+              "flan_v2": 951,
+              "oasst1": 566
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.2189316600561142,
+            "D2_to_Pstar": 0.17900696396827698,
+            "D1_to_Q": 0.5210584402084351,
+            "D1_to_Pstar": 0.4712375998497009,
+            "source_entropy": 1.2373821626268842,
+            "n_unique_sources": 4,
+            "eff_rank": 953.1785278320312,
+            "mean_pairwise_cos": 0.0994729995727539,
+            "source_dist": {
+              "cot": 961,
+              "dolly": 170,
+              "flan_v2": 1006,
+              "oasst1": 570
+            }
+          }
+        ]
+      },
+      "randk_lenmatch": {
+        "mean": {
+          "D2_to_Q": 0.19118550568819045,
+          "D2_to_Pstar": 0.1741433024406433,
+          "D1_to_Q": 0.47182567715644835,
+          "D1_to_Pstar": 0.4575513482093811,
+          "source_entropy": 1.217013854883501,
+          "eff_rank": 1052.9942749023437,
+          "mean_pairwise_cos": 0.08641716465353966,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.1650014966726303,
+            "D2_to_Pstar": 0.1749952882528305,
+            "D1_to_Q": 0.4215199947357178,
+            "D1_to_Pstar": 0.45779743790626526,
+            "source_entropy": 1.2155563298765009,
+            "n_unique_sources": 4,
+            "eff_rank": 1029.193359375,
+            "mean_pairwise_cos": 0.08689608424901962,
+            "source_dist": {
+              "cot": 922,
+              "dolly": 162,
+              "flan_v2": 1112,
+              "oasst1": 511
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.1712375283241272,
+            "D2_to_Pstar": 0.172468900680542,
+            "D1_to_Q": 0.4410337209701538,
+            "D1_to_Pstar": 0.4536578357219696,
+            "source_entropy": 1.211363701358307,
+            "n_unique_sources": 4,
+            "eff_rank": 1095.10888671875,
+            "mean_pairwise_cos": 0.08287316560745239,
+            "source_dist": {
+              "cot": 958,
+              "dolly": 156,
+              "flan_v2": 1089,
+              "oasst1": 504
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.16664525866508484,
+            "D2_to_Pstar": 0.17455878853797913,
+            "D1_to_Q": 0.43697047233581543,
+            "D1_to_Pstar": 0.4596553146839142,
+            "source_entropy": 1.2236301383646155,
+            "n_unique_sources": 4,
+            "eff_rank": 1039.224365234375,
+            "mean_pairwise_cos": 0.08764966577291489,
+            "source_dist": {
+              "cot": 950,
+              "dolly": 161,
+              "flan_v2": 1058,
+              "oasst1": 538
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.1916612684726715,
+            "D2_to_Pstar": 0.17241382598876953,
+            "D1_to_Q": 0.4697621464729309,
+            "D1_to_Pstar": 0.4526063799858093,
+            "source_entropy": 1.2212285992562935,
+            "n_unique_sources": 4,
+            "eff_rank": 1095.86474609375,
+            "mean_pairwise_cos": 0.08246387541294098,
+            "source_dist": {
+              "cot": 956,
+              "dolly": 167,
+              "flan_v2": 1072,
+              "oasst1": 512
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.15312370657920837,
+            "D2_to_Pstar": 0.1752331703901291,
+            "D1_to_Q": 0.4211612343788147,
+            "D1_to_Pstar": 0.46088707447052,
+            "source_entropy": 1.2234230241901627,
+            "n_unique_sources": 4,
+            "eff_rank": 1024.8831787109375,
+            "mean_pairwise_cos": 0.08908212929964066,
+            "source_dist": {
+              "cot": 953,
+              "dolly": 170,
+              "flan_v2": 1071,
+              "oasst1": 513
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.20525044202804565,
+            "D2_to_Pstar": 0.1752527356147766,
+            "D1_to_Q": 0.4968753457069397,
+            "D1_to_Pstar": 0.4586983025074005,
+            "source_entropy": 1.2134688403369496,
+            "n_unique_sources": 4,
+            "eff_rank": 1025.203857421875,
+            "mean_pairwise_cos": 0.08778601139783859,
+            "source_dist": {
+              "cot": 913,
+              "dolly": 158,
+              "flan_v2": 1120,
+              "oasst1": 516
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.21417397260665894,
+            "D2_to_Pstar": 0.1729315221309662,
+            "D1_to_Q": 0.5029851198196411,
+            "D1_to_Pstar": 0.4550062417984009,
+            "source_entropy": 1.2106306862279856,
+            "n_unique_sources": 4,
+            "eff_rank": 1085.594970703125,
+            "mean_pairwise_cos": 0.08424781262874603,
+            "source_dist": {
+              "cot": 956,
+              "dolly": 152,
+              "flan_v2": 1087,
+              "oasst1": 512
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.22381454706192017,
+            "D2_to_Pstar": 0.17532148957252502,
+            "D1_to_Q": 0.5273795127868652,
+            "D1_to_Pstar": 0.46156710386276245,
+            "source_entropy": 1.2181897963703021,
+            "n_unique_sources": 4,
+            "eff_rank": 1025.3280029296875,
+            "mean_pairwise_cos": 0.08961114287376404,
+            "source_dist": {
+              "cot": 949,
+              "dolly": 153,
+              "flan_v2": 1066,
+              "oasst1": 539
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.20572230219841003,
+            "D2_to_Pstar": 0.1729603111743927,
+            "D1_to_Q": 0.4893343448638916,
+            "D1_to_Pstar": 0.45424938201904297,
+            "source_entropy": 1.2147329244709353,
+            "n_unique_sources": 4,
+            "eff_rank": 1084.3150634765625,
+            "mean_pairwise_cos": 0.08404102176427841,
+            "source_dist": {
+              "cot": 964,
+              "dolly": 158,
+              "flan_v2": 1075,
+              "oasst1": 510
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.21522453427314758,
+            "D2_to_Pstar": 0.17529699206352234,
+            "D1_to_Q": 0.5112348794937134,
+            "D1_to_Pstar": 0.46138840913772583,
+            "source_entropy": 1.2179145083829581,
+            "n_unique_sources": 4,
+            "eff_rank": 1025.226318359375,
+            "mean_pairwise_cos": 0.08952073752880096,
+            "source_dist": {
+              "cot": 953,
+              "dolly": 164,
+              "flan_v2": 1082,
+              "oasst1": 508
+            }
+          }
+        ]
+      },
+      "second_rr": {
+        "mean": {
+          "D2_to_Q": 0.17635279446840285,
+          "D2_to_Pstar": 0.15946321487426757,
+          "D1_to_Q": 0.4302058696746826,
+          "D1_to_Pstar": 0.41590491533279417,
+          "source_entropy": 0.957791644087397,
+          "eff_rank": 866.0647766113282,
+          "mean_pairwise_cos": 0.04282108247280121,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.14939141273498535,
+            "D2_to_Pstar": 0.15930184721946716,
+            "D1_to_Q": 0.3776933550834656,
+            "D1_to_Pstar": 0.41392284631729126,
+            "source_entropy": 1.0016187078153709,
+            "n_unique_sources": 4,
+            "eff_rank": 867.373779296875,
+            "mean_pairwise_cos": 0.041722655296325684,
+            "source_dist": {
+              "cot": 258,
+              "dolly": 856,
+              "flan_v2": 1527,
+              "oasst1": 66
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.15599972009658813,
+            "D2_to_Pstar": 0.15713903307914734,
+            "D1_to_Q": 0.39140865206718445,
+            "D1_to_Pstar": 0.4032978117465973,
+            "source_entropy": 0.9977669947163841,
+            "n_unique_sources": 4,
+            "eff_rank": 936.2849731445312,
+            "mean_pairwise_cos": 0.035185154527425766,
+            "source_dist": {
+              "cot": 270,
+              "dolly": 761,
+              "flan_v2": 1600,
+              "oasst1": 76
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.15070316195487976,
+            "D2_to_Pstar": 0.15860342979431152,
+            "D1_to_Q": 0.3910903334617615,
+            "D1_to_Pstar": 0.4131627678871155,
+            "source_entropy": 1.000235837428424,
+            "n_unique_sources": 4,
+            "eff_rank": 893.7357788085938,
+            "mean_pairwise_cos": 0.03910013660788536,
+            "source_dist": {
+              "cot": 297,
+              "dolly": 785,
+              "flan_v2": 1567,
+              "oasst1": 58
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.17767775058746338,
+            "D2_to_Pstar": 0.15851826965808868,
+            "D1_to_Q": 0.4284546971321106,
+            "D1_to_Pstar": 0.4113967716693878,
+            "source_entropy": 1.0089460125188814,
+            "n_unique_sources": 4,
+            "eff_rank": 900.0885009765625,
+            "mean_pairwise_cos": 0.04088306054472923,
+            "source_dist": {
+              "cot": 294,
+              "dolly": 771,
+              "flan_v2": 1572,
+              "oasst1": 70
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.13775864243507385,
+            "D2_to_Pstar": 0.15974442660808563,
+            "D1_to_Q": 0.37737104296684265,
+            "D1_to_Pstar": 0.41793400049209595,
+            "source_entropy": 0.9716231705653475,
+            "n_unique_sources": 4,
+            "eff_rank": 849.3906860351562,
+            "mean_pairwise_cos": 0.0417863093316555,
+            "source_dist": {
+              "cot": 246,
+              "dolly": 767,
+              "flan_v2": 1628,
+              "oasst1": 66
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.19006438553333282,
+            "D2_to_Pstar": 0.1603342443704605,
+            "D1_to_Q": 0.45938169956207275,
+            "D1_to_Pstar": 0.4214213192462921,
+            "source_entropy": 0.9258131945720487,
+            "n_unique_sources": 4,
+            "eff_rank": 824.47119140625,
+            "mean_pairwise_cos": 0.04579363018274307,
+            "source_dist": {
+              "cot": 218,
+              "dolly": 682,
+              "flan_v2": 1740,
+              "oasst1": 67
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.20039130747318268,
+            "D2_to_Pstar": 0.15945464372634888,
+            "D1_to_Q": 0.46428459882736206,
+            "D1_to_Pstar": 0.4162324368953705,
+            "source_entropy": 0.9278537221351159,
+            "n_unique_sources": 4,
+            "eff_rank": 865.0029907226562,
+            "mean_pairwise_cos": 0.04389021918177605,
+            "source_dist": {
+              "cot": 225,
+              "dolly": 637,
+              "flan_v2": 1767,
+              "oasst1": 78
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.20946745574474335,
+            "D2_to_Pstar": 0.16147959232330322,
+            "D1_to_Q": 0.48966214060783386,
+            "D1_to_Pstar": 0.4235994517803192,
+            "source_entropy": 0.8912368246674196,
+            "n_unique_sources": 4,
+            "eff_rank": 817.86669921875,
+            "mean_pairwise_cos": 0.048577502369880676,
+            "source_dist": {
+              "cot": 223,
+              "dolly": 582,
+              "flan_v2": 1835,
+              "oasst1": 67
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.19146987795829773,
+            "D2_to_Pstar": 0.15911290049552917,
+            "D1_to_Q": 0.45084255933761597,
+            "D1_to_Pstar": 0.4156196713447571,
+            "source_entropy": 0.9199354968283204,
+            "n_unique_sources": 4,
+            "eff_rank": 874.0675048828125,
+            "mean_pairwise_cos": 0.04276878759264946,
+            "source_dist": {
+              "cot": 211,
+              "dolly": 651,
+              "flan_v2": 1769,
+              "oasst1": 76
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.20060423016548157,
+            "D2_to_Pstar": 0.16094376146793365,
+            "D1_to_Q": 0.4718696177005768,
+            "D1_to_Pstar": 0.4224620759487152,
+            "source_entropy": 0.9328864796266576,
+            "n_unique_sources": 4,
+            "eff_rank": 832.3656616210938,
+            "mean_pairwise_cos": 0.048503369092941284,
+            "source_dist": {
+              "cot": 222,
+              "dolly": 660,
+              "flan_v2": 1748,
+              "oasst1": 77
+            }
+          }
+        ]
+      },
+      "less": {
+        "mean": {
+          "D2_to_Q": 0.17084496915340425,
+          "D2_to_Pstar": 0.15387616753578187,
+          "D1_to_Q": 0.33650522232055663,
+          "D1_to_Pstar": 0.32336151599884033,
+          "source_entropy": 1.2053178324304163,
+          "eff_rank": 1464.7044555664063,
+          "mean_pairwise_cos": 0.03677054457366467,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.1441895216703415,
+            "D2_to_Pstar": 0.15388819575309753,
+            "D1_to_Q": 0.2938917875289917,
+            "D1_to_Pstar": 0.32355165481567383,
+            "source_entropy": 1.219278135122806,
+            "n_unique_sources": 4,
+            "eff_rank": 1474.9130859375,
+            "mean_pairwise_cos": 0.03711652010679245,
+            "source_dist": {
+              "cot": 821,
+              "dolly": 632,
+              "flan_v2": 1115,
+              "oasst1": 139
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.15265044569969177,
+            "D2_to_Pstar": 0.15384657680988312,
+            "D1_to_Q": 0.31454145908355713,
+            "D1_to_Pstar": 0.3230763077735901,
+            "source_entropy": 1.2087495181193213,
+            "n_unique_sources": 4,
+            "eff_rank": 1471.9117431640625,
+            "mean_pairwise_cos": 0.03673981502652168,
+            "source_dist": {
+              "cot": 848,
+              "dolly": 583,
+              "flan_v2": 1140,
+              "oasst1": 136
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.14617577195167542,
+            "D2_to_Pstar": 0.1537456214427948,
+            "D1_to_Q": 0.30407625436782837,
+            "D1_to_Pstar": 0.322374552488327,
+            "source_entropy": 1.196382786295937,
+            "n_unique_sources": 4,
+            "eff_rank": 1481.606689453125,
+            "mean_pairwise_cos": 0.03502891957759857,
+            "source_dist": {
+              "cot": 826,
+              "dolly": 610,
+              "flan_v2": 1155,
+              "oasst1": 116
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.1730772703886032,
+            "D2_to_Pstar": 0.15397897362709045,
+            "D1_to_Q": 0.3411681056022644,
+            "D1_to_Pstar": 0.32477006316185,
+            "source_entropy": 1.2121433993598163,
+            "n_unique_sources": 4,
+            "eff_rank": 1452.91650390625,
+            "mean_pairwise_cos": 0.03814927488565445,
+            "source_dist": {
+              "cot": 826,
+              "dolly": 618,
+              "flan_v2": 1130,
+              "oasst1": 133
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.13200166821479797,
+            "D2_to_Pstar": 0.1536853313446045,
+            "D1_to_Q": 0.28655046224594116,
+            "D1_to_Pstar": 0.3212758004665375,
+            "source_entropy": 1.202720822223069,
+            "n_unique_sources": 4,
+            "eff_rank": 1485.7481689453125,
+            "mean_pairwise_cos": 0.03418591991066933,
+            "source_dist": {
+              "cot": 770,
+              "dolly": 621,
+              "flan_v2": 1186,
+              "oasst1": 130
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.183697909116745,
+            "D2_to_Pstar": 0.15386171638965607,
+            "D1_to_Q": 0.35649412870407104,
+            "D1_to_Pstar": 0.3230181336402893,
+            "source_entropy": 1.2004124344573937,
+            "n_unique_sources": 4,
+            "eff_rank": 1459.1812744140625,
+            "mean_pairwise_cos": 0.03668702393770218,
+            "source_dist": {
+              "cot": 786,
+              "dolly": 595,
+              "flan_v2": 1194,
+              "oasst1": 132
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.1948208063840866,
+            "D2_to_Pstar": 0.1539556086063385,
+            "D1_to_Q": 0.36671990156173706,
+            "D1_to_Pstar": 0.3240097165107727,
+            "source_entropy": 1.2080771280213725,
+            "n_unique_sources": 4,
+            "eff_rank": 1454.725830078125,
+            "mean_pairwise_cos": 0.03761826455593109,
+            "source_dist": {
+              "cot": 801,
+              "dolly": 604,
+              "flan_v2": 1166,
+              "oasst1": 136
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.2019648551940918,
+            "D2_to_Pstar": 0.15383809804916382,
+            "D1_to_Q": 0.3802202343940735,
+            "D1_to_Pstar": 0.3227168321609497,
+            "source_entropy": 1.19071419674673,
+            "n_unique_sources": 4,
+            "eff_rank": 1457.89453125,
+            "mean_pairwise_cos": 0.03632251173257828,
+            "source_dist": {
+              "cot": 806,
+              "dolly": 566,
+              "flan_v2": 1209,
+              "oasst1": 126
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.1862979680299759,
+            "D2_to_Pstar": 0.1539210081100464,
+            "D1_to_Q": 0.35409975051879883,
+            "D1_to_Pstar": 0.32366904616355896,
+            "source_entropy": 1.197241116202099,
+            "n_unique_sources": 4,
+            "eff_rank": 1456.1610107421875,
+            "mean_pairwise_cos": 0.03724603354930878,
+            "source_dist": {
+              "cot": 786,
+              "dolly": 586,
+              "flan_v2": 1204,
+              "oasst1": 131
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.1935734748840332,
+            "D2_to_Pstar": 0.15404054522514343,
+            "D1_to_Q": 0.3672901391983032,
+            "D1_to_Pstar": 0.32515305280685425,
+            "source_entropy": 1.2174587877556204,
+            "n_unique_sources": 4,
+            "eff_rank": 1451.9857177734375,
+            "mean_pairwise_cos": 0.03861116245388985,
+            "source_dist": {
+              "cot": 804,
+              "dolly": 619,
+              "flan_v2": 1141,
+              "oasst1": 143
+            }
+          }
+        ]
+      },
+      "gist": {
+        "mean": {
+          "D2_to_Q": 0.1715279221534729,
+          "D2_to_Pstar": 0.15462024360895157,
+          "D1_to_Q": 0.3473773807287216,
+          "D1_to_Pstar": 0.3344660758972168,
+          "source_entropy": 1.2278246555472054,
+          "eff_rank": 1468.79072265625,
+          "mean_pairwise_cos": 0.03325625769793987,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.14507195353507996,
+            "D2_to_Pstar": 0.15515759587287903,
+            "D1_to_Q": 0.30956220626831055,
+            "D1_to_Pstar": 0.3410627841949463,
+            "source_entropy": 1.2497385051969074,
+            "n_unique_sources": 4,
+            "eff_rank": 1403.6187744140625,
+            "mean_pairwise_cos": 0.032427262514829636,
+            "source_dist": {
+              "cot": 824,
+              "dolly": 755,
+              "flan_v2": 973,
+              "oasst1": 155
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.15395258367061615,
+            "D2_to_Pstar": 0.1552959531545639,
+            "D1_to_Q": 0.3300160765647888,
+            "D1_to_Pstar": 0.3399814963340759,
+            "source_entropy": 1.2581061905254667,
+            "n_unique_sources": 4,
+            "eff_rank": 1375.086181640625,
+            "mean_pairwise_cos": 0.032583124935626984,
+            "source_dist": {
+              "cot": 860,
+              "dolly": 789,
+              "flan_v2": 896,
+              "oasst1": 162
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.146938294172287,
+            "D2_to_Pstar": 0.15483078360557556,
+            "D1_to_Q": 0.31770387291908264,
+            "D1_to_Pstar": 0.33877623081207275,
+            "source_entropy": 1.2102745824878933,
+            "n_unique_sources": 4,
+            "eff_rank": 1478.5943603515625,
+            "mean_pairwise_cos": 0.033652421087026596,
+            "source_dist": {
+              "cot": 1007,
+              "dolly": 683,
+              "flan_v2": 909,
+              "oasst1": 108
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.17345209419727325,
+            "D2_to_Pstar": 0.15443086624145508,
+            "D1_to_Q": 0.3512517213821411,
+            "D1_to_Pstar": 0.33517032861709595,
+            "source_entropy": 1.1861146787760568,
+            "n_unique_sources": 4,
+            "eff_rank": 1495.5584716796875,
+            "mean_pairwise_cos": 0.03195122256875038,
+            "source_dist": {
+              "cot": 1050,
+              "dolly": 533,
+              "flan_v2": 1013,
+              "oasst1": 111
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.13276946544647217,
+            "D2_to_Pstar": 0.1546536386013031,
+            "D1_to_Q": 0.2994300425052643,
+            "D1_to_Pstar": 0.3352091908454895,
+            "source_entropy": 1.2456791750097773,
+            "n_unique_sources": 4,
+            "eff_rank": 1477.724609375,
+            "mean_pairwise_cos": 0.031805284321308136,
+            "source_dist": {
+              "cot": 837,
+              "dolly": 660,
+              "flan_v2": 1044,
+              "oasst1": 166
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.1842743158340454,
+            "D2_to_Pstar": 0.15434741973876953,
+            "D1_to_Q": 0.36579635739326477,
+            "D1_to_Pstar": 0.33127182722091675,
+            "source_entropy": 1.230027359243646,
+            "n_unique_sources": 4,
+            "eff_rank": 1495.2684326171875,
+            "mean_pairwise_cos": 0.032991036772727966,
+            "source_dist": {
+              "cot": 901,
+              "dolly": 639,
+              "flan_v2": 1024,
+              "oasst1": 143
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.19547441601753235,
+            "D2_to_Pstar": 0.1544777750968933,
+            "D1_to_Q": 0.37463492155075073,
+            "D1_to_Pstar": 0.33090683817863464,
+            "source_entropy": 1.2505179683213368,
+            "n_unique_sources": 4,
+            "eff_rank": 1461.3878173828125,
+            "mean_pairwise_cos": 0.0328202061355114,
+            "source_dist": {
+              "cot": 771,
+              "dolly": 693,
+              "flan_v2": 1068,
+              "oasst1": 175
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.20243173837661743,
+            "D2_to_Pstar": 0.15419620275497437,
+            "D1_to_Q": 0.38817858695983887,
+            "D1_to_Pstar": 0.3296390771865845,
+            "source_entropy": 1.1805051751309232,
+            "n_unique_sources": 4,
+            "eff_rank": 1514.455322265625,
+            "mean_pairwise_cos": 0.035002321004867554,
+            "source_dist": {
+              "cot": 953,
+              "dolly": 492,
+              "flan_v2": 1141,
+              "oasst1": 121
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.1871025562286377,
+            "D2_to_Pstar": 0.1545916497707367,
+            "D1_to_Q": 0.3641895651817322,
+            "D1_to_Pstar": 0.33271440863609314,
+            "source_entropy": 1.2610684088322697,
+            "n_unique_sources": 4,
+            "eff_rank": 1442.5999755859375,
+            "mean_pairwise_cos": 0.03419029712677002,
+            "source_dist": {
+              "cot": 845,
+              "dolly": 732,
+              "flan_v2": 956,
+              "oasst1": 174
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.1938118040561676,
+            "D2_to_Pstar": 0.1542205512523651,
+            "D1_to_Q": 0.37301045656204224,
+            "D1_to_Pstar": 0.32992857694625854,
+            "source_entropy": 1.2062145119477785,
+            "n_unique_sources": 4,
+            "eff_rank": 1543.61328125,
+            "mean_pairwise_cos": 0.03513940051198006,
+            "source_dist": {
+              "cot": 892,
+              "dolly": 520,
+              "flan_v2": 1146,
+              "oasst1": 149
+            }
+          }
+        ]
+      },
+      "nice": {
+        "mean": {
+          "D2_to_Q": 0.1960747495293617,
+          "D2_to_Pstar": 0.17903300523757934,
+          "D1_to_Q": 0.5197930723428726,
+          "D1_to_Pstar": 0.5054131746292114,
+          "source_entropy": 0.8754423658075086,
+          "eff_rank": 665.2790313720703,
+          "mean_pairwise_cos": 0.09867585673928261,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.1856185793876648,
+            "D2_to_Pstar": 0.1953643262386322,
+            "D1_to_Q": 0.504523515701294,
+            "D1_to_Pstar": 0.5444231033325195,
+            "source_entropy": 0.9539934621291174,
+            "n_unique_sources": 4,
+            "eff_rank": 497.53753662109375,
+            "mean_pairwise_cos": 0.13199767470359802,
+            "source_dist": {
+              "cot": 475,
+              "dolly": 401,
+              "flan_v2": 1768,
+              "oasst1": 63
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.19635728001594543,
+            "D2_to_Pstar": 0.19743654131889343,
+            "D1_to_Q": 0.5280231237411499,
+            "D1_to_Pstar": 0.541643500328064,
+            "source_entropy": 0.9673974362757461,
+            "n_unique_sources": 4,
+            "eff_rank": 455.4613037109375,
+            "mean_pairwise_cos": 0.13003352284431458,
+            "source_dist": {
+              "cot": 455,
+              "dolly": 468,
+              "flan_v2": 1730,
+              "oasst1": 54
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.16258610785007477,
+            "D2_to_Pstar": 0.17051216959953308,
+            "D1_to_Q": 0.4569452702999115,
+            "D1_to_Pstar": 0.4771147668361664,
+            "source_entropy": 0.9473455173526166,
+            "n_unique_sources": 4,
+            "eff_rank": 764.7261352539062,
+            "mean_pairwise_cos": 0.0767403170466423,
+            "source_dist": {
+              "cot": 575,
+              "dolly": 361,
+              "flan_v2": 1730,
+              "oasst1": 41
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.2120785415172577,
+            "D2_to_Pstar": 0.19270123541355133,
+            "D1_to_Q": 0.5480754375457764,
+            "D1_to_Pstar": 0.5340141654014587,
+            "source_entropy": 0.9958535134261957,
+            "n_unique_sources": 4,
+            "eff_rank": 505.4870910644531,
+            "mean_pairwise_cos": 0.12989526987075806,
+            "source_dist": {
+              "cot": 442,
+              "dolly": 624,
+              "flan_v2": 1609,
+              "oasst1": 32
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.14602962136268616,
+            "D2_to_Pstar": 0.16813308000564575,
+            "D1_to_Q": 0.439458966255188,
+            "D1_to_Pstar": 0.47960397601127625,
+            "source_entropy": 0.8631462200213602,
+            "n_unique_sources": 4,
+            "eff_rank": 807.8704833984375,
+            "mean_pairwise_cos": 0.07395001500844955,
+            "source_dist": {
+              "cot": 469,
+              "dolly": 313,
+              "flan_v2": 1888,
+              "oasst1": 37
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 2707,
+            "D2_to_Q": 0.19566845893859863,
+            "D2_to_Pstar": 0.1657826453447342,
+            "D1_to_Q": 0.5097414255142212,
+            "D1_to_Pstar": 0.4728848934173584,
+            "source_entropy": 1.012193663955308,
+            "n_unique_sources": 4,
+            "eff_rank": 876.1397094726562,
+            "mean_pairwise_cos": 0.07260941714048386,
+            "source_dist": {
+              "cot": 501,
+              "dolly": 576,
+              "flan_v2": 1593,
+              "oasst1": 37
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 2707,
+            "D2_to_Q": 0.21309441328048706,
+            "D2_to_Pstar": 0.17194101214408875,
+            "D1_to_Q": 0.5357473492622375,
+            "D1_to_Pstar": 0.48630887269973755,
+            "source_entropy": 0.8112782090435654,
+            "n_unique_sources": 4,
+            "eff_rank": 722.7181396484375,
+            "mean_pairwise_cos": 0.08240693062543869,
+            "source_dist": {
+              "cot": 383,
+              "dolly": 323,
+              "flan_v2": 1971,
+              "oasst1": 30
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 2707,
+            "D2_to_Q": 0.22915464639663696,
+            "D2_to_Pstar": 0.18086010217666626,
+            "D1_to_Q": 0.5712018013000488,
+            "D1_to_Pstar": 0.5022578239440918,
+            "source_entropy": 0.8589825742306652,
+            "n_unique_sources": 4,
+            "eff_rank": 598.6128540039062,
+            "mean_pairwise_cos": 0.10526106506586075,
+            "source_dist": {
+              "cot": 322,
+              "dolly": 439,
+              "flan_v2": 1905,
+              "oasst1": 41
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 2707,
+            "D2_to_Q": 0.21588000655174255,
+            "D2_to_Pstar": 0.18323984742164612,
+            "D1_to_Q": 0.564919114112854,
+            "D1_to_Pstar": 0.5274300575256348,
+            "source_entropy": 0.6803159027844476,
+            "n_unique_sources": 4,
+            "eff_rank": 556.1792602539062,
+            "mean_pairwise_cos": 0.11549284309148788,
+            "source_dist": {
+              "cot": 263,
+              "dolly": 292,
+              "flan_v2": 2138,
+              "oasst1": 14
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 2707,
+            "D2_to_Q": 0.2042798399925232,
+            "D2_to_Pstar": 0.16435909271240234,
+            "D1_to_Q": 0.5392947196960449,
+            "D1_to_Pstar": 0.4884505867958069,
+            "source_entropy": 0.6639171588560616,
+            "n_unique_sources": 4,
+            "eff_rank": 868.0578002929688,
+            "mean_pairwise_cos": 0.06837151199579239,
+            "source_dist": {
+              "cot": 224,
+              "dolly": 318,
+              "flan_v2": 2153,
+              "oasst1": 12
+            }
+          }
+        ]
+      }
+    },
+    "5pct": {
+      "dsmc": {
+        "mean": {
+          "D2_to_Q": 0.17066527158021927,
+          "D2_to_Pstar": 0.1536891132593155,
+          "D1_to_Q": 0.37905700504779816,
+          "D1_to_Pstar": 0.36494503915309906,
+          "source_entropy": 0.9644100951949994,
+          "eff_rank": 1976.9220092773437,
+          "mean_pairwise_cos": 0.011891576461493969,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.1437644213438034,
+            "D2_to_Pstar": 0.15369373559951782,
+            "D1_to_Q": 0.33022212982177734,
+            "D1_to_Pstar": 0.36464253067970276,
+            "source_entropy": 0.9846475377295252,
+            "n_unique_sources": 4,
+            "eff_rank": 1975.6591796875,
+            "mean_pairwise_cos": 0.011798130348324776,
+            "source_dist": {
+              "cot": 2875,
+              "dolly": 1637,
+              "flan_v2": 8582,
+              "oasst1": 439
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.15242937207221985,
+            "D2_to_Pstar": 0.15367615222930908,
+            "D1_to_Q": 0.352394700050354,
+            "D1_to_Pstar": 0.3632434904575348,
+            "source_entropy": 0.9810531216233085,
+            "n_unique_sources": 4,
+            "eff_rank": 1964.586181640625,
+            "mean_pairwise_cos": 0.011836791411042213,
+            "source_dist": {
+              "cot": 2858,
+              "dolly": 1565,
+              "flan_v2": 8640,
+              "oasst1": 470
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.1458365023136139,
+            "D2_to_Pstar": 0.15371818840503693,
+            "D1_to_Q": 0.3440687656402588,
+            "D1_to_Pstar": 0.36533719301223755,
+            "source_entropy": 0.9648374919541918,
+            "n_unique_sources": 4,
+            "eff_rank": 1990.01904296875,
+            "mean_pairwise_cos": 0.011390362866222858,
+            "source_dist": {
+              "cot": 2916,
+              "dolly": 1517,
+              "flan_v2": 8697,
+              "oasst1": 403
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.17284080386161804,
+            "D2_to_Pstar": 0.15368345379829407,
+            "D1_to_Q": 0.38267070055007935,
+            "D1_to_Pstar": 0.3644183278083801,
+            "source_entropy": 0.980306503115378,
+            "n_unique_sources": 4,
+            "eff_rank": 1961.7178955078125,
+            "mean_pairwise_cos": 0.012237967923283577,
+            "source_dist": {
+              "cot": 2915,
+              "dolly": 1550,
+              "flan_v2": 8614,
+              "oasst1": 454
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.13170118629932404,
+            "D2_to_Pstar": 0.15369455516338348,
+            "D1_to_Q": 0.32579177618026733,
+            "D1_to_Pstar": 0.365307092666626,
+            "source_entropy": 0.9694391735554457,
+            "n_unique_sources": 4,
+            "eff_rank": 1991.2152099609375,
+            "mean_pairwise_cos": 0.011182189919054508,
+            "source_dist": {
+              "cot": 2793,
+              "dolly": 1571,
+              "flan_v2": 8731,
+              "oasst1": 438
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.18358448147773743,
+            "D2_to_Pstar": 0.15367284417152405,
+            "D1_to_Q": 0.4021974205970764,
+            "D1_to_Pstar": 0.365746408700943,
+            "source_entropy": 0.9520873969565158,
+            "n_unique_sources": 4,
+            "eff_rank": 1961.7423095703125,
+            "mean_pairwise_cos": 0.01184925064444542,
+            "source_dist": {
+              "cot": 2740,
+              "dolly": 1484,
+              "flan_v2": 8878,
+              "oasst1": 431
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.19476214051246643,
+            "D2_to_Pstar": 0.1536845862865448,
+            "D1_to_Q": 0.4118548035621643,
+            "D1_to_Pstar": 0.3648598790168762,
+            "source_entropy": 0.9544422571205518,
+            "n_unique_sources": 4,
+            "eff_rank": 1983.4957275390625,
+            "mean_pairwise_cos": 0.012182057835161686,
+            "source_dist": {
+              "cot": 2766,
+              "dolly": 1427,
+              "flan_v2": 8874,
+              "oasst1": 466
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.20199058949947357,
+            "D2_to_Pstar": 0.15369006991386414,
+            "D1_to_Q": 0.4291454553604126,
+            "D1_to_Pstar": 0.3656238913536072,
+            "source_entropy": 0.9467646130967764,
+            "n_unique_sources": 4,
+            "eff_rank": 1995.8939208984375,
+            "mean_pairwise_cos": 0.012061258777976036,
+            "source_dist": {
+              "cot": 2864,
+              "dolly": 1352,
+              "flan_v2": 8877,
+              "oasst1": 440
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.1862756609916687,
+            "D2_to_Pstar": 0.15368446707725525,
+            "D1_to_Q": 0.3989190459251404,
+            "D1_to_Pstar": 0.36487919092178345,
+            "source_entropy": 0.9551043157875022,
+            "n_unique_sources": 4,
+            "eff_rank": 1968.7696533203125,
+            "mean_pairwise_cos": 0.012037183158099651,
+            "source_dist": {
+              "cot": 2706,
+              "dolly": 1466,
+              "flan_v2": 8892,
+              "oasst1": 469
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.19346755743026733,
+            "D2_to_Pstar": 0.1536930799484253,
+            "D1_to_Q": 0.41330525279045105,
+            "D1_to_Pstar": 0.36539238691329956,
+            "source_entropy": 0.9554185410107994,
+            "n_unique_sources": 4,
+            "eff_rank": 1976.1209716796875,
+            "mean_pairwise_cos": 0.012340571731328964,
+            "source_dist": {
+              "cot": 2805,
+              "dolly": 1400,
+              "flan_v2": 8856,
+              "oasst1": 472
+            }
+          }
+        ]
+      },
+      "randk": {
+        "mean": {
+          "D2_to_Q": 0.19305520057678222,
+          "D2_to_Pstar": 0.17601089775562287,
+          "D1_to_Q": 0.4793739885091782,
+          "D1_to_Pstar": 0.4650917828083038,
+          "source_entropy": 1.2233233216301378,
+          "eff_rank": 1075.1986572265625,
+          "mean_pairwise_cos": 0.0949159637093544,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.16571560502052307,
+            "D2_to_Pstar": 0.17570681869983673,
+            "D1_to_Q": 0.427484929561615,
+            "D1_to_Pstar": 0.4637492299079895,
+            "source_entropy": 1.2210060657923418,
+            "n_unique_sources": 4,
+            "eff_rank": 1054.1597900390625,
+            "mean_pairwise_cos": 0.09453237056732178,
+            "source_dist": {
+              "cot": 5011,
+              "dolly": 760,
+              "flan_v2": 5018,
+              "oasst1": 2744
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.1746641844511032,
+            "D2_to_Pstar": 0.17589697241783142,
+            "D1_to_Q": 0.4518706202507019,
+            "D1_to_Pstar": 0.4645317792892456,
+            "source_entropy": 1.2277531631354952,
+            "n_unique_sources": 4,
+            "eff_rank": 1078.8389892578125,
+            "mean_pairwise_cos": 0.09437605738639832,
+            "source_dist": {
+              "cot": 4945,
+              "dolly": 774,
+              "flan_v2": 4957,
+              "oasst1": 2857
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.16854195296764374,
+            "D2_to_Pstar": 0.17645499110221863,
+            "D1_to_Q": 0.44425952434539795,
+            "D1_to_Pstar": 0.4670107364654541,
+            "source_entropy": 1.2213847259860737,
+            "n_unique_sources": 4,
+            "eff_rank": 1123.298828125,
+            "mean_pairwise_cos": 0.09262655675411224,
+            "source_dist": {
+              "cot": 4934,
+              "dolly": 711,
+              "flan_v2": 4969,
+              "oasst1": 2919
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.1941497027873993,
+            "D2_to_Pstar": 0.17490427196025848,
+            "D1_to_Q": 0.47967153787612915,
+            "D1_to_Pstar": 0.46258002519607544,
+            "source_entropy": 1.2156854230734238,
+            "n_unique_sources": 4,
+            "eff_rank": 1083.1947021484375,
+            "mean_pairwise_cos": 0.09453243762254715,
+            "source_dist": {
+              "cot": 4971,
+              "dolly": 704,
+              "flan_v2": 5053,
+              "oasst1": 2805
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.15498141944408417,
+            "D2_to_Pstar": 0.17709143459796906,
+            "D1_to_Q": 0.42805546522140503,
+            "D1_to_Pstar": 0.4675871431827545,
+            "source_entropy": 1.2307872301633551,
+            "n_unique_sources": 4,
+            "eff_rank": 1036.5009765625,
+            "mean_pairwise_cos": 0.09851239621639252,
+            "source_dist": {
+              "cot": 4900,
+              "dolly": 789,
+              "flan_v2": 4962,
+              "oasst1": 2882
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.20570623874664307,
+            "D2_to_Pstar": 0.17570681869983673,
+            "D1_to_Q": 0.501933217048645,
+            "D1_to_Pstar": 0.4637492299079895,
+            "source_entropy": 1.2210060657923418,
+            "n_unique_sources": 4,
+            "eff_rank": 1054.1597900390625,
+            "mean_pairwise_cos": 0.09453237056732178,
+            "source_dist": {
+              "cot": 5011,
+              "dolly": 760,
+              "flan_v2": 5018,
+              "oasst1": 2744
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.2171485424041748,
+            "D2_to_Pstar": 0.17589697241783142,
+            "D1_to_Q": 0.5125691890716553,
+            "D1_to_Pstar": 0.4645317792892456,
+            "source_entropy": 1.2277531631354952,
+            "n_unique_sources": 4,
+            "eff_rank": 1078.8389892578125,
+            "mean_pairwise_cos": 0.09437605738639832,
+            "source_dist": {
+              "cot": 4945,
+              "dolly": 774,
+              "flan_v2": 4957,
+              "oasst1": 2857
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.22495797276496887,
+            "D2_to_Pstar": 0.17645499110221863,
+            "D1_to_Q": 0.5328688025474548,
+            "D1_to_Pstar": 0.4670107364654541,
+            "source_entropy": 1.2213847259860737,
+            "n_unique_sources": 4,
+            "eff_rank": 1123.298828125,
+            "mean_pairwise_cos": 0.09262655675411224,
+            "source_dist": {
+              "cot": 4934,
+              "dolly": 711,
+              "flan_v2": 4969,
+              "oasst1": 2919
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.20766763389110565,
+            "D2_to_Pstar": 0.17490427196025848,
+            "D1_to_Q": 0.4976859390735626,
+            "D1_to_Pstar": 0.46258002519607544,
+            "source_entropy": 1.2156854230734238,
+            "n_unique_sources": 4,
+            "eff_rank": 1083.1947021484375,
+            "mean_pairwise_cos": 0.09453243762254715,
+            "source_dist": {
+              "cot": 4971,
+              "dolly": 704,
+              "flan_v2": 5053,
+              "oasst1": 2805
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.2170187532901764,
+            "D2_to_Pstar": 0.17709143459796906,
+            "D1_to_Q": 0.5173406600952148,
+            "D1_to_Pstar": 0.4675871431827545,
+            "source_entropy": 1.2307872301633551,
+            "n_unique_sources": 4,
+            "eff_rank": 1036.5009765625,
+            "mean_pairwise_cos": 0.09851239621639252,
+            "source_dist": {
+              "cot": 4900,
+              "dolly": 789,
+              "flan_v2": 4962,
+              "oasst1": 2882
+            }
+          }
+        ]
+      },
+      "randk_lenmatch": {
+        "mean": {
+          "D2_to_Q": 0.19153760522603988,
+          "D2_to_Pstar": 0.17449460327625274,
+          "D1_to_Q": 0.473112091422081,
+          "D1_to_Pstar": 0.45883474946022035,
+          "source_entropy": 1.2179572695285548,
+          "eff_rank": 1117.246533203125,
+          "mean_pairwise_cos": 0.08804623186588287,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.1653098315000534,
+            "D2_to_Pstar": 0.17530496418476105,
+            "D1_to_Q": 0.42359283566474915,
+            "D1_to_Pstar": 0.4599040448665619,
+            "source_entropy": 1.2193205133777802,
+            "n_unique_sources": 4,
+            "eff_rank": 1105.61474609375,
+            "mean_pairwise_cos": 0.0893917828798294,
+            "source_dist": {
+              "cot": 4710,
+              "dolly": 817,
+              "flan_v2": 5424,
+              "oasst1": 2582
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.1723647266626358,
+            "D2_to_Pstar": 0.17359812557697296,
+            "D1_to_Q": 0.44415271282196045,
+            "D1_to_Pstar": 0.4567622244358063,
+            "source_entropy": 1.220571937030801,
+            "n_unique_sources": 4,
+            "eff_rank": 1145.4713134765625,
+            "mean_pairwise_cos": 0.0847468301653862,
+            "source_dist": {
+              "cot": 4726,
+              "dolly": 809,
+              "flan_v2": 5375,
+              "oasst1": 2623
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.16753052175045013,
+            "D2_to_Pstar": 0.17544624209403992,
+            "D1_to_Q": 0.43803393840789795,
+            "D1_to_Pstar": 0.46082237362861633,
+            "source_entropy": 1.2197263120225947,
+            "n_unique_sources": 4,
+            "eff_rank": 1113.507568359375,
+            "mean_pairwise_cos": 0.08848351240158081,
+            "source_dist": {
+              "cot": 4680,
+              "dolly": 825,
+              "flan_v2": 5453,
+              "oasst1": 2575
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.19228261709213257,
+            "D2_to_Pstar": 0.1730373352766037,
+            "D1_to_Q": 0.47306886315345764,
+            "D1_to_Pstar": 0.4559627175331116,
+            "source_entropy": 1.2166420085291074,
+            "n_unique_sources": 4,
+            "eff_rank": 1149.760498046875,
+            "mean_pairwise_cos": 0.08568471670150757,
+            "source_dist": {
+              "cot": 4842,
+              "dolly": 789,
+              "flan_v2": 5318,
+              "oasst1": 2584
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.1522672474384308,
+            "D2_to_Pstar": 0.17437542974948883,
+            "D1_to_Q": 0.4188746213912964,
+            "D1_to_Pstar": 0.45850831270217896,
+            "source_entropy": 1.2165287843598107,
+            "n_unique_sources": 4,
+            "eff_rank": 1110.3729248046875,
+            "mean_pairwise_cos": 0.08847856521606445,
+            "source_dist": {
+              "cot": 4801,
+              "dolly": 790,
+              "flan_v2": 5357,
+              "oasst1": 2585
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.20557564496994019,
+            "D2_to_Pstar": 0.17557689547538757,
+            "D1_to_Q": 0.4990275204181671,
+            "D1_to_Pstar": 0.46082553267478943,
+            "source_entropy": 1.2184824368509788,
+            "n_unique_sources": 4,
+            "eff_rank": 1099.1722412109375,
+            "mean_pairwise_cos": 0.08980555832386017,
+            "source_dist": {
+              "cot": 4708,
+              "dolly": 810,
+              "flan_v2": 5430,
+              "oasst1": 2585
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.2150479555130005,
+            "D2_to_Pstar": 0.1737993210554123,
+            "D1_to_Q": 0.5055876970291138,
+            "D1_to_Pstar": 0.4575449824333191,
+            "source_entropy": 1.2187853141960951,
+            "n_unique_sources": 4,
+            "eff_rank": 1122.9410400390625,
+            "mean_pairwise_cos": 0.08654337376356125,
+            "source_dist": {
+              "cot": 4707,
+              "dolly": 792,
+              "flan_v2": 5396,
+              "oasst1": 2638
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.2243095338344574,
+            "D2_to_Pstar": 0.17581039667129517,
+            "D1_to_Q": 0.5277258157730103,
+            "D1_to_Pstar": 0.4618871808052063,
+            "source_entropy": 1.2177803405842176,
+            "n_unique_sources": 4,
+            "eff_rank": 1097.809814453125,
+            "mean_pairwise_cos": 0.09006237238645554,
+            "source_dist": {
+              "cot": 4666,
+              "dolly": 806,
+              "flan_v2": 5470,
+              "oasst1": 2591
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.20604324340820312,
+            "D2_to_Pstar": 0.17327991127967834,
+            "D1_to_Q": 0.49175965785980225,
+            "D1_to_Pstar": 0.45663952827453613,
+            "source_entropy": 1.2160948249494754,
+            "n_unique_sources": 4,
+            "eff_rank": 1146.1510009765625,
+            "mean_pairwise_cos": 0.08600585162639618,
+            "source_dist": {
+              "cot": 4820,
+              "dolly": 778,
+              "flan_v2": 5329,
+              "oasst1": 2606
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.21464473009109497,
+            "D2_to_Pstar": 0.17471741139888763,
+            "D1_to_Q": 0.509297251701355,
+            "D1_to_Pstar": 0.4594905972480774,
+            "source_entropy": 1.2156402233846864,
+            "n_unique_sources": 4,
+            "eff_rank": 1081.6641845703125,
+            "mean_pairwise_cos": 0.09125975519418716,
+            "source_dist": {
+              "cot": 4781,
+              "dolly": 780,
+              "flan_v2": 5374,
+              "oasst1": 2598
+            }
+          }
+        ]
+      },
+      "second_rr": {
+        "mean": {
+          "D2_to_Q": 0.1786631241440773,
+          "D2_to_Pstar": 0.16168052554130555,
+          "D1_to_Q": 0.428831085562706,
+          "D1_to_Pstar": 0.4145778566598892,
+          "source_entropy": 1.0567677059841014,
+          "eff_rank": 1172.5302001953125,
+          "mean_pairwise_cos": 0.04794764555990696,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.15225952863693237,
+            "D2_to_Pstar": 0.1622103899717331,
+            "D1_to_Q": 0.38023504614830017,
+            "D1_to_Pstar": 0.4161973297595978,
+            "source_entropy": 1.0913179013513004,
+            "n_unique_sources": 4,
+            "eff_rank": 1120.0723876953125,
+            "mean_pairwise_cos": 0.05225292965769768,
+            "source_dist": {
+              "cot": 2836,
+              "dolly": 3125,
+              "flan_v2": 7241,
+              "oasst1": 331
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.15764454007148743,
+            "D2_to_Pstar": 0.15885835886001587,
+            "D1_to_Q": 0.39180415868759155,
+            "D1_to_Pstar": 0.40363118052482605,
+            "source_entropy": 1.084483500512832,
+            "n_unique_sources": 4,
+            "eff_rank": 1314.10986328125,
+            "mean_pairwise_cos": 0.03867548331618309,
+            "source_dist": {
+              "cot": 2904,
+              "dolly": 2992,
+              "flan_v2": 7319,
+              "oasst1": 318
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.15356770157814026,
+            "D2_to_Pstar": 0.1614392101764679,
+            "D1_to_Q": 0.39159494638442993,
+            "D1_to_Pstar": 0.4140729606151581,
+            "source_entropy": 1.064217151574861,
+            "n_unique_sources": 4,
+            "eff_rank": 1218.746826171875,
+            "mean_pairwise_cos": 0.044099967926740646,
+            "source_dist": {
+              "cot": 2910,
+              "dolly": 2861,
+              "flan_v2": 7493,
+              "oasst1": 269
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.17982017993927002,
+            "D2_to_Pstar": 0.16062763333320618,
+            "D1_to_Q": 0.42752957344055176,
+            "D1_to_Pstar": 0.4104897975921631,
+            "source_entropy": 1.0780207894519875,
+            "n_unique_sources": 4,
+            "eff_rank": 1218.88525390625,
+            "mean_pairwise_cos": 0.044808004051446915,
+            "source_dist": {
+              "cot": 2937,
+              "dolly": 2939,
+              "flan_v2": 7361,
+              "oasst1": 296
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.14070743322372437,
+            "D2_to_Pstar": 0.16273115575313568,
+            "D1_to_Q": 0.3780648112297058,
+            "D1_to_Pstar": 0.41782277822494507,
+            "source_entropy": 1.0665298192576205,
+            "n_unique_sources": 4,
+            "eff_rank": 1115.0430908203125,
+            "mean_pairwise_cos": 0.05059501901268959,
+            "source_dist": {
+              "cot": 2784,
+              "dolly": 2936,
+              "flan_v2": 7519,
+              "oasst1": 294
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.1926051676273346,
+            "D2_to_Pstar": 0.1627313494682312,
+            "D1_to_Q": 0.4565277099609375,
+            "D1_to_Pstar": 0.4187934398651123,
+            "source_entropy": 1.0378964714159085,
+            "n_unique_sources": 4,
+            "eff_rank": 1099.89111328125,
+            "mean_pairwise_cos": 0.05262606963515282,
+            "source_dist": {
+              "cot": 2514,
+              "dolly": 2797,
+              "flan_v2": 7916,
+              "oasst1": 306
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.20180575549602509,
+            "D2_to_Pstar": 0.1606893539428711,
+            "D1_to_Q": 0.45928776264190674,
+            "D1_to_Pstar": 0.41134607791900635,
+            "source_entropy": 1.039170586093533,
+            "n_unique_sources": 4,
+            "eff_rank": 1219.28515625,
+            "mean_pairwise_cos": 0.04482971504330635,
+            "source_dist": {
+              "cot": 2659,
+              "dolly": 2649,
+              "flan_v2": 7915,
+              "oasst1": 310
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.21130260825157166,
+            "D2_to_Pstar": 0.16299736499786377,
+            "D1_to_Q": 0.4854678511619568,
+            "D1_to_Pstar": 0.4199562668800354,
+            "source_entropy": 1.0303639273137228,
+            "n_unique_sources": 4,
+            "eff_rank": 1128.1502685546875,
+            "mean_pairwise_cos": 0.05184807628393173,
+            "source_dist": {
+              "cot": 2702,
+              "dolly": 2502,
+              "flan_v2": 8019,
+              "oasst1": 310
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.1938326358795166,
+            "D2_to_Pstar": 0.16124436259269714,
+            "D1_to_Q": 0.44820481538772583,
+            "D1_to_Pstar": 0.4132830500602722,
+            "source_entropy": 1.0428161802129936,
+            "n_unique_sources": 4,
+            "eff_rank": 1161.363037109375,
+            "mean_pairwise_cos": 0.047821689397096634,
+            "source_dist": {
+              "cot": 2601,
+              "dolly": 2712,
+              "flan_v2": 7896,
+              "oasst1": 324
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.20308569073677063,
+            "D2_to_Pstar": 0.1632760763168335,
+            "D1_to_Q": 0.46959418058395386,
+            "D1_to_Pstar": 0.4201856851577759,
+            "source_entropy": 1.0328607326562553,
+            "n_unique_sources": 4,
+            "eff_rank": 1129.7550048828125,
+            "mean_pairwise_cos": 0.05191950127482414,
+            "source_dist": {
+              "cot": 2610,
+              "dolly": 2612,
+              "flan_v2": 7998,
+              "oasst1": 313
+            }
+          }
+        ]
+      },
+      "less": {
+        "mean": {
+          "D2_to_Q": 0.1722009688615799,
+          "D2_to_Pstar": 0.15519051402807235,
+          "D1_to_Q": 0.3598288744688034,
+          "D1_to_Pstar": 0.34643979370594025,
+          "source_entropy": 1.1621621924632748,
+          "eff_rank": 1836.7573608398438,
+          "mean_pairwise_cos": 0.031108385324478148,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.14534267783164978,
+            "D2_to_Pstar": 0.15523546934127808,
+            "D1_to_Q": 0.3148157000541687,
+            "D1_to_Pstar": 0.34690749645233154,
+            "source_entropy": 1.1740155204554015,
+            "n_unique_sources": 4,
+            "eff_rank": 1840.414306640625,
+            "mean_pairwise_cos": 0.03195437043905258,
+            "source_dist": {
+              "cot": 5279,
+              "dolly": 1943,
+              "flan_v2": 5545,
+              "oasst1": 766
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.15398256480693817,
+            "D2_to_Pstar": 0.15526099503040314,
+            "D1_to_Q": 0.3369218111038208,
+            "D1_to_Pstar": 0.34707367420196533,
+            "source_entropy": 1.167628699691242,
+            "n_unique_sources": 4,
+            "eff_rank": 1837.6484375,
+            "mean_pairwise_cos": 0.03197731077671051,
+            "source_dist": {
+              "cot": 5445,
+              "dolly": 1854,
+              "flan_v2": 5466,
+              "oasst1": 768
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.14733919501304626,
+            "D2_to_Pstar": 0.15513426065444946,
+            "D1_to_Q": 0.3260740041732788,
+            "D1_to_Pstar": 0.34635061025619507,
+            "source_entropy": 1.1573673470881136,
+            "n_unique_sources": 4,
+            "eff_rank": 1862.50634765625,
+            "mean_pairwise_cos": 0.03008122183382511,
+            "source_dist": {
+              "cot": 5407,
+              "dolly": 1874,
+              "flan_v2": 5563,
+              "oasst1": 689
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.17444166541099548,
+            "D2_to_Pstar": 0.15528658032417297,
+            "D1_to_Q": 0.3641361892223358,
+            "D1_to_Pstar": 0.3475574254989624,
+            "source_entropy": 1.1693261098457208,
+            "n_unique_sources": 4,
+            "eff_rank": 1809.401611328125,
+            "mean_pairwise_cos": 0.03267646208405495,
+            "source_dist": {
+              "cot": 5332,
+              "dolly": 1926,
+              "flan_v2": 5533,
+              "oasst1": 742
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.13309559226036072,
+            "D2_to_Pstar": 0.15502482652664185,
+            "D1_to_Q": 0.3080151081085205,
+            "D1_to_Pstar": 0.34479302167892456,
+            "source_entropy": 1.1680621767125403,
+            "n_unique_sources": 4,
+            "eff_rank": 1854.660400390625,
+            "mean_pairwise_cos": 0.029224755242466927,
+            "source_dist": {
+              "cot": 5181,
+              "dolly": 1886,
+              "flan_v2": 5706,
+              "oasst1": 760
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.18508438766002655,
+            "D2_to_Pstar": 0.15512174367904663,
+            "D1_to_Q": 0.380401074886322,
+            "D1_to_Pstar": 0.34551453590393066,
+            "source_entropy": 1.151670956059527,
+            "n_unique_sources": 4,
+            "eff_rank": 1842.7896728515625,
+            "mean_pairwise_cos": 0.02995987981557846,
+            "source_dist": {
+              "cot": 5235,
+              "dolly": 1847,
+              "flan_v2": 5779,
+              "oasst1": 672
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.19634604454040527,
+            "D2_to_Pstar": 0.155257910490036,
+            "D1_to_Q": 0.39153528213500977,
+            "D1_to_Pstar": 0.34696143865585327,
+            "source_entropy": 1.1623384111914712,
+            "n_unique_sources": 4,
+            "eff_rank": 1836.0316162109375,
+            "mean_pairwise_cos": 0.03082446940243244,
+            "source_dist": {
+              "cot": 5242,
+              "dolly": 1870,
+              "flan_v2": 5693,
+              "oasst1": 728
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.20349647104740143,
+            "D2_to_Pstar": 0.1551152616739273,
+            "D1_to_Q": 0.4057348370552063,
+            "D1_to_Pstar": 0.345537394285202,
+            "source_entropy": 1.148664953296091,
+            "n_unique_sources": 4,
+            "eff_rank": 1829.693603515625,
+            "mean_pairwise_cos": 0.03062727488577366,
+            "source_dist": {
+              "cot": 5295,
+              "dolly": 1805,
+              "flan_v2": 5760,
+              "oasst1": 673
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.18782466650009155,
+            "D2_to_Pstar": 0.15520071983337402,
+            "D1_to_Q": 0.3785857558250427,
+            "D1_to_Pstar": 0.3464391529560089,
+            "source_entropy": 1.1569880596031021,
+            "n_unique_sources": 4,
+            "eff_rank": 1828.8631591796875,
+            "mean_pairwise_cos": 0.03171588107943535,
+            "source_dist": {
+              "cot": 5191,
+              "dolly": 1836,
+              "flan_v2": 5792,
+              "oasst1": 714
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.19505642354488373,
+            "D2_to_Pstar": 0.1552673727273941,
+            "D1_to_Q": 0.3920689821243286,
+            "D1_to_Pstar": 0.3472631871700287,
+            "source_entropy": 1.1655596906895371,
+            "n_unique_sources": 4,
+            "eff_rank": 1825.564453125,
+            "mean_pairwise_cos": 0.03204222768545151,
+            "source_dist": {
+              "cot": 5225,
+              "dolly": 1909,
+              "flan_v2": 5670,
+              "oasst1": 729
+            }
+          }
+        ]
+      },
+      "gist": {
+        "mean": {
+          "D2_to_Q": 0.1735212117433548,
+          "D2_to_Pstar": 0.15653566718101503,
+          "D1_to_Q": 0.37333533465862273,
+          "D1_to_Pstar": 0.3600630074739456,
+          "source_entropy": 1.2348901180505172,
+          "eff_rank": 1726.8553466796875,
+          "mean_pairwise_cos": 0.03656289018690586,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.1491498202085495,
+            "D2_to_Pstar": 0.15920794010162354,
+            "D1_to_Q": 0.3442879319190979,
+            "D1_to_Pstar": 0.3777603209018707,
+            "source_entropy": 1.3121943565550231,
+            "n_unique_sources": 4,
+            "eff_rank": 1529.138671875,
+            "mean_pairwise_cos": 0.048845965415239334,
+            "source_dist": {
+              "cot": 4825,
+              "dolly": 2591,
+              "flan_v2": 4389,
+              "oasst1": 1728
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.15720567107200623,
+            "D2_to_Pstar": 0.15852484107017517,
+            "D1_to_Q": 0.36093762516975403,
+            "D1_to_Pstar": 0.3720248341560364,
+            "source_entropy": 1.3085601635150068,
+            "n_unique_sources": 4,
+            "eff_rank": 1566.11865234375,
+            "mean_pairwise_cos": 0.044992826879024506,
+            "source_dist": {
+              "cot": 4775,
+              "dolly": 2616,
+              "flan_v2": 4483,
+              "oasst1": 1659
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.14893579483032227,
+            "D2_to_Pstar": 0.1568465530872345,
+            "D1_to_Q": 0.34364646673202515,
+            "D1_to_Pstar": 0.36533838510513306,
+            "source_entropy": 1.2373793909982582,
+            "n_unique_sources": 4,
+            "eff_rank": 1690.742919921875,
+            "mean_pairwise_cos": 0.03869481384754181,
+            "source_dist": {
+              "cot": 5375,
+              "dolly": 2335,
+              "flan_v2": 4759,
+              "oasst1": 1064
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.17529337108135223,
+            "D2_to_Pstar": 0.15617290139198303,
+            "D1_to_Q": 0.37575846910476685,
+            "D1_to_Pstar": 0.35937225818634033,
+            "source_entropy": 1.214591302588244,
+            "n_unique_sources": 4,
+            "eff_rank": 1737.2061767578125,
+            "mean_pairwise_cos": 0.03446643054485321,
+            "source_dist": {
+              "cot": 5299,
+              "dolly": 2103,
+              "flan_v2": 5148,
+              "oasst1": 983
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.13540855050086975,
+            "D2_to_Pstar": 0.15742987394332886,
+            "D1_to_Q": 0.3286987841129303,
+            "D1_to_Pstar": 0.3659686744213104,
+            "source_entropy": 1.2738283274382038,
+            "n_unique_sources": 4,
+            "eff_rank": 1633.2198486328125,
+            "mean_pairwise_cos": 0.04088634252548218,
+            "source_dist": {
+              "cot": 4784,
+              "dolly": 2406,
+              "flan_v2": 4979,
+              "oasst1": 1364
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.18552273511886597,
+            "D2_to_Pstar": 0.15552642941474915,
+            "D1_to_Q": 0.38923341035842896,
+            "D1_to_Pstar": 0.3535758852958679,
+            "source_entropy": 1.200030255442863,
+            "n_unique_sources": 4,
+            "eff_rank": 1805.3475341796875,
+            "mean_pairwise_cos": 0.032145917415618896,
+            "source_dist": {
+              "cot": 5329,
+              "dolly": 2226,
+              "flan_v2": 5168,
+              "oasst1": 810
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.19659793376922607,
+            "D2_to_Pstar": 0.15546086430549622,
+            "D1_to_Q": 0.39698493480682373,
+            "D1_to_Pstar": 0.3517744243144989,
+            "source_entropy": 1.217888151723541,
+            "n_unique_sources": 4,
+            "eff_rank": 1818.8453369140625,
+            "mean_pairwise_cos": 0.031357694417238235,
+            "source_dist": {
+              "cot": 4973,
+              "dolly": 2181,
+              "flan_v2": 5406,
+              "oasst1": 973
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.2036776840686798,
+            "D2_to_Pstar": 0.1552559733390808,
+            "D1_to_Q": 0.41075780987739563,
+            "D1_to_Pstar": 0.34998810291290283,
+            "source_entropy": 1.1608568080189894,
+            "n_unique_sources": 4,
+            "eff_rank": 1847.5946044921875,
+            "mean_pairwise_cos": 0.03082721307873726,
+            "source_dist": {
+              "cot": 5381,
+              "dolly": 1839,
+              "flan_v2": 5582,
+              "oasst1": 731
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.18817074596881866,
+            "D2_to_Pstar": 0.1555047631263733,
+            "D1_to_Q": 0.3860047459602356,
+            "D1_to_Pstar": 0.35319894552230835,
+            "source_entropy": 1.2345139801732263,
+            "n_unique_sources": 4,
+            "eff_rank": 1789.092529296875,
+            "mean_pairwise_cos": 0.03188573941588402,
+            "source_dist": {
+              "cot": 4912,
+              "dolly": 2579,
+              "flan_v2": 5120,
+              "oasst1": 922
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.19524981081485748,
+            "D2_to_Pstar": 0.1554265320301056,
+            "D1_to_Q": 0.3970431685447693,
+            "D1_to_Pstar": 0.35162824392318726,
+            "source_entropy": 1.1890584440518146,
+            "n_unique_sources": 4,
+            "eff_rank": 1851.2471923828125,
+            "mean_pairwise_cos": 0.03152595832943916,
+            "source_dist": {
+              "cot": 5282,
+              "dolly": 1901,
+              "flan_v2": 5453,
+              "oasst1": 897
+            }
+          }
+        ]
+      },
+      "nice": {
+        "mean": {
+          "D2_to_Q": 0.2224498212337494,
+          "D2_to_Pstar": 0.20540404170751572,
+          "D1_to_Q": 0.5437267124652863,
+          "D1_to_Pstar": 0.5295194923877716,
+          "source_entropy": 1.1515972066040712,
+          "eff_rank": 757.8717025756836,
+          "mean_pairwise_cos": 0.13977375254034996,
+          "n_draws": 10
+        },
+        "per_draw": [
+          {
+            "draw": "stem80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.21350637078285217,
+            "D2_to_Pstar": 0.2234519124031067,
+            "D1_to_Q": 0.5371963977813721,
+            "D1_to_Pstar": 0.5753421783447266,
+            "source_entropy": 1.208623717431113,
+            "n_unique_sources": 4,
+            "eff_rank": 450.6964416503906,
+            "mean_pairwise_cos": 0.18070648610591888,
+            "source_dist": {
+              "cot": 3302,
+              "dolly": 1517,
+              "flan_v2": 6835,
+              "oasst1": 1879
+            }
+          },
+          {
+            "draw": "stem80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.31943440437316895,
+            "D2_to_Pstar": 0.3205544948577881,
+            "D1_to_Q": 0.6763075590133667,
+            "D1_to_Pstar": 0.6907700896263123,
+            "source_entropy": 1.1664354547849907,
+            "n_unique_sources": 4,
+            "eff_rank": 148.52268981933594,
+            "mean_pairwise_cos": 0.2994358241558075,
+            "source_dist": {
+              "cot": 2026,
+              "dolly": 1645,
+              "flan_v2": 7567,
+              "oasst1": 2295
+            }
+          },
+          {
+            "draw": "stem80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.17272859811782837,
+            "D2_to_Pstar": 0.1806361824274063,
+            "D1_to_Q": 0.47211629152297974,
+            "D1_to_Pstar": 0.49247121810913086,
+            "source_entropy": 1.2298871850937085,
+            "n_unique_sources": 4,
+            "eff_rank": 854.8988647460938,
+            "mean_pairwise_cos": 0.1077934205532074,
+            "source_dist": {
+              "cot": 3990,
+              "dolly": 1466,
+              "flan_v2": 6229,
+              "oasst1": 1848
+            }
+          },
+          {
+            "draw": "stem80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.2894742786884308,
+            "D2_to_Pstar": 0.2701972723007202,
+            "D1_to_Q": 0.6485261917114258,
+            "D1_to_Pstar": 0.6340024471282959,
+            "source_entropy": 1.1928217495290832,
+            "n_unique_sources": 4,
+            "eff_rank": 249.31466674804688,
+            "mean_pairwise_cos": 0.24446409940719604,
+            "source_dist": {
+              "cot": 2576,
+              "dolly": 1955,
+              "flan_v2": 7264,
+              "oasst1": 1738
+            }
+          },
+          {
+            "draw": "stem80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.15158915519714355,
+            "D2_to_Pstar": 0.17369040846824646,
+            "D1_to_Q": 0.43943721055984497,
+            "D1_to_Pstar": 0.47900110483169556,
+            "source_entropy": 1.2084606330611045,
+            "n_unique_sources": 4,
+            "eff_rank": 1028.623779296875,
+            "mean_pairwise_cos": 0.08769827336072922,
+            "source_dist": {
+              "cot": 3913,
+              "dolly": 1445,
+              "flan_v2": 6500,
+              "oasst1": 1675
+            }
+          },
+          {
+            "draw": "hum80_draw0",
+            "K": 13533,
+            "D2_to_Q": 0.1941187083721161,
+            "D2_to_Pstar": 0.16415861248970032,
+            "D1_to_Q": 0.490575909614563,
+            "D1_to_Pstar": 0.4531610310077667,
+            "source_entropy": 1.2044244201906453,
+            "n_unique_sources": 4,
+            "eff_rank": 1259.981201171875,
+            "mean_pairwise_cos": 0.07055090367794037,
+            "source_dist": {
+              "cot": 4260,
+              "dolly": 1898,
+              "flan_v2": 6238,
+              "oasst1": 1137
+            }
+          },
+          {
+            "draw": "hum80_draw1",
+            "K": 13533,
+            "D2_to_Q": 0.21339401602745056,
+            "D2_to_Pstar": 0.17218017578125,
+            "D1_to_Q": 0.5213097929954529,
+            "D1_to_Pstar": 0.4725378751754761,
+            "source_entropy": 1.06196333437659,
+            "n_unique_sources": 4,
+            "eff_rank": 1011.21240234375,
+            "mean_pairwise_cos": 0.08160549402236938,
+            "source_dist": {
+              "cot": 4118,
+              "dolly": 1259,
+              "flan_v2": 7471,
+              "oasst1": 685
+            }
+          },
+          {
+            "draw": "hum80_draw2",
+            "K": 13533,
+            "D2_to_Q": 0.23838801681995392,
+            "D2_to_Pstar": 0.1899367719888687,
+            "D1_to_Q": 0.5770598649978638,
+            "D1_to_Pstar": 0.5095916390419006,
+            "source_entropy": 1.188106161025062,
+            "n_unique_sources": 4,
+            "eff_rank": 715.1925048828125,
+            "mean_pairwise_cos": 0.12442361563444138,
+            "source_dist": {
+              "cot": 3438,
+              "dolly": 1783,
+              "flan_v2": 6953,
+              "oasst1": 1359
+            }
+          },
+          {
+            "draw": "hum80_draw3",
+            "K": 13533,
+            "D2_to_Q": 0.22894668579101562,
+            "D2_to_Pstar": 0.19622623920440674,
+            "D1_to_Q": 0.5667046308517456,
+            "D1_to_Pstar": 0.5303810834884644,
+            "source_entropy": 1.0562967776994026,
+            "n_unique_sources": 4,
+            "eff_rank": 606.1852416992188,
+            "mean_pairwise_cos": 0.1383240669965744,
+            "source_dist": {
+              "cot": 3312,
+              "dolly": 1430,
+              "flan_v2": 8014,
+              "oasst1": 777
+            }
+          },
+          {
+            "draw": "hum80_draw4",
+            "K": 13533,
+            "D2_to_Q": 0.20291797816753387,
+            "D2_to_Pstar": 0.16300834715366364,
+            "D1_to_Q": 0.508033275604248,
+            "D1_to_Pstar": 0.45793625712394714,
+            "source_entropy": 0.9989526328490113,
+            "n_unique_sources": 4,
+            "eff_rank": 1254.0892333984375,
+            "mean_pairwise_cos": 0.06273534148931503,
+            "source_dist": {
+              "cot": 3725,
+              "dolly": 1156,
+              "flan_v2": 8120,
+              "oasst1": 532
+            }
+          }
+        ]
+      }
+    }
+  }
+}
