@@ -45,9 +45,12 @@ if has train; then
     read -r dkey seed out <<< "$($PY -c "import json;p=json.load(open('$PLAN'));a=p['adapters']['$aid'];c=[c for c in p['cells'] if c['adapter_id']=='$aid'][0];print(a['dataset_key'],a['train_seed'],c.get('sft_out','$SAVES/sft_results/pilot_$aid'))")"
     if $PROV check_train --plan $PLAN --aid $aid --adapter_dir $out; then log "[skip train, validated] $aid"; continue; fi
     log "TRAIN $aid (dataset=$dkey seed=$seed)"
+    # TRAIN_EXTRA lets a pre-registered sensitivity arm override the schedule (e.g. the 1% equal-step
+    # arm passes TRAIN_EXTRA="max_steps=420"). Default is EMPTY -> frozen 4-epoch recipe unchanged.
     if ! dataflex-cli train experiments/less_aligned/configs/train_llama7b_lora.yaml \
         dataset=$dkey output_dir=$out seed=$seed \
         per_device_train_batch_size=4 gradient_accumulation_steps=4 lora_alpha=512 num_train_epochs=4 \
+        ${TRAIN_EXTRA:-} \
         > $LOGD/${aid}_train.log 2>&1; then log "[FAIL train] $aid"; exit 1; fi
     [[ -f $out/adapter_model.safetensors ]] || { log "[FAIL train] $aid no adapter"; exit 1; }
     $PROV write_train_manifest --plan $PLAN --aid $aid --adapter_dir $out --master $MASTER --base_model $BASE

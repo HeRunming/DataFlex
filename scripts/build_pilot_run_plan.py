@@ -40,15 +40,21 @@ def main():
     ap.add_argument("--subset_tmpl", default=f"{SAVES}/sft_subsets/{{draw}}_{{m}}_sel.jsonl",
                     help="subset jsonl template (5%); 1% uses ..._1pct_sel.jsonl")
     ap.add_argument("--randk_subset_tmpl", default=f"{SAVES}/sft_subsets/{{draw}}_randk_sel.jsonl")
+    ap.add_argument("--methods", nargs="+", default=None,
+                    help="subset of methods (e.g. dsmc randk for the equal-step sensitivity arm)")
     args = ap.parse_args()
     TAG = args.tag
+    methods = args.methods or METHODS
+    n_cells_expect = len(DRAWS) * len(methods)
+    n_shared = 5 if "randk" in methods else 0
+    n_adapters_expect = (len(methods) - (1 if "randk" in methods else 0)) * len(DRAWS) + n_shared
     cells = []           # method-draw cells (aggregation rows)
     adapters = {}        # adapter_id -> {dataset_key, train_seed, subset_jsonl, subset_sha256}
     randk_hash_by_idx = {}   # idx -> {draw: sha} to assert shared subsets are byte-identical
     for draw in DRAWS:
         meta = json.load(open(f"{ROOT}/data/target_draws/{draw}.meta.json"))
         seed = meta["train_seed"]; idx = draw.split("draw")[-1]
-        for m in METHODS:
+        for m in methods:
             if m == "randk":
                 # shared across same-draw-index directions -> one adapter id keyed by draw index
                 adapter_id = f"{TAG}_randk_drawidx{idx}_seed{seed}"
@@ -75,12 +81,12 @@ def main():
     for idx, hs in randk_hash_by_idx.items():
         uniq = set(hs.values())
         assert len(uniq) == 1, f"Random-K drawidx{idx} subsets differ across directions: {hs}"
-    plan = {"draws": DRAWS, "methods": METHODS, "tag": TAG, "budget": args.budget,
+    plan = {"draws": DRAWS, "methods": methods, "tag": TAG, "budget": args.budget,
             "n_cells": len(cells), "n_unique_adapters": len(adapters),
             "cells": cells, "adapters": adapters}
     json.dump(plan, open(args.out, "w"), indent=2)
-    print(f"[{TAG} K={args.budget}] cells={len(cells)} (expect {N_CELLS_EXPECT})  unique_adapters={len(adapters)} (expect {N_ADAPTERS_EXPECT})")
-    assert len(cells) == N_CELLS_EXPECT and len(adapters) == N_ADAPTERS_EXPECT, "run plan cell/adapter count mismatch"
+    print(f"[{TAG} K={args.budget}] cells={len(cells)} (expect {n_cells_expect})  unique_adapters={len(adapters)} (expect {n_adapters_expect})")
+    assert len(cells) == n_cells_expect and len(adapters) == n_adapters_expect, "run plan cell/adapter count mismatch"
     # human table
     print(f"\n{'draw':16s} {'method':16s} {'seed':4s} {'shared':6s} adapter_id")
     for c in cells:
