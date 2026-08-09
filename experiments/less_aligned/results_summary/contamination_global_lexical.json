@@ -1,0 +1,81 @@
+{
+  "n_candidates": 270679,
+  "n_test": 7858,
+  "params": {
+    "perms": 64,
+    "bands": 16,
+    "rows": 4,
+    "shingle_k": 5,
+    "jaccard_thr": 0.5,
+    "report_thr": 0.3
+  },
+  "pool_strong_count": 0,
+  "pool_strong_rate": 0.0,
+  "pool_weak_count": 0,
+  "pool_weak_rate": 0.0,
+  "strong_hits": {},
+  "weak_hits_sample": {},
+  "per_selector": {
+    "1pct": {
+      "dsmc": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk_lenmatch": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "second_rr": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "less": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "gist": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "nice": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      }
+    },
+    "5pct": {
+      "dsmc": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk_lenmatch": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "second_rr": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "less": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "gist": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "nice": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      }
+    }
+  },
+  "scope_note": "This screen is POOL-WIDE: every candidate is MinHash/LSH-probed against all MMLU test items and every collision is verified with exact shingle Jaccard. It supersedes the earlier L3, which only examined L2 13-gram suspects."
+}

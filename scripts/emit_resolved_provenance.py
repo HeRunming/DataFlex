@@ -31,10 +31,13 @@ RESOLVED_SFT = {
                                 "gradient_accumulation_steps": 8, "num_train_epochs": 3},
     "resolved_overrides": {"lora_alpha": 512, "per_device_train_batch_size": 4,
                            "gradient_accumulation_steps": 4, "num_train_epochs": 4},
-    "world_size": 8, "effective_global_batch": 4 * 4 * 8 // 8,  # per-device*accum*?; see note below
-    "effective_batch_note": "per_device 4 x accum 4 x 8 GPUs = 128 effective examples per optimizer step",
-    "effective_batch": 128,
-    "lora": {"rank": 128, "alpha": 512, "dropout": 0.1,
+    "not_overridden_by_driver": {"lora_dropout": 0.05,
+                                 "note": "run_pilot_sft.sh does NOT pass lora_dropout, so the YAML "
+                                         "value 0.05 is what the executed runs used."},
+    "world_size": 8,
+    "effective_batch": 4 * 4 * 8,   # per_device 4 x grad_accum 4 x 8 GPUs = 128
+    "effective_batch_note": "per_device 4 x accum 4 x 8 GPUs = 128 examples per optimizer step",
+    "lora": {"rank": 128, "alpha": 512, "dropout": 0.05,
              "target": "q_proj,k_proj,v_proj,o_proj"},
     "optimizer": {"lr": 2e-5, "scheduler": "linear", "warmup_ratio": 0.03},
     "precision": "bf16", "cutoff_len": 2048,

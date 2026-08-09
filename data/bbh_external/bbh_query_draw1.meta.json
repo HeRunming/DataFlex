@@ -1,0 +1,35 @@
+{
+  "draw": 1,
+  "n": 64,
+  "file_sha256": "aac2deb5abcd1168f7561ba9fc364f326dca89de610d2cfdc67988466864d3ce",
+  "ordered_ids_sha256": "303b598919ec011399442e9977363120652dea21fb345c52a2c63b748d7ed6a8",
+  "unordered_ids_sha256": "b714075e6b1d30a95338776db6e4d7e865786cc9c51d44e392f67ddd80e42570",
+  "official_task_composition": {
+    "formal_fallacies": 4,
+    "tracking_shuffled_objects": 11,
+    "navigate": 4,
+    "snarks": 3,
+    "web_of_lies": 7,
+    "geometric_shapes": 1,
+    "boolean_expressions": 1,
+    "word_sorting": 2,
+    "object_counting": 1,
+    "logical_deduction": 10,
+    "movie_recommendation": 3,
+    "disambiguation_qa": 4,
+    "hyperbaton": 3,
+    "dyck_languages": 2,
+    "date_understanding": 2,
+    "reasoning_about_colored_objects": 1,
+    "penguins_in_a_table": 1,
+    "sports_understanding": 2,
+    "causal_judgement": 1,
+    "multistep_arithmetic_two": 1
+  },
+  "sampling": "independent sample without replacement from the fixed reservoir",
+  "sft_seeds_to_run": [
+    42,
+    1
+  ],
+  "note": "seeds are CROSSED with draws (each draw trained under both seeds)"
+}

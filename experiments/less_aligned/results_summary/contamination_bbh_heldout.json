@@ -1,0 +1,16 @@
+{
+  "n_heldout_eval": 5209,
+  "pool_L2_hits": 5,
+  "pool_L2_rate": 1.8472064696559395e-05,
+  "hit_indices": [
+    49065,
+    50362,
+    65264,
+    87379,
+    88025
+  ],
+  "ngram": 13,
+  "note": "13-gram containment screen of the 270k candidate pool against the FINAL held-out BBH evaluation split (5209 examples).",
+  "manual_inspection": "All 5 hits manually inspected: ALL FALSE POSITIVES \u2014 flan_v2 movie-plot QA and gender-coreference task instructions matching BBH only via generic boilerplate (e.g. 'If there is no answer, please output ...'), none is an actual BBH problem.",
+  "verdict": "near-zero lexical overlap against the final held-out BBH evaluation split; BBH external experiment is clear to proceed on contamination grounds."
+}

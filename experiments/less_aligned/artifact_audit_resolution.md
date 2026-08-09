@@ -49,15 +49,21 @@ MMLU test evaluation is a separate `lm_eval` process.
 The YAML's nominal values are superseded by the driver's CLI overrides, so the artifact now exports
 the resolved recipe explicitly:
 
-| | YAML (nominal, superseded) | resolved (authoritative) |
+| | YAML (nominal) | resolved (authoritative) |
 |---|---|---|
-| lora_alpha | 256 | **512** |
-| per_device_train_batch_size | 16 | **4** |
-| gradient_accumulation_steps | 8 | **4** |
-| num_train_epochs | 3 | **4** |
+| lora_alpha | 256 | **512** (driver override) |
+| per_device_train_batch_size | 16 | **4** (driver override) |
+| gradient_accumulation_steps | 8 | **4** (driver override) |
+| num_train_epochs | 3 | **4** (driver override) |
+| lora_dropout | 0.05 | **0.05** — driver does NOT override it, so the YAML value is what ran |
 
 Effective batch = 4 × 4 × 8 GPUs = **128** examples/optimizer step; lr 2e-5, linear, warmup_ratio 0.03,
-bf16, cutoff 2048, LoRA r128/α512/dropout 0.1 on q,k,v,o.
+bf16, cutoff 2048, LoRA r128 / α512 / dropout **0.05** on q,k,v,o.
+
+*Correction (code_review_0809):* an earlier version of this artifact said `dropout 0.1` and also carried
+a self-contradictory `effective_global_batch: 16` (a stray `//8` in the emitter). Both were **my
+metadata errors, not run errors** — the executed adapters are unaffected, and the authoritative step
+counts below come from `trainer_state.json`. Now: dropout **0.05**, single `effective_batch: 128`.
 
 **Actual optimizer steps recovered from `trainer_state.json` (ground truth, not the shell command),
 verified across every adapter:**

@@ -14,14 +14,17 @@
       "gradient_accumulation_steps": 4,
       "num_train_epochs": 4
     },
+    "not_overridden_by_driver": {
+      "lora_dropout": 0.05,
+      "note": "run_pilot_sft.sh does NOT pass lora_dropout, so the YAML value 0.05 is what the executed runs used."
+    },
     "world_size": 8,
-    "effective_global_batch": 16,
-    "effective_batch_note": "per_device 4 x accum 4 x 8 GPUs = 128 effective examples per optimizer step",
     "effective_batch": 128,
+    "effective_batch_note": "per_device 4 x accum 4 x 8 GPUs = 128 examples per optimizer step",
     "lora": {
       "rank": 128,
       "alpha": 512,
-      "dropout": 0.1,
+      "dropout": 0.05,
       "target": "q_proj,k_proj,v_proj,o_proj"
     },
     "optimizer": {
@@ -40,7 +43,7 @@
     "cudnn": 91002,
     "gpu": "NVIDIA H20"
   },
-  "git_commit": "d0bbe02",
+  "git_commit": "2b3f990",
   "warmup_checkpoint": {
     "path": "/jizhicfs/karonhe/dataflex_saves/sft_results/warmup_seed42/checkpoint-1692",
     "adapter_sha256": "44d9c580ca18583a4498dd7c3b5bad4094144e02b3ee83a86509e7d88beb2fdc",
