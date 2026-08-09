@@ -1,0 +1,120 @@
+{
+  "resolved_sft_recipe": {
+    "config_file": "experiments/less_aligned/configs/train_llama7b_lora.yaml",
+    "note": "YAML holds older nominal values; the driver CLI overrides are authoritative.",
+    "yaml_nominal_superseded": {
+      "lora_alpha": 256,
+      "per_device_train_batch_size": 16,
+      "gradient_accumulation_steps": 8,
+      "num_train_epochs": 3
+    },
+    "resolved_overrides": {
+      "lora_alpha": 512,
+      "per_device_train_batch_size": 4,
+      "gradient_accumulation_steps": 4,
+      "num_train_epochs": 4
+    },
+    "world_size": 8,
+    "effective_global_batch": 16,
+    "effective_batch_note": "per_device 4 x accum 4 x 8 GPUs = 128 effective examples per optimizer step",
+    "effective_batch": 128,
+    "lora": {
+      "rank": 128,
+      "alpha": 512,
+      "dropout": 0.1,
+      "target": "q_proj,k_proj,v_proj,o_proj"
+    },
+    "optimizer": {
+      "lr": 2e-05,
+      "scheduler": "linear",
+      "warmup_ratio": 0.03
+    },
+    "precision": "bf16",
+    "cutoff_len": 2048,
+    "base_model": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf"
+  },
+  "env": {
+    "torch": "2.10.0+cu128",
+    "transformers": "4.50.0",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "gpu": "NVIDIA H20"
+  },
+  "git_commit": "d0bbe02",
+  "warmup_checkpoint": {
+    "path": "/jizhicfs/karonhe/dataflex_saves/sft_results/warmup_seed42/checkpoint-1692",
+    "adapter_sha256": "44d9c580ca18583a4498dd7c3b5bad4094144e02b3ee83a86509e7d88beb2fdc",
+    "optimizer_sha256": "10a0169e7c5843aafdb4e3089b6e8ae1dab882c6b6e1af0cfedd5d97c9c31a25",
+    "note": "Also reachable as sft_results/random_selected/checkpoint-1692 \u2014 verified byte-identical (adapter + optimizer sha256 match).",
+    "global_step": 1692,
+    "epoch": 4.0,
+    "trainer_state_sha256": "dcd5a0c39ec9832ba8770125d19b277131b2135fee4a3c99fa4806f306c6f35d",
+    "candidate_config_files": [
+      "experiments/less_aligned/configs/warmup_llama7b_lora.yaml",
+      "experiments/less_aligned/configs/warmup_random_5pct.yaml"
+    ],
+    "config_caveat": "Multiple warm-up configs exist with differing nominal alpha/dropout/batch. The authoritative record of what produced this checkpoint is the hashes + trainer_state above, not any single YAML."
+  },
+  "run_families": {
+    "5pct_fixed_epoch": {
+      "plan": "experiments/less_aligned/pilot_run_plan.json",
+      "plan_sha256": "23343326274402c0e1880a59d3da7788c289093455ae6356dae6adef87666c76",
+      "budget_K": null,
+      "tag": null,
+      "n_cells": 80,
+      "n_unique_adapters": 75,
+      "train_extra_injected": null,
+      "expected_optimizer_steps": 420,
+      "actual_steps_observed": {
+        "global_step=420,epoch=3.99": 75
+      },
+      "all_adapters_same_step_count": true,
+      "step_count_matches_expected": true,
+      "representative_trainer_state": {
+        "adapter_id": "stem80_draw0_dsmc_seed42",
+        "path": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot_stem80_draw0_dsmc_seed42/trainer_state.json",
+        "sha256": "a71cd387512d8b02c0a7f38a8521d850791a6f53f74a0e9184a72577804b6ad0"
+      }
+    },
+    "1pct_fixed_epoch": {
+      "plan": "experiments/less_aligned/pilot1pct_run_plan.json",
+      "plan_sha256": "664acb3dc31e157d85a841f736c049cb317789a602465ae33ac45febaafbee30",
+      "budget_K": 2707,
+      "tag": "pilot1pct",
+      "n_cells": 80,
+      "n_unique_adapters": 75,
+      "train_extra_injected": null,
+      "expected_optimizer_steps": 84,
+      "actual_steps_observed": {
+        "global_step=84,epoch=3.85": 75
+      },
+      "all_adapters_same_step_count": true,
+      "step_count_matches_expected": true,
+      "representative_trainer_state": {
+        "adapter_id": "pilot1pct_stem80_draw0_dsmc_seed42",
+        "path": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pct_stem80_draw0_dsmc_seed42/trainer_state.json",
+        "sha256": "dd35cb2230a7ead6fb4af92966cd9e0409bea8846236d3e172be458e10bcc443"
+      }
+    },
+    "1pct_equal_step": {
+      "plan": "experiments/less_aligned/pilot1pctES_run_plan.json",
+      "plan_sha256": "f247b6da70746c0a2c3e3bc91d32687f8f4ff664251a805c55d2f963ccf96809",
+      "budget_K": 2707,
+      "tag": "pilot1pctES",
+      "n_cells": 20,
+      "n_unique_adapters": 15,
+      "train_extra_injected": "max_steps=420",
+      "expected_optimizer_steps": 420,
+      "actual_steps_observed": {
+        "global_step=420,epoch=19.09": 15
+      },
+      "all_adapters_same_step_count": true,
+      "step_count_matches_expected": true,
+      "representative_trainer_state": {
+        "adapter_id": "pilot1pctES_stem80_draw0_dsmc_seed42",
+        "path": "/jizhicfs/karonhe/dataflex_saves/sft_results/pilot1pctES_stem80_draw0_dsmc_seed42/trainer_state.json",
+        "sha256": "7179ef80a2b12ed7eed41ebe61cb160eab46344051112f2e5af60ae588d1cfd2"
+      }
+    }
+  }
+}

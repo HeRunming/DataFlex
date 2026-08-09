@@ -1,0 +1,122 @@
+{
+  "n_candidates": 270679,
+  "n_mmlu_test_items": 7858,
+  "params": {
+    "ngram": 13,
+    "ngram2": 8,
+    "jaccard_thr": 0.5
+  },
+  "pool_rates": {
+    "L1": 0.0,
+    "L2": 2.586089057518315e-05,
+    "L3": 0.0
+  },
+  "pool_counts": {
+    "L1": 0,
+    "L2": 7,
+    "L3": 0
+  },
+  "per_selector": {
+    "1pct": {
+      "dsmc": {
+        "L1_rate": 0.0,
+        "L2_rate": 0.0,
+        "L3_rate": 0.0
+      },
+      "randk": {
+        "L1_rate": 0.0,
+        "L2_rate": 0.0,
+        "L3_rate": 0.0
+      },
+      "randk_lenmatch": {
+        "L1_rate": 0.0,
+        "L2_rate": 3.694126339120798e-05,
+        "L3_rate": 0.0
+      },
+      "second_rr": {
+        "L1_rate": 0.0,
+        "L2_rate": 7.388252678241596e-05,
+        "L3_rate": 0.0
+      },
+      "less": {
+        "L1_rate": 0.0,
+        "L2_rate": 0.0,
+        "L3_rate": 0.0
+      },
+      "gist": {
+        "L1_rate": 0.0,
+        "L2_rate": 0.0,
+        "L3_rate": 0.0
+      },
+      "nice": {
+        "L1_rate": 0.0,
+        "L2_rate": 0.0,
+        "L3_rate": 0.0
+      }
+    },
+    "5pct": {
+      "dsmc": {
+        "L1_rate": 0.0,
+        "L2_rate": 0.0001108401684770561,
+        "L3_rate": 0.0
+      },
+      "randk": {
+        "L1_rate": 0.0,
+        "L2_rate": 4.433606739082243e-05,
+        "L3_rate": 0.0
+      },
+      "randk_lenmatch": {
+        "L1_rate": 0.0,
+        "L2_rate": 2.955737826054829e-05,
+        "L3_rate": 0.0
+      },
+      "second_rr": {
+        "L1_rate": 0.0,
+        "L2_rate": 7.389344565137072e-05,
+        "L3_rate": 0.0
+      },
+      "less": {
+        "L1_rate": 0.0,
+        "L2_rate": 0.0,
+        "L3_rate": 0.0
+      },
+      "gist": {
+        "L1_rate": 0.0,
+        "L2_rate": 1.4778689130274145e-05,
+        "L3_rate": 0.0
+      },
+      "nice": {
+        "L1_rate": 0.0,
+        "L2_rate": 7.389344565137072e-06,
+        "L3_rate": 0.0
+      }
+    }
+  },
+  "layer4_semantic": "not run in this pass (needs bge encoder for MMLU test); see notes",
+  "example_L2_hits": {
+    "56741": [
+      3656,
+      3693
+    ],
+    "89663": [
+      3689,
+      3778,
+      3868
+    ],
+    "248756": [
+      801
+    ],
+    "263364": [
+      4136
+    ],
+    "263365": [
+      4136
+    ],
+    "263366": [
+      4136
+    ],
+    "263367": [
+      4136
+    ]
+  }
+}

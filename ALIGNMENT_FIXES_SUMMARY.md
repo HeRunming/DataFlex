@@ -1,3 +1,16 @@
+> **⚠️ DEPRECATED / HISTORICAL (2026-08-09).** This report describes an earlier state of the
+> repository and its claims about alignment status are **no longer authoritative**. In particular,
+> `target_dataset` is NOT a generic independent loader (it is routed via `eval_dataset`), and the
+> Adam-preconditioning code has since been rewritten (correctly, but with different variable names
+> than this document assumes).
+>
+> Current authority:
+> - `python verify_alignment.py` — now semantic, reports 6/6 and matches the current code
+> - `experiments/less_aligned/artifact_audit_resolution.md` — audit items A–G and their resolution
+> - `experiments/less_aligned/resolved_run_provenance.json` — resolved configs + ACTUAL step counts
+>
+> Kept only for history. Do not cite for the current pipeline.
+
 # DataFlex Alignment Fixes Summary
 
 Date: May 19, 2026

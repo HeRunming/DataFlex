@@ -6060,5 +6060,200 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "pilot1pctES_stem80_draw0_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_randk_drawidx0_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw0_randk_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_stem80_draw1_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_randk_drawidx1_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw1_randk_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_stem80_draw2_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_randk_drawidx2_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw2_randk_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_stem80_draw3_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_randk_drawidx3_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw3_randk_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_stem80_draw4_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_randk_drawidx4_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/stem80_draw4_randk_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_hum80_draw0_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw0_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_hum80_draw1_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw1_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_hum80_draw2_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw2_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_hum80_draw3_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw3_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "pilot1pctES_hum80_draw4_dsmc_sel": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/hum80_draw4_dsmc_1pct_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
