@@ -1,0 +1,259 @@
+{
+  "canary_phase": "B: five selectors at K=2707 (selection only, no SFT)",
+  "draw": "bbhx_draw0",
+  "budget_K": 2707,
+  "rr_perm_seed": 6000,
+  "random_k_seed": 5000,
+  "target_grads": "/jizhicfs/karonhe/dataflex_saves/draw_bbhx_draw0_output/target/1/all_projected_grads.pt",
+  "target_grads_sha256_content": "10c92b25c7e93eabd18b89d45759a5643074f567f84de9bea474b04cc0da1599",
+  "methods": {
+    "dsmc": {
+      "selection_json": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_dsmc/step_1.json",
+      "n": 2707,
+      "n_unique": 2707,
+      "min": 18,
+      "max": 269804,
+      "n_ok": true,
+      "unique_ok": true,
+      "range_ok": true,
+      "subset_sha256": "a028277d2c855004a31be28315df8935271b4d99ce36a412e116e70834d8c59a",
+      "command": "python scripts/select_moment_mmd.py --alpha 0.0",
+      "source_composition": {
+        "flan_v2": 1890,
+        "cot": 614,
+        "dolly": 116,
+        "oasst1": 87
+      },
+      "post_template_tokens": {
+        "total": 1459218,
+        "mean": 539.1,
+        "median": 295,
+        "p90": 1572,
+        "max": 5665,
+        "n_over_sft_cutoff_2048": 42,
+        "tokens_truncated_at_2048": 28734,
+        "histogram_512_buckets": {
+          "0": 1817,
+          "512": 418,
+          "1024": 176,
+          "1536": 254,
+          "2048": 27,
+          "2560": 4,
+          "3072": 5,
+          "3584": 1
+        }
+      }
+    },
+    "less": {
+      "selection_json": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_less/step_1.json",
+      "n": 2707,
+      "n_unique": 2707,
+      "min": 11,
+      "max": 269807,
+      "n_ok": true,
+      "unique_ok": true,
+      "range_ok": true,
+      "subset_sha256": "eb43548ce653ba5f1d91eba2e7c0b8c83d8269af3277a15fed3bfcd92ad9b910",
+      "command": "python scripts/select_relevance_topk.py --order first",
+      "source_composition": {
+        "flan_v2": 1379,
+        "cot": 928,
+        "dolly": 253,
+        "oasst1": 147
+      },
+      "post_template_tokens": {
+        "total": 1263160,
+        "mean": 466.6,
+        "median": 279,
+        "p90": 1223,
+        "max": 4808,
+        "n_over_sft_cutoff_2048": 31,
+        "tokens_truncated_at_2048": 16523,
+        "histogram_512_buckets": {
+          "0": 1946,
+          "512": 403,
+          "1024": 163,
+          "1536": 164,
+          "2048": 20,
+          "2560": 4,
+          "3072": 5,
+          "3584": 0
+        }
+      }
+    },
+    "first_rr": {
+      "selection_json": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_first_rr/step_1.json",
+      "n": 2707,
+      "n_unique": 2707,
+      "min": 11,
+      "max": 269807,
+      "n_ok": true,
+      "unique_ok": true,
+      "range_ok": true,
+      "subset_sha256": "bf3ea41e10544fd5d22b7246ac5036316a89bffb22ccd5f5b5d0898cd3c299bc",
+      "command": "python scripts/select_round_robin.py --order first --perm_seed 6000",
+      "source_composition": {
+        "flan_v2": 1281,
+        "cot": 1121,
+        "dolly": 201,
+        "oasst1": 104
+      },
+      "post_template_tokens": {
+        "total": 1302804,
+        "mean": 481.3,
+        "median": 317,
+        "p90": 1211,
+        "max": 5305,
+        "n_over_sft_cutoff_2048": 20,
+        "tokens_truncated_at_2048": 14094,
+        "histogram_512_buckets": {
+          "0": 1896,
+          "512": 467,
+          "1024": 177,
+          "1536": 147,
+          "2048": 11,
+          "2560": 3,
+          "3072": 4,
+          "3584": 0
+        }
+      }
+    },
+    "second_rr": {
+      "selection_json": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_second_rr/step_1.json",
+      "n": 2707,
+      "n_unique": 2707,
+      "min": 59,
+      "max": 269807,
+      "n_ok": true,
+      "unique_ok": true,
+      "range_ok": true,
+      "subset_sha256": "0c2309de72fefe8f178e9c93a8b8ee48f53c030523ab592be71640f8d1c978e9",
+      "command": "python scripts/select_round_robin.py --order second --perm_seed 6000",
+      "source_composition": {
+        "flan_v2": 1443,
+        "cot": 1018,
+        "dolly": 170,
+        "oasst1": 76
+      },
+      "post_template_tokens": {
+        "total": 1448726,
+        "mean": 535.2,
+        "median": 361,
+        "p90": 1394,
+        "max": 5305,
+        "n_over_sft_cutoff_2048": 12,
+        "tokens_truncated_at_2048": 9472,
+        "histogram_512_buckets": {
+          "0": 1755,
+          "512": 521,
+          "1024": 220,
+          "1536": 199,
+          "2048": 7,
+          "2560": 1,
+          "3072": 2,
+          "3584": 0
+        }
+      }
+    },
+    "randk": {
+      "selection_json": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_randk/step_1.json",
+      "n": 2707,
+      "n_unique": 2707,
+      "min": 23,
+      "max": 270668,
+      "n_ok": true,
+      "unique_ok": true,
+      "range_ok": true,
+      "subset_sha256": "e925dfcfec1ceef45c42c9dbe8a2646b5ea2d346956611eaefee8f72af8ff57d",
+      "seed_reproducible": true,
+      "command": "torch.randperm(270679, generator=manual_seed(5000))[:2707]",
+      "source_composition": {
+        "flan_v2": 1050,
+        "cot": 1001,
+        "oasst1": 522,
+        "dolly": 134
+      },
+      "post_template_tokens": {
+        "total": 950783,
+        "mean": 351.2,
+        "median": 236,
+        "p90": 722,
+        "max": 3432,
+        "n_over_sft_cutoff_2048": 7,
+        "tokens_truncated_at_2048": 2326,
+        "histogram_512_buckets": {
+          "0": 2146,
+          "512": 399,
+          "1024": 102,
+          "1536": 53,
+          "2048": 5,
+          "2560": 1,
+          "3072": 1,
+          "3584": 0
+        }
+      }
+    }
+  },
+  "rr_checks": {
+    "per_method": {
+      "first_rr": {
+        "perm_seed": 6000,
+        "order": "first",
+        "query_order_sha256": "866532443b98c34fdff305f21af798ff6125136c1769caebff5e6ea4252e2784"
+      },
+      "second_rr": {
+        "perm_seed": 6000,
+        "order": "second",
+        "query_order_sha256": "866532443b98c34fdff305f21af798ff6125136c1769caebff5e6ea4252e2784"
+      }
+    },
+    "seeds_match_contract": true,
+    "share_same_query_order": true,
+    "orders_differ_as_intended": true
+  },
+  "pairwise_jaccard": {
+    "dsmc|less": 0.3613,
+    "dsmc|first_rr": 0.2561,
+    "dsmc|second_rr": 0.2556,
+    "dsmc|randk": 0.0046,
+    "less|first_rr": 0.4744,
+    "less|second_rr": 0.273,
+    "less|randk": 0.0041,
+    "first_rr|second_rr": 0.4188,
+    "first_rr|randk": 0.0043,
+    "second_rr|randk": 0.0046
+  },
+  "dsmc_vs_random_token_ratio": 1.5348,
+  "length_control_note": "The BBH arm carries no Random-K-LengthMatched control (MMLU already has one). This diagnostic is reported so that, if DSMC and Random differ substantially in post-template token exposure, the question of adding such a control can be settled BEFORE any BBH downstream accuracy exists. It must NOT be used to alter DSMC, LESS or RR.",
+  "PASS": true,
+  "no_sft_run": "selection only: no SFT, no adapters, no accuracy",
+  "source_entropy_nats": {
+    "dsmc": 0.833,
+    "less": 1.09,
+    "first_rr": 1.037,
+    "second_rr": 0.977,
+    "randk": 1.201
+  },
+  "LENGTH_EXPOSURE_FINDING": {
+    "dsmc_vs_random_total_token_ratio": 1.5348,
+    "totals": {
+      "dsmc": 1459218,
+      "less": 1263160,
+      "first_rr": 1302804,
+      "second_rr": 1448726,
+      "randk": 950783
+    },
+    "means": {
+      "dsmc": 539.1,
+      "less": 466.6,
+      "first_rr": 481.3,
+      "second_rr": 535.2,
+      "randk": 351.2
+    },
+    "observation": "DSMC selects 1.53x the post-template tokens of Random-K (1,459,218 vs 950,783; mean 539 vs 351). ALL four target-aware selectors skew long relative to Random (1.33x-1.53x); DSMC is the most extreme but not an outlier among them. Random is the shortest on every statistic (median, p90, max, n>2048). Source entropy shows the same ordering: Random 1.201 > LESS 1.090 > First-RR 1.037 > Second-RR 0.977 > DSMC 0.833, i.e. DSMC is the most concentrated (70% flan_v2 vs Random 39%).",
+    "why_this_matters": "The BBH arm carries no Random-K-LengthMatched control (the MMLU arm has one). At a FIXED example budget K=2707, a 1.53x token advantage means DSMC-trained adapters see ~1.5x more supervised tokens than Random-trained ones, so a downstream DSMC>Random result could be partly a token-budget effect rather than a targeting effect. Note the MMLU arm found Random >= DSMC, so this confound would work AGAINST the MMLU finding, not for it.",
+    "decision_status": "REPORTED FOR DECISION BEFORE ANY BBH ACCURACY EXISTS. Per advice_0810 this diagnostic must NOT be used to alter DSMC, LESS or RR, and it has not been. The open question is only whether to add a Random-K-LengthMatched sixth arm for BBH. Because no BBH downstream accuracy has been observed, adding it now would not be outcome-driven; adding it later would be.",
+    "cost_if_added": "+6 adapters (3 draws x 2 seeds) = +6 evals x 111.4 min + ~1.5 h train = ~12.6 GPU-h",
+    "do_not": "no method was changed on the basis of this diagnostic"
+  }
+}
