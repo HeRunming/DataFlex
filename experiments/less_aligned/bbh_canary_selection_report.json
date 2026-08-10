@@ -42,6 +42,15 @@
           "3072": 5,
           "3584": 1
         }
+      },
+      "exact_llamafactory_tokens": {
+        "sequence_tokens_after_cutoff": 1430484,
+        "supervised_label_tokens": 47438,
+        "mean_sequence": 528.4,
+        "mean_label": 17.5,
+        "median_label": 9,
+        "label_fraction_of_sequence": 0.0332,
+        "n_label_le_2": 334
       }
     },
     "less": {
@@ -79,6 +88,15 @@
           "3072": 5,
           "3584": 0
         }
+      },
+      "exact_llamafactory_tokens": {
+        "sequence_tokens_after_cutoff": 1246637,
+        "supervised_label_tokens": 82274,
+        "mean_sequence": 460.5,
+        "mean_label": 30.4,
+        "median_label": 17,
+        "label_fraction_of_sequence": 0.066,
+        "n_label_le_2": 227
       }
     },
     "first_rr": {
@@ -116,6 +134,15 @@
           "3072": 4,
           "3584": 0
         }
+      },
+      "exact_llamafactory_tokens": {
+        "sequence_tokens_after_cutoff": 1288710,
+        "supervised_label_tokens": 95005,
+        "mean_sequence": 476.1,
+        "mean_label": 35.1,
+        "median_label": 20,
+        "label_fraction_of_sequence": 0.0737,
+        "n_label_le_2": 245
       }
     },
     "second_rr": {
@@ -153,6 +180,15 @@
           "3072": 2,
           "3584": 0
         }
+      },
+      "exact_llamafactory_tokens": {
+        "sequence_tokens_after_cutoff": 1439254,
+        "supervised_label_tokens": 94966,
+        "mean_sequence": 531.7,
+        "mean_label": 35.1,
+        "median_label": 17,
+        "label_fraction_of_sequence": 0.066,
+        "n_label_le_2": 344
       }
     },
     "randk": {
@@ -191,6 +227,15 @@
           "3072": 1,
           "3584": 0
         }
+      },
+      "exact_llamafactory_tokens": {
+        "sequence_tokens_after_cutoff": 948457,
+        "supervised_label_tokens": 268850,
+        "mean_sequence": 350.4,
+        "mean_label": 99.3,
+        "median_label": 38,
+        "label_fraction_of_sequence": 0.2835,
+        "n_label_le_2": 191
       }
     }
   },
@@ -252,8 +297,68 @@
     },
     "observation": "DSMC selects 1.53x the post-template tokens of Random-K (1,459,218 vs 950,783; mean 539 vs 351). ALL four target-aware selectors skew long relative to Random (1.33x-1.53x); DSMC is the most extreme but not an outlier among them. Random is the shortest on every statistic (median, p90, max, n>2048). Source entropy shows the same ordering: Random 1.201 > LESS 1.090 > First-RR 1.037 > Second-RR 0.977 > DSMC 0.833, i.e. DSMC is the most concentrated (70% flan_v2 vs Random 39%).",
     "why_this_matters": "The BBH arm carries no Random-K-LengthMatched control (the MMLU arm has one). At a FIXED example budget K=2707, a 1.53x token advantage means DSMC-trained adapters see ~1.5x more supervised tokens than Random-trained ones, so a downstream DSMC>Random result could be partly a token-budget effect rather than a targeting effect. Note the MMLU arm found Random >= DSMC, so this confound would work AGAINST the MMLU finding, not for it.",
-    "decision_status": "REPORTED FOR DECISION BEFORE ANY BBH ACCURACY EXISTS. Per advice_0810 this diagnostic must NOT be used to alter DSMC, LESS or RR, and it has not been. The open question is only whether to add a Random-K-LengthMatched sixth arm for BBH. Because no BBH downstream accuracy has been observed, adding it now would not be outcome-driven; adding it later would be.",
+    "decision_status": "DECIDED (advice_0810_2): add Random-K-LengthMatched as a PRE-REGISTERED SECONDARY SENSITIVITY CONTROL -- not a sixth primary selector. Done now, before any BBH adapter accuracy exists, so it cannot be outcome-driven. The primary comparison set is unchanged.",
     "cost_if_added": "+6 adapters (3 draws x 2 seeds) = +6 evals x 111.4 min + ~1.5 h train = ~12.6 GPU-h",
-    "do_not": "no method was changed on the basis of this diagnostic"
+    "do_not": "no method was changed on the basis of this diagnostic",
+    "RETRACTED_WORDING": "I wrote 'DSMC adapters would see ~1.5x more supervised tokens'. That is WRONG and is retracted. The measured field is post-template SEQUENCE tokens (full input_ids), not loss-bearing labels. Under the llama2 template the prompt is MASKED, so only the assistant continuation is supervised -- on a 300-candidate probe that is ~18.5% of the sequence. A 1.53x sequence-token ratio therefore does NOT imply a 1.53x supervised-token ratio.",
+    "CORRECT_WORDING": "DSMC has ~1.5x greater post-template SEQUENCE-TOKEN exposure than Random-K at fixed K=2707. The difference in loss-bearing supervised tokens is measured separately in candidate_length_cache_manifest.json and the phase-B recomputation; it must not be assumed equal to the sequence ratio.",
+    "ratio_is_not_a_tail_artifact": "Subtracting the tokens lost to the 2048 cutoff, retained sequence exposure is still (1459218-28734)/(950783-2326) = 1.51x, so the gap is not caused by a few over-long outliers.",
+    "EXACT_MEASUREMENT": {
+      "cache": "data/candidate_length_cache_llamafactory.npz",
+      "cache_sha256": "aedc4862636da34ffe676337d5d57939ef67a72133df1735f82c63d2f5cd63da",
+      "per_method": {
+        "dsmc": {
+          "sequence_tokens_after_cutoff": 1430484,
+          "supervised_label_tokens": 47438,
+          "mean_sequence": 528.4,
+          "mean_label": 17.5,
+          "median_label": 9,
+          "label_fraction_of_sequence": 0.0332,
+          "n_label_le_2": 334
+        },
+        "less": {
+          "sequence_tokens_after_cutoff": 1246637,
+          "supervised_label_tokens": 82274,
+          "mean_sequence": 460.5,
+          "mean_label": 30.4,
+          "median_label": 17,
+          "label_fraction_of_sequence": 0.066,
+          "n_label_le_2": 227
+        },
+        "first_rr": {
+          "sequence_tokens_after_cutoff": 1288710,
+          "supervised_label_tokens": 95005,
+          "mean_sequence": 476.1,
+          "mean_label": 35.1,
+          "median_label": 20,
+          "label_fraction_of_sequence": 0.0737,
+          "n_label_le_2": 245
+        },
+        "second_rr": {
+          "sequence_tokens_after_cutoff": 1439254,
+          "supervised_label_tokens": 94966,
+          "mean_sequence": 531.7,
+          "mean_label": 35.1,
+          "median_label": 17,
+          "label_fraction_of_sequence": 0.066,
+          "n_label_le_2": 344
+        },
+        "randk": {
+          "sequence_tokens_after_cutoff": 948457,
+          "supervised_label_tokens": 268850,
+          "mean_sequence": 350.4,
+          "mean_label": 99.3,
+          "median_label": 38,
+          "label_fraction_of_sequence": 0.2835,
+          "n_label_le_2": 191
+        }
+      },
+      "dsmc_over_random_sequence_ratio": 1.5082,
+      "dsmc_over_random_supervised_ratio": 0.1764,
+      "HEADLINE": "The two ratios point in OPPOSITE directions. DSMC has 1.51x Random-K's post-cutoff SEQUENCE tokens but only 0.18x its LOSS-BEARING supervised tokens (47,438 vs 268,850). My earlier claim that \"DSMC adapters would see ~1.5x more supervised tokens\" was not merely imprecise -- it was BACKWARDS.",
+      "mechanism": "DSMC systematically selects LONG PROMPTS WITH VERY SHORT ANSWERS: mean 528 sequence tokens but mean 17.5 label tokens (3% supervised; median label 9; 334/2707 examples have <=2 label tokens). That is the signature of classification / multiple-choice / extractive data, where a large masked context is followed by a one-token answer. Random-K instead draws free-form generation data: mean 350 sequence tokens with mean 99.3 label tokens (28% supervised; median 38). The other target-aware selectors sit in between (6-7% supervised), so this is a general property of gradient-similarity targeting against a BBH query set whose own targets are single tokens like \"(C)\", \"14\", \"Yes\" -- the selectors are faithfully matching the query format.",
+      "why_it_still_needs_a_control": "Both axes are now confounded with method, just in opposite directions: DSMC-trained adapters see MORE forward/backward compute per epoch but FAR LESS supervised signal. Either could drive a downstream difference, so the length-matched Random control is if anything MORE motivated than when the concern was one-directional. Note the matching is on SEQUENCE length (what the buckets are defined over); the supervised-token gap is reported but NOT matched, and that limitation must be stated.",
+      "interpretation_caveat": "This is a property of the SELECTED DATA measured before any training. It is not evidence about downstream accuracy and must not be used to alter any selector."
+    }
   }
 }

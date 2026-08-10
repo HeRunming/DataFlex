@@ -1,0 +1,45 @@
+{
+  "cache": "data/candidate_length_cache_llamafactory.npz",
+  "sha256": "aedc4862636da34ffe676337d5d57939ef67a72133df1735f82c63d2f5cd63da",
+  "n_candidates": 270679,
+  "cutoff_len": 2048,
+  "pipeline": {
+    "template": "llama2 -> <s>[INST] {user} [/INST] {assistant}</s>",
+    "budget_split": "llamafactory.data.processor.processor_utils.infer_seqlen",
+    "llamafactory_version": "0.9.3",
+    "transformers": "4.50.0",
+    "tokenizer": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf"
+  },
+  "fields": {
+    "sequence_tokens_before_cutoff": "source+target tokens, untruncated",
+    "sequence_tokens_after_cutoff": "len(input_ids) actually trained on (== GPU cost)",
+    "supervised_label_tokens": "#labels != IGNORE_INDEX (== loss-bearing tokens); the prompt is masked under llama2, so this is the assistant continuation only"
+  },
+  "stats": {
+    "sequence_tokens_before_cutoff": {
+      "mean": 357.54240262451094,
+      "median": 237.0,
+      "p90": 749.0,
+      "max": 117007,
+      "total": 96779220
+    },
+    "sequence_tokens_after_cutoff": {
+      "mean": 353.4041909420384,
+      "median": 237.0,
+      "p90": 749.0,
+      "max": 2048,
+      "total": 95659093
+    },
+    "supervised_label_tokens": {
+      "mean": 101.38009228643523,
+      "median": 39.0,
+      "p90": 274.0,
+      "max": 2033,
+      "total": 27441462
+    }
+  },
+  "label_fraction_of_sequence": 0.28686726101406795,
+  "n_truncated_by_cutoff": 1070,
+  "why": "supersedes the naive '\\n'.join(contents) length used by select_randk_lenmatch.py, which does NOT apply the llama2 template despite its docstring. Length matching must bucket on the length actually trained on.",
+  "no_compute_run": "artifacts only: no model loaded, no gradients, no SFT"
+}
