@@ -666,23 +666,28 @@ A note on hashing that cost a false alarm: the master manifest hashes gradient c
 content** (`v.numpy().tobytes()`), not file bytes. Hashing the file instead reports a mismatch on an
 identical cache. The contract now uses the same convention and the cache verifies.
 
-## Cost estimate (anchored to a measured run, not assumed throughput)
+## Cost estimate — MEASURED, and 3.7x higher than the earlier projection
 
-Evaluation, not training, dominates — so the eval term is taken from an **actual completed full-BBH
-CoT run** in this repo rather than a guess:
+**Superseded figure:** the earlier "~17.5 h" was derived by scaling a completed *full-BBH* run
+(1,457 s / 6,511 examples) down to 5,209 examples, giving ~19.4 min per evaluation. The canary measured
+the real thing and that scaling was wrong — the reference run had a different profile, and a
+per-example rate from it does not transfer.
 
-| | value | source |
-|---|---|---|
-| measured full-BBH CoT eval | **1,457 s** (24.3 min) for 6,511 examples, batch 16, Llama-2-7B | `eval_results/bbh/less_sgd_bbh_seed42/.../results_2026-07-06T11-23-25.json` → `total_evaluation_time_seconds` |
-| ⇒ per example | 0.224 s | derived |
-| ⇒ held-out split (5,209) | ~19.4 min per eval | derived |
-| **31 evals** (30 adapters + shared no-SFT reference) | **~10.0 h** | derived |
-| 30 adapters × ~15 min (K=2707, 4 epochs ⇒ ~84 optimizer steps) | **~7.5 h** | same recipe as the 1% arm |
-| **total** | **~17.5 h** | |
+| | measured |
+|---|---|
+| **no-SFT held-out evaluation** (5,209 examples, 27 subtasks, batch 16, bf16, 1 GPU) | **111.4 min** |
+| ⇒ per example | ~1.28 s (vs the 0.224 s assumed) |
+| **31 evaluations** (30 adapters + shared base reference) | **~57 h** |
+| 30 adapters × ~15 min training (K=2707, 4 epochs ⇒ ~84 steps) | **~7.5 h** |
+| **total, serial** | **~65 h** |
 
-So the earlier **~15–20 h** figure is confirmed by measurement rather than assumed. Caveat: the measured
-run used batch 16 on the same hardware and model; a different batch size or contention will move this
-roughly proportionally.
+Evaluation dominates by ~8:1. The 31 evaluations are embarrassingly parallel across the 8 H20s, so
+wall-clock is roughly **~65 h / 8 ≈ 8–10 h** if run concurrently — but the *compute* budget to plan
+against is ~65 GPU-hours, not ~17.5.
+
+This is a cost correction only: it changes no scientific decision, no method, and no pre-registered
+analysis. It is recorded here because the earlier number was cited as a launch-planning input, and
+`phase_baseeval.COST_ESTIMATE_CORRECTION` in `bbh_canary_report.json` carries the same note.
 
 ## What will NOT be done
 

@@ -93,5 +93,189 @@
       "subset_sha256_run1": "a028277d2c855004a31be28315df8935271b4d99ce36a412e116e70834d8c59a",
       "subset_sha256_run2": "45aeb844ba3d47d0582f6ed8b987a50da73040b881f56f3f4a16a2261b8cac19"
     }
+  },
+  "phase_baseeval": {
+    "purpose": "shared no-SFT reference for all 30 adapters; engineering check only, must not alter any method",
+    "model": "Llama-2-7b-hf, bfloat16, no adapter",
+    "suite": "bbh_external_heldout (custom, 27 subtasks)",
+    "results_json": "/jizhicfs/karonhe/dataflex_saves/eval_results/bbh_external/base_no_sft/__jizhicfs__karonhe__models__shakechen__Llama-2-7b-hf/results_2026-08-10T22-25-14.594322.json",
+    "micro_aggregate_exact_match": 0.39642925705509696,
+    "micro_stderr": 0.006089677943241109,
+    "micro_hand_recomputed": 0.39642925705509696,
+    "n_subtasks": 27,
+    "n_examples": 5209,
+    "per_subtask": {
+      "boolean_expressions": {
+        "score": 0.685,
+        "stderr": 0.032928657464464904,
+        "n": 200
+      },
+      "causal_judgement": {
+        "score": 0.5733333333333334,
+        "stderr": 0.04051863621453781,
+        "n": 150
+      },
+      "date_understanding": {
+        "score": 0.61,
+        "stderr": 0.03457567623250013,
+        "n": 200
+      },
+      "disambiguation_qa": {
+        "score": 0.45,
+        "stderr": 0.03526639466921486,
+        "n": 200
+      },
+      "dyck_languages": {
+        "score": 0.025,
+        "stderr": 0.011067404265948254,
+        "n": 200
+      },
+      "formal_fallacies": {
+        "score": 0.535,
+        "stderr": 0.035357115664894224,
+        "n": 200
+      },
+      "geometric_shapes": {
+        "score": 0.41,
+        "stderr": 0.034865138597849274,
+        "n": 200
+      },
+      "hyperbaton": {
+        "score": 0.525,
+        "stderr": 0.035399727449764204,
+        "n": 200
+      },
+      "logical_deduction_five_objects": {
+        "score": 0.295,
+        "stderr": 0.032328014206142654,
+        "n": 200
+      },
+      "logical_deduction_seven_objects": {
+        "score": 0.265,
+        "stderr": 0.03128528159088722,
+        "n": 200
+      },
+      "logical_deduction_three_objects": {
+        "score": 0.54,
+        "stderr": 0.03533045720097816,
+        "n": 200
+      },
+      "movie_recommendation": {
+        "score": 0.7,
+        "stderr": 0.03248501780682211,
+        "n": 200
+      },
+      "multistep_arithmetic_two": {
+        "score": 0.005,
+        "stderr": 0.005000000000000011,
+        "n": 200
+      },
+      "navigate": {
+        "score": 0.53,
+        "stderr": 0.03538020341900045,
+        "n": 200
+      },
+      "object_counting": {
+        "score": 0.48,
+        "stderr": 0.03541569365103447,
+        "n": 200
+      },
+      "penguins_in_a_table": {
+        "score": 0.2905982905982906,
+        "stderr": 0.04215641278370369,
+        "n": 117
+      },
+      "reasoning_about_colored_objects": {
+        "score": 0.44,
+        "stderr": 0.03518793763172078,
+        "n": 200
+      },
+      "ruin_names": {
+        "score": 0.335,
+        "stderr": 0.03345851702943581,
+        "n": 200
+      },
+      "salient_translation_error_detection": {
+        "score": 0.225,
+        "stderr": 0.02960162633044062,
+        "n": 200
+      },
+      "snarks": {
+        "score": 0.4788732394366197,
+        "stderr": 0.0420699906511846,
+        "n": 142
+      },
+      "sports_understanding": {
+        "score": 0.9,
+        "stderr": 0.0212664361502501,
+        "n": 200
+      },
+      "temporal_sequences": {
+        "score": 0.125,
+        "stderr": 0.023444042219248146,
+        "n": 200
+      },
+      "tracking_shuffled_objects_five_objects": {
+        "score": 0.18,
+        "stderr": 0.02723432655149687,
+        "n": 200
+      },
+      "tracking_shuffled_objects_seven_objects": {
+        "score": 0.155,
+        "stderr": 0.025654742819715262,
+        "n": 200
+      },
+      "tracking_shuffled_objects_three_objects": {
+        "score": 0.34,
+        "stderr": 0.033580324461725736,
+        "n": 200
+      },
+      "web_of_lies": {
+        "score": 0.52,
+        "stderr": 0.03541569365103447,
+        "n": 200
+      },
+      "word_sorting": {
+        "score": 0.11,
+        "stderr": 0.022180166793668972,
+        "n": 200
+      }
+    },
+    "wall_clock_seconds": 6686.025803461671,
+    "wall_clock_minutes": 111.4,
+    "batch_size": "16",
+    "COST_ESTIMATE_CORRECTION": "The prereg estimated ~19.4 min per held-out eval by scaling a measured FULL-BBH run (1,457s / 6,511 examples). Actual measured cost is 111.4 min for 5,209 examples at batch 16 -- about 5.7x higher. The old figure came from a different run profile and should not have been scaled. Revised: 31 evals x ~111 min = ~57h eval + ~7.5h training = ~65h total, versus the ~17.5h claimed. Cost correction only; it changes no scientific decision, but the 30-adapter launch should be planned against ~65h (parallelizable across the 8 GPUs).",
+    "sanity": {
+      "lowest": [
+        [
+          0.005,
+          "multistep_arithmetic_two"
+        ],
+        [
+          0.025,
+          "dyck_languages"
+        ],
+        [
+          0.11,
+          "word_sorting"
+        ]
+      ],
+      "highest": [
+        [
+          0.685,
+          "boolean_expressions"
+        ],
+        [
+          0.7,
+          "movie_recommendation"
+        ],
+        [
+          0.9,
+          "sports_understanding"
+        ]
+      ],
+      "note": "plausible for a 7B base model: near-0 on multistep_arithmetic_two/dyck_languages, high on sports_understanding/movie_recommendation"
+    },
+    "PASS": true
   }
 }
