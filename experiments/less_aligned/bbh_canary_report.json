@@ -75,14 +75,15 @@
       "norm_abs_diff_mean": 1.4901161193847656e-08,
       "max_abs_elementwise_diff": 0.0007196390070021152
     },
-    "VERDICT": "Target gradients are NOT bit-reproducible, but the cause is floating-point non-determinism, not active dropout: 54/64 rows identical, perturbed rows at ~1e-4, row cosine >=0.99992. Downstream impact is 1 of 2707 selected examples (DSMC Jaccard 0.999261). REPORTED FOR DECISION, not silently resolved: no eval mode was set, no dropout forced to 0, no seed changed, and neither cache was picked. Both caches are retained with hashes.",
+    "VERDICT": "Target gradients are NOT bit-reproducible across two independent extractions. The differences are small (row cosine >= 0.99992) and move exactly 1 of 2707 DSMC selections (Jaccard 0.999261). Cause is most consistent with low-level numerical nondeterminism; active LoRA dropout is present and the kernel-level source was not isolated. REPORTED FOR DECISION, not silently resolved: no eval mode set, no dropout forced to 0, no seed changed, no cache picked. Both caches retained with hashes. Closure requires the pre-registered dual-cache selection-stability gate over all four target-aware selectors.",
     "structure": {
       "rows_bit_identical": 54,
       "rows_perturbed": 10,
       "of_perturbed_rows_pct_elements_changed": 91.1,
       "exact_zeros_in_tensor": 0,
       "relative_mean_abs_diff": 0.0013801424065604806,
-      "interpretation": "NOT dropout. LoRA dropout p=0.1 would apply an independent random mask per sample, so ALL 64 rows would differ and row cosine would fall well below 0.99. Observed: 54/64 rows are BIT-IDENTICAL, and the 10 that differ are perturbed densely (91% of elements) but only at ~1e-4 on unit-norm vectors (row cosine >= 0.99992, relative mean diff 1.4e-3). That is the signature of bf16/GPU reduction-order non-determinism in the 8-way distributed backward, not of stochastic dropout masks."
+      "interpretation": "The two extractions are NOT bit-identical. The observed perturbations are small and sparse at the run level (54/64 rows bit-identical; the 10 that differ are perturbed densely within the row but only at ~1e-4 on unit-norm vectors, row cosine >= 0.99992) and are MOST CONSISTENT WITH low-level numerical nondeterminism under the fixed extraction pipeline -- parallel floating-point reduction order is not associative, and PyTorch does not guarantee bitwise reproducibility by default. IMPORTANT CAVEAT (advice_0810): active LoRA dropout IS present (lora_dropout=0.1 and select_trainer.py:535 calls model.train()), and because both runs initialize RNG state the same way the dropout masks may simply have repeated. So '54/64 rows identical' does NOT by itself exonerate dropout; it only shows that uncontrolled, wholly different dropout masks are not what dominates the run-to-run difference. The exact kernel-level source of the residual was NOT isolated, and we deliberately did not spend effort hunting it.",
+      "retracted_claim": "An earlier version of this report asserted 'cause = floating-point non-determinism, not dropout'. That was stronger than the evidence supports and is retracted."
     },
     "dsmc_selection_stability": {
       "jaccard": 0.999261,
