@@ -277,6 +277,45 @@
       ],
       "note": "plausible for a 7B base model: near-0 on multistep_arithmetic_two/dyck_languages, high on sports_understanding/movie_recommendation"
     },
-    "PASS": true
+    "PASS": true,
+    "results_json_sha256": "bb4006ada919bc46f6b1f8c3984fbba668b9b6f83c78a40a8420cc86bd08ab97",
+    "immutability_note": "the authoritative shared base reference is now pinned by file sha256, since all 30 adapters are reported as deltas against it"
+  },
+  "canonical_target_cache": {
+    "draw": "bbhx_draw0",
+    "canonical_tensor_sha256": "10c92b25c7e93eabd18b89d45759a5643074f567f84de9bea474b04cc0da1599",
+    "installed_at": "/jizhicfs/karonhe/dataflex_saves/draw_bbhx_draw0_output/target/1/all_projected_grads.pt",
+    "archived_canonical_copy": "/jizhicfs/karonhe/dataflex_saves/canary_target_run1.pt",
+    "JUSTIFICATION": "first successful extraction from the approved canary, frozen BEFORE any downstream accuracy was observed. It is NOT chosen because run1 looked better on any metric: neither cache has been through SFT or evaluation, so no outcome information could inform this choice.",
+    "sensitivity_replicate": {
+      "path": "/jizhicfs/karonhe/dataflex_saves/canary_target_run2_sensitivity.pt",
+      "tensor_sha256": "31fe5fedf5f98d0b18a90e1aeba1ea2657e4956459fc49a7ca0b28515fe1de26",
+      "role": "permanently retained numerical-sensitivity artifact; documents that the extraction is not bit-reproducible and bounds the consequence"
+    },
+    "stability_gate": {
+      "artifact": "experiments/less_aligned/bbh_canary_stability_gate.json",
+      "verdict": "PASS",
+      "worst_case_replacements": 5,
+      "threshold": 27,
+      "per_method_replacements": {
+        "dsmc": 1,
+        "less": 2,
+        "first_rr": 4,
+        "second_rr": 5
+      },
+      "rr_cascade_detected": false,
+      "note": "RR is ~2.5x less stable than the non-sequential selectors, directionally as predicted for a greedy per-query pointer walk, but bounded at 5/2707 -- far inside the pre-registered 1% band. Stability is established AT SELECTION LEVEL; the gradients themselves remain non-bit-reproducible and that is disclosed, not fixed."
+    },
+    "disclosed_limitation": "draw0 target gradients are not bit-reproducible; two independent extractions move at most 5 of 2707 selected examples across the four target-aware selectors. The canonical cache is pinned by tensor-content sha256 so every downstream selection is reproducible from it."
+  },
+  "remaining_budget": {
+    "note": "base eval is already done, so it is no longer part of the remaining cost",
+    "remaining_evals": 30,
+    "minutes_per_eval": 111.4,
+    "eval_gpu_hours": 55.7,
+    "train_gpu_hours": 7.5,
+    "total_remaining_gpu_hours": 63.2,
+    "wall_clock_plan": "~9-12 h on 8 H20s allowing for scheduling and I/O, not the ideal ~8 h",
+    "do_not": "do not change batch size or the evaluation protocol to save compute"
   }
 }

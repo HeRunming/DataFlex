@@ -176,6 +176,21 @@ def main():
                                      "exp_avg_sq from this checkpoint; a drifted optimizer.pt changes "
                                      "the candidate feature space without changing any config.")
 
+    # canonical target caches, pinned by tensor-content sha256 once frozen by the canary
+    canonical = {}
+    _cr = f"{EXP}/bbh_canary_report.json"
+    if os.path.exists(_cr):
+        _c = json.load(open(_cr)).get("canonical_target_cache")
+        if _c:
+            canonical[_c["draw"]] = {
+                "tensor_sha256": _c["canonical_tensor_sha256"],
+                "justification": _c["JUSTIFICATION"],
+                "sensitivity_replicate_sha256": _c["sensitivity_replicate"]["tensor_sha256"],
+                "stability_gate_verdict": _c["stability_gate"]["verdict"],
+                "worst_case_replacements": _c["stability_gate"]["worst_case_replacements"],
+                "limitation": _c["disclosed_limitation"],
+            }
+
     per_draw = {str(d): {"random_k_seed": RANDOM_SEED_BASE + d,
                          "rr_perm_seed": RR_PERM_SEED_BASE + d,
                          "query_prompts": f"data/bbh_external/query_prompts/bbh_query_draw{d}_prompts.jsonl",
@@ -218,6 +233,7 @@ def main():
         "selector_contract": SELECTORS,
         "n_methods": len(SELECTORS),
         "per_draw": per_draw,
+        "canonical_target_caches": canonical or "not yet frozen (run the canary)",
         "llamafactory_preprocessing_pin": lf_pin,
         "target_gradient_extraction": {
             "driver": "dataflex-cli train <select yaml> (target-only phase), as in run_targetdraw_pilot.sh",

@@ -128,6 +128,16 @@
       ]
     }
   },
+  "canonical_target_caches": {
+    "bbhx_draw0": {
+      "tensor_sha256": "10c92b25c7e93eabd18b89d45759a5643074f567f84de9bea474b04cc0da1599",
+      "justification": "first successful extraction from the approved canary, frozen BEFORE any downstream accuracy was observed. It is NOT chosen because run1 looked better on any metric: neither cache has been through SFT or evaluation, so no outcome information could inform this choice.",
+      "sensitivity_replicate_sha256": "31fe5fedf5f98d0b18a90e1aeba1ea2657e4956459fc49a7ca0b28515fe1de26",
+      "stability_gate_verdict": "PASS",
+      "worst_case_replacements": 5,
+      "limitation": "draw0 target gradients are not bit-reproducible; two independent extractions move at most 5 of 2707 selected examples across the four target-aware selectors. The canonical cache is pinned by tensor-content sha256 so every downstream selection is reproducible from it."
+    }
+  },
   "llamafactory_preprocessing_pin": {
     "install_path": "/jizhicfs/karonhe/envs/dataflex-fa/lib/python3.10/site-packages/llamafactory",
     "why": "infer_seqlen decides the source/target budget split; supervised.py applies source_ids[:source_len] (tail truncation); template.py defines the llama2 [INST] wrapper. All three determine what the query gradient is actually taken on.",

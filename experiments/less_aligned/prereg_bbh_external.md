@@ -186,6 +186,58 @@ dropout is active during extraction, draw0 extraction is repeated once from a cl
 projected-gradient tensor hashes compared (64 targets — cheap, and non-reproducible target gradients would
 undermine every downstream selection hash).
 
+## Canary phase A closure — canonical draw0 target cache frozen
+
+The two draw0 extractions are **not bit-identical**. Rather than change the recipe, the pre-registered
+question was whether a ~1e-4 target perturbation moves any *target-aware* selector by more than a
+boundary amount. The rule was **committed before the gate was run** (`c356569`): PASS iff every
+target-aware selector replaces ≤ 1% of K (≤ 27 of 2707) with no round-robin cascade.
+
+| selector | intersection | Jaccard | replaced | ≤ 27 |
+|---|---|---|---|---|
+| DSMC | 2706 / 2707 | 0.999261 | **1** | ✅ |
+| LESS-style TopK | 2705 / 2707 | 0.998523 | **2** | ✅ |
+| First-RR | 2703 / 2707 | 0.997049 | **4** | ✅ |
+| Second-RR | 2702 / 2707 | 0.996313 | **5** | ✅ |
+
+**VERDICT: PASS** — worst case 5/2707 (0.18%) against a threshold of 27. Random-K is excluded because it
+is target-independent, so its subset cannot depend on the cache at all.
+
+RR is ~**2.5×** less stable than the non-sequential selectors (4–5 vs 1–2 replacements), which is
+directionally what a greedy per-query pointer walk predicts — and exactly why DSMC-only evidence was
+insufficient. But it is bounded well inside the band, so **no cascade**.
+
+**Canonical cache:** run1, tensor-content sha256 `10c92b25c7e9…`, installed as the live draw0 target
+cache. The justification is recorded as *"first successful extraction from the approved canary, frozen
+before any downstream accuracy was observed"* — **not** because run1 looked better. Neither cache had
+been through SFT or evaluation, so no outcome information could have informed the choice. Run2
+(`31fe5fedf5f9…`) is retained permanently as the numerical-sensitivity artifact.
+
+**Disclosed limitation, not fixed:** target-gradient extraction is not bit-reproducible. Stability is
+established *at selection level* only. We did **not** enable `torch.use_deterministic_algorithms`, force
+dropout to 0, switch to eval mode, or change the seed — all of which would diverge from the
+feature-extraction implementation frozen and shared with the MMLU arm, for a 1-in-2707 effect.
+
+**Causal wording (corrected).** An earlier draft claimed the residual was "floating-point
+non-determinism, **not** dropout". That overreached and is retracted: active LoRA dropout *is* present
+(`lora_dropout=0.1`, and `select_trainer.py:535` calls `model.train()`), and since both runs initialize
+RNG state identically the masks may simply have repeated. The honest statement is that the perturbations
+are **most consistent with** low-level numerical nondeterminism under the fixed pipeline, while dropout is
+active and the kernel-level source was **not isolated** — and deliberately not hunted.
+
+## Canary phase C — shared no-SFT reference (frozen)
+
+| | |
+|---|---|
+| micro aggregate `exact_match` | **0.396429** ± 0.006090 |
+| independently recomputed from per-subtask × *n* | 0.396429 ✓ |
+| subtasks / examples | 27 / 5,209 (both match the frozen split) |
+| results JSON sha256 | `bb4006ada919…` (pinned; all 30 adapters are reported as deltas against it) |
+
+This is **one shared baseline, not six replicates**. Sanity profile is plausible for a 7B base:
+`multistep_arithmetic_two` 0.005, `dyck_languages` 0.025, `word_sorting` 0.11 at the bottom;
+`sports_understanding` 0.90, `movie_recommendation` 0.70 at the top.
+
 ### Artifact index
 
 | artifact | what it fixes |
@@ -680,6 +732,10 @@ per-example rate from it does not transfer.
 | **31 evaluations** (30 adapters + shared base reference) | **~57 h** |
 | 30 adapters × ~15 min training (K=2707, 4 epochs ⇒ ~84 steps) | **~7.5 h** |
 | **total, serial** | **~65 h** |
+
+**Remaining** budget, now that the base evaluation is already done: 30 × 111.4 min + ~7.5 h ≈
+**63.2 GPU-h**. Plan **~9–12 h wall-clock** on the 8 H20s rather than the ideal ~8 h, to absorb
+scheduling and I/O. Batch size and the evaluation protocol are **not** to be changed to save compute.
 
 Evaluation dominates by ~8:1. The 31 evaluations are embarrassingly parallel across the 8 H20s, so
 wall-clock is roughly **~65 h / 8 ≈ 8–10 h** if run concurrently — but the *compute* budget to plan

@@ -1,0 +1,96 @@
+{
+  "gate": "phase-A closure: dual-cache selection stability over the four target-aware selectors",
+  "why": "the two draw0 extractions differ by ~1e-4 (row cosine >= 0.99992); this asks whether that moves any target-aware selector by more than a boundary amount, NOT which cache is better",
+  "rule_fixed_before_inspection": {
+    "pass_if": "every target-aware selector replaces <= 27 of K=2707 (1%)",
+    "hold_if": "any selector exceeds that, or a round-robin cascade appears",
+    "scope": "numerical stability ONLY -- never a statement about method quality, and never to be cited in a downstream claim",
+    "on_hold": "STOP and report. Do NOT change deterministic settings, dropout, eval/train mode, seeds, or the feature recipe."
+  },
+  "random_k_excluded_because": "Random-K is target-independent; its subset cannot depend on the cache",
+  "caches": {
+    "run1": {
+      "path": "/jizhicfs/karonhe/dataflex_saves/canary_target_run1.pt",
+      "tensor_sha256": "10c92b25c7e93eabd18b89d45759a5643074f567f84de9bea474b04cc0da1599"
+    },
+    "run2": {
+      "path": "/jizhicfs/karonhe/dataflex_saves/draw_bbhx_draw0_output/target/1/all_projected_grads.pt",
+      "tensor_sha256": "31fe5fedf5f98d0b18a90e1aeba1ea2657e4956459fc49a7ca0b28515fe1de26"
+    }
+  },
+  "K": 2707,
+  "rr_perm_seed": 6000,
+  "methods": {
+    "dsmc": {
+      "n_run1": 2707,
+      "n_run2": 2707,
+      "intersection": 2706,
+      "jaccard": 0.999261,
+      "n_replaced": 1,
+      "frac_replaced": 0.000369,
+      "within_threshold": true,
+      "subset_sha256_run1": "a028277d2c855004a31be28315df8935271b4d99ce36a412e116e70834d8c59a",
+      "subset_sha256_run2": "45aeb844ba3d47d0582f6ed8b987a50da73040b881f56f3f4a16a2261b8cac19",
+      "identical": false,
+      "command": "python scripts/select_moment_mmd.py --alpha 0.0"
+    },
+    "less": {
+      "n_run1": 2707,
+      "n_run2": 2707,
+      "intersection": 2705,
+      "jaccard": 0.998523,
+      "n_replaced": 2,
+      "frac_replaced": 0.000739,
+      "within_threshold": true,
+      "subset_sha256_run1": "eb43548ce653ba5f1d91eba2e7c0b8c83d8269af3277a15fed3bfcd92ad9b910",
+      "subset_sha256_run2": "96a260c892b23cb91c99a0a4a3dbd794690e82ec27c1347687d09f587af48003",
+      "identical": false,
+      "command": "python scripts/select_relevance_topk.py --order first"
+    },
+    "first_rr": {
+      "n_run1": 2707,
+      "n_run2": 2707,
+      "intersection": 2703,
+      "jaccard": 0.997049,
+      "n_replaced": 4,
+      "frac_replaced": 0.001478,
+      "within_threshold": true,
+      "subset_sha256_run1": "bf3ea41e10544fd5d22b7246ac5036316a89bffb22ccd5f5b5d0898cd3c299bc",
+      "subset_sha256_run2": "0a4a16010f77aec00355f9852f8aa45c8b3cec0371556bbfba28974d1b517dfd",
+      "identical": false,
+      "command": "python scripts/select_round_robin.py --order first --perm_seed 6000"
+    },
+    "second_rr": {
+      "n_run1": 2707,
+      "n_run2": 2707,
+      "intersection": 2702,
+      "jaccard": 0.996313,
+      "n_replaced": 5,
+      "frac_replaced": 0.001847,
+      "within_threshold": true,
+      "subset_sha256_run1": "0c2309de72fefe8f178e9c93a8b8ee48f53c030523ab592be71640f8d1c978e9",
+      "subset_sha256_run2": "4172f75e10c7a5d64d150e2ede2a60a94b0d84c62997667ffd4db48af063f90d",
+      "identical": false,
+      "command": "python scripts/select_round_robin.py --order second --perm_seed 6000"
+    }
+  },
+  "rr_cascade_check": {
+    "rr_replacements": [
+      4,
+      5
+    ],
+    "non_rr_replacements": [
+      1,
+      2
+    ],
+    "rr_max": 5,
+    "non_rr_max": 2,
+    "ratio_rr_over_non_rr": 2.5,
+    "cascade_detected": false,
+    "note": "greedy round-robin advances per-query nearest-neighbour pointers, so a tiny target perturbation could in principle cascade. This is why DSMC alone was not sufficient evidence."
+  },
+  "worst_case_replacements": 5,
+  "VERDICT": "PASS",
+  "verdict_meaning": "worst-case 5/2707 replacements (0.1847%) across the four target-aware selectors. Within the pre-registered 1% band, so the extraction is stable AT SELECTION LEVEL despite not being bit-reproducible. This does not make the gradients deterministic; it bounds the downstream consequence.",
+  "no_sft_run": "selection only: no SFT, no adapters, no accuracy"
+}
