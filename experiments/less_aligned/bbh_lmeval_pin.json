@@ -145,6 +145,39 @@
   "note": "The 27 entries are lm-eval's operational subtasks; the original BBH paper describes 23 conceptual task families (logical_deduction and tracking_shuffled_objects each ship 3 size-variants). The pinned group micro-aggregates the 27 with weight_by_size: true, so 27-subtask scores are PRIMARY and any 23-family regrouping is a secondary diagnostic only.",
   "paired_split_manifest": {
     "path": "data/bbh_external/bbh_split_manifest.json",
-    "sha256": "679481ddd99d1a4a2ec9a7d09d4aeef2b4aada1ddd024c470010d62a61b07113"
+    "sha256": "07152d8e9eeb087a5902471e5a279439627109c57bede7bf3b528897122eb12c"
+  },
+  "python_runtime": {
+    "why": "prompt parity depends on Task.fewshot_context(); generation/truncation depends on the HFLM wrapper; answer extraction depends on the regex/take_first filters. A wheel install has no git SHA, so the executable code is hashed directly.",
+    "files": {
+      "api/task.py": "923020197ca61a45ee2a1a4f1fb5055d323bad88b1cebedbdc936c53bcb7e52c",
+      "api/samplers.py": "1026b5c32a94348d82e23f070cbc9de9a5a0677d71c446bbc9b6b546188ccce9",
+      "api/filter.py": "e174744a3ecaff78af34a60d6074bc8945801da50c6028d58f464cb2866c7dfe",
+      "api/metrics.py": "aa5a2939b8e8e448b87361a43c43c869b6b4d3ae8e4eca0c1417ed68891aa054",
+      "evaluator.py": "99044ddaadd12fb3b0982f7491d51e3759352f15b8df7d8e74837a6fc5ff8808",
+      "evaluator_utils.py": "80c2b88194286a6901b380a5a6b44b7f68479d0c287691d2bc25c7915753be85",
+      "models/huggingface.py": "a385da6574ca64f2df47db9c7197bcdd4f4399b4beb192cb27e2e80b5730b3a7",
+      "filters/extraction.py": "44e6669deb4d67679a01c4bcbb3c549b27d01beebdedd733b55e38b99c80f186",
+      "filters/selection.py": "9a02850914eb2551a8476d38fcff4ba01fdd0eab324d94fe6722e9c9389b2d47",
+      "tasks/__init__.py": "cc150bc7f8861d759750127cad191b6fd74956424a6c883d7e206686f48999da"
+    },
+    "versions": {
+      "python": "3.10.20",
+      "lm_eval": "0.4.5",
+      "transformers": "4.50.0",
+      "torch": "2.10.0+cu128"
+    },
+    "pip_freeze_sha256": "f5b53b439973b354b60c757399c31f5f3a63b68858ed0ddd4814a9f60b2110e5",
+    "pip_freeze_file": "experiments/less_aligned/bbh_pip_freeze.txt",
+    "n_packages": 172
+  },
+  "tokenizer": {
+    "path": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf",
+    "files": {
+      "tokenizer.model": "9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347",
+      "tokenizer_config.json": "f514e7c3008881b6ba7e6a0cdb44c71ce47dc335920dac143ae7bc788197e53a",
+      "special_tokens_map.json": "6fa06efa2785e450051989a6f8fb4416b10149ded485ddd3f127a40734f5cfd0",
+      "config.json": "9242e7db1bc2a17873e66084c3b1c6ed10883076e156b338fd6a7775748e2e3c"
+    }
   }
 }

@@ -4,8 +4,9 @@
   "status": "PRE-COMPUTE CHECKPOINT \u2014 artifacts + gates only. NO gradients, NO selection, NO SFT.",
   "prereg": "experiments/less_aligned/prereg_bbh_external.md",
   "run_plan": "experiments/less_aligned/bbh_external_run_plan.json",
-  "launch_commit_pending": "see launch_commit after this commit",
-  "commit_at_emit": "c2d16a5cde1620162afcc7c4c8af407f94d63ad0",
+  "emitted_against_head": "bee7d298966b1d69f4b84c917636d5ac93a56333",
+  "emitted_against_tree_clean": false,
+  "launch_receipt": "run `emit_bbh_launch_manifest.py --receipt` on a CLEAN tree at the launch commit; it writes bbh_canary_launch_receipt.json recording the true executing HEAD. This manifest deliberately does not claim to be it.",
   "design": {
     "draws": [
       0,
@@ -56,7 +57,8 @@
         "rr_perm_seed": 6002
       }
     },
-    "INVARIANT": "selection seeds are functions of draw_id ONLY, never of the SFT seed. The 15 subsets are therefore reused bit-identically by both SFT seeds, so the design is exactly (query realization) x (training stochasticity) with no third hidden random axis. To be re-verified by subset hash after selection."
+    "INVARIANT": "selection seeds are functions of draw_id ONLY, never of the SFT seed. The 15 subsets are therefore reused bit-identically by both SFT seeds, so the training-seed axis is clean. To be re-verified by subset hash after selection.",
+    "NOT_eliminated": "Because the seeds are 5000+d / 6000+d, each of the three blocks carries a DIFFERENT Random-subset realization and a different RR visiting order. Selection randomness is not removed, it is BLOCKED WITH THE DRAW INDEX. This is deliberate (three independent Random realizations are more informative than reusing one), but it means the design must be described as 'three draw/selection-realization blocks crossed with two SFT seeds', NOT as having no third randomness source. Block spread is therefore not pure query-realization variance: for targeted methods it is driven mainly by query realization, for Random by the Random-subset realization."
   },
   "task_accounting": {
     "primary": "27 lm-eval subtasks, micro-aggregated (weight_by_size=true) exactly as the pinned bbh_cot_fewshot group does",
@@ -85,6 +87,10 @@
     ],
     "renderer": "lm_eval Task.fewshot_context() on the pinned custom held-out task configs"
   },
+  "execution_contract": {
+    "artifact": "experiments/less_aligned/bbh_execution_contract.json",
+    "note": "AUTHORITATIVE method/selector mapping; supersedes prose summaries"
+  },
   "gates": {
     "parity_all_gates_pass": true,
     "parity_gate_a_27_subtasks": true,
@@ -100,15 +106,41 @@
     },
     "contamination_strong_J0.5": 0,
     "contamination_weak_J0.3": 0,
-    "contamination_lsh_recall": {
+    "contamination_lsh_recall_nominal": {
       "P_detect_0.3": 0.9510982327503508,
-      "P_detect_0.5": 0.9998995475742793
+      "P_detect_0.5": 0.9998995475742793,
+      "basis": "1-(1-s^rows)^bands under the IDEAL MinHash model"
     },
     "query_eval_disjoint": true,
-    "custom_suite_hash_drift": null
+    "custom_suite_hash_drift": null,
+    "token_truncation_verdict": "HOLD",
+    "token_truncation_n_affected": 7,
+    "token_truncation_detail": {
+      "geometric_shapes": 7
+    },
+    "fewshot_leakage_verdict": "REVIEW",
+    "fewshot_leakage_exact": {
+      "heldout_eval_5209": 0,
+      "drawn_queries_192": 0,
+      "query_reservoir_1302": 0
+    },
+    "fewshot_leakage_needing_human_clearance": 5,
+    "fewshot_leakage_answer_flip_pairs": 5,
+    "audit_coverage": {
+      "truncation_records": 192,
+      "leakage_demonstrations": 81
+    },
+    "execution_contract_candidate_cache_verified": true,
+    "execution_contract_gradient_types": {
+      "candidate": "adam",
+      "target": "sgd"
+    }
   },
-  "GO_FOR_SELECTION_CANARY": true,
-  "blockers": null,
+  "GO_FOR_SELECTION_CANARY": false,
+  "blockers": [
+    "token/truncation audit verdict=HOLD: 7/192 query records lose their own query tail at cutoff_len (see bbh_token_truncation_audit.json)",
+    "few-shot demonstration leakage audit verdict=REVIEW: 5 near-verbatim demo/eval pairs (of which 5 carry a DIFFERENT gold answer) need explicit human clearance"
+  ],
   "next_gate": "selection-only canary: no-SFT held-out evaluation + draw0 target-gradient extraction + all 5 selectors to K=2707, verifying target cache, selection sizes, hashes, determinism, RR order, Random seed, Jaccard/source/token diagnostics. NO training. Only after that: the 30-adapter run.",
   "analysis_prereg": {
     "primary": "pinned micro group metric on the 5,209-example held-out split",
@@ -128,9 +160,10 @@
       "significance claims",
       "any custom aggregate metric",
       "LR/LoRA/epoch/budget sweeps",
-      "source-balanced DSMC variant"
+      "source-balanced DSMC variant",
+      "D2(S, P_heldout) \u2014 dropped outright, see d2_reference"
     ],
-    "d2_reference": "D2(S, Q_d) primary; optionally D2(S, P_heldout) where P_heldout is the 5,209 held-out examples under lm-eval micro weighting. No 'balanced BBH reference' is invented.",
+    "d2_reference": "D2(S, Q_d) ONLY. D2(S, P_heldout) is NOT part of this experiment: a diagnostic whose run/skip decision could be made after seeing results is not pre-registered, so it was dropped rather than left 'optional'. It would require its own pre-registration. No 'balanced BBH reference' is invented.",
     "reporting": "both outcomes informative; reported as a held-out BBH external-validation split, never as an official full-BBH leaderboard score"
   },
   "pinned_artifacts": {
@@ -150,25 +183,37 @@
       "sha256": "eda8d8e2039fe0240d7ab49bd31968b6e443321a13e9874c584b877530fd6715",
       "why": "frozen custom held-out suite (27 subtask configs)"
     },
+    "experiments/less_aligned/bbh_execution_contract.json": {
+      "sha256": "c6158dda595ede525127bc53bdf13052234cf0f9b80f05ee2e25aebb77ce5eb7",
+      "why": "P0-1 frozen feature/selector contract (Adam cand / SGD target)"
+    },
     "experiments/less_aligned/bbh_external_tasks/_bbh_external_heldout.yaml": {
       "sha256": "02044a4e38e163bb69abd24e0d5f6d4effa306aa84e4b95b5904d8c90b832db2",
       "why": "custom group config (micro aggregation)"
     },
+    "experiments/less_aligned/bbh_fewshot_leakage_audit.json": {
+      "sha256": "9d15adf8e3545cd8302bd6aa03c8b93453b1f435a2e110dd49cb88816e03afde",
+      "why": "81 CoT demos vs eval/query populations"
+    },
     "experiments/less_aligned/bbh_lmeval_pin.json": {
-      "sha256": "b5c86e4ac8dff084572476e91edde561db57834ca8517c254688be007ad0b1e1",
-      "why": "installed lm-eval version + all upstream YAML/data hashes"
+      "sha256": "21e0acde0ecce7b704855a11f309f548ebdecddc538eb4a8b95a32a4c528a313",
+      "why": "lm-eval version + upstream YAML/data hashes + Python runtime code (api/task.py, evaluator.py, models/huggingface.py, filters) + tokenizer + pip environment"
     },
     "experiments/less_aligned/bbh_prompt_parity_audit.json": {
       "sha256": "d9d85e550bb62995fd661e3b9f5ea2a9a99ad3bb76a028562618c78527fd6976",
-      "why": "27-subtask byte-for-byte parity gates A/B/C"
+      "why": "27-subtask byte-for-byte parity gates A/B/C/D"
     },
     "experiments/less_aligned/bbh_query_prompt_manifest.json": {
       "sha256": "39ad9a41b12cbc3e55e29589510b9960abb8930a0f437081ea9d50cf720f75e5",
       "why": "query prompts rendered from lm-eval fewshot_context()"
     },
+    "experiments/less_aligned/bbh_token_truncation_audit.json": {
+      "sha256": "391fdf56c1061d1b3125964481603175850e879664d44092244d3bf1c64dcde8",
+      "why": "P0-2 execution-level token/truncation gate"
+    },
     "experiments/less_aligned/results_summary/contamination_global_lexical_bbh_heldout.json": {
-      "sha256": "57bb8caee2523ba2d21982ace138ce3f75e19eb6c289364305df42ceb7972330",
-      "why": "high-recall pool-wide lexical screen vs the held-out split"
+      "sha256": "0d95f2c6d1a0018515d2d6e586497f1ca563321d02ef469704463ba4111a4d90",
+      "why": "pool-wide lexical screen vs the held-out split"
     },
     "subtask_config:boolean_expressions": {
       "sha256": "70069c8153f1659f548421daed1e773f7ed2a36dc335c2138d9fc986fa4c9ee6",

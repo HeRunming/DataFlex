@@ -1,0 +1,145 @@
+{
+  "contract": "BBH external-validation execution contract",
+  "status": "AUTHORITATIVE. Supersedes any prose or model-memory summary of the method.",
+  "why": "A fresh context summarised the method as 'MMD over Adam-preconditioned gradients', which omits that TARGET gradients are SGD while CANDIDATE gradients are Adam-aware. Implementing from that summary would have produced a different experiment.",
+  "frozen_feature_contract": {
+    "proj_dim": 8192,
+    "proj_seed": 123,
+    "gradient_type_candidate": "adam",
+    "gradient_type_target": "sgd",
+    "source": "experiments/less_aligned/targetdraw_10draw_master_manifest.json",
+    "emphasis": "candidate and target gradient types DIFFER (adam vs sgd). This asymmetry is part of the frozen protocol and must be preserved for the BBH round."
+  },
+  "candidate_cache": {
+    "path": "/jizhicfs/karonhe/dataflex_saves/less_output/train/1/all_projected_grads.pt",
+    "expected_sha256": "4bef1bf85e774c768300a7700540049276a94e9937d53e90bda232cb03d12654",
+    "expected_shape": [
+      270679,
+      8192
+    ],
+    "exists": true,
+    "size_bytes": 8869611185,
+    "reuse_policy": "REUSED VERBATIM. Candidate gradients are target-independent, so the BBH round must not regenerate them; only target/query gradients are new.",
+    "hash_convention": "sha256 of TENSOR CONTENT (v.numpy().tobytes()), matching `tsha` in build_targetdraw_master_manifest.py \u2014 NOT the file bytes.",
+    "measured_sha256": "4bef1bf85e774c768300a7700540049276a94e9937d53e90bda232cb03d12654",
+    "measured_shape": [
+      270679,
+      8192
+    ],
+    "sha256_matches": true,
+    "shape_matches": true
+  },
+  "warmup_checkpoint": {
+    "path": "/jizhicfs/karonhe/dataflex_saves/sft_results/warmup_seed42/checkpoint-1692",
+    "expected_adapter_sha256": "44d9c580ca18583a4498dd7c3b5bad4094144e02b3ee83a86509e7d88beb2fdc",
+    "expected_optimizer_sha256": "10a0169e7c5843aafdb4e3089b6e8ae1dab882c6b6e1af0cfedd5d97c9c31a25",
+    "measured": {
+      "adapter_model.safetensors": "44d9c580ca18583a4498dd7c3b5bad4094144e02b3ee83a86509e7d88beb2fdc",
+      "optimizer.pt": "10a0169e7c5843aafdb4e3089b6e8ae1dab882c6b6e1af0cfedd5d97c9c31a25"
+    },
+    "adapter_sha256_matches": true
+  },
+  "base_model": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf",
+  "budget_K": 2707,
+  "selector_contract": {
+    "dsmc": {
+      "script": "scripts/select_moment_mmd.py",
+      "args": [
+        "--alpha",
+        "0.0"
+      ],
+      "kernel": "k(u,v) = <u,v>^2 (pure 2nd-order), exact marginal greedy MMD",
+      "must_not_use": "the generic online MMDSelector in src/dataflex/train/selector/mmd_selector.py \u2014 its target_gradient_type defaults to 'same', which would make target gradients Adam-aware and would NOT be the frozen DSMC",
+      "seeded": false
+    },
+    "less": {
+      "script": "scripts/select_relevance_topk.py",
+      "args": [
+        "--order",
+        "first"
+      ],
+      "kernel": "1st-order relevance top-k, s = <x, mean_t t> (LESS-style)",
+      "must_not_use": "official trajectory-LESS; this arm is the relevance-topk reimplementation",
+      "seeded": false
+    },
+    "first_rr": {
+      "script": "scripts/select_round_robin.py",
+      "args": [
+        "--order",
+        "first"
+      ],
+      "kernel": "greedy round-robin over queries, s = <x, t>",
+      "seeded": "rr_perm_seed"
+    },
+    "second_rr": {
+      "script": "scripts/select_round_robin.py",
+      "args": [
+        "--order",
+        "second"
+      ],
+      "kernel": "greedy round-robin over queries, s = <x, t>^2",
+      "seeded": "rr_perm_seed",
+      "note": "SAME script and SAME rr_perm_seed as first_rr; only the representation order differs"
+    },
+    "randk": {
+      "script": "inline torch.randperm (see run_targetdraw_pilot.sh 'randk (uniform fixed-K)')",
+      "exact_procedure": "N = candidate_cache.shape[0]; g = torch.Generator().manual_seed(random_k_seed); indices = torch.randperm(N, generator=g)[:K].tolist()",
+      "args": [
+        "--seed",
+        "<random_k_seed>"
+      ],
+      "kernel": "uniform fixed-K sample (no target information)",
+      "seeded": "random_k_seed",
+      "note": "plain uniform Random-K on a CPU torch.Generator, bit-reproducible. NOT select_randk_lenmatch.py \u2014 randk_lenmatch was an MMLU-only 9th arm and is NOT part of the 5-method BBH set."
+    }
+  },
+  "n_methods": 5,
+  "per_draw": {
+    "0": {
+      "random_k_seed": 5000,
+      "rr_perm_seed": 6000,
+      "query_prompts": "data/bbh_external/query_prompts/bbh_query_draw0_prompts.jsonl",
+      "target_grads_expected": "/jizhicfs/karonhe/dataflex_saves/draw_bbhx_draw0_output/target/1/all_projected_grads.pt",
+      "target_grad_expected_shape": [
+        64,
+        8192
+      ]
+    },
+    "1": {
+      "random_k_seed": 5001,
+      "rr_perm_seed": 6001,
+      "query_prompts": "data/bbh_external/query_prompts/bbh_query_draw1_prompts.jsonl",
+      "target_grads_expected": "/jizhicfs/karonhe/dataflex_saves/draw_bbhx_draw1_output/target/1/all_projected_grads.pt",
+      "target_grad_expected_shape": [
+        64,
+        8192
+      ]
+    },
+    "2": {
+      "random_k_seed": 5002,
+      "rr_perm_seed": 6002,
+      "query_prompts": "data/bbh_external/query_prompts/bbh_query_draw2_prompts.jsonl",
+      "target_grads_expected": "/jizhicfs/karonhe/dataflex_saves/draw_bbhx_draw2_output/target/1/all_projected_grads.pt",
+      "target_grad_expected_shape": [
+        64,
+        8192
+      ]
+    }
+  },
+  "target_gradient_extraction": {
+    "driver": "dataflex-cli train <select yaml> (target-only phase), as in run_targetdraw_pilot.sh",
+    "template": "llama2",
+    "formatting": "sharegpt",
+    "cutoff_len": 2048,
+    "candidate_symlink_rule": "the per-draw cache's train/1/all_projected_grads.pt must be a symlink resolving to the frozen candidate cache; verify with readlink -f before selection",
+    "TRUNCATION_GATE": "bbh_token_truncation_audit.json MUST report verdict=PASS before any target-gradient extraction. It currently reports HOLD."
+  },
+  "counts": {
+    "draws": 3,
+    "methods": 5,
+    "frozen_subsets": 15,
+    "sft_seeds": 2,
+    "adapters": 30
+  },
+  "no_compute_run": "artifacts only: no gradients, no selection, no SFT"
+}

@@ -93,6 +93,50 @@ def main():
     if os.path.exists(sp):
         pin["paired_split_manifest"] = {"path": os.path.relpath(sp, ROOT), "sha256": sha_file(sp)}
 
+    # ---- PYTHON EXECUTION CODE (code_review_0810 item 5) ----
+    # Config hashes alone are not the whole evaluation: prompt construction runs through
+    # Task.fewshot_context(), generation/truncation through the HFLM model wrapper, and answer
+    # extraction through the filter implementations. lm-eval is installed from a wheel, so there is no
+    # repo SHA to pin; hash the actual .py files instead, plus the resolved environment.
+    runtime_files = ["api/task.py", "api/samplers.py", "api/filter.py", "api/metrics.py",
+                     "evaluator.py", "evaluator_utils.py", "models/huggingface.py",
+                     "filters/extraction.py", "filters/selection.py", "tasks/__init__.py"]
+    pin["python_runtime"] = {
+        "why": ("prompt parity depends on Task.fewshot_context(); generation/truncation depends on the "
+                "HFLM wrapper; answer extraction depends on the regex/take_first filters. A wheel "
+                "install has no git SHA, so the executable code is hashed directly."),
+        "files": {f: (sha_file(f"{d}/{f}") if os.path.exists(f"{d}/{f}") else None)
+                  for f in runtime_files},
+    }
+    try:
+        import transformers, torch
+        pin["python_runtime"]["versions"] = {
+            "python": sys.version.split()[0], "lm_eval": ver,
+            "transformers": transformers.__version__, "torch": torch.__version__,
+        }
+    except Exception as e:
+        pin["python_runtime"]["versions_error"] = repr(e)
+    try:
+        pin["python_runtime"]["pip_freeze_sha256"] = None
+        fr = subprocess.check_output([sys.executable, "-m", "pip", "freeze"],
+                                     stderr=subprocess.DEVNULL).decode()
+        frp = f"{ROOT}/experiments/less_aligned/bbh_pip_freeze.txt"
+        with open(frp, "w") as fh:
+            fh.write(fr)
+        pin["python_runtime"]["pip_freeze_file"] = os.path.relpath(frp, ROOT)
+        pin["python_runtime"]["pip_freeze_sha256"] = hashlib.sha256(fr.encode()).hexdigest()
+        pin["python_runtime"]["n_packages"] = len([l for l in fr.splitlines() if l.strip()])
+    except Exception as e:
+        pin["python_runtime"]["pip_freeze_error"] = repr(e)
+
+    # the tokenizer is part of the executed protocol too (truncation is measured in ITS tokens)
+    tokdir = "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf"
+    pin["tokenizer"] = {"path": tokdir,
+                        "files": {f: (sha_file(f"{tokdir}/{f}") if os.path.exists(f"{tokdir}/{f}")
+                                      else None)
+                                  for f in ["tokenizer.model", "tokenizer_config.json",
+                                            "special_tokens_map.json", "config.json"]}}
+
     json.dump(pin, open(OUT, "w"), indent=2)
     print(f"lm_eval {ver}  git={git_sha}")
     print(f"group={pin['group']['name']} metadata_version={pin['group']['metadata_version']} "
@@ -101,6 +145,10 @@ def main():
     print(f"subtask yamls hashed: {pin['n_subtask_yamls']}")
     print(f"template yamls hashed: {list(pin['template_yamls'])}")
     print(f"local BBH data files hashed: {len(pin['local_bbh_data'])}")
+    rt = pin["python_runtime"]
+    print(f"python runtime files hashed: {sum(1 for v in rt['files'].values() if v)}/"
+          f"{len(rt['files'])}  pip packages: {rt.get('n_packages')}")
+    print(f"tokenizer files hashed: {sum(1 for v in pin['tokenizer']['files'].values() if v)}")
     print(f"\nwrote {OUT}")
 
 

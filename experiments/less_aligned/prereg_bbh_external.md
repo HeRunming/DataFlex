@@ -1,21 +1,104 @@
 # PRE-REGISTRATION: BBH external-validation experiment
 
-**Status: PRE-REGISTERED — NO COMPUTE RUN.** Split/draw artifacts, the lm-eval pin, the frozen custom
-held-out suite, the query-prompt renderer, and the prompt-parity audit are all generated; **no
-gradients, no selection, no SFT**. Frozen per code_review_0809 and the final pre-compute checkpoint of
-choice_0809. Awaiting review before any compute.
+**Status: ON HOLD — NO COMPUTE RUN.** Artifacts, pins, and gates are built; **no gradients, no
+selection, no SFT, no evaluation**. The previous `GO_FOR_SELECTION_CANARY = true` is **withdrawn**:
+code_review_0810 identified a protocol defect that the string-level parity audit could not see, and
+adversarial self-review of the new gates then surfaced a second one. Both reproduce; both are recorded
+as machine-checked blockers, so the launch manifest now emits
+`GO_FOR_SELECTION_CANARY = false`.
+
+| # | blocker | verdict artifact |
+|---|---|---|
+| 1 | 7/192 query prompts truncated at `cutoff_len=2048`, destroying the query itself | `bbh_token_truncation_audit.json` → **HOLD** |
+| 2 | a near-verbatim CoT demonstration carries the **opposite** gold answer to a scored draw1 query | `bbh_fewshot_leakage_audit.json` → **REVIEW** |
+
+Neither was auto-fixed. `cutoff_len`, the few-shot count, the demonstrations, and the prompts are all
+untouched; both protocol decisions are deferred to explicit human approval.
+
+## ⛔ BLOCKER: 7/192 query prompts are truncated so badly the query itself is destroyed
+
+`scripts/audit_bbh_token_truncation.py` → `bbh_token_truncation_audit.json`, verdict **HOLD**.
+
+The frozen query-gradient recipe is LlamaFactory `template: llama2` with **`cutoff_len = 2048`**. BBH
+CoT prompts are structured `[3 CoT demonstrations] ++ [the actual query LAST]`, and LlamaFactory
+truncates the **source tail** (`source_ids[:source_len]`, allocated by `infer_seqlen`). So for an
+over-length record the part that gets deleted is exactly the part that matters:
+
+| | |
+|---|---|
+| records audited | 192 (all 3 draws) |
+| **materially truncated** | **7 / 192 — every one in `geometric_shapes`** |
+| tokens lost | 493–560 of ~2,540–2,608 |
+| the record's own query survives? | **NO** |
+| trailing `A: Let's think step by step.` cue survives? | **NO** |
+| supervised target survives? | yes (targets are 1–4 tokens) |
+
+For those 7, **the query is 100% absent** — not merely clipped. For `bbh::geometric_shapes::50` the
+dropped 560 tokens contain all of demonstration 3's rationale *plus the entire query*: the item's unique
+SVG path (`M 15.44,15.80`) does not appear anywhere in the kept text, and what survives of the query
+region is only the shared `Options:\n(A) circle…` boilerplate. So the query gradient would be computed
+on *~2.5 demonstrations and no query at all*, with no CoT cue — while the paired evaluation sees the
+whole thing. Evaluation side is fine (max 2,596 context tokens against a 4096−1024 = 3,072 budget, 0
+left-truncated), so this is a **query-gradient-side defect only**, and it is asymmetric between the two
+sides: the evaluation side has ~1.5× the budget.
+
+**Why gate B passed anyway:** it compares prompts as **strings**, i.e. before tokenization. Byte-identity
+of the pre-tokenization text says nothing about what survives `cutoff_len`. This is the concrete lesson —
+string parity was necessary but not sufficient.
+
+**Per the review, nothing was auto-fixed.** `cutoff_len`, the few-shot count, and the prompts are all
+untouched; the distribution is reported and the protocol decision is deferred to explicit human
+approval. Options exist (raise `cutoff_len` for target extraction; drop to fewer shots for the long
+subtask; accept and disclose) but each changes the frozen recipe or the prompt parity, so none is taken
+unilaterally.
+
+## ⛔ BLOCKER 2: a near-verbatim CoT demonstration carries the OPPOSITE answer to a scored query
+
+Found by adversarial self-review of the leakage audit's own verdict policy (the first version passed on
+exact-identity only, which hid this). `bbh_fewshot_leakage_audit.json` verdict **REVIEW**.
+
+The maximum demo↔item similarity is **J = 0.8929**, `causal_judgement#1` vs
+**`bbh::causal_judgement::128`**, and the two differ by exactly one phrase:
+
+| | text | gold answer |
+|---|---|---|
+| few-shot demonstration | "…triggered if **at least one** person appeared in the room…" | **Yes** |
+| evaluated item | "…triggered if **more than one** person appeared in the room…" | **No** |
+
+This is a deliberate minimal-pair probe, and the perturbation **flips the answer**. The item is in
+**draw1**, i.e. a scored query record. So for that item the 3-shot prompt contains a near-identical
+vignette demonstrating the *opposite* conclusion — the plausible effect is **anti-leakage** (priming the
+wrong answer), which is a validity problem in its own right, not a harmless near-duplicate.
+
+5 pairs reach J ≥ 0.85 and **all 5 have a differing gold answer**. The other 4 are the benign
+template-generated case (`tracking_shuffled_objects`: same swap sequence, different queried person).
+
+Two corrections this forced in my own work:
+- the earlier caveat attributed the maximum to *"template-generated subtasks"*. That was **factually
+  wrong** — `causal_judgement` is hand-written. The excuse did not apply to the case it excused.
+- the audit claimed to contextualize fuzzy hits against an *"item-vs-item p95 baseline"* that **was never
+  computed**. It is now computed per subtask (p50/p95 over 600 sampled pairs) and stored.
+
+The verdict now has three levels — **FAIL** (exact identity), **REVIEW** (any pair ≥ J 0.85, must be
+human-cleared), **PASS** — and both non-PASS levels exit non-zero and block the launch manifest. Nothing
+was auto-resolved: whether to swap the demonstration, exclude the item, or accept and disclose is a
+protocol decision left to explicit approval.
 
 ### Artifact index
 
 | artifact | what it fixes |
 |---|---|
+| `scripts/emit_bbh_execution_contract.py` → `bbh_execution_contract.json` | **P0-1**: the authoritative frozen feature/selector contract (Adam candidates, **SGD targets**, seed 123, dim 8192, exact per-method scripts) |
+| `scripts/audit_bbh_token_truncation.py` → `bbh_token_truncation_audit.json` | **P0-2**: execution-level token/truncation gate (currently **HOLD**) |
+| `scripts/audit_bbh_fewshot_leakage.py` → `bbh_fewshot_leakage_audit.json` | 81 CoT demos vs raw/reservoir/held-out/drawn populations |
+| `results_summary/inherited_context_corrections.md` | corrects two misremembered historical claims |
 | `scripts/gen_bbh_external_split.py` → `data/bbh_external/` | 20/80 split, 3 draws, 27/23 accounting, frozen selection seeds |
-| `scripts/pin_bbh_lmeval.py` → `bbh_lmeval_pin.json` | verifiable lm-eval pin (version + all YAML/data hashes) |
+| `scripts/pin_bbh_lmeval.py` → `bbh_lmeval_pin.json`, `bbh_pip_freeze.txt` | lm-eval pin incl. **Python runtime code**, tokenizer, and 172-package environment |
 | `scripts/pin_bbh_eval.py` → `bbh_eval_pin_manifest.json`, `bbh_external_tasks/` | frozen custom held-out suite (dataset source is the only change) |
 | `scripts/render_bbh_query_prompts.py` → `bbh_query_prompt_manifest.json` | query prompts built from lm-eval's own `fewshot_context()` |
-| `scripts/audit_bbh_prompt_parity.py` → `bbh_prompt_parity_audit.json` | 27-subtask byte-for-byte parity gates A/B/C + gate D disclosure + `--tamper_check` negative control |
-| `scripts/contamination_global_lexical.py` → `results_summary/contamination_global_lexical_*.json` | high-recall (32×2) pool-wide lexical screen |
-| `bbh_external_launch_manifest.json` | single launch record; asserts the 15-subset invariant |
+| `scripts/audit_bbh_prompt_parity.py` → `bbh_prompt_parity_audit.json` | 27-subtask byte-for-byte parity gates A/B/C + gate D disclosure + `--tamper_check` |
+| `scripts/contamination_global_lexical.py` → `results_summary/contamination_global_lexical_*.json` | pool-wide lexical screen (32×2, **nominal** recall) |
+| `bbh_external_launch_manifest.json` | launch record; asserts the 15-subset invariant, now gated on the truncation verdict |
 
 ### Verification bugs found by self-review of this checkpoint (all fixed before commit)
 
@@ -28,6 +111,10 @@ because "the gates passed" is only meaningful if the gates could have failed:
 | 2 | `--verify` pinned only 9 files, so editing a subtask YAML or deleting held-out rows left it **green** while both the eval prompt and the eval set were corrupted | pin all **27 subtask configs + 27 held-out data files** individually (63 artifacts total) and cross-check each against the pin manifest | deleted 5 rows from `navigate_heldout.jsonl` ⇒ `--verify FAILED: subtask_data:navigate sha256 drifted` |
 | 3 | `split_manifest_sha256` in the pin manifest was **stale** (pinned before the metadata enrichment), and this document transcribed the stale value | re-ran `pin_bbh_eval.py`; the document no longer transcribes it at all, so it cannot go stale again | on-disk == pinned, verified |
 | 4 | `--verify` **wrote** the run plan — a read-only check mutating the tree | writes are skipped under `--verify` | "run plan NOT rewritten" |
+| 5 | the vacuity fix (#1) was **not generalized** to the two new audits: an empty tasks dir gave the leakage audit `PASS`/exit 0, and a 3-record prompt dir gave the truncation audit `PASS` — either would have produced `GO=true` having checked almost nothing | explicit vacuity guards (`--expect_records 192`, `--expect_demos 81`) that refuse to emit a verdict, plus coverage blockers in the manifest | 3-record dir ⇒ `VACUITY GUARD: audited 3, expected 192`; empty tasks dir ⇒ `found 0 demonstrations, expected 81`, no artifact written |
+| 6 | leakage verdict blocked on **exact identity only**, hiding Blocker 2; and it cited an "item-vs-item p95 baseline" that was **never computed** | three-level FAIL/REVIEW/PASS with a J ≥ 0.85 human-clearance threshold + answer-flip detection; p50/p95 baseline actually computed per subtask | verdict flipped to REVIEW, surfacing 5 answer-flip pairs |
+| 7 | `query_start_survives` used an 80-char substring probe that also matches inside the demo region for 48/192 records — a latent false-pass | replaced with a positional check (kept prefix must extend past the final `Q:` and retain the query's own tail) | same 7 records still caught |
+| 8 | the launch-manifest generator still emitted the retracted "no third hidden random axis" line and the "optionally D2(S,P_heldout)" line, contradicting the corrected prereg | both corrected in the generator, so the emitted JSON matches the prereg | re-emitted manifest |
 
 Two overclaims were also scoped down: the chat-wrapper caveat (gate D) and the precise scope of gate B.
 
@@ -144,8 +231,20 @@ $$\text{random\_k\_seed}(d) = 5000 + d, \qquad \text{rr\_perm\_seed}(d) = 6000 +
 - **The selected subset for a draw is bit-identical across the two SFT seeds.** Concretely:
   **3 draws × 5 methods = 15 frozen subsets**, each trained twice ⇒ **30 adapters**. The training seed
   is a training axis only; it must never change which examples are in the subset.
-- This is what makes the design a clean
-  (query realization) × (training stochasticity) cross.
+- **What this does and does not eliminate (corrected per code_review_0810).** An earlier draft claimed
+  the design is "exactly (query realization) × (training stochasticity) with no third hidden random
+  axis". That is too strong. Because the seeds are `5000+d` / `6000+d`, each of the three blocks carries
+  a *different* Random-subset realization and a different RR visiting order — the selection randomness
+  is not removed, it is **blocked with the draw index**. This is deliberate and preferable: three
+  independent Random realizations are more informative than reusing one Random subset three times, which
+  would understate Random's own variability. The correct description is therefore:
+
+  > **three draw/selection-realization blocks, crossed with two SFT seeds.**
+
+  When interpreting block spread: for the **targeted** methods it is driven mainly by query realization;
+  for **Random** it is driven by the Random-subset realization. Block spread must not be reported as
+  pure query-realization variance. What the frozen seeds *do* guarantee is the clean training-seed axis
+  above.
 
 Recorded per draw in `bbh_query_draw{d}.meta.json` (`random_k_seed`, `rr_perm_seed`,
 `rr_perm_seed_shared_by`) and in `bbh_split_manifest.json` → `frozen_selection_seeds`. The launch
@@ -158,11 +257,15 @@ In the MMLU experiments target gradients were single-example supervised (0-shot)
 that cannot be removed. The earlier phrasing ("query-gradient prompt aligned to eval template", "fixes
 MMLU prompt mismatch") overclaimed and is retracted.
 
-**The honest statement, which is what we will write in the paper:**
+**The honest statement, which is what we will write in the paper** (phrasing per code_review_0810):
 
-> Query gradients use the exact pinned CoT few-shot prompt prefix, but supervise only the provided
-> final BBH target; therefore prompt context is aligned while reasoning-trace supervision is
-> unavailable.
+> Query and evaluation are drawn from the same task distribution and share the same **pre-wrapper** CoT
+> prompt context; their **executed token sequences are not identical**. Query gradients supervise only
+> the provided final BBH target.
+
+We therefore avoid the bare word "query-aligned", which invites a token-level reading that is not true.
+Three distinct gaps, all disclosed: the supervised continuation (below), the llama2 chat wrapper (gate
+D), and — pending the gate-3 HOLD — `cutoff_len` truncation on the gradient side only.
 
 Concretely:
 
@@ -244,20 +347,21 @@ That "only the dataset source changes" claim is **audited, not asserted** — se
 - **Secondary / diagnostics logged for every cell**: query loss, downstream score, subset source
   composition, effective rank, token counts, and `D2` — defined explicitly below.
 
-### The `D2` reference, defined explicitly (choice_0809)
+### The `D2` reference, defined explicitly (choice_0809; narrowed per code_review_0810)
 
 The MMLU forensics used "`D2` to a balanced reference", where *balanced* had a concrete meaning
 (STEM/HUM 50/50). **BBH has no such natural balance**, so carrying that phrase over would be inventing
-an arbitrary reference to preserve a habit. It is dropped. What we report:
+an arbitrary reference to preserve a habit. It is dropped. Exactly one geometric diagnostic is
+pre-registered:
 
-- **primary geometric diagnostic**: $D_2(S, Q_d)$ — the selected subset against **its own query draw**.
-  This is well-defined and is the quantity DSMC's objective actually targets.
-- **optional, only if the extraction cost is acceptable**: $D_2(S, P_{\text{heldout}})$, where
-  $P_{\text{heldout}}$ is defined precisely as **the gradient distribution of the 5,209 held-out
-  evaluation examples under the lm-eval micro weighting** (i.e. each held-out example counts once, which
-  is exactly what `weight_by_size: true` does). Extracting 5,209 target gradients is ~80× the 64-query
-  cost, so if it is not run we report **only** $D_2(S, Q_d)$ and say so — we do **not** substitute a
-  fabricated "balanced BBH reference".
+- $D_2(S, Q_d)$ — the selected subset against **its own query draw**. Well-defined, and it is the
+  quantity DSMC's objective actually targets, so it is what the surrogate/outcome question needs.
+
+**$D_2(S, P_{\text{heldout}})$ is NOT part of this experiment.** A previous draft listed it as
+"optional, if the extraction cost is acceptable". That is precisely the shape of decision that must not
+be left open: a diagnostic whose run/skip choice can be made *after* seeing results is not
+pre-registered. It is therefore dropped outright rather than left conditional. If it is ever wanted, it
+requires its own pre-registration.
 
 ### Paired analysis — descriptive crossed summaries, not variance components
 
@@ -285,8 +389,8 @@ Because we carve the query reservoir out of official BBH examples, results are r
 
 ### Gate 1 — contamination against the final held-out BBH split: **PASSED**
 
-Both a 13-gram containment pass and a **high-recall** pool-wide fuzzy screen, against the actual 5,209
-held-out examples:
+Both a 13-gram containment pass and a **higher-sensitivity** pool-wide fuzzy screen, against the actual
+5,209 held-out examples:
 
 | screen | result |
 |---|---|
@@ -295,10 +399,48 @@ held-out examples:
 
 The earlier 16 bands × 4 rows configuration was too weak to support the claim made from it: LSH is
 *probabilistic* candidate generation, so detection probability is $1-(1-s^{\text{rows}})^{\text{bands}}$
-— only **12.2%** at J=0.3 and **64.4%** at J=0.5. At 32×2 it is **95.1%** and **99.99%**. The claim is
-therefore stated as *"no fuzzy lexical near-duplicates detected at high recall"*, **not** a proof that
-none exist. Semantic (embedding-NN) contamination remains a disclosed release-time limitation.
+— only **12.2%** at J=0.3 and **64.4%** at J=0.5. At 32×2 it is **95.1%** and **99.99%**.
+
+**These are NOMINAL figures under the ideal MinHash model, not guarantees** (tightened per
+code_review_0810). Two independent reasons: (i) LSH recall is below 100% by construction; and (ii) the
+implementation computes `(a*h + b) mod (2^61-1)` in numpy `uint64`, so the **multiply wraps** — verified
+directly against exact Python integer arithmetic, which disagrees — meaning the hash family is not
+exactly min-wise independent and the textbook recall formula does not strictly apply. Because every
+LSH collision is verified with **exact** shingle Jaccard, there are no false positives; it is only
+*recall* that is un-guaranteed. The claim is therefore *"no fuzzy lexical near-duplicates detected by a
+high-sensitivity screen"* — not a proof that none exist. Making the arithmetic formally safe (or
+switching to `datasketch`) would upgrade this from nominal to guaranteed; it is not a launch blocker
+because normalized-exact is 0, the long-n-gram hits are 5 manually-confirmed false positives, and this
+screen is also 0. Semantic (embedding-NN) contamination remains a disclosed release-time limitation.
 Artifacts: `results_summary/contamination_global_lexical_bbh_heldout.json`, `contamination_audit.md`.
+
+### Gate 1b — few-shot demonstration leakage: ⚠️ **REVIEW** (see Blocker 2)
+
+`scripts/audit_bbh_fewshot_leakage.py` → `bbh_fewshot_leakage_audit.json`. Gate C only proved that the
+reservoir and held-out split are disjoint *from each other*; it never asked whether the **81 hard-coded
+CoT demonstrations** (27 subtasks × 3) are themselves BBH evaluation or query items — which would put an
+evaluated item's gold answer (or, as it turns out, the *opposite* answer) into its own prompt.
+
+| population | normalized-exact | fuzzy J ≥ 0.5 | J ≥ 0.85 (needs clearance) |
+|---|---|---|---|
+| raw suite (6,511) | **0** | 14 | — |
+| query reservoir (1,302) | **0** | 5 | 1 |
+| held-out eval (5,209) | **0** | 14 | 3 |
+| drawn queries (192) | **0** | 1 | 1 |
+
+**Zero exact identities anywhere** — that part is clean. But exact identity is not the only leakage
+channel, so the verdict is **REVIEW**: 5 pairs reach J ≥ 0.85 and all 5 carry a differing gold answer.
+Details in Blocker 2. Moderate fuzzy overlap below the threshold does *not* block, because several BBH
+subtasks are template-generated and two independent items legitimately share most of their text — that
+judgement is now backed by the computed per-subtask item-vs-item p50/p95 baseline rather than by
+assertion.
+
+Three matcher bugs were found and fixed while building this, all of which had manufactured *false*
+leakage: stripping non-alphanumerics erased bracket-only `dyck_languages` payloads (spurious J=1.0);
+an `Options:`/`Input:` payload heuristic kept the wrong side for `hyperbaton`/`logical_deduction`
+(spurious J=1.0); and cross-subtask comparison with un-subtracted boilerplate inflated the n-gram
+counts. The audit now compares within-subtask with per-subtask boilerplate shingles removed. A fourth
+bug was in the *verdict* rather than the matcher: exact-only blocking, which is what hid Blocker 2.
 
 ### Gate 2 — 27-subtask prompt parity audit: **PASSED**
 
@@ -334,13 +476,71 @@ construction insensitive to custom-config edits; that independence is the point 
 The known, intended asymmetries (supervised continuation; chat wrapper) are recorded in the audit
 artifact under `known_intended_differences` rather than glossed.
 
-### Gate 3 — remaining
+**Gate 2 is necessary but NOT sufficient** — see gate 3. It certifies the prompt *strings*; it says
+nothing about what survives tokenization and `cutoff_len`.
 
-1. this pre-registration + the split/pin/parity artifacts reviewed and approved;
-2. then a **selection-only, no-SFT canary**: base-model held-out evaluation + draw0 target-gradient
+### Gate 3 — execution-level token/truncation audit: ⛔ **HOLD**
+
+`scripts/audit_bbh_token_truncation.py` → `bbh_token_truncation_audit.json`. This is the gate that
+string parity could not provide, and it **fails**: 7/192 records (all `geometric_shapes`) lose 493–560
+source tokens, and what is dropped is the tail — i.e. the record's **own query** plus the trailing CoT
+cue. Details and the deferred protocol decision are in the blocker section at the top of this document.
+
+Both regimes, measured with the installed tokenizer and LlamaFactory's own `infer_seqlen`:
+
+| side | budget | max observed | truncated |
+|---|---|---|---|
+| query gradient (llama2 wrapper, `cutoff_len`) | 2,048 | 2,608 tokens | **7 / 192** |
+| evaluation (lm-eval, 4096 − `max_gen_toks` 1024) | 3,072 | 2,596 tokens | 0 / 192 |
+
+Note the asymmetry: the evaluation side has ~1.5× the budget of the gradient side, so the two sides are
+not merely differently truncated — one is truncated and the other is not.
+
+### Gate 4 — execution contract restored: **PASSED**
+
+`scripts/emit_bbh_execution_contract.py` → `bbh_execution_contract.json`. The frozen protocol is
+recorded and machine-verified rather than restated in prose (see "Frozen execution contract" below).
+
+### Gate 5 — remaining, in order
+
+1. **resolve the gate-3 HOLD** — explicit human decision on the truncation protocol; re-run the audit
+   to `PASS`;
+2. this pre-registration + the contract/split/pin/parity/leakage artifacts reviewed and approved;
+3. then a **selection-only, no-SFT canary**: base-model held-out evaluation + draw0 target-gradient
    extraction + all five selectors run to K=2707, checking target cache integrity, selection sizes,
    hashes, determinism, RR order, Random seed, and Jaccard/source/token diagnostics — **no training**;
-3. only then: 15 frozen subsets → 30 adapters → eval → aggregate.
+4. only then: 15 frozen subsets → 30 adapters → eval → aggregate.
+
+## Frozen execution contract (P0-1, code_review_0810)
+
+A fresh session summarised the method as *"MMD over Adam-preconditioned gradients"*. That omits the one
+asymmetry that defines it, and building BBH from that summary would have produced a **different
+experiment** — because the generic online `MMDSelector` defaults to `target_gradient_type = same`, which
+would make target gradients Adam-aware too. The frozen protocol, read from
+`targetdraw_10draw_master_manifest.json` and machine-checked:
+
+| | frozen value |
+|---|---|
+| candidate gradients | **Adam-aware** |
+| target / query gradients | **SGD** ← *differs from the candidate side by design* |
+| projection | dim **8192**, seed **123** |
+| candidate cache | the existing 270,679 × 8,192 artifact, **reused verbatim**, tensor-content sha256 `4bef1bf8…` **verified** |
+| warm-up checkpoint | `warmup_seed42/checkpoint-1692`, adapter sha256 **verified** |
+
+Per-method endpoints — the offline scripts actually used by the completed experiments, not
+re-derivations:
+
+| method | exact invocation |
+|---|---|
+| **DSMC** | `scripts/select_moment_mmd.py --alpha 0.0` — $k(u,v)=\langle u,v\rangle^2$, exact marginal greedy. **NOT** the generic online `MMDSelector`. |
+| LESS-style TopK | `scripts/select_relevance_topk.py --order first` (not official trajectory-LESS) |
+| First-RR | `scripts/select_round_robin.py --order first --perm_seed 6000+d` |
+| Second-RR | `scripts/select_round_robin.py --order second --perm_seed 6000+d` (same script *and* same seed as First-RR; only the representation order differs) |
+| Random-K | `torch.randperm(N, generator=manual_seed(5000+d))[:K]` — plain uniform; **not** `randk_lenmatch`, which was an MMLU-only 9th arm |
+
+A note on hashing that cost a false alarm: the master manifest hashes gradient caches by **tensor
+content** (`v.numpy().tobytes()`), not file bytes. Hashing the file instead reports a mismatch on an
+identical cache. The contract now uses the same convention and the cache verifies.
 
 ## Cost estimate (anchored to a measured run, not assumed throughput)
 

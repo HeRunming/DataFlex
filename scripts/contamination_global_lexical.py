@@ -15,10 +15,16 @@ This script closes that gap with a pool-wide MinHash/LSH screen (hand-rolled; no
   * every LSH-colliding pair then gets an EXACT shingle-Jaccard check
 So the fuzzy criterion is evaluated over the whole pool, not over a pre-filtered subset.
 
-HIGH-RECALL banding (choice_0809). LSH only *generates* candidates, so a true pair of similarity s is
-detected with probability 1-(1-s^rows)^bands. The first run used 16 bands x 4 rows = 12.2% recall at
-J=0.3 and 64.4% at J=0.5 — far too weak for a null result to support a pool-wide exclusion claim. The
-default is now 32 bands x 2 rows: 95.1% at J=0.3, 99.99% at J=0.5.
+HIGHER-SENSITIVITY banding (choice_0809, wording tightened per code_review_0810). LSH only *generates*
+candidates, so under the ideal MinHash model a true pair of similarity s is detected with NOMINAL
+probability 1-(1-s^rows)^bands. The first run used 16 bands x 4 rows = 12.2% at J=0.3 and 64.4% at
+J=0.5 — far too weak for a null result to support a pool-wide exclusion claim. The default is now
+32 bands x 2 rows: nominally 95.1% at J=0.3, 99.99% at J=0.5.
+
+These are NOMINAL figures, not guarantees: see the caveat in `sig()` — the (a*h+b) mod (2^61-1) step
+runs in numpy uint64, so the multiply wraps and the hash family is not exactly min-wise independent.
+Exact-Jaccard verification of every collision means reported hits are never false positives; it is
+recall, not precision, that is un-guaranteed.
 
 `--target` selects the evaluation set screened against: `mmlu` (the 7,858 STEM+HUM test items) or
 `bbh_heldout` (the 5,209-example BBH external-validation held-out split).
@@ -59,12 +65,21 @@ def shingles(words, k=5):
 
 
 def sig(shs, a, b):
-    """MinHash signature: for each of P hash functions, min over shingles."""
+    """MinHash-style signature: for each of P hash functions, min over shingles.
+
+    CAVEAT (code_review_0810): the (a*h + b) mod (2^61-1) step is computed in numpy uint64, so the
+    multiplication WRAPS rather than being exact modular arithmetic. Verified: exact Python
+    (a*h) % M disagrees with the uint64 result. The family is therefore not a true min-wise independent
+    permutation family, so the banded-LSH detection probability 1-(1-s^rows)^bands is a NOMINAL figure
+    under the ideal MinHash model, not a guarantee for this implementation. It remains a useful
+    high-sensitivity screen, and every collision is verified with EXACT shingle Jaccard, so reported
+    hits are never false; only recall is un-guaranteed.
+    """
     if not shs:
         return None
     h = np.array([int(hashlib.blake2b(s.encode(), digest_size=8).hexdigest(), 16) for s in shs],
                  dtype=np.uint64)
-    # (a*h + b) mod Mersenne61 -> P x len(h), take min over shingles
+    # (a*h + b) mod Mersenne61 -> P x len(h), take min over shingles  [uint64: wraps, see docstring]
     v = (np.outer(a, h) + b[:, None]) % MERSENNE
     return v.min(axis=1)
 
@@ -111,8 +126,11 @@ def main():
                 test.append(canon(r["input"]))
         label = "BBH held-out eval split"
     print(f"[global] target = {label}: {len(test)} items")
+    # NOMINAL detection probability under the ideal MinHash model (see sig() docstring: the uint64
+    # multiply wraps, so this is not a guarantee for this implementation).
     P_detect = lambda s: 1 - (1 - s ** rows) ** args.bands
-    print(f"[global] LSH recall: P_detect(0.3)={P_detect(0.3):.4f} P_detect(0.5)={P_detect(0.5):.4f}")
+    print(f"[global] NOMINAL LSH recall (ideal MinHash model): P_detect(0.3)={P_detect(0.3):.4f} "
+          f"P_detect(0.5)={P_detect(0.5):.4f}")
     test_sh = [shingles(t.split()) for t in test]
     buckets = {}
     test_sig = []
@@ -189,7 +207,8 @@ def main():
                 print(f"  [{budget}] {m:16s} rate {np.mean(rates):.8f}  ({np.mean(counts):.2f} examples)")
 
     out = {"target": args.target, "target_label": label,
-           "lsh_recall": {"P_detect_0.3": P_detect(0.3), "P_detect_0.5": P_detect(0.5)},
+           "lsh_recall_nominal": {"P_detect_0.3": P_detect(0.3), "P_detect_0.5": P_detect(0.5),
+                                  "basis": "1-(1-s^rows)^bands under the IDEAL MinHash model"},
            "n_candidates": N, "n_test": len(test),
            "params": {"perms": args.perms, "bands": args.bands, "rows": rows,
                       "shingle_k": 5, "jaccard_thr": args.jaccard_thr, "report_thr": args.report_thr},
@@ -206,10 +225,14 @@ def main():
                           f"with exact shingle Jaccard. It supersedes the earlier L3, which only examined "
                           f"L2 13-gram suspects."),
            "recall_caveat": (f"LSH is probabilistic candidate generation: at {args.bands} bands x {rows} "
-                             f"rows detection probability is 1-(1-s^rows)^bands, i.e. "
-                             f"{P_detect(0.3):.3f} at J=0.3 and {P_detect(0.5):.5f} at J=0.5. A null "
-                             f"result is 'no near-duplicates detected at high recall', not a proof that "
-                             f"none exist.")}
+                             f"rows the NOMINAL detection probability is 1-(1-s^rows)^bands, i.e. "
+                             f"{P_detect(0.3):.3f} at J=0.3 and {P_detect(0.5):.5f} at J=0.5. Two "
+                             f"separate reasons this is not a proof of absence: (1) LSH recall is <100% "
+                             f"by construction; (2) the (a*h+b) mod (2^61-1) step runs in numpy uint64, "
+                             f"so the multiply WRAPS and the family is not exactly min-wise independent "
+                             f"-- the nominal figure assumes the ideal MinHash model. Every reported "
+                             f"collision is still verified by EXACT shingle Jaccard, so there are no "
+                             f"false positives; only recall is un-guaranteed.")}
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     json.dump(out, open(args.out, "w"), indent=2)
     print(f"\nwrote {args.out}")

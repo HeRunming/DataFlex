@@ -1,0 +1,1266 @@
+{
+  "audit": "hard-coded CoT few-shot demonstrations vs BBH evaluation populations",
+  "n_demonstrations": 81,
+  "n_subtasks": 27,
+  "demonstrations_sha256": "dc404ec236f0056eb4b90cd2995d321757fb51d5517d489153e85e2a8cf3510d",
+  "why": "gate C only proved reservoir/held-out mutual disjointness; it never checked whether the 3 baked-in CoT exemplars per subtask are themselves BBH evaluation or query items. A demonstration that IS an evaluation item would show that item's gold answer in its own prompt.",
+  "results": {
+    "raw_all_6511": {
+      "n_population": 6511,
+      "comparison_basis": "within-subtask only; per-subtask boilerplate 5-shingles (present in >=90% of that subtask's items) subtracted from both sides for L3",
+      "L1_normalized_exact": {
+        "count": 0,
+        "hits": []
+      },
+      "L2_13gram_containment": {
+        "count": 8807,
+        "hits": [
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::0",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::1",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::2",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::3",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::4",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::5",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::6",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::7",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::8",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::9",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::10",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::11",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::12",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::13",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::14",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::15",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::16",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::17",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::18",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::19",
+            "shared_ngrams": 39
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.5": {
+        "count": 14,
+        "hits": [
+          {
+            "demo": "causal_judgement#1",
+            "jaccard": 0.8929,
+            "matched_id": "bbh::causal_judgement::128",
+            "demo_answer_tail": "etector to go off. So the answer is Yes.",
+            "item_answer": "No",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          },
+          {
+            "demo": "causal_judgement#2",
+            "jaccard": 0.6842,
+            "matched_id": "bbh::causal_judgement::123",
+            "demo_answer_tail": "f his sister Lena. So the answer is Yes.",
+            "item_answer": "No",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "jaccard": 0.697,
+            "matched_id": "bbh::disambiguation_qa::131",
+            "demo_answer_tail": "ould be the chief. So the answer is (A).",
+            "item_answer": "(A)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "disambiguation_qa#1",
+            "jaccard": 0.7222,
+            "matched_id": "bbh::disambiguation_qa::87",
+            "demo_answer_tail": " be the secretary. So the answer is (A).",
+            "item_answer": "(A)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "disambiguation_qa#2",
+            "jaccard": 0.697,
+            "matched_id": "bbh::disambiguation_qa::183",
+            "demo_answer_tail": "noun is ambiguous. So the answer is (C).",
+            "item_answer": "(C)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "logical_deduction_three_objects#0",
+            "jaccard": 0.5714,
+            "matched_id": "bbh::logical_deduction_three_objects::55",
+            "demo_answer_tail": "Eli finished last. So the answer is (B).",
+            "item_answer": "(A)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "logical_deduction_three_objects#1",
+            "jaccard": 0.6667,
+            "matched_id": "bbh::logical_deduction_three_objects::206",
+            "demo_answer_tail": "k is the leftmost. So the answer is (A).",
+            "item_answer": "(C)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "logical_deduction_three_objects#2",
+            "jaccard": 0.6812,
+            "matched_id": "bbh::logical_deduction_three_objects::243",
+            "demo_answer_tail": "k is the leftmost. So the answer is (C).",
+            "item_answer": "(B)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#0",
+            "jaccard": 0.7297,
+            "matched_id": "bbh::penguins_in_a_table::44",
+            "demo_answer_tail": " than 8 years old. So the answer is (B).",
+            "item_answer": "(B)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#1",
+            "jaccard": 0.5714,
+            "matched_id": "bbh::penguins_in_a_table::72",
+            "demo_answer_tail": "enguin is Bernard. So the answer is (B).",
+            "item_answer": "(A)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#2",
+            "jaccard": 0.6429,
+            "matched_id": "bbh::penguins_in_a_table::1",
+            "demo_answer_tail": "tic order is Gwen. So the answer is (D).",
+            "item_answer": "(C)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#0",
+            "jaccard": 0.8765,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::57",
+            "demo_answer_tail": "s the yellow ball. So the answer is (A).",
+            "item_answer": "(B)",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#1",
+            "jaccard": 0.875,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::143",
+            "demo_answer_tail": "has the pink ball. So the answer is (C).",
+            "item_answer": "(B)",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#2",
+            "jaccard": 0.8734,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::243",
+            "demo_answer_tail": "cing with Patrick. So the answer is (C).",
+            "item_answer": "(A)",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.3": {
+        "count": 12,
+        "hits": [
+          {
+            "demo": "boolean_expressions#2",
+            "jaccard": 0.4286,
+            "matched_id": "bbh::boolean_expressions::135"
+          },
+          {
+            "demo": "causal_judgement#0",
+            "jaccard": 0.4681,
+            "matched_id": "bbh::causal_judgement::19"
+          },
+          {
+            "demo": "date_understanding#2",
+            "jaccard": 0.3043,
+            "matched_id": "bbh::date_understanding::122"
+          },
+          {
+            "demo": "dyck_languages#0",
+            "jaccard": 0.3333,
+            "matched_id": "bbh::dyck_languages::129"
+          },
+          {
+            "demo": "logical_deduction_five_objects#2",
+            "jaccard": 0.3,
+            "matched_id": "bbh::logical_deduction_five_objects::104"
+          },
+          {
+            "demo": "navigate#0",
+            "jaccard": 0.3103,
+            "matched_id": "bbh::navigate::145"
+          },
+          {
+            "demo": "navigate#2",
+            "jaccard": 0.3243,
+            "matched_id": "bbh::navigate::136"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#0",
+            "jaccard": 0.4767,
+            "matched_id": "bbh::reasoning_about_colored_objects::62"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#1",
+            "jaccard": 0.486,
+            "matched_id": "bbh::reasoning_about_colored_objects::204"
+          },
+          {
+            "demo": "salient_translation_error_detection#1",
+            "jaccard": 0.34,
+            "matched_id": "bbh::salient_translation_error_detection::1"
+          },
+          {
+            "demo": "tracking_shuffled_objects_five_objects#0",
+            "jaccard": 0.3407,
+            "matched_id": "bbh::tracking_shuffled_objects_five_objects::236"
+          },
+          {
+            "demo": "tracking_shuffled_objects_five_objects#2",
+            "jaccard": 0.3438,
+            "matched_id": "bbh::tracking_shuffled_objects_five_objects::1"
+          }
+        ]
+      }
+    },
+    "query_reservoir_1302": {
+      "n_population": 1302,
+      "comparison_basis": "within-subtask only; per-subtask boilerplate 5-shingles (present in >=90% of that subtask's items) subtracted from both sides for L3",
+      "L1_normalized_exact": {
+        "count": 0,
+        "hits": []
+      },
+      "L2_13gram_containment": {
+        "count": 1760,
+        "hits": [
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::181",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::95",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::137",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::65",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::64",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::59",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::175",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::182",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::41",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::44",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::23",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::19",
+            "shared_ngrams": 39
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::125",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::85",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::97",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::87",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::24",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::130",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::8",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::10",
+            "shared_ngrams": 1
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.5": {
+        "count": 5,
+        "hits": [
+          {
+            "demo": "causal_judgement#1",
+            "jaccard": 0.8929,
+            "matched_id": "bbh::causal_judgement::128",
+            "demo_answer_tail": "etector to go off. So the answer is Yes.",
+            "item_answer": "No",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "jaccard": 0.697,
+            "matched_id": "bbh::disambiguation_qa::131",
+            "demo_answer_tail": "ould be the chief. So the answer is (A).",
+            "item_answer": "(A)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "logical_deduction_three_objects#0",
+            "jaccard": 0.5714,
+            "matched_id": "bbh::logical_deduction_three_objects::55",
+            "demo_answer_tail": "Eli finished last. So the answer is (B).",
+            "item_answer": "(A)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#0",
+            "jaccard": 0.575,
+            "matched_id": "bbh::penguins_in_a_table::8",
+            "demo_answer_tail": " than 8 years old. So the answer is (B).",
+            "item_answer": "(E)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#2",
+            "jaccard": 0.6429,
+            "matched_id": "bbh::penguins_in_a_table::1",
+            "demo_answer_tail": "tic order is Gwen. So the answer is (D).",
+            "item_answer": "(C)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.3": {
+        "count": 9,
+        "hits": [
+          {
+            "demo": "causal_judgement#0",
+            "jaccard": 0.4681,
+            "matched_id": "bbh::causal_judgement::19"
+          },
+          {
+            "demo": "penguins_in_a_table#1",
+            "jaccard": 0.32,
+            "matched_id": "bbh::penguins_in_a_table::116"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#0",
+            "jaccard": 0.3976,
+            "matched_id": "bbh::reasoning_about_colored_objects::23"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#1",
+            "jaccard": 0.3684,
+            "matched_id": "bbh::reasoning_about_colored_objects::59"
+          },
+          {
+            "demo": "salient_translation_error_detection#1",
+            "jaccard": 0.34,
+            "matched_id": "bbh::salient_translation_error_detection::1"
+          },
+          {
+            "demo": "tracking_shuffled_objects_five_objects#2",
+            "jaccard": 0.3438,
+            "matched_id": "bbh::tracking_shuffled_objects_five_objects::1"
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#0",
+            "jaccard": 0.4902,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::43"
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#1",
+            "jaccard": 0.4423,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::232"
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#2",
+            "jaccard": 0.4272,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::95"
+          }
+        ]
+      }
+    },
+    "heldout_eval_5209": {
+      "n_population": 5209,
+      "comparison_basis": "within-subtask only; per-subtask boilerplate 5-shingles (present in >=90% of that subtask's items) subtracted from both sides for L3",
+      "L1_normalized_exact": {
+        "count": 0,
+        "hits": []
+      },
+      "L2_13gram_containment": {
+        "count": 7047,
+        "hits": [
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::135",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::158",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::42",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::165",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::148",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::78",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::179",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::72",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::16",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::139",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::143",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::173",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::12",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::20",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::32",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::79",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::89",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::133",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::74",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::27",
+            "shared_ngrams": 1
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.5": {
+        "count": 14,
+        "hits": [
+          {
+            "demo": "causal_judgement#1",
+            "jaccard": 0.7226,
+            "matched_id": "bbh::causal_judgement::5",
+            "demo_answer_tail": "etector to go off. So the answer is Yes.",
+            "item_answer": "Yes",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "causal_judgement#2",
+            "jaccard": 0.6842,
+            "matched_id": "bbh::causal_judgement::123",
+            "demo_answer_tail": "f his sister Lena. So the answer is Yes.",
+            "item_answer": "No",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "jaccard": 0.697,
+            "matched_id": "bbh::disambiguation_qa::246",
+            "demo_answer_tail": "ould be the chief. So the answer is (A).",
+            "item_answer": "(A)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "disambiguation_qa#1",
+            "jaccard": 0.7222,
+            "matched_id": "bbh::disambiguation_qa::154",
+            "demo_answer_tail": " be the secretary. So the answer is (A).",
+            "item_answer": "(A)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "disambiguation_qa#2",
+            "jaccard": 0.697,
+            "matched_id": "bbh::disambiguation_qa::238",
+            "demo_answer_tail": "noun is ambiguous. So the answer is (C).",
+            "item_answer": "(C)",
+            "answer_differs": false,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "logical_deduction_three_objects#0",
+            "jaccard": 0.5714,
+            "matched_id": "bbh::logical_deduction_three_objects::95",
+            "demo_answer_tail": "Eli finished last. So the answer is (B).",
+            "item_answer": "(C)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "logical_deduction_three_objects#1",
+            "jaccard": 0.6667,
+            "matched_id": "bbh::logical_deduction_three_objects::206",
+            "demo_answer_tail": "k is the leftmost. So the answer is (A).",
+            "item_answer": "(C)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "logical_deduction_three_objects#2",
+            "jaccard": 0.6812,
+            "matched_id": "bbh::logical_deduction_three_objects::243",
+            "demo_answer_tail": "k is the leftmost. So the answer is (C).",
+            "item_answer": "(B)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#0",
+            "jaccard": 0.7297,
+            "matched_id": "bbh::penguins_in_a_table::91",
+            "demo_answer_tail": " than 8 years old. So the answer is (B).",
+            "item_answer": "(D)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#1",
+            "jaccard": 0.5714,
+            "matched_id": "bbh::penguins_in_a_table::72",
+            "demo_answer_tail": "enguin is Bernard. So the answer is (B).",
+            "item_answer": "(A)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "penguins_in_a_table#2",
+            "jaccard": 0.6429,
+            "matched_id": "bbh::penguins_in_a_table::142",
+            "demo_answer_tail": "tic order is Gwen. So the answer is (D).",
+            "item_answer": "(B)",
+            "answer_differs": true,
+            "needs_human_clearance": false
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#0",
+            "jaccard": 0.8765,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::57",
+            "demo_answer_tail": "s the yellow ball. So the answer is (A).",
+            "item_answer": "(B)",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#1",
+            "jaccard": 0.875,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::143",
+            "demo_answer_tail": "has the pink ball. So the answer is (C).",
+            "item_answer": "(B)",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#2",
+            "jaccard": 0.8734,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::243",
+            "demo_answer_tail": "cing with Patrick. So the answer is (C).",
+            "item_answer": "(A)",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.3": {
+        "count": 10,
+        "hits": [
+          {
+            "demo": "boolean_expressions#2",
+            "jaccard": 0.4286,
+            "matched_id": "bbh::boolean_expressions::135"
+          },
+          {
+            "demo": "date_understanding#2",
+            "jaccard": 0.3043,
+            "matched_id": "bbh::date_understanding::145"
+          },
+          {
+            "demo": "dyck_languages#0",
+            "jaccard": 0.3333,
+            "matched_id": "bbh::dyck_languages::129"
+          },
+          {
+            "demo": "logical_deduction_five_objects#2",
+            "jaccard": 0.3,
+            "matched_id": "bbh::logical_deduction_five_objects::104"
+          },
+          {
+            "demo": "navigate#0",
+            "jaccard": 0.3103,
+            "matched_id": "bbh::navigate::145"
+          },
+          {
+            "demo": "navigate#2",
+            "jaccard": 0.3243,
+            "matched_id": "bbh::navigate::136"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#0",
+            "jaccard": 0.4767,
+            "matched_id": "bbh::reasoning_about_colored_objects::62"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#1",
+            "jaccard": 0.486,
+            "matched_id": "bbh::reasoning_about_colored_objects::204"
+          },
+          {
+            "demo": "tracking_shuffled_objects_five_objects#0",
+            "jaccard": 0.3407,
+            "matched_id": "bbh::tracking_shuffled_objects_five_objects::236"
+          },
+          {
+            "demo": "tracking_shuffled_objects_five_objects#2",
+            "jaccard": 0.3182,
+            "matched_id": "bbh::tracking_shuffled_objects_five_objects::183"
+          }
+        ]
+      }
+    },
+    "drawn_queries_192": {
+      "n_population": 192,
+      "comparison_basis": "within-subtask only; per-subtask boilerplate 5-shingles (present in >=90% of that subtask's items) subtracted from both sides for L3",
+      "L1_normalized_exact": {
+        "count": 0,
+        "hits": []
+      },
+      "L2_13gram_containment": {
+        "count": 241,
+        "hits": [
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::87",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::128",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::29",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#0",
+            "matched_id": "bbh::causal_judgement::156",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#1",
+            "matched_id": "bbh::causal_judgement::87",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#1",
+            "matched_id": "bbh::causal_judgement::128",
+            "shared_ngrams": 94
+          },
+          {
+            "demo": "causal_judgement#1",
+            "matched_id": "bbh::causal_judgement::29",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#1",
+            "matched_id": "bbh::causal_judgement::156",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#2",
+            "matched_id": "bbh::causal_judgement::87",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#2",
+            "matched_id": "bbh::causal_judgement::128",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#2",
+            "matched_id": "bbh::causal_judgement::29",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "causal_judgement#2",
+            "matched_id": "bbh::causal_judgement::156",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "date_understanding#1",
+            "matched_id": "bbh::date_understanding::82",
+            "shared_ngrams": 1
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "matched_id": "bbh::disambiguation_qa::19",
+            "shared_ngrams": 12
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "matched_id": "bbh::disambiguation_qa::168",
+            "shared_ngrams": 12
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "matched_id": "bbh::disambiguation_qa::66",
+            "shared_ngrams": 12
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "matched_id": "bbh::disambiguation_qa::194",
+            "shared_ngrams": 12
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "matched_id": "bbh::disambiguation_qa::216",
+            "shared_ngrams": 12
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "matched_id": "bbh::disambiguation_qa::185",
+            "shared_ngrams": 12
+          },
+          {
+            "demo": "disambiguation_qa#0",
+            "matched_id": "bbh::disambiguation_qa::21",
+            "shared_ngrams": 12
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.5": {
+        "count": 1,
+        "hits": [
+          {
+            "demo": "causal_judgement#1",
+            "jaccard": 0.8929,
+            "matched_id": "bbh::causal_judgement::128",
+            "demo_answer_tail": "etector to go off. So the answer is Yes.",
+            "item_answer": "No",
+            "answer_differs": true,
+            "needs_human_clearance": true
+          }
+        ]
+      },
+      "L3_fuzzy_jaccard_ge_0.3": {
+        "count": 6,
+        "hits": [
+          {
+            "demo": "penguins_in_a_table#0",
+            "jaccard": 0.3115,
+            "matched_id": "bbh::penguins_in_a_table::15"
+          },
+          {
+            "demo": "penguins_in_a_table#2",
+            "jaccard": 0.3939,
+            "matched_id": "bbh::penguins_in_a_table::58"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#0",
+            "jaccard": 0.3667,
+            "matched_id": "bbh::reasoning_about_colored_objects::247"
+          },
+          {
+            "demo": "reasoning_about_colored_objects#1",
+            "jaccard": 0.3684,
+            "matched_id": "bbh::reasoning_about_colored_objects::59"
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#0",
+            "jaccard": 0.3818,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::162"
+          },
+          {
+            "demo": "tracking_shuffled_objects_three_objects#1",
+            "jaccard": 0.3482,
+            "matched_id": "bbh::tracking_shuffled_objects_three_objects::223"
+          }
+        ]
+      }
+    }
+  },
+  "max_observed_jaccard_any_population": 0.8929,
+  "max_observed_detail": {
+    "population": "raw_all_6511",
+    "demo": "causal_judgement#1",
+    "matched_id": "bbh::causal_judgement::128"
+  },
+  "critical_populations": [
+    "heldout_eval_5209",
+    "drawn_queries_192",
+    "query_reservoir_1302"
+  ],
+  "within_subtask_item_vs_item_baseline": {
+    "boolean_expressions": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "max_sampled": 0.4286
+    },
+    "causal_judgement": {
+      "p50": 0.0,
+      "p95": 0.0043,
+      "max_sampled": 0.9633
+    },
+    "date_understanding": {
+      "p50": 0.0,
+      "p95": 0.1522,
+      "max_sampled": 0.4688
+    },
+    "disambiguation_qa": {
+      "p50": 0.0179,
+      "p95": 0.0217,
+      "max_sampled": 0.7222
+    },
+    "dyck_languages": {
+      "p50": 0.0,
+      "p95": 0.0769,
+      "max_sampled": 0.4167
+    },
+    "formal_fallacies": {
+      "p50": 0.0,
+      "p95": 0.0636,
+      "max_sampled": 0.2517
+    },
+    "geometric_shapes": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "max_sampled": 0.0714
+    },
+    "hyperbaton": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "max_sampled": 0.0909
+    },
+    "logical_deduction_five_objects": {
+      "p50": 0.0,
+      "p95": 0.1382,
+      "max_sampled": 0.6218
+    },
+    "logical_deduction_seven_objects": {
+      "p50": 0.0,
+      "p95": 0.1395,
+      "max_sampled": 0.7153
+    },
+    "logical_deduction_three_objects": {
+      "p50": 0.0,
+      "p95": 0.1579,
+      "max_sampled": 0.6812
+    },
+    "movie_recommendation": {
+      "p50": 0.0,
+      "p95": 0.0213,
+      "max_sampled": 0.1667
+    },
+    "multistep_arithmetic_two": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "max_sampled": 0.0435
+    },
+    "navigate": {
+      "p50": 0.0,
+      "p95": 0.1714,
+      "max_sampled": 0.3571
+    },
+    "object_counting": {
+      "p50": 0.0,
+      "p95": 0.087,
+      "max_sampled": 0.3
+    },
+    "penguins_in_a_table": {
+      "p50": 0.0167,
+      "p95": 0.5125,
+      "max_sampled": 0.791
+    },
+    "reasoning_about_colored_objects": {
+      "p50": 0.0085,
+      "p95": 0.3636,
+      "max_sampled": 0.4731
+    },
+    "ruin_names": {
+      "p50": 0.0,
+      "p95": 0.0161,
+      "max_sampled": 0.1538
+    },
+    "salient_translation_error_detection": {
+      "p50": 0.0,
+      "p95": 0.011,
+      "max_sampled": 0.0303
+    },
+    "snarks": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "max_sampled": 0.0667
+    },
+    "sports_understanding": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "max_sampled": 0.25
+    },
+    "temporal_sequences": {
+      "p50": 0.0116,
+      "p95": 0.0629,
+      "max_sampled": 0.223
+    },
+    "tracking_shuffled_objects_five_objects": {
+      "p50": 0.0048,
+      "p95": 0.2907,
+      "max_sampled": 0.9029
+    },
+    "tracking_shuffled_objects_seven_objects": {
+      "p50": 0.0038,
+      "p95": 0.237,
+      "max_sampled": 0.9219
+    },
+    "tracking_shuffled_objects_three_objects": {
+      "p50": 0.0064,
+      "p95": 0.3879,
+      "max_sampled": 0.8765
+    },
+    "web_of_lies": {
+      "p50": 0.0,
+      "p95": 0.0213,
+      "max_sampled": 0.0943
+    },
+    "word_sorting": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "max_sampled": 0.0
+    }
+  },
+  "baseline_note": "per-subtask Jaccard between two ORDINARY items of the same subtask (600 sampled pairs, same payload/boilerplate treatment). This is the reference for judging whether a demo is unusually close to an evaluation item.",
+  "n_exact_duplicates": {
+    "heldout_eval_5209": 0,
+    "drawn_queries_192": 0,
+    "query_reservoir_1302": 0
+  },
+  "n_fuzzy_ge_0.5": {
+    "heldout_eval_5209": 14,
+    "drawn_queries_192": 1,
+    "query_reservoir_1302": 5
+  },
+  "n_needing_human_clearance": 5,
+  "pairs_needing_human_clearance": [
+    {
+      "population": "drawn_queries_192",
+      "demo": "causal_judgement#1",
+      "jaccard": 0.8929,
+      "matched_id": "bbh::causal_judgement::128",
+      "demo_answer_tail": "etector to go off. So the answer is Yes.",
+      "item_answer": "No",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "query_reservoir_1302",
+      "demo": "causal_judgement#1",
+      "jaccard": 0.8929,
+      "matched_id": "bbh::causal_judgement::128",
+      "demo_answer_tail": "etector to go off. So the answer is Yes.",
+      "item_answer": "No",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "heldout_eval_5209",
+      "demo": "tracking_shuffled_objects_three_objects#0",
+      "jaccard": 0.8765,
+      "matched_id": "bbh::tracking_shuffled_objects_three_objects::57",
+      "demo_answer_tail": "s the yellow ball. So the answer is (A).",
+      "item_answer": "(B)",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "heldout_eval_5209",
+      "demo": "tracking_shuffled_objects_three_objects#1",
+      "jaccard": 0.875,
+      "matched_id": "bbh::tracking_shuffled_objects_three_objects::143",
+      "demo_answer_tail": "has the pink ball. So the answer is (C).",
+      "item_answer": "(B)",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "heldout_eval_5209",
+      "demo": "tracking_shuffled_objects_three_objects#2",
+      "jaccard": 0.8734,
+      "matched_id": "bbh::tracking_shuffled_objects_three_objects::243",
+      "demo_answer_tail": "cing with Patrick. So the answer is (C).",
+      "item_answer": "(A)",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    }
+  ],
+  "answer_flip_pairs": [
+    {
+      "population": "drawn_queries_192",
+      "demo": "causal_judgement#1",
+      "jaccard": 0.8929,
+      "matched_id": "bbh::causal_judgement::128",
+      "demo_answer_tail": "etector to go off. So the answer is Yes.",
+      "item_answer": "No",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "query_reservoir_1302",
+      "demo": "causal_judgement#1",
+      "jaccard": 0.8929,
+      "matched_id": "bbh::causal_judgement::128",
+      "demo_answer_tail": "etector to go off. So the answer is Yes.",
+      "item_answer": "No",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "heldout_eval_5209",
+      "demo": "tracking_shuffled_objects_three_objects#0",
+      "jaccard": 0.8765,
+      "matched_id": "bbh::tracking_shuffled_objects_three_objects::57",
+      "demo_answer_tail": "s the yellow ball. So the answer is (A).",
+      "item_answer": "(B)",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "heldout_eval_5209",
+      "demo": "tracking_shuffled_objects_three_objects#1",
+      "jaccard": 0.875,
+      "matched_id": "bbh::tracking_shuffled_objects_three_objects::143",
+      "demo_answer_tail": "has the pink ball. So the answer is (C).",
+      "item_answer": "(B)",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    },
+    {
+      "population": "heldout_eval_5209",
+      "demo": "tracking_shuffled_objects_three_objects#2",
+      "jaccard": 0.8734,
+      "matched_id": "bbh::tracking_shuffled_objects_three_objects::243",
+      "demo_answer_tail": "cing with Patrick. So the answer is (C).",
+      "item_answer": "(A)",
+      "answer_differs": true,
+      "needs_human_clearance": true
+    }
+  ],
+  "verdict": "REVIEW",
+  "verdict_basis": "FAIL on any normalized-exact demonstration/evaluation-item identity. REVIEW when any pair reaches Jaccard >= 0.85 \u2014 near-verbatim is a real leakage channel even without exact identity, so those pairs must be cleared by a human rather than auto-passed. Moderate fuzzy overlap below that threshold does not block, because several BBH subtasks are template-generated and two independent items legitimately share most of their text; the computed within-subtask p95 baseline is the reference for that judgement.",
+  "fuzzy_caveat": "The maximum is J=0.8929, `causal_judgement#1` vs `bbh::causal_judgement::128`. This is NOT a template-generation artifact: causal_judgement is hand-written. The two differ only in 'at least one person' -> 'more than one person', a deliberate minimal-pair probe, and the perturbation FLIPS the gold answer (demo: Yes; item: No). The item is in draw1, i.e. a scored query record. The plausible effect is ANTI-leakage -- the prompt primes the opposite answer -- which is a validity concern in its own right and is why such pairs are routed to REVIEW rather than silently passed. Template-generated near-twins (tracking_shuffled_objects: same swap sequence, different queried person; penguins_in_a_table: shared table) also occur at J~0.87-0.90 and are the benign case.",
+  "matcher_bugs_fixed": [
+    "canonicalization stripped all non-alphanumerics, erasing bracket-only dyck_languages payloads so every item collapsed to the shared instruction (spurious exact matches at J=1.0)",
+    "an 'Options:'/'Input:' payload heuristic kept the wrong side, discarding the discriminating content for hyperbaton/logical_deduction (spurious J=1.0)",
+    "cross-subtask comparison and un-subtracted boilerplate inflated 13-gram hit counts"
+  ],
+  "failed_populations": null,
+  "no_compute_run": "artifacts only: no model loaded, nothing evaluated"
+}

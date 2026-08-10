@@ -26,13 +26,18 @@ PINNED = {
     f"{SPLIT_DIR}/bbh_split_manifest.json": "20/80 split + 3 draws + frozen selection seeds",
     f"{SPLIT_DIR}/bbh_eval_heldout.jsonl": "the 5,209 held-out evaluation examples",
     f"{SPLIT_DIR}/bbh_query_reservoir.jsonl": "the 1,302 query reservoir (disjoint from eval)",
-    f"{EXP}/bbh_lmeval_pin.json": "installed lm-eval version + all upstream YAML/data hashes",
+    f"{EXP}/bbh_lmeval_pin.json": "lm-eval version + upstream YAML/data hashes + Python runtime code "
+                                  "(api/task.py, evaluator.py, models/huggingface.py, filters) + "
+                                  "tokenizer + pip environment",
     f"{EXP}/bbh_eval_pin_manifest.json": "frozen custom held-out suite (27 subtask configs)",
     f"{EXP}/bbh_query_prompt_manifest.json": "query prompts rendered from lm-eval fewshot_context()",
-    f"{EXP}/bbh_prompt_parity_audit.json": "27-subtask byte-for-byte parity gates A/B/C",
+    f"{EXP}/bbh_prompt_parity_audit.json": "27-subtask byte-for-byte parity gates A/B/C/D",
     f"{EXP}/bbh_external_tasks/_bbh_external_heldout.yaml": "custom group config (micro aggregation)",
     f"{EXP}/results_summary/contamination_global_lexical_bbh_heldout.json":
-        "high-recall pool-wide lexical screen vs the held-out split",
+        "pool-wide lexical screen vs the held-out split",
+    f"{EXP}/bbh_execution_contract.json": "P0-1 frozen feature/selector contract (Adam cand / SGD target)",
+    f"{EXP}/bbh_token_truncation_audit.json": "P0-2 execution-level token/truncation gate",
+    f"{EXP}/bbh_fewshot_leakage_audit.json": "81 CoT demos vs eval/query populations",
 }
 
 
@@ -80,6 +85,16 @@ def git_commit():
         return "unknown"
 
 
+def git_clean():
+    """True iff the working tree has no uncommitted changes."""
+    try:
+        out = subprocess.check_output(["git", "-C", ROOT, "status", "--porcelain"],
+                                      stderr=subprocess.DEVNULL).decode().strip()
+        return out == ""
+    except Exception:
+        return None
+
+
 def build_run_plan():
     """30 cells = 3 draws x 5 methods x 2 SFT seeds, over 15 frozen subsets."""
     cells = []
@@ -109,6 +124,10 @@ def main():
     ap.add_argument("--out", default=f"{EXP}/bbh_external_launch_manifest.json")
     ap.add_argument("--verify", action="store_true",
                     help="re-check every pinned hash and gate verdict against an existing manifest")
+    ap.add_argument("--receipt", action="store_true",
+                    help="emit the canary launch receipt at the CURRENT head; refuses on a dirty tree "
+                         "or with any open blocker, so a receipt always points at a real clean commit")
+    ap.add_argument("--receipt_out", default=f"{EXP}/bbh_canary_launch_receipt.json")
     args = ap.parse_args()
 
     missing = [p for p in PINNED if not os.path.exists(p)]
@@ -126,6 +145,10 @@ def main():
     prompts = json.load(open(f"{EXP}/bbh_query_prompt_manifest.json"))
     pin = json.load(open(f"{EXP}/bbh_eval_pin_manifest.json"))
 
+    trunc = json.load(open(f"{EXP}/bbh_token_truncation_audit.json"))
+    leak = json.load(open(f"{EXP}/bbh_fewshot_leakage_audit.json"))
+    contract = json.load(open(f"{EXP}/bbh_execution_contract.json"))
+
     n_prompts = parity["gate_b_n_query_prompts_checked"]
     n_covered = parity["gate_b_subtasks_with_queries"]
     n_subtasks = pin["task_accounting"]["n_lm_eval_subtasks"]
@@ -142,9 +165,22 @@ def main():
                                        "n_examples": parity["total_heldout_loaded"]},
         "contamination_strong_J0.5": contam["pool_strong_count"],
         "contamination_weak_J0.3": contam["pool_weak_count"],
-        "contamination_lsh_recall": contam["lsh_recall"],
+        "contamination_lsh_recall_nominal": contam.get("lsh_recall_nominal") or contam.get("lsh_recall"),
         "query_eval_disjoint": split["query_eval_disjoint"],
         "custom_suite_hash_drift": drift or None,
+        "token_truncation_verdict": trunc["verdict"],
+        "token_truncation_n_affected": trunc["n_materially_truncated"],
+        "token_truncation_detail": trunc.get("truncated_by_subtask") or None,
+        "fewshot_leakage_verdict": leak["verdict"],
+        "fewshot_leakage_exact": leak["n_exact_duplicates"],
+        "fewshot_leakage_needing_human_clearance": leak.get("n_needing_human_clearance"),
+        "fewshot_leakage_answer_flip_pairs": len(leak.get("answer_flip_pairs") or []),
+        "audit_coverage": {"truncation_records": trunc.get("n_records"),
+                           "leakage_demonstrations": leak.get("n_demonstrations")},
+        "execution_contract_candidate_cache_verified": contract["candidate_cache"].get("sha256_matches"),
+        "execution_contract_gradient_types": {
+            "candidate": contract["frozen_feature_contract"]["gradient_type_candidate"],
+            "target": contract["frozen_feature_contract"]["gradient_type_target"]},
     }
     blockers = []
     if not parity["ALL_GATES_PASS"]:
@@ -157,6 +193,29 @@ def main():
         blockers.append("gate C example count disagrees with the pinned suite")
     if drift:
         blockers.append(f"custom suite drifted from the pin manifest: {drift}")
+    # P0-2: the execution-level gate. String parity is NOT sufficient to launch on.
+    if trunc["verdict"] != "PASS":
+        blockers.append(f"token/truncation audit verdict={trunc['verdict']}: "
+                        f"{trunc['n_materially_truncated']}/{trunc['n_records']} query records lose "
+                        f"their own query tail at cutoff_len (see bbh_token_truncation_audit.json)")
+    if leak["verdict"] != "PASS":
+        blockers.append(f"few-shot demonstration leakage audit verdict={leak['verdict']}: "
+                        f"{leak.get('n_needing_human_clearance', '?')} near-verbatim demo/eval pairs "
+                        f"(of which {len(leak.get('answer_flip_pairs') or [])} carry a DIFFERENT gold "
+                        f"answer) need explicit human clearance")
+    # generalize the gate-B vacuity fix to the two new audits: an audit that inspected nothing must
+    # never reach the manifest as clean.
+    if trunc.get("n_records") != 192:
+        blockers.append(f"truncation audit covered {trunc.get('n_records')} records, expected 192")
+    if leak.get("n_demonstrations") != 81:
+        blockers.append(f"leakage audit covered {leak.get('n_demonstrations')} demos, expected 81")
+    # P0-1: never launch on an unverified candidate cache or a flipped gradient-type contract
+    if contract["candidate_cache"].get("sha256_matches") is not True:
+        blockers.append("candidate cache tensor-content sha256 not verified against the master manifest "
+                        "(re-run emit_bbh_execution_contract.py --verify_candidate_cache)")
+    if (contract["frozen_feature_contract"]["gradient_type_candidate"] != "adam"
+            or contract["frozen_feature_contract"]["gradient_type_target"] != "sgd"):
+        blockers.append("frozen gradient-type contract violated (must be candidate=adam, target=sgd)")
     if contam["pool_strong_count"] or contam["pool_weak_count"]:
         blockers.append("lexical contamination hits against the held-out split")
     if not split["query_eval_disjoint"]:
@@ -181,8 +240,14 @@ def main():
         "status": "PRE-COMPUTE CHECKPOINT — artifacts + gates only. NO gradients, NO selection, NO SFT.",
         "prereg": "experiments/less_aligned/prereg_bbh_external.md",
         "run_plan": os.path.relpath(args.run_plan, ROOT),
-        "launch_commit_pending": "see launch_commit after this commit",
-        "commit_at_emit": git_commit(),
+        # A manifest cannot contain its own commit, so do not pretend to. This records the HEAD the
+        # artifacts were emitted AGAINST plus whether the tree was clean; the authoritative
+        # execution-time receipt is emitted separately by --receipt at the real launch HEAD.
+        "emitted_against_head": git_commit(),
+        "emitted_against_tree_clean": git_clean(),
+        "launch_receipt": ("run `emit_bbh_launch_manifest.py --receipt` on a CLEAN tree at the launch "
+                           "commit; it writes bbh_canary_launch_receipt.json recording the true "
+                           "executing HEAD. This manifest deliberately does not claim to be it."),
 
         "design": {
             "draws": DRAWS, "methods": METHODS, "sft_seeds": SFT_SEEDS,
@@ -204,9 +269,17 @@ def main():
             "per_draw": {str(d): {"random_k_seed": RANDOM_SEED_BASE + d,
                                   "rr_perm_seed": RR_PERM_SEED_BASE + d} for d in DRAWS},
             "INVARIANT": "selection seeds are functions of draw_id ONLY, never of the SFT seed. The 15 "
-                         "subsets are therefore reused bit-identically by both SFT seeds, so the design "
-                         "is exactly (query realization) x (training stochasticity) with no third "
-                         "hidden random axis. To be re-verified by subset hash after selection.",
+                         "subsets are therefore reused bit-identically by both SFT seeds, so the "
+                         "training-seed axis is clean. To be re-verified by subset hash after selection.",
+            "NOT_eliminated": "Because the seeds are 5000+d / 6000+d, each of the three blocks carries a "
+                              "DIFFERENT Random-subset realization and a different RR visiting order. "
+                              "Selection randomness is not removed, it is BLOCKED WITH THE DRAW INDEX. "
+                              "This is deliberate (three independent Random realizations are more "
+                              "informative than reusing one), but it means the design must be described "
+                              "as 'three draw/selection-realization blocks crossed with two SFT seeds', "
+                              "NOT as having no third randomness source. Block spread is therefore not "
+                              "pure query-realization variance: for targeted methods it is driven mainly "
+                              "by query realization, for Random by the Random-subset realization.",
         },
 
         "task_accounting": {
@@ -233,6 +306,8 @@ def main():
             "renderer": prompts["renderer"],
         },
 
+        "execution_contract": {"artifact": "experiments/less_aligned/bbh_execution_contract.json",
+                               "note": "AUTHORITATIVE method/selector mapping; supersedes prose summaries"},
         "gates": gates,
         "GO_FOR_SELECTION_CANARY": not blockers,
         "blockers": blockers or None,
@@ -250,10 +325,12 @@ def main():
                           "optional descriptive two-way draw x seed table"],
             "explicitly_not_done": ["variance-component inference", "p-value thresholds",
                                     "significance claims", "any custom aggregate metric",
-                                    "LR/LoRA/epoch/budget sweeps", "source-balanced DSMC variant"],
-            "d2_reference": "D2(S, Q_d) primary; optionally D2(S, P_heldout) where P_heldout is the "
-                            "5,209 held-out examples under lm-eval micro weighting. No 'balanced BBH "
-                            "reference' is invented.",
+                                    "LR/LoRA/epoch/budget sweeps", "source-balanced DSMC variant",
+                                    "D2(S, P_heldout) — dropped outright, see d2_reference"],
+            "d2_reference": "D2(S, Q_d) ONLY. D2(S, P_heldout) is NOT part of this experiment: a "
+                            "diagnostic whose run/skip decision could be made after seeing results is "
+                            "not pre-registered, so it was dropped rather than left 'optional'. It would "
+                            "require its own pre-registration. No 'balanced BBH reference' is invented.",
             "reporting": "both outcomes informative; reported as a held-out BBH external-validation "
                          "split, never as an official full-BBH leaderboard score",
         },
@@ -261,6 +338,31 @@ def main():
         "pinned_artifacts": hashes,
         "no_compute_run": "artifacts only: no gradients, no selection, no SFT",
     }
+
+    if args.receipt:
+        problems = list(blockers)
+        if not git_clean():
+            problems.append("working tree is DIRTY — a launch receipt must point at a clean commit")
+        if drift:
+            problems.append(f"custom suite drift: {drift}")
+        if problems:
+            print("cannot emit a launch receipt:\n  " + "\n  ".join(problems))
+            return 1
+        receipt = {
+            "receipt": "BBH selection-canary launch receipt",
+            "executing_head": git_commit(),
+            "tree_clean": True,
+            "gates": gates,
+            "n_cells": len(cells), "n_frozen_subsets": len(subsets), "budget": BUDGET,
+            "execution_contract_sha256": sha_file(f"{EXP}/bbh_execution_contract.json"),
+            "pinned_artifact_count": len(hashes),
+            "pinned_artifacts": hashes,
+            "scope": ("authorises ONLY the no-SFT held-out evaluation + draw0 five-selector "
+                      "selection-only canary. It does NOT authorise the 30-adapter run."),
+        }
+        json.dump(receipt, open(args.receipt_out, "w"), indent=2)
+        print(f"launch receipt at CLEAN head {receipt['executing_head'][:12]} -> {args.receipt_out}")
+        return 0
 
     if args.verify:
         if not os.path.exists(args.out):
