@@ -3,13 +3,23 @@
 
 Three independent gates, all byte-for-byte, all 27 lm-eval subtasks:
 
-  GATE A  custom held-out task  ==  stock pinned `bbh_cot_fewshot` task, for the SAME doc.
-          This is the claim that the custom suite changes ONLY the dataset source. We hold the doc
-          fixed and compare the full generation request string produced by each task object, plus the
-          config fields that govern scoring (description, doc_to_text, few-shot samples, num_fewshot,
-          generation_kwargs, until stops, filters, metrics, output type, doc_to_target).
-          A single canary doc suffices per subtask because the prompt is a pure function of
-          (config, doc): identical config + identical doc => identical prompt for every doc.
+  GATE A  custom held-out task  ==  stock pinned `bbh_cot_fewshot` task, for the SAME doc, MODULO ONE
+          DECLARED EXCEPTION. We hold the doc fixed and compare the full generation request string plus
+          the config fields that govern scoring (description, doc_to_text, num_fewshot,
+          generation_kwargs, until stops, filters, metrics, output type, doc_to_target). A single canary
+          doc suffices per subtask because the prompt is a pure function of (config, doc).
+
+          THE DECLARED EXCEPTION (code_review_0810_3): stock v0.4.5 renders the CoT trigger TWICE per
+          demonstration ("A: Let's think step by step.\n Let's think step by step.\n..."), because
+          `doc_to_text` already ends with the cue and each demo `target` restates it. Upstream lm-eval
+          later removed that redundant text. Our custom suite restores the OFFICIAL single-cue form, so
+          demanding byte-equality with stock would now demand reproducing a known bug. Therefore:
+            * the stock rendering is normalized by collapsing the duplicated cue, and the remainder must
+              match byte for byte -- so any OTHER difference is still caught;
+            * `fewshot_config` is validated against the OFFICIAL BBH cot-prompts file instead of stock:
+              every demonstration must carry the cue exactly once AND appear verbatim in
+              cot-prompts/<task>.txt.
+          The official file is the higher authority here, and it is checked rather than assumed.
 
   GATE B  query-gradient prompt (from render_bbh_query_prompts.py, i.e. the file the SFT target dataset
           is actually built from)  ==  the evaluation prompt prefix lm-eval builds for that same query
@@ -47,10 +57,20 @@ TASKS_DIR = f"{ROOT}/experiments/less_aligned/bbh_external_tasks"
 PROMPTS_DIR = f"{SPLIT_DIR}/query_prompts"
 
 # config fields that must match between stock and custom (i.e. everything except the data source)
-COMPARED_FIELDS = ["description", "doc_to_text", "doc_to_target", "fewshot_config", "num_fewshot",
+COMPARED_FIELDS = ["description", "doc_to_text", "doc_to_target", "num_fewshot",
                    "generation_kwargs", "filter_list", "metric_list", "output_type", "test_split"]
-# fields allowed to differ, precisely because the data source is the one intended difference
-EXEMPT_FIELDS = ["task", "dataset_path", "dataset_name", "dataset_kwargs", "include", "metadata"]
+# `fewshot_config` is compared SEPARATELY, because our custom suite deliberately differs from stock
+# v0.4.5 there: the pinned stock config duplicates the CoT trigger inside each demonstration, and we
+# restore the OFFICIAL BBH single-cue form. So the correct reference for the demonstrations is the
+# official BBH cot-prompts file, not the buggy stock YAML. Everything else must still match stock byte
+# for byte. See bbh_eval_pin_manifest.json -> cot_cue_deduplication.
+CUE = "Let's think step by step."
+BBH_COT_PROMPTS = "/jizhicfs/karonhe/less_data_zip/data/eval/bbh/cot-prompts"
+# Fields allowed to differ. The data-source fields differ because that is the intended change;
+# `fewshot_config` differs because of the DECLARED CoT-dedup exception -- and it is NOT simply waived:
+# it is validated separately and more strictly, against the official BBH cot-prompts (see gate A).
+EXEMPT_FIELDS = ["task", "dataset_path", "dataset_name", "dataset_kwargs", "include", "metadata",
+                 "fewshot_config"]
 
 
 def sha(s):
@@ -151,24 +171,83 @@ def main():
 
         diffs = {f: {"stock": sdump.get(f), "custom": cdump.get(f)}
                  for f in COMPARED_FIELDS if norm(sdump.get(f)) != norm(cdump.get(f))}
+
+        # ---- demonstrations: validate against the OFFICIAL BBH prompt, not the buggy stock YAML ----
+        off_p = f"{BBH_COT_PROMPTS}/{t}.txt"
+        off_body = None
+        if os.path.exists(off_p):
+            raw_off = open(off_p).read()
+            off_body = raw_off.split("-----\n", 1)[1] if "-----\n" in raw_off else raw_off
+        demo_checks = []
+        for di, smp in enumerate((cdump.get("fewshot_config") or {}).get("samples", [])):
+            tgt = smp.get("target", "")
+            cue_once = not tgt.lstrip().startswith(CUE)      # doc_to_text already supplies the cue
+            block_nl = "Q: " + smp["input"] + "\nA: " + CUE + "\n" + tgt
+            block_sp = "Q: " + smp["input"] + "\nA: " + CUE + " " + tgt
+            in_official = off_body is not None and (block_nl in off_body or block_sp in off_body)
+            demo_checks.append({"idx": di, "cue_appears_once": cue_once,
+                                "matches_official_cot_prompt": in_official})
+            if not (cue_once and in_official):
+                fail("A", t, {"demo": di, "cue_appears_once": cue_once,
+                              "matches_official_cot_prompt": in_official,
+                              "why": "demonstration must carry the cue exactly once AND match the "
+                                     "official BBH cot-prompt text"})
         # everything not compared and not exempt would be an unnoticed behavioural difference
         unexpected = sorted((set(sdump) | set(cdump)) - set(COMPARED_FIELDS) - set(EXEMPT_FIELDS))
         unexpected = [f for f in unexpected if norm(sdump.get(f)) != norm(cdump.get(f))]
 
         nf_s, nf_c = stock.config.num_fewshot, cust.config.num_fewshot
+        # `fewshot_config` is exempt from the raw stock comparison because of the CoT-dedup exception,
+        # so its NON-demonstration keys must be checked explicitly -- otherwise they are unguarded.
+        # `sampler` matters most: flipping first_n -> default makes lm-eval use an UNSEEDED
+        # random.Random(), so demo order becomes nondeterministic and gate A would only catch it
+        # probabilistically.
+        s_fs = (sdump.get("fewshot_config") or {})
+        c_fs = (cdump.get("fewshot_config") or {})
+        fs_meta_diffs = {k: {"stock": s_fs.get(k), "custom": c_fs.get(k)}
+                         for k in set(s_fs) | set(c_fs)
+                         if k != "samples" and norm(s_fs.get(k)) != norm(c_fs.get(k))}
+        n_demos_ok = len(c_fs.get("samples", [])) == len(s_fs.get("samples", [])) == nf_c
+        if fs_meta_diffs:
+            fail("A", t, {"fewshot_config_non_sample_diffs": fs_meta_diffs,
+                          "why": "sampler/config keys must match stock exactly; only `samples` may "
+                                 "differ, and only by the declared CoT de-duplication"})
+        if not n_demos_ok:
+            fail("A", t, {"n_demos_stock": len(s_fs.get("samples", [])),
+                          "n_demos_custom": len(c_fs.get("samples", [])), "num_fewshot": nf_c,
+                          "why": "demonstration count must equal stock and num_fewshot"})
+        demos_ok = (all(d["cue_appears_once"] and d["matches_official_cot_prompt"] for d in demo_checks)
+                    and not fs_meta_diffs and n_demos_ok)
         # canary doc: a fixed synthetic doc isolates the PROMPT from any data difference
         canary = {"input": "__PARITY_CANARY_INPUT__", "target": "__PARITY_CANARY_TARGET__"}
         ps, pc = request_string(stock, canary, nf_s), request_string(cust, canary, nf_c)
-        ok = (ps == pc) and not diffs and not unexpected
+        # The ONLY intended prompt difference is the removal of the duplicated CoT trigger. Normalize
+        # that specific defect out of the STOCK rendering; anything else that still differs is a real
+        # finding. `dedup_stock` collapses "A: <cue>\n <cue>" / "A: <cue>\n<cue>" back to one cue.
+        # Stock renders "A: <cue>\n <cue>\n<rationale>" (target_delimiter " " then the restated cue).
+        # Collapsing to "A: <cue>\n <rationale>" removes ONLY the duplicate cue, keeping lm-eval's own
+        # target_delimiter space -- which is exactly what the corrected custom config renders.
+        dedup_stock = (ps.replace(f"A: {CUE}\n {CUE}\n", f"A: {CUE}\n ")
+                         .replace(f"A: {CUE}\n {CUE} ", f"A: {CUE}\n ")
+                         .replace(f"A: {CUE}\n{CUE}\n", f"A: {CUE}\n"))
+        prompt_equal_modulo_dedup = dedup_stock == pc
+        ok = prompt_equal_modulo_dedup and demos_ok and not diffs and not unexpected
         report["gate_a_config_and_prompt_parity"][t] = {
-            "identical_prompt": ps == pc, "prompt_sha256": sha(pc),
+            "identical_prompt_raw": ps == pc,
+            "identical_prompt_modulo_cot_dedup": prompt_equal_modulo_dedup,
+            "demonstrations_match_official_cot_prompt": demos_ok,
+            "fewshot_config_sampler": c_fs.get("sampler"),
+            "fewshot_config_non_sample_diffs": fs_meta_diffs,
+            "n_demonstrations": len(c_fs.get("samples", [])),
+            "demonstration_checks": demo_checks,
+            "prompt_sha256": sha(pc),
             "num_fewshot_stock": nf_s, "num_fewshot_custom": nf_c,
             "compared_field_diffs": diffs, "unexpected_field_diffs": unexpected,
             "fewshot_samples_sha256": sha(norm(cdump.get("fewshot_config"))),
             "pass": ok}
         if not ok:
-            d = "" if ps == pc else "\n".join(list(difflib.unified_diff(
-                ps.splitlines(), pc.splitlines(), "stock", "custom", lineterm=""))[:40])
+            d = "" if prompt_equal_modulo_dedup else "\n".join(list(difflib.unified_diff(
+                dedup_stock.splitlines(), pc.splitlines(), "stock_dedup", "custom", lineterm=""))[:40])
             fail("A", t, {"prompt_diff": d, "config_diffs": diffs, "unexpected": unexpected})
 
         # ---------------- GATE C: the loaded data is the intended split ----------------
@@ -204,7 +283,11 @@ def main():
                 if q["file_task"] != t:
                     continue
                 rendered = rec["messages"][0]["content"]
-                expected = request_string(stock, {"input": q["input"], "target": q["target"]}, nf_s)
+                expected_raw = request_string(stock, {"input": q["input"], "target": q["target"]}, nf_s)
+                # normalize the SAME known defect out of the stock side (see gate A)
+                expected = (expected_raw.replace(f"A: {CUE}\n {CUE}\n", f"A: {CUE}\n ")
+                                        .replace(f"A: {CUE}\n {CUE} ", f"A: {CUE}\n ")
+                                        .replace(f"A: {CUE}\n{CUE}\n", f"A: {CUE}\n"))
                 same = rendered == expected
                 checked.append({"draw": d, "id": rec["id"], "identical": same,
                                 "prompt_sha256": sha(rendered),

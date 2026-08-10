@@ -2,8 +2,16 @@
 
 **Status: PRE-REGISTERED, GATES GREEN — NO COMPUTE RUN.** All artifacts, pins, and gates are built and
 verified; **no gradients, no selection, no SFT, no evaluation**. The two blockers raised in
-code_review_0810 are resolved per the decisions in code_review_0810_2, and the launch manifest now emits
-`GO_FOR_SELECTION_CANARY = true` with **no blockers**.
+code_review_0810 are resolved per the decisions in code_review_0810_2, the two further issues raised in
+code_review_0810_3 are fixed, and the launch manifest emits `GO_FOR_SELECTION_CANARY = true` with **no
+blockers**.
+
+| # | issue | round | status |
+|---|---|---|---|
+| 1 | `cutoff_len=2048` destroyed the query in 7/192 prompts | 0810 / 0810_2 | **FIXED** — target-grad cutoff 3072, 192/192 clean |
+| 2 | near-verbatim CoT demo with the opposite answer | 0810 / 0810_2 | **DISCLOSED** — official BBH structure, reservoir-only, zero exact identity |
+| 3 | pinned v0.4.5 duplicates the CoT trigger in every demonstration | 0810_3 | **FIXED** — 78/81 demos restored to the official single-cue form |
+| 4 | BBH target data was never actually wired into `setup_draw_target.py` | 0810_3 | **FIXED** — explicit `--target_jsonl` + fail-loud sha/row/id verification |
 
 ## Resolution 1 — truncation: target-gradient cutoff raised to 3072 (FIXED, gate now PASS)
 
@@ -24,7 +32,7 @@ question.
 
 **3072 is protocol-derived, not accuracy-tuned.** Llama-2's context is 4096 and the pinned
 `bbh_cot_fewshot` config reserves `max_gen_toks = 1024`, so the *evaluation* side's own input ceiling is
-exactly 4096 − 1024 = **3072**; the measured maximum BBH evaluation context is **2596**, comfortably
+exactly 4096 − 1024 = **3072**; the measured maximum BBH evaluation context is **2569**, comfortably
 inside it. Setting the gradient-side cutoff to the evaluation side's own ceiling lets the gradient side
 represent every prompt the evaluation side can. **No BBH accuracy has been observed at any point**, so
 this cannot be accuracy-driven — it is a pre-compute input-integrity correction to a definite
@@ -83,6 +91,101 @@ the item is in the held-out evaluation split — the only configuration where a 
 become visible in its own prompt. Negative control: injecting a real held-out item as a demonstration
 yields **FAIL**, escalation, exit 1.
 
+## Resolution 3 — duplicated CoT trigger in the pinned v0.4.5 prompts (FIXED)
+
+The pinned lm-eval v0.4.5 BBH config renders the chain-of-thought trigger **twice** in every few-shot
+demonstration, because `doc_to_text` already ends with `A: Let's think step by step.\n` and each demo's
+`target` **restates** it:
+
+```
+A: Let's think step by step.
+ Let's think step by step.
+We start at the origin (0, 0), facing the positive y-axis.
+```
+
+Measured: **7** cue occurrences per rendered prompt where the clean form has **4** (3 demos + the query).
+The **official** BBH `cot-prompts/<task>.txt` contains it exactly **once** per demonstration, and upstream
+lm-eval later removed this redundant text.
+
+**Why this had to be fixed before compute, not disclosed as a shared constant.** Random-K never reads the
+query prompt at all, whereas DSMC, First-RR, Second-RR and LESS-style all derive their selection signal
+from query **gradients taken on this prompt**. A malformed prompt is therefore *not* a constant shared by
+all arms — it can distort target-aware gradient geometry specifically while leaving the Random comparator
+untouched, which is precisely the comparison this experiment exists to make. No BBH accuracy has been
+observed at any point, so correcting it now carries no outcome-driven-tuning risk.
+
+**Fix:** strip the leading cue from each demonstration target so it appears exactly once.
+**78 of 81** demonstrations rewritten (`boolean_expressions`'s 3 already lacked it). Every rewritten
+demonstration is **validated against the official cot-prompt text** — the script raises rather than
+guessing, and it did: `sports_understanding` legitimately continues on the *same line* after the cue, so a
+single assumed join shape was wrong and both forms are now tried.
+
+After regeneration: **cue count = 4 for all 192/192 prompts**, and prompts got shorter (max gradient-side
+tokens 2,608 → 2,581), so the 3072 cutoff still holds with 0/192 truncated.
+
+**One residual, disclosed:** the rendered demo answer is `A: <cue>\n <rationale>` — one space where the
+official file has none. That space is lm-eval's own `target_delimiter` (default `" "`, verified on the
+**stock** task object), not an artifact of this rewrite, and lm-eval applies it identically when building
+the **evaluation** prompt. Query and evaluation therefore remain mutually consistent, which is the
+property that matters. We do **not** override `target_delimiter`, since that would diverge from the
+pinned harness behaviour underlying every published BBH number.
+
+**Consequence for gate A.** Demanding byte-equality with the stock config would now demand *reproducing a
+known bug*. So gate A was re-specified rather than waived: the stock rendering is normalized by collapsing
+only the duplicated cue and the remainder must still match byte for byte, and `fewshot_config` is
+validated against the **official** cot-prompts (every demo must carry the cue exactly once *and* appear
+verbatim there) — a stricter reference than stock. Verified still able to fail: tampering with a
+demonstration's rationale yields `gate A FAIL`.
+
+### Further defects found by adversarial self-review of this round (all fixed)
+
+| defect | fix | proof |
+|---|---|---|
+| `draw[-1]` parsed `bbhx_draw10` as draw **0** and then *passed* every provenance check against draw0's manifest entry — silently mis-wiring the data, in the very code added to prevent mis-wiring | parse the full trailing integer (`re.search(r"draw(\d+)$")`) | `bbhx_draw10` now aborts: `no draw '10' in bbh_query_prompt_manifest.json` |
+| the `[emit]` line **printed** a hardcoded `lora_dropout=0.1` instead of reading it back, so a template edit to 0.05 printed 0.1 — exactly the target-vs-SFT confusion this was meant to prevent | read both `cutoff_len` and `lora_dropout` back out of the emitted YAML and assert | values now echoed with `[both READ BACK from the file]` |
+| `--verify_manifest` / `--expect_rows` defaulted to `None`, so a bare BBH invocation skipped **all** provenance checking | BBH draws now require all three flags, checked first, printing the correct command | bare call aborts with the full invocation |
+| gate A exempted `fewshot_config` wholesale, leaving `sampler` unguarded: flipping `first_n`→`default` makes lm-eval use an **unseeded** RNG, so demo order becomes nondeterministic and gate A caught it only ~14/15 times | compare all non-`samples` keys of `fewshot_config` against stock, and assert the demo count equals stock and `num_fewshot` | sampler flip now FAILs 3/3 runs |
+| the cited "max BBH eval context 2596" went stale when the prompts shortened | read the figure from the truncation artifact instead of transcribing it | contract now reports 2569, derived |
+
+## Resolution 4 — BBH target data is now actually wired (was a latent execution bug)
+
+`setup_draw_target.py` hardcoded `data/target_draws/{draw}.jsonl`, but the frozen BBH queries live at
+`data/bbh_external/query_prompts/bbh_query_draw{d}_prompts.jsonl`, and **no
+`data/target_draws/bbhx_draw0.jsonl` exists**. Calling it as the contract described would have failed —
+or worse, been "fixed" on the compute node with an untracked copy, putting the real gradient-extraction
+input outside provenance. The 192-record audit would then have been auditing a different file than the one
+actually read.
+
+Fixed with an explicit `--target_jsonl` (default unchanged for MMLU) plus **fail-loud** verification:
+sha256 must equal `bbh_query_prompt_manifest.json`, exactly 64 rows, ordered-id hash must match the frozen
+draw, symlinks rejected, and the emitted YAML is read back to confirm `cutoff_len: 3072`. All three draws
+are registered and verified:
+
+| draw | prompts sha256 | rows | ordered-id hash | emitted cutoff |
+|---|---|---|---|---|
+| bbhx_draw0 | `240521f4a9b6…` | 64 | `fc302b12df38…` | 3072 |
+| bbhx_draw1 | `2dc9bbdfffa2…` | 64 | `303b598919ec…` | 3072 |
+| bbhx_draw2 | `85dffdeb586f…` | 64 | `29f349375bee…` | 3072 |
+
+Negative controls both fire: pointing draw0 at draw1's file, or asserting 63 rows, aborts.
+
+## LoRA dropout: two different values, deliberately
+
+| stage | `lora_dropout` |
+|---|---|
+| target-gradient extraction | **0.1** |
+| downstream selected-data SFT | **0.05** |
+
+These are **not** to be unified. 0.1 is what every completed MMLU target-gradient config used, so changing
+it would make BBH target gradients incomparable to the MMLU arm; 0.05 is the audited SFT value in
+`resolved_run_provenance.json`. Recorded in the execution contract with an explicit warning, because a
+future reader seeing "the correct dropout is 0.05" could otherwise propagate it to the wrong stage.
+
+The canary must additionally log the **actually loaded** PEFT dropout and `model.training` state; if
+dropout is active during extraction, draw0 extraction is repeated once from a clean cache and the
+projected-gradient tensor hashes compared (64 targets — cheap, and non-reproducible target gradients would
+undermine every downstream selection hash).
+
 ### Artifact index
 
 | artifact | what it fixes |
@@ -95,7 +198,8 @@ yields **FAIL**, escalation, exit 1.
 | `scripts/pin_bbh_lmeval.py` → `bbh_lmeval_pin.json`, `bbh_pip_freeze.txt` | lm-eval pin incl. **Python runtime code**, tokenizer, and 172-package environment |
 | `scripts/pin_bbh_eval.py` → `bbh_eval_pin_manifest.json`, `bbh_external_tasks/` | frozen custom held-out suite (dataset source is the only change) |
 | `scripts/render_bbh_query_prompts.py` → `bbh_query_prompt_manifest.json` | query prompts built from lm-eval's own `fewshot_context()` |
-| `scripts/audit_bbh_prompt_parity.py` → `bbh_prompt_parity_audit.json` | 27-subtask byte-for-byte parity gates A/B/C + gate D disclosure + `--tamper_check` |
+| `scripts/audit_bbh_prompt_parity.py` → `bbh_prompt_parity_audit.json` | 27-subtask parity gates A/B/C (A now validates demos against the **official** cot-prompts) + gate D disclosure + `--tamper_check` |
+| `scripts/setup_draw_target.py` → `configs/draws/select_bbhx_draw{0,1,2}.yaml` | registers the frozen BBH query prompts with fail-loud sha256/row/ordered-id verification and `cutoff_len: 3072` |
 | `scripts/contamination_global_lexical.py` → `results_summary/contamination_global_lexical_*.json` | pool-wide lexical screen (32×2, **nominal** recall) |
 | `bbh_external_launch_manifest.json` | launch record; asserts the 15-subset invariant, gated on every audit verdict + both warm-up hashes; `--receipt` emits the clean-head receipt |
 

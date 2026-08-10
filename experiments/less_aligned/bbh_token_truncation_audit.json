@@ -21,14 +21,14 @@
     "wrapper": "<s>[INST] {ctx} [/INST] {target}</s>",
     "cutoff_len": 3072,
     "truncation_direction": "source TAIL (source_ids[:source_len])",
-    "max_observed_total_tokens": 2608
+    "max_observed_total_tokens": 2581
   },
   "eval_side_regime": {
     "context_window": 4096,
     "max_gen_toks": 1024,
     "effective_context_budget": 3072,
     "truncation_direction": "LEFT-truncated by lm-eval",
-    "max_observed_context_tokens": 2596,
+    "max_observed_context_tokens": 2569,
     "all_fit": true
   },
   "truncated_by_subtask": {},
@@ -37,11 +37,11 @@
     {
       "id": "bbh::navigate::243",
       "draw": "draw0",
-      "prompt_chars": 2560,
+      "prompt_chars": 2482,
       "grad_side": {
-        "source_tokens": 883,
+        "source_tokens": 856,
         "target_tokens": 2,
-        "source_kept": 883,
+        "source_kept": 856,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -51,7 +51,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 875,
+        "context_tokens": 848,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -61,11 +61,11 @@
     {
       "id": "bbh::object_counting::7",
       "draw": "draw0",
-      "prompt_chars": 1687,
+      "prompt_chars": 1609,
       "grad_side": {
-        "source_tokens": 640,
+        "source_tokens": 613,
         "target_tokens": 4,
-        "source_kept": 640,
+        "source_kept": 613,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -75,7 +75,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 632,
+        "context_tokens": 605,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -85,11 +85,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_seven_objects::117",
       "draw": "draw0",
-      "prompt_chars": 3544,
+      "prompt_chars": 3466,
       "grad_side": {
-        "source_tokens": 1108,
+        "source_tokens": 1081,
         "target_tokens": 4,
-        "source_kept": 1108,
+        "source_kept": 1081,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -99,7 +99,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1100,
+        "context_tokens": 1073,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -109,11 +109,11 @@
     {
       "id": "bbh::web_of_lies::36",
       "draw": "draw0",
-      "prompt_chars": 3221,
+      "prompt_chars": 3143,
       "grad_side": {
-        "source_tokens": 946,
+        "source_tokens": 919,
         "target_tokens": 2,
-        "source_kept": 946,
+        "source_kept": 919,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -123,7 +123,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 938,
+        "context_tokens": 911,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -133,11 +133,11 @@
     {
       "id": "bbh::salient_translation_error_detection::73",
       "draw": "draw0",
-      "prompt_chars": 7368,
+      "prompt_chars": 7290,
       "grad_side": {
-        "source_tokens": 1831,
+        "source_tokens": 1804,
         "target_tokens": 4,
-        "source_kept": 1831,
+        "source_kept": 1804,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -147,7 +147,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1823,
+        "context_tokens": 1796,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -157,11 +157,11 @@
     {
       "id": "bbh::sports_understanding::152",
       "draw": "draw0",
-      "prompt_chars": 1037,
+      "prompt_chars": 959,
       "grad_side": {
-        "source_tokens": 302,
+        "source_tokens": 278,
         "target_tokens": 2,
-        "source_kept": 302,
+        "source_kept": 278,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -171,7 +171,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 294,
+        "context_tokens": 270,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -181,11 +181,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_three_objects::162",
       "draw": "draw0",
-      "prompt_chars": 3138,
+      "prompt_chars": 3060,
       "grad_side": {
-        "source_tokens": 969,
+        "source_tokens": 942,
         "target_tokens": 4,
-        "source_kept": 969,
+        "source_kept": 942,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -195,7 +195,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 961,
+        "context_tokens": 934,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -205,11 +205,11 @@
     {
       "id": "bbh::logical_deduction_seven_objects::101",
       "draw": "draw0",
-      "prompt_chars": 3509,
+      "prompt_chars": 3431,
       "grad_side": {
-        "source_tokens": 976,
+        "source_tokens": 949,
         "target_tokens": 4,
-        "source_kept": 976,
+        "source_kept": 949,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -219,7 +219,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 968,
+        "context_tokens": 941,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -229,11 +229,11 @@
     {
       "id": "bbh::movie_recommendation::117",
       "draw": "draw0",
-      "prompt_chars": 2434,
+      "prompt_chars": 2356,
       "grad_side": {
-        "source_tokens": 837,
+        "source_tokens": 810,
         "target_tokens": 4,
-        "source_kept": 837,
+        "source_kept": 810,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -243,7 +243,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 829,
+        "context_tokens": 802,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -253,11 +253,11 @@
     {
       "id": "bbh::sports_understanding::83",
       "draw": "draw0",
-      "prompt_chars": 1004,
+      "prompt_chars": 926,
       "grad_side": {
-        "source_tokens": 294,
+        "source_tokens": 270,
         "target_tokens": 2,
-        "source_kept": 294,
+        "source_kept": 270,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -267,7 +267,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 286,
+        "context_tokens": 262,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -301,11 +301,11 @@
     {
       "id": "bbh::movie_recommendation::172",
       "draw": "draw0",
-      "prompt_chars": 2448,
+      "prompt_chars": 2370,
       "grad_side": {
-        "source_tokens": 840,
+        "source_tokens": 813,
         "target_tokens": 4,
-        "source_kept": 840,
+        "source_kept": 813,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -315,7 +315,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 832,
+        "context_tokens": 805,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -325,11 +325,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_three_objects::194",
       "draw": "draw0",
-      "prompt_chars": 3232,
+      "prompt_chars": 3154,
       "grad_side": {
-        "source_tokens": 988,
+        "source_tokens": 961,
         "target_tokens": 4,
-        "source_kept": 988,
+        "source_kept": 961,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -339,7 +339,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 980,
+        "context_tokens": 953,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -349,11 +349,11 @@
     {
       "id": "bbh::temporal_sequences::243",
       "draw": "draw0",
-      "prompt_chars": 3753,
+      "prompt_chars": 3675,
       "grad_side": {
-        "source_tokens": 1362,
+        "source_tokens": 1335,
         "target_tokens": 4,
-        "source_kept": 1362,
+        "source_kept": 1335,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -363,7 +363,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1354,
+        "context_tokens": 1327,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -373,11 +373,11 @@
     {
       "id": "bbh::movie_recommendation::69",
       "draw": "draw0",
-      "prompt_chars": 2408,
+      "prompt_chars": 2330,
       "grad_side": {
-        "source_tokens": 826,
+        "source_tokens": 799,
         "target_tokens": 4,
-        "source_kept": 826,
+        "source_kept": 799,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -387,7 +387,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 818,
+        "context_tokens": 791,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -397,12 +397,300 @@
     {
       "id": "bbh::dyck_languages::201",
       "draw": "draw0",
-      "prompt_chars": 2649,
+      "prompt_chars": 2571,
+      "grad_side": {
+        "source_tokens": 1004,
+        "target_tokens": 2,
+        "source_kept": 1004,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 996,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::date_understanding::126",
+      "draw": "draw0",
+      "prompt_chars": 1408,
+      "grad_side": {
+        "source_tokens": 784,
+        "target_tokens": 4,
+        "source_kept": 784,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 776,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_seven_objects::192",
+      "draw": "draw0",
+      "prompt_chars": 3100,
+      "grad_side": {
+        "source_tokens": 867,
+        "target_tokens": 4,
+        "source_kept": 867,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 859,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_seven_objects::239",
+      "draw": "draw0",
+      "prompt_chars": 3372,
+      "grad_side": {
+        "source_tokens": 958,
+        "target_tokens": 4,
+        "source_kept": 958,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 950,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_five_objects::64",
+      "draw": "draw0",
+      "prompt_chars": 3316,
+      "grad_side": {
+        "source_tokens": 1012,
+        "target_tokens": 4,
+        "source_kept": 1012,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1004,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::navigate::217",
+      "draw": "draw0",
+      "prompt_chars": 2327,
+      "grad_side": {
+        "source_tokens": 812,
+        "target_tokens": 2,
+        "source_kept": 812,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 804,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::disambiguation_qa::19",
+      "draw": "draw0",
+      "prompt_chars": 3918,
+      "grad_side": {
+        "source_tokens": 1079,
+        "target_tokens": 4,
+        "source_kept": 1079,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1071,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::penguins_in_a_table::67",
+      "draw": "draw0",
+      "prompt_chars": 3062,
+      "grad_side": {
+        "source_tokens": 1153,
+        "target_tokens": 4,
+        "source_kept": 1153,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1145,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::reasoning_about_colored_objects::79",
+      "draw": "draw0",
+      "prompt_chars": 2753,
+      "grad_side": {
+        "source_tokens": 985,
+        "target_tokens": 4,
+        "source_kept": 985,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 977,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::object_counting::170",
+      "draw": "draw0",
+      "prompt_chars": 1598,
+      "grad_side": {
+        "source_tokens": 601,
+        "target_tokens": 4,
+        "source_kept": 601,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 593,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::web_of_lies::16",
+      "draw": "draw0",
+      "prompt_chars": 3148,
+      "grad_side": {
+        "source_tokens": 917,
+        "target_tokens": 2,
+        "source_kept": 917,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 909,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::ruin_names::175",
+      "draw": "draw0",
+      "prompt_chars": 3713,
+      "grad_side": {
+        "source_tokens": 1160,
+        "target_tokens": 4,
+        "source_kept": 1160,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1152,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::penguins_in_a_table::58",
+      "draw": "draw0",
+      "prompt_chars": 2832,
       "grad_side": {
         "source_tokens": 1031,
-        "target_tokens": 2,
+        "target_tokens": 4,
         "source_kept": 1031,
-        "target_kept": 2,
+        "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
         "exceeds_cutoff": false,
@@ -419,301 +707,13 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::date_understanding::126",
-      "draw": "draw0",
-      "prompt_chars": 1486,
-      "grad_side": {
-        "source_tokens": 811,
-        "target_tokens": 4,
-        "source_kept": 811,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 803,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_seven_objects::192",
-      "draw": "draw0",
-      "prompt_chars": 3178,
-      "grad_side": {
-        "source_tokens": 894,
-        "target_tokens": 4,
-        "source_kept": 894,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 886,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_seven_objects::239",
-      "draw": "draw0",
-      "prompt_chars": 3450,
-      "grad_side": {
-        "source_tokens": 985,
-        "target_tokens": 4,
-        "source_kept": 985,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 977,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_five_objects::64",
-      "draw": "draw0",
-      "prompt_chars": 3394,
-      "grad_side": {
-        "source_tokens": 1039,
-        "target_tokens": 4,
-        "source_kept": 1039,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1031,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::navigate::217",
-      "draw": "draw0",
-      "prompt_chars": 2405,
-      "grad_side": {
-        "source_tokens": 839,
-        "target_tokens": 2,
-        "source_kept": 839,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 831,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::disambiguation_qa::19",
-      "draw": "draw0",
-      "prompt_chars": 3996,
-      "grad_side": {
-        "source_tokens": 1106,
-        "target_tokens": 4,
-        "source_kept": 1106,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1098,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::penguins_in_a_table::67",
-      "draw": "draw0",
-      "prompt_chars": 3140,
-      "grad_side": {
-        "source_tokens": 1180,
-        "target_tokens": 4,
-        "source_kept": 1180,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1172,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::reasoning_about_colored_objects::79",
-      "draw": "draw0",
-      "prompt_chars": 2831,
-      "grad_side": {
-        "source_tokens": 1015,
-        "target_tokens": 4,
-        "source_kept": 1015,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1007,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::object_counting::170",
-      "draw": "draw0",
-      "prompt_chars": 1676,
-      "grad_side": {
-        "source_tokens": 628,
-        "target_tokens": 4,
-        "source_kept": 628,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 620,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::web_of_lies::16",
-      "draw": "draw0",
-      "prompt_chars": 3226,
-      "grad_side": {
-        "source_tokens": 944,
-        "target_tokens": 2,
-        "source_kept": 944,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 936,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::ruin_names::175",
-      "draw": "draw0",
-      "prompt_chars": 3791,
-      "grad_side": {
-        "source_tokens": 1187,
-        "target_tokens": 4,
-        "source_kept": 1187,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1179,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::penguins_in_a_table::58",
-      "draw": "draw0",
-      "prompt_chars": 2910,
-      "grad_side": {
-        "source_tokens": 1058,
-        "target_tokens": 4,
-        "source_kept": 1058,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1050,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
       "id": "bbh::sports_understanding::49",
       "draw": "draw0",
-      "prompt_chars": 1012,
+      "prompt_chars": 934,
       "grad_side": {
-        "source_tokens": 296,
+        "source_tokens": 272,
         "target_tokens": 2,
-        "source_kept": 296,
+        "source_kept": 272,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -723,7 +723,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 288,
+        "context_tokens": 264,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -733,11 +733,11 @@
     {
       "id": "bbh::date_understanding::182",
       "draw": "draw0",
-      "prompt_chars": 1454,
+      "prompt_chars": 1376,
       "grad_side": {
-        "source_tokens": 798,
+        "source_tokens": 771,
         "target_tokens": 4,
-        "source_kept": 798,
+        "source_kept": 771,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -747,7 +747,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 790,
+        "context_tokens": 763,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -757,11 +757,11 @@
     {
       "id": "bbh::object_counting::191",
       "draw": "draw0",
-      "prompt_chars": 1692,
+      "prompt_chars": 1614,
       "grad_side": {
-        "source_tokens": 642,
+        "source_tokens": 615,
         "target_tokens": 3,
-        "source_kept": 642,
+        "source_kept": 615,
         "target_kept": 3,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -771,7 +771,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 634,
+        "context_tokens": 607,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -781,11 +781,11 @@
     {
       "id": "bbh::geometric_shapes::50",
       "draw": "draw0",
-      "prompt_chars": 5278,
+      "prompt_chars": 5200,
       "grad_side": {
-        "source_tokens": 2604,
+        "source_tokens": 2577,
         "target_tokens": 4,
-        "source_kept": 2604,
+        "source_kept": 2577,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -795,7 +795,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 2596,
+        "context_tokens": 2569,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -805,11 +805,11 @@
     {
       "id": "bbh::reasoning_about_colored_objects::101",
       "draw": "draw0",
-      "prompt_chars": 2796,
+      "prompt_chars": 2718,
       "grad_side": {
-        "source_tokens": 1007,
+        "source_tokens": 977,
         "target_tokens": 4,
-        "source_kept": 1007,
+        "source_kept": 977,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -819,7 +819,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 999,
+        "context_tokens": 969,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -829,11 +829,11 @@
     {
       "id": "bbh::navigate::160",
       "draw": "draw0",
-      "prompt_chars": 2393,
+      "prompt_chars": 2315,
       "grad_side": {
-        "source_tokens": 836,
+        "source_tokens": 809,
         "target_tokens": 2,
-        "source_kept": 836,
+        "source_kept": 809,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -843,7 +843,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 828,
+        "context_tokens": 801,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -853,11 +853,11 @@
     {
       "id": "bbh::salient_translation_error_detection::181",
       "draw": "draw0",
-      "prompt_chars": 7269,
+      "prompt_chars": 7191,
       "grad_side": {
-        "source_tokens": 1812,
+        "source_tokens": 1785,
         "target_tokens": 4,
-        "source_kept": 1812,
+        "source_kept": 1785,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -867,7 +867,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1804,
+        "context_tokens": 1777,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -877,11 +877,11 @@
     {
       "id": "bbh::word_sorting::159",
       "draw": "draw0",
-      "prompt_chars": 2342,
+      "prompt_chars": 2264,
       "grad_side": {
-        "source_tokens": 877,
+        "source_tokens": 850,
         "target_tokens": 6,
-        "source_kept": 877,
+        "source_kept": 850,
         "target_kept": 6,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -891,7 +891,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 869,
+        "context_tokens": 842,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -901,11 +901,11 @@
     {
       "id": "bbh::snarks::91",
       "draw": "draw0",
-      "prompt_chars": 3440,
+      "prompt_chars": 3362,
       "grad_side": {
-        "source_tokens": 916,
+        "source_tokens": 889,
         "target_tokens": 4,
-        "source_kept": 916,
+        "source_kept": 889,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -915,7 +915,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 908,
+        "context_tokens": 881,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -925,11 +925,11 @@
     {
       "id": "bbh::logical_deduction_three_objects::185",
       "draw": "draw0",
-      "prompt_chars": 2961,
+      "prompt_chars": 2883,
       "grad_side": {
-        "source_tokens": 835,
+        "source_tokens": 808,
         "target_tokens": 4,
-        "source_kept": 835,
+        "source_kept": 808,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -939,7 +939,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 827,
+        "context_tokens": 800,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -949,11 +949,11 @@
     {
       "id": "bbh::multistep_arithmetic_two::163",
       "draw": "draw0",
-      "prompt_chars": 2535,
+      "prompt_chars": 2457,
       "grad_side": {
-        "source_tokens": 1062,
+        "source_tokens": 1035,
         "target_tokens": 4,
-        "source_kept": 1062,
+        "source_kept": 1035,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -963,7 +963,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1054,
+        "context_tokens": 1027,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -973,11 +973,11 @@
     {
       "id": "bbh::hyperbaton::217",
       "draw": "draw0",
-      "prompt_chars": 3379,
+      "prompt_chars": 3301,
       "grad_side": {
-        "source_tokens": 1080,
+        "source_tokens": 1053,
         "target_tokens": 4,
-        "source_kept": 1080,
+        "source_kept": 1053,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -987,7 +987,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1072,
+        "context_tokens": 1045,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -997,11 +997,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_seven_objects::215",
       "draw": "draw0",
-      "prompt_chars": 3462,
+      "prompt_chars": 3384,
       "grad_side": {
-        "source_tokens": 1078,
+        "source_tokens": 1051,
         "target_tokens": 4,
-        "source_kept": 1078,
+        "source_kept": 1051,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1011,7 +1011,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1070,
+        "context_tokens": 1043,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1021,11 +1021,11 @@
     {
       "id": "bbh::disambiguation_qa::168",
       "draw": "draw0",
-      "prompt_chars": 3988,
+      "prompt_chars": 3910,
       "grad_side": {
-        "source_tokens": 1098,
+        "source_tokens": 1071,
         "target_tokens": 4,
-        "source_kept": 1098,
+        "source_kept": 1071,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1035,7 +1035,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1090,
+        "context_tokens": 1063,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1045,11 +1045,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_three_objects::62",
       "draw": "draw0",
-      "prompt_chars": 3247,
+      "prompt_chars": 3169,
       "grad_side": {
-        "source_tokens": 993,
+        "source_tokens": 966,
         "target_tokens": 4,
-        "source_kept": 993,
+        "source_kept": 966,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1059,7 +1059,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 985,
+        "context_tokens": 958,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1069,11 +1069,11 @@
     {
       "id": "bbh::date_understanding::241",
       "draw": "draw0",
-      "prompt_chars": 1430,
+      "prompt_chars": 1352,
       "grad_side": {
-        "source_tokens": 785,
+        "source_tokens": 758,
         "target_tokens": 4,
-        "source_kept": 785,
+        "source_kept": 758,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1083,7 +1083,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 777,
+        "context_tokens": 750,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1093,11 +1093,11 @@
     {
       "id": "bbh::date_understanding::67",
       "draw": "draw0",
-      "prompt_chars": 1471,
+      "prompt_chars": 1393,
       "grad_side": {
-        "source_tokens": 807,
+        "source_tokens": 780,
         "target_tokens": 4,
-        "source_kept": 807,
+        "source_kept": 780,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1107,7 +1107,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 799,
+        "context_tokens": 772,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1117,11 +1117,11 @@
     {
       "id": "bbh::salient_translation_error_detection::223",
       "draw": "draw0",
-      "prompt_chars": 7371,
+      "prompt_chars": 7293,
       "grad_side": {
-        "source_tokens": 1830,
+        "source_tokens": 1803,
         "target_tokens": 4,
-        "source_kept": 1830,
+        "source_kept": 1803,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1131,7 +1131,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1822,
+        "context_tokens": 1795,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1141,11 +1141,11 @@
     {
       "id": "bbh::logical_deduction_seven_objects::156",
       "draw": "draw0",
-      "prompt_chars": 3432,
+      "prompt_chars": 3354,
       "grad_side": {
-        "source_tokens": 985,
+        "source_tokens": 958,
         "target_tokens": 4,
-        "source_kept": 985,
+        "source_kept": 958,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1155,7 +1155,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 977,
+        "context_tokens": 950,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1165,11 +1165,11 @@
     {
       "id": "bbh::ruin_names::134",
       "draw": "draw0",
-      "prompt_chars": 3756,
+      "prompt_chars": 3678,
       "grad_side": {
-        "source_tokens": 1181,
+        "source_tokens": 1154,
         "target_tokens": 4,
-        "source_kept": 1181,
+        "source_kept": 1154,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1179,7 +1179,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1173,
+        "context_tokens": 1146,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1189,11 +1189,11 @@
     {
       "id": "bbh::date_understanding::239",
       "draw": "draw0",
-      "prompt_chars": 1527,
+      "prompt_chars": 1449,
       "grad_side": {
-        "source_tokens": 829,
+        "source_tokens": 802,
         "target_tokens": 4,
-        "source_kept": 829,
+        "source_kept": 802,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1203,7 +1203,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 821,
+        "context_tokens": 794,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1213,11 +1213,11 @@
     {
       "id": "bbh::causal_judgement::87",
       "draw": "draw0",
-      "prompt_chars": 4691,
+      "prompt_chars": 4613,
       "grad_side": {
-        "source_tokens": 1146,
+        "source_tokens": 1119,
         "target_tokens": 2,
-        "source_kept": 1146,
+        "source_kept": 1119,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1227,7 +1227,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1138,
+        "context_tokens": 1111,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1237,11 +1237,11 @@
     {
       "id": "bbh::logical_deduction_seven_objects::59",
       "draw": "draw0",
-      "prompt_chars": 3525,
+      "prompt_chars": 3447,
       "grad_side": {
-        "source_tokens": 983,
+        "source_tokens": 956,
         "target_tokens": 4,
-        "source_kept": 983,
+        "source_kept": 956,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1251,7 +1251,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 975,
+        "context_tokens": 948,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1261,11 +1261,11 @@
     {
       "id": "bbh::disambiguation_qa::66",
       "draw": "draw0",
-      "prompt_chars": 3997,
+      "prompt_chars": 3919,
       "grad_side": {
-        "source_tokens": 1098,
+        "source_tokens": 1071,
         "target_tokens": 4,
-        "source_kept": 1098,
+        "source_kept": 1071,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1275,7 +1275,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1090,
+        "context_tokens": 1063,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1285,11 +1285,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_three_objects::203",
       "draw": "draw0",
-      "prompt_chars": 3229,
+      "prompt_chars": 3151,
       "grad_side": {
-        "source_tokens": 985,
+        "source_tokens": 958,
         "target_tokens": 4,
-        "source_kept": 985,
+        "source_kept": 958,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1299,7 +1299,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 977,
+        "context_tokens": 950,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1309,11 +1309,11 @@
     {
       "id": "bbh::geometric_shapes::34",
       "draw": "draw0",
-      "prompt_chars": 5224,
+      "prompt_chars": 5146,
       "grad_side": {
-        "source_tokens": 2554,
+        "source_tokens": 2527,
         "target_tokens": 4,
-        "source_kept": 2554,
+        "source_kept": 2527,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1323,7 +1323,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 2546,
+        "context_tokens": 2519,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1357,11 +1357,11 @@
     {
       "id": "bbh::logical_deduction_five_objects::115",
       "draw": "draw0",
-      "prompt_chars": 3190,
+      "prompt_chars": 3112,
       "grad_side": {
-        "source_tokens": 911,
+        "source_tokens": 884,
         "target_tokens": 4,
-        "source_kept": 911,
+        "source_kept": 884,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1371,7 +1371,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 903,
+        "context_tokens": 876,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1381,11 +1381,11 @@
     {
       "id": "bbh::sports_understanding::242",
       "draw": "draw0",
-      "prompt_chars": 1014,
+      "prompt_chars": 936,
       "grad_side": {
-        "source_tokens": 298,
+        "source_tokens": 274,
         "target_tokens": 2,
-        "source_kept": 298,
+        "source_kept": 274,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1395,7 +1395,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 290,
+        "context_tokens": 266,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1405,11 +1405,11 @@
     {
       "id": "bbh::geometric_shapes::15",
       "draw": "draw0",
-      "prompt_chars": 5206,
+      "prompt_chars": 5128,
       "grad_side": {
-        "source_tokens": 2539,
+        "source_tokens": 2512,
         "target_tokens": 4,
-        "source_kept": 2539,
+        "source_kept": 2512,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1419,7 +1419,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 2531,
+        "context_tokens": 2504,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1429,11 +1429,11 @@
     {
       "id": "bbh::snarks::86",
       "draw": "draw0",
-      "prompt_chars": 3417,
+      "prompt_chars": 3339,
       "grad_side": {
-        "source_tokens": 916,
+        "source_tokens": 889,
         "target_tokens": 4,
-        "source_kept": 916,
+        "source_kept": 889,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1443,7 +1443,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 908,
+        "context_tokens": 881,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1453,11 +1453,11 @@
     {
       "id": "bbh::logical_deduction_seven_objects::12",
       "draw": "draw0",
-      "prompt_chars": 3157,
+      "prompt_chars": 3079,
       "grad_side": {
-        "source_tokens": 891,
+        "source_tokens": 864,
         "target_tokens": 4,
-        "source_kept": 891,
+        "source_kept": 864,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1467,7 +1467,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 883,
+        "context_tokens": 856,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1477,11 +1477,11 @@
     {
       "id": "bbh::sports_understanding::79",
       "draw": "draw0",
-      "prompt_chars": 1017,
+      "prompt_chars": 939,
       "grad_side": {
-        "source_tokens": 297,
+        "source_tokens": 273,
         "target_tokens": 2,
-        "source_kept": 297,
+        "source_kept": 273,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1491,7 +1491,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 289,
+        "context_tokens": 265,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1501,11 +1501,11 @@
     {
       "id": "bbh::penguins_in_a_table::15",
       "draw": "draw0",
-      "prompt_chars": 3016,
+      "prompt_chars": 2938,
       "grad_side": {
-        "source_tokens": 1107,
+        "source_tokens": 1080,
         "target_tokens": 4,
-        "source_kept": 1107,
+        "source_kept": 1080,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1515,7 +1515,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1099,
+        "context_tokens": 1072,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1525,11 +1525,11 @@
     {
       "id": "bbh::temporal_sequences::133",
       "draw": "draw0",
-      "prompt_chars": 3760,
+      "prompt_chars": 3682,
       "grad_side": {
-        "source_tokens": 1342,
+        "source_tokens": 1315,
         "target_tokens": 4,
-        "source_kept": 1342,
+        "source_kept": 1315,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1539,7 +1539,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1334,
+        "context_tokens": 1307,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1549,11 +1549,11 @@
     {
       "id": "bbh::disambiguation_qa::194",
       "draw": "draw0",
-      "prompt_chars": 3962,
+      "prompt_chars": 3884,
       "grad_side": {
-        "source_tokens": 1098,
+        "source_tokens": 1071,
         "target_tokens": 4,
-        "source_kept": 1098,
+        "source_kept": 1071,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1563,7 +1563,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1090,
+        "context_tokens": 1063,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1573,11 +1573,11 @@
     {
       "id": "bbh::formal_fallacies::115",
       "draw": "draw1",
-      "prompt_chars": 5147,
+      "prompt_chars": 5069,
       "grad_side": {
-        "source_tokens": 1539,
+        "source_tokens": 1512,
         "target_tokens": 2,
-        "source_kept": 1539,
+        "source_kept": 1512,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1587,7 +1587,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1531,
+        "context_tokens": 1504,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1597,11 +1597,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_five_objects::95",
       "draw": "draw1",
-      "prompt_chars": 3394,
+      "prompt_chars": 3316,
       "grad_side": {
-        "source_tokens": 1040,
+        "source_tokens": 1013,
         "target_tokens": 4,
-        "source_kept": 1040,
+        "source_kept": 1013,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1611,7 +1611,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1032,
+        "context_tokens": 1005,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1621,11 +1621,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_seven_objects::101",
       "draw": "draw1",
-      "prompt_chars": 3563,
+      "prompt_chars": 3485,
       "grad_side": {
-        "source_tokens": 1117,
+        "source_tokens": 1090,
         "target_tokens": 4,
-        "source_kept": 1117,
+        "source_kept": 1090,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1635,7 +1635,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1109,
+        "context_tokens": 1082,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1645,11 +1645,11 @@
     {
       "id": "bbh::navigate::194",
       "draw": "draw1",
-      "prompt_chars": 2414,
+      "prompt_chars": 2336,
       "grad_side": {
-        "source_tokens": 841,
+        "source_tokens": 814,
         "target_tokens": 2,
-        "source_kept": 841,
+        "source_kept": 814,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1659,7 +1659,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 833,
+        "context_tokens": 806,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1669,11 +1669,11 @@
     {
       "id": "bbh::snarks::162",
       "draw": "draw1",
-      "prompt_chars": 3420,
+      "prompt_chars": 3342,
       "grad_side": {
-        "source_tokens": 910,
+        "source_tokens": 883,
         "target_tokens": 4,
-        "source_kept": 910,
+        "source_kept": 883,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1683,7 +1683,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 902,
+        "context_tokens": 875,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1693,11 +1693,11 @@
     {
       "id": "bbh::web_of_lies::67",
       "draw": "draw1",
-      "prompt_chars": 3229,
+      "prompt_chars": 3151,
       "grad_side": {
-        "source_tokens": 946,
+        "source_tokens": 919,
         "target_tokens": 2,
-        "source_kept": 946,
+        "source_kept": 919,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1707,7 +1707,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 938,
+        "context_tokens": 911,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1717,11 +1717,11 @@
     {
       "id": "bbh::geometric_shapes::128",
       "draw": "draw1",
-      "prompt_chars": 5209,
+      "prompt_chars": 5131,
       "grad_side": {
-        "source_tokens": 2538,
+        "source_tokens": 2511,
         "target_tokens": 4,
-        "source_kept": 2538,
+        "source_kept": 2511,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -1731,7 +1731,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 2530,
+        "context_tokens": 2503,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -1765,7 +1765,583 @@
     {
       "id": "bbh::tracking_shuffled_objects_seven_objects::63",
       "draw": "draw1",
-      "prompt_chars": 3452,
+      "prompt_chars": 3374,
+      "grad_side": {
+        "source_tokens": 1045,
+        "target_tokens": 4,
+        "source_kept": 1045,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1037,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::word_sorting::74",
+      "draw": "draw1",
+      "prompt_chars": 2401,
+      "grad_side": {
+        "source_tokens": 892,
+        "target_tokens": 48,
+        "source_kept": 892,
+        "target_kept": 48,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 884,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::object_counting::160",
+      "draw": "draw1",
+      "prompt_chars": 1560,
+      "grad_side": {
+        "source_tokens": 595,
+        "target_tokens": 3,
+        "source_kept": 595,
+        "target_kept": 3,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 587,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_three_objects::215",
+      "draw": "draw1",
+      "prompt_chars": 2912,
+      "grad_side": {
+        "source_tokens": 825,
+        "target_tokens": 4,
+        "source_kept": 825,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 817,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_five_objects::100",
+      "draw": "draw1",
+      "prompt_chars": 3320,
+      "grad_side": {
+        "source_tokens": 1012,
+        "target_tokens": 4,
+        "source_kept": 1012,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1004,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::word_sorting::100",
+      "draw": "draw1",
+      "prompt_chars": 2278,
+      "grad_side": {
+        "source_tokens": 855,
+        "target_tokens": 11,
+        "source_kept": 855,
+        "target_kept": 11,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 847,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_five_objects::73",
+      "draw": "draw1",
+      "prompt_chars": 3320,
+      "grad_side": {
+        "source_tokens": 1007,
+        "target_tokens": 4,
+        "source_kept": 1007,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 999,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::movie_recommendation::5",
+      "draw": "draw1",
+      "prompt_chars": 2340,
+      "grad_side": {
+        "source_tokens": 802,
+        "target_tokens": 4,
+        "source_kept": 802,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 794,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::disambiguation_qa::216",
+      "draw": "draw1",
+      "prompt_chars": 3906,
+      "grad_side": {
+        "source_tokens": 1074,
+        "target_tokens": 4,
+        "source_kept": 1074,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1066,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::snarks::98",
+      "draw": "draw1",
+      "prompt_chars": 3338,
+      "grad_side": {
+        "source_tokens": 889,
+        "target_tokens": 4,
+        "source_kept": 889,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 881,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_five_objects::134",
+      "draw": "draw1",
+      "prompt_chars": 3028,
+      "grad_side": {
+        "source_tokens": 855,
+        "target_tokens": 4,
+        "source_kept": 855,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 847,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::navigate::67",
+      "draw": "draw1",
+      "prompt_chars": 2353,
+      "grad_side": {
+        "source_tokens": 818,
+        "target_tokens": 2,
+        "source_kept": 818,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 810,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::hyperbaton::18",
+      "draw": "draw1",
+      "prompt_chars": 3321,
+      "grad_side": {
+        "source_tokens": 1057,
+        "target_tokens": 4,
+        "source_kept": 1057,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1049,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_seven_objects::42",
+      "draw": "draw1",
+      "prompt_chars": 3501,
+      "grad_side": {
+        "source_tokens": 1068,
+        "target_tokens": 4,
+        "source_kept": 1068,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1060,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::hyperbaton::50",
+      "draw": "draw1",
+      "prompt_chars": 3303,
+      "grad_side": {
+        "source_tokens": 1053,
+        "target_tokens": 4,
+        "source_kept": 1053,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1045,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::formal_fallacies::31",
+      "draw": "draw1",
+      "prompt_chars": 4945,
+      "grad_side": {
+        "source_tokens": 1483,
+        "target_tokens": 2,
+        "source_kept": 1483,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1475,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_five_objects::144",
+      "draw": "draw1",
+      "prompt_chars": 3165,
+      "grad_side": {
+        "source_tokens": 899,
+        "target_tokens": 4,
+        "source_kept": 899,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 891,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::dyck_languages::198",
+      "draw": "draw1",
+      "prompt_chars": 2683,
+      "grad_side": {
+        "source_tokens": 1060,
+        "target_tokens": 2,
+        "source_kept": 1060,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1052,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::navigate::88",
+      "draw": "draw1",
+      "prompt_chars": 2390,
+      "grad_side": {
+        "source_tokens": 834,
+        "target_tokens": 2,
+        "source_kept": 834,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 826,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::date_understanding::234",
+      "draw": "draw1",
+      "prompt_chars": 1466,
+      "grad_side": {
+        "source_tokens": 795,
+        "target_tokens": 4,
+        "source_kept": 795,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 787,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::reasoning_about_colored_objects::247",
+      "draw": "draw1",
+      "prompt_chars": 2658,
+      "grad_side": {
+        "source_tokens": 961,
+        "target_tokens": 4,
+        "source_kept": 961,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 953,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_three_objects::223",
+      "draw": "draw1",
+      "prompt_chars": 3061,
+      "grad_side": {
+        "source_tokens": 945,
+        "target_tokens": 4,
+        "source_kept": 945,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 937,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::web_of_lies::214",
+      "draw": "draw1",
+      "prompt_chars": 3144,
+      "grad_side": {
+        "source_tokens": 921,
+        "target_tokens": 2,
+        "source_kept": 921,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 913,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::web_of_lies::196",
+      "draw": "draw1",
+      "prompt_chars": 3164,
+      "grad_side": {
+        "source_tokens": 919,
+        "target_tokens": 2,
+        "source_kept": 919,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 911,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_seven_objects::198",
+      "draw": "draw1",
+      "prompt_chars": 3502,
       "grad_side": {
         "source_tokens": 1072,
         "target_tokens": 4,
@@ -1787,589 +2363,13 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::word_sorting::74",
-      "draw": "draw1",
-      "prompt_chars": 2479,
-      "grad_side": {
-        "source_tokens": 919,
-        "target_tokens": 48,
-        "source_kept": 919,
-        "target_kept": 48,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 911,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::object_counting::160",
-      "draw": "draw1",
-      "prompt_chars": 1638,
-      "grad_side": {
-        "source_tokens": 622,
-        "target_tokens": 3,
-        "source_kept": 622,
-        "target_kept": 3,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 614,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_three_objects::215",
-      "draw": "draw1",
-      "prompt_chars": 2990,
-      "grad_side": {
-        "source_tokens": 852,
-        "target_tokens": 4,
-        "source_kept": 852,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 844,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_five_objects::100",
-      "draw": "draw1",
-      "prompt_chars": 3398,
-      "grad_side": {
-        "source_tokens": 1039,
-        "target_tokens": 4,
-        "source_kept": 1039,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1031,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::word_sorting::100",
-      "draw": "draw1",
-      "prompt_chars": 2356,
-      "grad_side": {
-        "source_tokens": 882,
-        "target_tokens": 11,
-        "source_kept": 882,
-        "target_kept": 11,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 874,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_five_objects::73",
-      "draw": "draw1",
-      "prompt_chars": 3398,
-      "grad_side": {
-        "source_tokens": 1034,
-        "target_tokens": 4,
-        "source_kept": 1034,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1026,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::movie_recommendation::5",
-      "draw": "draw1",
-      "prompt_chars": 2418,
-      "grad_side": {
-        "source_tokens": 829,
-        "target_tokens": 4,
-        "source_kept": 829,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 821,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::disambiguation_qa::216",
-      "draw": "draw1",
-      "prompt_chars": 3984,
-      "grad_side": {
-        "source_tokens": 1101,
-        "target_tokens": 4,
-        "source_kept": 1101,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1093,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::snarks::98",
-      "draw": "draw1",
-      "prompt_chars": 3416,
-      "grad_side": {
-        "source_tokens": 916,
-        "target_tokens": 4,
-        "source_kept": 916,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 908,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_five_objects::134",
-      "draw": "draw1",
-      "prompt_chars": 3106,
-      "grad_side": {
-        "source_tokens": 882,
-        "target_tokens": 4,
-        "source_kept": 882,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 874,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::navigate::67",
-      "draw": "draw1",
-      "prompt_chars": 2431,
-      "grad_side": {
-        "source_tokens": 845,
-        "target_tokens": 2,
-        "source_kept": 845,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 837,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::hyperbaton::18",
-      "draw": "draw1",
-      "prompt_chars": 3399,
-      "grad_side": {
-        "source_tokens": 1084,
-        "target_tokens": 4,
-        "source_kept": 1084,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1076,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_seven_objects::42",
-      "draw": "draw1",
-      "prompt_chars": 3579,
-      "grad_side": {
-        "source_tokens": 1095,
-        "target_tokens": 4,
-        "source_kept": 1095,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1087,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::hyperbaton::50",
-      "draw": "draw1",
-      "prompt_chars": 3381,
-      "grad_side": {
-        "source_tokens": 1080,
-        "target_tokens": 4,
-        "source_kept": 1080,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1072,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::formal_fallacies::31",
-      "draw": "draw1",
-      "prompt_chars": 5023,
-      "grad_side": {
-        "source_tokens": 1510,
-        "target_tokens": 2,
-        "source_kept": 1510,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1502,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_five_objects::144",
-      "draw": "draw1",
-      "prompt_chars": 3243,
-      "grad_side": {
-        "source_tokens": 926,
-        "target_tokens": 4,
-        "source_kept": 926,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 918,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::dyck_languages::198",
-      "draw": "draw1",
-      "prompt_chars": 2761,
-      "grad_side": {
-        "source_tokens": 1087,
-        "target_tokens": 2,
-        "source_kept": 1087,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1079,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::navigate::88",
-      "draw": "draw1",
-      "prompt_chars": 2468,
-      "grad_side": {
-        "source_tokens": 861,
-        "target_tokens": 2,
-        "source_kept": 861,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 853,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::date_understanding::234",
-      "draw": "draw1",
-      "prompt_chars": 1544,
-      "grad_side": {
-        "source_tokens": 822,
-        "target_tokens": 4,
-        "source_kept": 822,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 814,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::reasoning_about_colored_objects::247",
-      "draw": "draw1",
-      "prompt_chars": 2736,
-      "grad_side": {
-        "source_tokens": 991,
-        "target_tokens": 4,
-        "source_kept": 991,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 983,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_three_objects::223",
-      "draw": "draw1",
-      "prompt_chars": 3139,
-      "grad_side": {
-        "source_tokens": 972,
-        "target_tokens": 4,
-        "source_kept": 972,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 964,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::web_of_lies::214",
-      "draw": "draw1",
-      "prompt_chars": 3222,
-      "grad_side": {
-        "source_tokens": 948,
-        "target_tokens": 2,
-        "source_kept": 948,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 940,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::web_of_lies::196",
-      "draw": "draw1",
-      "prompt_chars": 3242,
-      "grad_side": {
-        "source_tokens": 946,
-        "target_tokens": 2,
-        "source_kept": 946,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 938,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_seven_objects::198",
-      "draw": "draw1",
-      "prompt_chars": 3580,
-      "grad_side": {
-        "source_tokens": 1099,
-        "target_tokens": 4,
-        "source_kept": 1099,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1091,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
       "id": "bbh::penguins_in_a_table::124",
       "draw": "draw1",
-      "prompt_chars": 2907,
+      "prompt_chars": 2829,
       "grad_side": {
-        "source_tokens": 1059,
+        "source_tokens": 1032,
         "target_tokens": 4,
-        "source_kept": 1059,
+        "source_kept": 1032,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2379,7 +2379,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1051,
+        "context_tokens": 1024,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2389,11 +2389,11 @@
     {
       "id": "bbh::navigate::205",
       "draw": "draw1",
-      "prompt_chars": 2451,
+      "prompt_chars": 2373,
       "grad_side": {
-        "source_tokens": 851,
+        "source_tokens": 824,
         "target_tokens": 2,
-        "source_kept": 851,
+        "source_kept": 824,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2403,7 +2403,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 843,
+        "context_tokens": 816,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2413,11 +2413,11 @@
     {
       "id": "bbh::web_of_lies::83",
       "draw": "draw1",
-      "prompt_chars": 3206,
+      "prompt_chars": 3128,
       "grad_side": {
-        "source_tokens": 944,
+        "source_tokens": 917,
         "target_tokens": 2,
-        "source_kept": 944,
+        "source_kept": 917,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2427,7 +2427,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 936,
+        "context_tokens": 909,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2437,11 +2437,11 @@
     {
       "id": "bbh::web_of_lies::20",
       "draw": "draw1",
-      "prompt_chars": 3217,
+      "prompt_chars": 3139,
       "grad_side": {
-        "source_tokens": 942,
+        "source_tokens": 915,
         "target_tokens": 2,
-        "source_kept": 942,
+        "source_kept": 915,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2451,7 +2451,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 934,
+        "context_tokens": 907,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2461,11 +2461,11 @@
     {
       "id": "bbh::sports_understanding::108",
       "draw": "draw1",
-      "prompt_chars": 1033,
+      "prompt_chars": 955,
       "grad_side": {
-        "source_tokens": 300,
+        "source_tokens": 276,
         "target_tokens": 2,
-        "source_kept": 300,
+        "source_kept": 276,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2475,7 +2475,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 292,
+        "context_tokens": 268,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2485,11 +2485,11 @@
     {
       "id": "bbh::dyck_languages::115",
       "draw": "draw1",
-      "prompt_chars": 2627,
+      "prompt_chars": 2549,
       "grad_side": {
-        "source_tokens": 1020,
+        "source_tokens": 993,
         "target_tokens": 3,
-        "source_kept": 1020,
+        "source_kept": 993,
         "target_kept": 3,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2499,7 +2499,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1012,
+        "context_tokens": 985,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2509,223 +2509,7 @@
     {
       "id": "bbh::logical_deduction_three_objects::227",
       "draw": "draw1",
-      "prompt_chars": 3043,
-      "grad_side": {
-        "source_tokens": 857,
-        "target_tokens": 4,
-        "source_kept": 857,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 849,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::causal_judgement::128",
-      "draw": "draw1",
-      "prompt_chars": 4399,
-      "grad_side": {
-        "source_tokens": 1065,
-        "target_tokens": 2,
-        "source_kept": 1065,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1057,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::web_of_lies::36",
-      "draw": "draw1",
-      "prompt_chars": 3221,
-      "grad_side": {
-        "source_tokens": 946,
-        "target_tokens": 2,
-        "source_kept": 946,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 938,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_seven_objects::122",
-      "draw": "draw1",
-      "prompt_chars": 3438,
-      "grad_side": {
-        "source_tokens": 978,
-        "target_tokens": 4,
-        "source_kept": 978,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 970,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::formal_fallacies::83",
-      "draw": "draw1",
-      "prompt_chars": 5119,
-      "grad_side": {
-        "source_tokens": 1521,
-        "target_tokens": 2,
-        "source_kept": 1521,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1513,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::multistep_arithmetic_two::120",
-      "draw": "draw1",
-      "prompt_chars": 2536,
-      "grad_side": {
-        "source_tokens": 1063,
-        "target_tokens": 4,
-        "source_kept": 1063,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1055,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::formal_fallacies::25",
-      "draw": "draw1",
-      "prompt_chars": 5072,
-      "grad_side": {
-        "source_tokens": 1509,
-        "target_tokens": 2,
-        "source_kept": 1509,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1501,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::disambiguation_qa::185",
-      "draw": "draw1",
-      "prompt_chars": 4012,
-      "grad_side": {
-        "source_tokens": 1103,
-        "target_tokens": 4,
-        "source_kept": 1103,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1095,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_three_objects::150",
-      "draw": "draw1",
-      "prompt_chars": 3087,
-      "grad_side": {
-        "source_tokens": 872,
-        "target_tokens": 4,
-        "source_kept": 872,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 864,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::movie_recommendation::59",
-      "draw": "draw1",
-      "prompt_chars": 2429,
+      "prompt_chars": 2965,
       "grad_side": {
         "source_tokens": 830,
         "target_tokens": 4,
@@ -2747,13 +2531,61 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::tracking_shuffled_objects_three_objects::162",
+      "id": "bbh::causal_judgement::128",
       "draw": "draw1",
-      "prompt_chars": 3138,
+      "prompt_chars": 4321,
       "grad_side": {
-        "source_tokens": 969,
+        "source_tokens": 1038,
+        "target_tokens": 2,
+        "source_kept": 1038,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1030,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::web_of_lies::36",
+      "draw": "draw1",
+      "prompt_chars": 3143,
+      "grad_side": {
+        "source_tokens": 919,
+        "target_tokens": 2,
+        "source_kept": 919,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 911,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_seven_objects::122",
+      "draw": "draw1",
+      "prompt_chars": 3360,
+      "grad_side": {
+        "source_tokens": 951,
         "target_tokens": 4,
-        "source_kept": 969,
+        "source_kept": 951,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2763,7 +2595,175 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 961,
+        "context_tokens": 943,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::formal_fallacies::83",
+      "draw": "draw1",
+      "prompt_chars": 5041,
+      "grad_side": {
+        "source_tokens": 1494,
+        "target_tokens": 2,
+        "source_kept": 1494,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1486,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::multistep_arithmetic_two::120",
+      "draw": "draw1",
+      "prompt_chars": 2458,
+      "grad_side": {
+        "source_tokens": 1036,
+        "target_tokens": 4,
+        "source_kept": 1036,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1028,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::formal_fallacies::25",
+      "draw": "draw1",
+      "prompt_chars": 4994,
+      "grad_side": {
+        "source_tokens": 1482,
+        "target_tokens": 2,
+        "source_kept": 1482,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1474,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::disambiguation_qa::185",
+      "draw": "draw1",
+      "prompt_chars": 3934,
+      "grad_side": {
+        "source_tokens": 1076,
+        "target_tokens": 4,
+        "source_kept": 1076,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1068,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_three_objects::150",
+      "draw": "draw1",
+      "prompt_chars": 3009,
+      "grad_side": {
+        "source_tokens": 845,
+        "target_tokens": 4,
+        "source_kept": 845,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 837,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::movie_recommendation::59",
+      "draw": "draw1",
+      "prompt_chars": 2351,
+      "grad_side": {
+        "source_tokens": 803,
+        "target_tokens": 4,
+        "source_kept": 803,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 795,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_three_objects::162",
+      "draw": "draw1",
+      "prompt_chars": 3060,
+      "grad_side": {
+        "source_tokens": 942,
+        "target_tokens": 4,
+        "source_kept": 942,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 934,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2773,11 +2773,11 @@
     {
       "id": "bbh::logical_deduction_five_objects::234",
       "draw": "draw1",
-      "prompt_chars": 3166,
+      "prompt_chars": 3088,
       "grad_side": {
-        "source_tokens": 910,
+        "source_tokens": 883,
         "target_tokens": 4,
-        "source_kept": 910,
+        "source_kept": 883,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2787,7 +2787,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 902,
+        "context_tokens": 875,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2797,11 +2797,11 @@
     {
       "id": "bbh::snarks::1",
       "draw": "draw1",
-      "prompt_chars": 3383,
+      "prompt_chars": 3305,
       "grad_side": {
-        "source_tokens": 902,
+        "source_tokens": 875,
         "target_tokens": 4,
-        "source_kept": 902,
+        "source_kept": 875,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -2811,7 +2811,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 894,
+        "context_tokens": 867,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -2821,679 +2821,7 @@
     {
       "id": "bbh::logical_deduction_seven_objects::58",
       "draw": "draw1",
-      "prompt_chars": 3474,
-      "grad_side": {
-        "source_tokens": 986,
-        "target_tokens": 4,
-        "source_kept": 986,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 978,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::web_of_lies::116",
-      "draw": "draw1",
-      "prompt_chars": 3263,
-      "grad_side": {
-        "source_tokens": 954,
-        "target_tokens": 2,
-        "source_kept": 954,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 946,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_three_objects::75",
-      "draw": "draw1",
-      "prompt_chars": 3216,
-      "grad_side": {
-        "source_tokens": 988,
-        "target_tokens": 4,
-        "source_kept": 988,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 980,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::date_understanding::15",
-      "draw": "draw1",
-      "prompt_chars": 1494,
-      "grad_side": {
-        "source_tokens": 817,
-        "target_tokens": 4,
-        "source_kept": 817,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 809,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_seven_objects::227",
-      "draw": "draw1",
-      "prompt_chars": 3446,
-      "grad_side": {
-        "source_tokens": 981,
-        "target_tokens": 4,
-        "source_kept": 981,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 973,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::disambiguation_qa::21",
-      "draw": "draw1",
-      "prompt_chars": 3997,
-      "grad_side": {
-        "source_tokens": 1105,
-        "target_tokens": 4,
-        "source_kept": 1105,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1097,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_seven_objects::11",
-      "draw": "draw1",
-      "prompt_chars": 3514,
-      "grad_side": {
-        "source_tokens": 1086,
-        "target_tokens": 4,
-        "source_kept": 1086,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1078,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::movie_recommendation::193",
-      "draw": "draw1",
-      "prompt_chars": 2397,
-      "grad_side": {
-        "source_tokens": 826,
-        "target_tokens": 4,
-        "source_kept": 826,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 818,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::hyperbaton::136",
-      "draw": "draw1",
-      "prompt_chars": 3365,
-      "grad_side": {
-        "source_tokens": 1078,
-        "target_tokens": 4,
-        "source_kept": 1078,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1070,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::sports_understanding::1",
-      "draw": "draw1",
-      "prompt_chars": 1015,
-      "grad_side": {
-        "source_tokens": 295,
-        "target_tokens": 2,
-        "source_kept": 295,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 287,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::disambiguation_qa::79",
-      "draw": "draw1",
-      "prompt_chars": 3980,
-      "grad_side": {
-        "source_tokens": 1099,
-        "target_tokens": 4,
-        "source_kept": 1099,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1091,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_seven_objects::111",
-      "draw": "draw1",
-      "prompt_chars": 3428,
-      "grad_side": {
-        "source_tokens": 978,
-        "target_tokens": 4,
-        "source_kept": 978,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 970,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::salient_translation_error_detection::218",
-      "draw": "draw2",
-      "prompt_chars": 7316,
-      "grad_side": {
-        "source_tokens": 1813,
-        "target_tokens": 4,
-        "source_kept": 1813,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1805,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_three_objects::231",
-      "draw": "draw2",
-      "prompt_chars": 3058,
-      "grad_side": {
-        "source_tokens": 862,
-        "target_tokens": 4,
-        "source_kept": 862,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 854,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::object_counting::95",
-      "draw": "draw2",
-      "prompt_chars": 1651,
-      "grad_side": {
-        "source_tokens": 628,
-        "target_tokens": 3,
-        "source_kept": 628,
-        "target_kept": 3,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 620,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::causal_judgement::29",
-      "draw": "draw2",
-      "prompt_chars": 4585,
-      "grad_side": {
-        "source_tokens": 1121,
-        "target_tokens": 2,
-        "source_kept": 1121,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1113,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_five_objects::170",
-      "draw": "draw2",
-      "prompt_chars": 3322,
-      "grad_side": {
-        "source_tokens": 1040,
-        "target_tokens": 4,
-        "source_kept": 1040,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1032,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::word_sorting::52",
-      "draw": "draw2",
-      "prompt_chars": 2372,
-      "grad_side": {
-        "source_tokens": 885,
-        "target_tokens": 14,
-        "source_kept": 885,
-        "target_kept": 14,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 877,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::sports_understanding::219",
-      "draw": "draw2",
-      "prompt_chars": 1012,
-      "grad_side": {
-        "source_tokens": 297,
-        "target_tokens": 2,
-        "source_kept": 297,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 289,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_five_objects::242",
-      "draw": "draw2",
-      "prompt_chars": 3171,
-      "grad_side": {
-        "source_tokens": 905,
-        "target_tokens": 4,
-        "source_kept": 905,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 897,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::geometric_shapes::143",
-      "draw": "draw2",
-      "prompt_chars": 5225,
-      "grad_side": {
-        "source_tokens": 2555,
-        "target_tokens": 4,
-        "source_kept": 2555,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 2547,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::dyck_languages::101",
-      "draw": "draw2",
-      "prompt_chars": 2625,
-      "grad_side": {
-        "source_tokens": 1019,
-        "target_tokens": 2,
-        "source_kept": 1019,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1011,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::snarks::75",
-      "draw": "draw2",
-      "prompt_chars": 3459,
-      "grad_side": {
-        "source_tokens": 916,
-        "target_tokens": 4,
-        "source_kept": 916,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 908,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_five_objects::71",
-      "draw": "draw2",
-      "prompt_chars": 3249,
-      "grad_side": {
-        "source_tokens": 924,
-        "target_tokens": 4,
-        "source_kept": 924,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 916,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::dyck_languages::109",
-      "draw": "draw2",
-      "prompt_chars": 2801,
-      "grad_side": {
-        "source_tokens": 1107,
-        "target_tokens": 2,
-        "source_kept": 1107,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1099,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::word_sorting::67",
-      "draw": "draw2",
-      "prompt_chars": 2495,
-      "grad_side": {
-        "source_tokens": 923,
-        "target_tokens": 52,
-        "source_kept": 923,
-        "target_kept": 52,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 915,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::logical_deduction_three_objects::36",
-      "draw": "draw2",
-      "prompt_chars": 3057,
-      "grad_side": {
-        "source_tokens": 864,
-        "target_tokens": 4,
-        "source_kept": 864,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 856,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::date_understanding::209",
-      "draw": "draw2",
-      "prompt_chars": 1462,
-      "grad_side": {
-        "source_tokens": 807,
-        "target_tokens": 4,
-        "source_kept": 807,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 799,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::reasoning_about_colored_objects::227",
-      "draw": "draw2",
-      "prompt_chars": 2746,
+      "prompt_chars": 3396,
       "grad_side": {
         "source_tokens": 959,
         "target_tokens": 4,
@@ -3515,181 +2843,13 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::tracking_shuffled_objects_three_objects::7",
-      "draw": "draw2",
-      "prompt_chars": 3200,
+      "id": "bbh::web_of_lies::116",
+      "draw": "draw1",
+      "prompt_chars": 3185,
       "grad_side": {
-        "source_tokens": 990,
-        "target_tokens": 4,
-        "source_kept": 990,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 982,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::date_understanding::61",
-      "draw": "draw2",
-      "prompt_chars": 1468,
-      "grad_side": {
-        "source_tokens": 807,
-        "target_tokens": 4,
-        "source_kept": 807,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 799,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::tracking_shuffled_objects_five_objects::31",
-      "draw": "draw2",
-      "prompt_chars": 3367,
-      "grad_side": {
-        "source_tokens": 1044,
-        "target_tokens": 4,
-        "source_kept": 1044,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1036,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::temporal_sequences::4",
-      "draw": "draw2",
-      "prompt_chars": 3619,
-      "grad_side": {
-        "source_tokens": 1311,
-        "target_tokens": 4,
-        "source_kept": 1311,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1303,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::reasoning_about_colored_objects::59",
-      "draw": "draw2",
-      "prompt_chars": 2805,
-      "grad_side": {
-        "source_tokens": 1008,
-        "target_tokens": 4,
-        "source_kept": 1008,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1000,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::hyperbaton::145",
-      "draw": "draw2",
-      "prompt_chars": 3381,
-      "grad_side": {
-        "source_tokens": 1082,
-        "target_tokens": 4,
-        "source_kept": 1082,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1074,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::multistep_arithmetic_two::68",
-      "draw": "draw2",
-      "prompt_chars": 2536,
-      "grad_side": {
-        "source_tokens": 1063,
-        "target_tokens": 4,
-        "source_kept": 1063,
-        "target_kept": 4,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1055,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::causal_judgement::156",
-      "draw": "draw2",
-      "prompt_chars": 4723,
-      "grad_side": {
-        "source_tokens": 1171,
+        "source_tokens": 927,
         "target_tokens": 2,
-        "source_kept": 1171,
+        "source_kept": 927,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -3699,7 +2859,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1163,
+        "context_tokens": 919,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -3707,13 +2867,13 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::multistep_arithmetic_two::67",
-      "draw": "draw2",
-      "prompt_chars": 2536,
+      "id": "bbh::tracking_shuffled_objects_three_objects::75",
+      "draw": "draw1",
+      "prompt_chars": 3138,
       "grad_side": {
-        "source_tokens": 1063,
+        "source_tokens": 961,
         "target_tokens": 4,
-        "source_kept": 1063,
+        "source_kept": 961,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -3723,7 +2883,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1055,
+        "context_tokens": 953,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -3731,85 +2891,13 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::navigate::53",
-      "draw": "draw2",
-      "prompt_chars": 2450,
+      "id": "bbh::date_understanding::15",
+      "draw": "draw1",
+      "prompt_chars": 1416,
       "grad_side": {
-        "source_tokens": 858,
-        "target_tokens": 2,
-        "source_kept": 858,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 850,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::navigate::150",
-      "draw": "draw2",
-      "prompt_chars": 2448,
-      "grad_side": {
-        "source_tokens": 853,
-        "target_tokens": 2,
-        "source_kept": 853,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 845,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::web_of_lies::29",
-      "draw": "draw2",
-      "prompt_chars": 3229,
-      "grad_side": {
-        "source_tokens": 946,
-        "target_tokens": 2,
-        "source_kept": 946,
-        "target_kept": 2,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 938,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::movie_recommendation::5",
-      "draw": "draw2",
-      "prompt_chars": 2418,
-      "grad_side": {
-        "source_tokens": 829,
+        "source_tokens": 790,
         "target_tokens": 4,
-        "source_kept": 829,
+        "source_kept": 790,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -3819,7 +2907,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 821,
+        "context_tokens": 782,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -3827,37 +2915,13 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::dyck_languages::67",
-      "draw": "draw2",
-      "prompt_chars": 2651,
+      "id": "bbh::logical_deduction_seven_objects::227",
+      "draw": "draw1",
+      "prompt_chars": 3368,
       "grad_side": {
-        "source_tokens": 1032,
-        "target_tokens": 3,
-        "source_kept": 1032,
-        "target_kept": 3,
-        "source_tokens_dropped": 0,
-        "target_tokens_dropped": 0,
-        "exceeds_cutoff": false,
-        "query_start_survives": true,
-        "ends_with_cot_cue": true,
-        "target_intact": true
-      },
-      "eval_side": {
-        "context_tokens": 1024,
-        "budget": 3072,
-        "tokens_left_truncated": 0,
-        "fits": true
-      },
-      "materially_truncated": false
-    },
-    {
-      "id": "bbh::date_understanding::14",
-      "draw": "draw2",
-      "prompt_chars": 1456,
-      "grad_side": {
-        "source_tokens": 804,
+        "source_tokens": 954,
         "target_tokens": 4,
-        "source_kept": 804,
+        "source_kept": 954,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -3867,7 +2931,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 796,
+        "context_tokens": 946,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -3875,9 +2939,9 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::hyperbaton::237",
-      "draw": "draw2",
-      "prompt_chars": 3367,
+      "id": "bbh::disambiguation_qa::21",
+      "draw": "draw1",
+      "prompt_chars": 3919,
       "grad_side": {
         "source_tokens": 1078,
         "target_tokens": 4,
@@ -3899,13 +2963,13 @@
       "materially_truncated": false
     },
     {
-      "id": "bbh::multistep_arithmetic_two::25",
-      "draw": "draw2",
-      "prompt_chars": 2535,
+      "id": "bbh::tracking_shuffled_objects_seven_objects::11",
+      "draw": "draw1",
+      "prompt_chars": 3436,
       "grad_side": {
-        "source_tokens": 1062,
+        "source_tokens": 1059,
         "target_tokens": 4,
-        "source_kept": 1062,
+        "source_kept": 1059,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -3915,7 +2979,943 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1054,
+        "context_tokens": 1051,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::movie_recommendation::193",
+      "draw": "draw1",
+      "prompt_chars": 2319,
+      "grad_side": {
+        "source_tokens": 799,
+        "target_tokens": 4,
+        "source_kept": 799,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 791,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::hyperbaton::136",
+      "draw": "draw1",
+      "prompt_chars": 3287,
+      "grad_side": {
+        "source_tokens": 1051,
+        "target_tokens": 4,
+        "source_kept": 1051,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1043,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::sports_understanding::1",
+      "draw": "draw1",
+      "prompt_chars": 937,
+      "grad_side": {
+        "source_tokens": 271,
+        "target_tokens": 2,
+        "source_kept": 271,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 263,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::disambiguation_qa::79",
+      "draw": "draw1",
+      "prompt_chars": 3902,
+      "grad_side": {
+        "source_tokens": 1072,
+        "target_tokens": 4,
+        "source_kept": 1072,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1064,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_seven_objects::111",
+      "draw": "draw1",
+      "prompt_chars": 3350,
+      "grad_side": {
+        "source_tokens": 951,
+        "target_tokens": 4,
+        "source_kept": 951,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 943,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::salient_translation_error_detection::218",
+      "draw": "draw2",
+      "prompt_chars": 7238,
+      "grad_side": {
+        "source_tokens": 1786,
+        "target_tokens": 4,
+        "source_kept": 1786,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1778,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_three_objects::231",
+      "draw": "draw2",
+      "prompt_chars": 2980,
+      "grad_side": {
+        "source_tokens": 835,
+        "target_tokens": 4,
+        "source_kept": 835,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 827,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::object_counting::95",
+      "draw": "draw2",
+      "prompt_chars": 1573,
+      "grad_side": {
+        "source_tokens": 601,
+        "target_tokens": 3,
+        "source_kept": 601,
+        "target_kept": 3,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 593,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::causal_judgement::29",
+      "draw": "draw2",
+      "prompt_chars": 4507,
+      "grad_side": {
+        "source_tokens": 1094,
+        "target_tokens": 2,
+        "source_kept": 1094,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1086,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_five_objects::170",
+      "draw": "draw2",
+      "prompt_chars": 3244,
+      "grad_side": {
+        "source_tokens": 1013,
+        "target_tokens": 4,
+        "source_kept": 1013,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1005,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::word_sorting::52",
+      "draw": "draw2",
+      "prompt_chars": 2294,
+      "grad_side": {
+        "source_tokens": 858,
+        "target_tokens": 14,
+        "source_kept": 858,
+        "target_kept": 14,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 850,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::sports_understanding::219",
+      "draw": "draw2",
+      "prompt_chars": 934,
+      "grad_side": {
+        "source_tokens": 273,
+        "target_tokens": 2,
+        "source_kept": 273,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 265,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_five_objects::242",
+      "draw": "draw2",
+      "prompt_chars": 3093,
+      "grad_side": {
+        "source_tokens": 878,
+        "target_tokens": 4,
+        "source_kept": 878,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 870,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::geometric_shapes::143",
+      "draw": "draw2",
+      "prompt_chars": 5147,
+      "grad_side": {
+        "source_tokens": 2528,
+        "target_tokens": 4,
+        "source_kept": 2528,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 2520,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::dyck_languages::101",
+      "draw": "draw2",
+      "prompt_chars": 2547,
+      "grad_side": {
+        "source_tokens": 992,
+        "target_tokens": 2,
+        "source_kept": 992,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 984,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::snarks::75",
+      "draw": "draw2",
+      "prompt_chars": 3381,
+      "grad_side": {
+        "source_tokens": 889,
+        "target_tokens": 4,
+        "source_kept": 889,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 881,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_five_objects::71",
+      "draw": "draw2",
+      "prompt_chars": 3171,
+      "grad_side": {
+        "source_tokens": 897,
+        "target_tokens": 4,
+        "source_kept": 897,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 889,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::dyck_languages::109",
+      "draw": "draw2",
+      "prompt_chars": 2723,
+      "grad_side": {
+        "source_tokens": 1080,
+        "target_tokens": 2,
+        "source_kept": 1080,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1072,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::word_sorting::67",
+      "draw": "draw2",
+      "prompt_chars": 2417,
+      "grad_side": {
+        "source_tokens": 896,
+        "target_tokens": 52,
+        "source_kept": 896,
+        "target_kept": 52,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 888,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::logical_deduction_three_objects::36",
+      "draw": "draw2",
+      "prompt_chars": 2979,
+      "grad_side": {
+        "source_tokens": 837,
+        "target_tokens": 4,
+        "source_kept": 837,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 829,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::date_understanding::209",
+      "draw": "draw2",
+      "prompt_chars": 1384,
+      "grad_side": {
+        "source_tokens": 780,
+        "target_tokens": 4,
+        "source_kept": 780,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 772,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::reasoning_about_colored_objects::227",
+      "draw": "draw2",
+      "prompt_chars": 2668,
+      "grad_side": {
+        "source_tokens": 929,
+        "target_tokens": 4,
+        "source_kept": 929,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 921,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_three_objects::7",
+      "draw": "draw2",
+      "prompt_chars": 3122,
+      "grad_side": {
+        "source_tokens": 963,
+        "target_tokens": 4,
+        "source_kept": 963,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 955,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::date_understanding::61",
+      "draw": "draw2",
+      "prompt_chars": 1390,
+      "grad_side": {
+        "source_tokens": 780,
+        "target_tokens": 4,
+        "source_kept": 780,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 772,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::tracking_shuffled_objects_five_objects::31",
+      "draw": "draw2",
+      "prompt_chars": 3289,
+      "grad_side": {
+        "source_tokens": 1017,
+        "target_tokens": 4,
+        "source_kept": 1017,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1009,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::temporal_sequences::4",
+      "draw": "draw2",
+      "prompt_chars": 3541,
+      "grad_side": {
+        "source_tokens": 1284,
+        "target_tokens": 4,
+        "source_kept": 1284,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1276,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::reasoning_about_colored_objects::59",
+      "draw": "draw2",
+      "prompt_chars": 2727,
+      "grad_side": {
+        "source_tokens": 978,
+        "target_tokens": 4,
+        "source_kept": 978,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 970,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::hyperbaton::145",
+      "draw": "draw2",
+      "prompt_chars": 3303,
+      "grad_side": {
+        "source_tokens": 1055,
+        "target_tokens": 4,
+        "source_kept": 1055,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1047,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::multistep_arithmetic_two::68",
+      "draw": "draw2",
+      "prompt_chars": 2458,
+      "grad_side": {
+        "source_tokens": 1036,
+        "target_tokens": 4,
+        "source_kept": 1036,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1028,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::causal_judgement::156",
+      "draw": "draw2",
+      "prompt_chars": 4645,
+      "grad_side": {
+        "source_tokens": 1144,
+        "target_tokens": 2,
+        "source_kept": 1144,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1136,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::multistep_arithmetic_two::67",
+      "draw": "draw2",
+      "prompt_chars": 2458,
+      "grad_side": {
+        "source_tokens": 1036,
+        "target_tokens": 4,
+        "source_kept": 1036,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1028,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::navigate::53",
+      "draw": "draw2",
+      "prompt_chars": 2372,
+      "grad_side": {
+        "source_tokens": 831,
+        "target_tokens": 2,
+        "source_kept": 831,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 823,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::navigate::150",
+      "draw": "draw2",
+      "prompt_chars": 2370,
+      "grad_side": {
+        "source_tokens": 826,
+        "target_tokens": 2,
+        "source_kept": 826,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 818,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::web_of_lies::29",
+      "draw": "draw2",
+      "prompt_chars": 3151,
+      "grad_side": {
+        "source_tokens": 919,
+        "target_tokens": 2,
+        "source_kept": 919,
+        "target_kept": 2,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 911,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::movie_recommendation::5",
+      "draw": "draw2",
+      "prompt_chars": 2340,
+      "grad_side": {
+        "source_tokens": 802,
+        "target_tokens": 4,
+        "source_kept": 802,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 794,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::dyck_languages::67",
+      "draw": "draw2",
+      "prompt_chars": 2573,
+      "grad_side": {
+        "source_tokens": 1005,
+        "target_tokens": 3,
+        "source_kept": 1005,
+        "target_kept": 3,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 997,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::date_understanding::14",
+      "draw": "draw2",
+      "prompt_chars": 1378,
+      "grad_side": {
+        "source_tokens": 777,
+        "target_tokens": 4,
+        "source_kept": 777,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 769,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::hyperbaton::237",
+      "draw": "draw2",
+      "prompt_chars": 3289,
+      "grad_side": {
+        "source_tokens": 1051,
+        "target_tokens": 4,
+        "source_kept": 1051,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1043,
+        "budget": 3072,
+        "tokens_left_truncated": 0,
+        "fits": true
+      },
+      "materially_truncated": false
+    },
+    {
+      "id": "bbh::multistep_arithmetic_two::25",
+      "draw": "draw2",
+      "prompt_chars": 2457,
+      "grad_side": {
+        "source_tokens": 1035,
+        "target_tokens": 4,
+        "source_kept": 1035,
+        "target_kept": 4,
+        "source_tokens_dropped": 0,
+        "target_tokens_dropped": 0,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
+        "target_intact": true
+      },
+      "eval_side": {
+        "context_tokens": 1027,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -3925,11 +3925,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_three_objects::62",
       "draw": "draw2",
-      "prompt_chars": 3247,
+      "prompt_chars": 3169,
       "grad_side": {
-        "source_tokens": 993,
+        "source_tokens": 966,
         "target_tokens": 4,
-        "source_kept": 993,
+        "source_kept": 966,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -3939,7 +3939,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 985,
+        "context_tokens": 958,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -3973,11 +3973,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_seven_objects::117",
       "draw": "draw2",
-      "prompt_chars": 3544,
+      "prompt_chars": 3466,
       "grad_side": {
-        "source_tokens": 1108,
+        "source_tokens": 1081,
         "target_tokens": 4,
-        "source_kept": 1108,
+        "source_kept": 1081,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -3987,7 +3987,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1100,
+        "context_tokens": 1073,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -3997,11 +3997,11 @@
     {
       "id": "bbh::dyck_languages::54",
       "draw": "draw2",
-      "prompt_chars": 2801,
+      "prompt_chars": 2723,
       "grad_side": {
-        "source_tokens": 1107,
+        "source_tokens": 1080,
         "target_tokens": 2,
-        "source_kept": 1107,
+        "source_kept": 1080,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4011,7 +4011,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1099,
+        "context_tokens": 1072,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4021,11 +4021,11 @@
     {
       "id": "bbh::geometric_shapes::214",
       "draw": "draw2",
-      "prompt_chars": 5239,
+      "prompt_chars": 5161,
       "grad_side": {
-        "source_tokens": 2568,
+        "source_tokens": 2541,
         "target_tokens": 4,
-        "source_kept": 2568,
+        "source_kept": 2541,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4035,7 +4035,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 2560,
+        "context_tokens": 2533,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4045,11 +4045,11 @@
     {
       "id": "bbh::disambiguation_qa::120",
       "draw": "draw2",
-      "prompt_chars": 3994,
+      "prompt_chars": 3916,
       "grad_side": {
-        "source_tokens": 1105,
+        "source_tokens": 1078,
         "target_tokens": 4,
-        "source_kept": 1105,
+        "source_kept": 1078,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4059,7 +4059,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1097,
+        "context_tokens": 1070,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4069,11 +4069,11 @@
     {
       "id": "bbh::logical_deduction_five_objects::2",
       "draw": "draw2",
-      "prompt_chars": 3250,
+      "prompt_chars": 3172,
       "grad_side": {
-        "source_tokens": 913,
+        "source_tokens": 886,
         "target_tokens": 4,
-        "source_kept": 913,
+        "source_kept": 886,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4083,7 +4083,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 905,
+        "context_tokens": 878,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4093,11 +4093,11 @@
     {
       "id": "bbh::reasoning_about_colored_objects::162",
       "draw": "draw2",
-      "prompt_chars": 2785,
+      "prompt_chars": 2707,
       "grad_side": {
-        "source_tokens": 984,
+        "source_tokens": 954,
         "target_tokens": 4,
-        "source_kept": 984,
+        "source_kept": 954,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4107,7 +4107,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 976,
+        "context_tokens": 946,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4117,11 +4117,11 @@
     {
       "id": "bbh::penguins_in_a_table::54",
       "draw": "draw2",
-      "prompt_chars": 3005,
+      "prompt_chars": 2927,
       "grad_side": {
-        "source_tokens": 1093,
+        "source_tokens": 1066,
         "target_tokens": 4,
-        "source_kept": 1093,
+        "source_kept": 1066,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4131,7 +4131,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1085,
+        "context_tokens": 1058,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4141,11 +4141,11 @@
     {
       "id": "bbh::snarks::1",
       "draw": "draw2",
-      "prompt_chars": 3383,
+      "prompt_chars": 3305,
       "grad_side": {
-        "source_tokens": 902,
+        "source_tokens": 875,
         "target_tokens": 4,
-        "source_kept": 902,
+        "source_kept": 875,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4155,7 +4155,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 894,
+        "context_tokens": 867,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4165,11 +4165,11 @@
     {
       "id": "bbh::date_understanding::82",
       "draw": "draw2",
-      "prompt_chars": 1458,
+      "prompt_chars": 1380,
       "grad_side": {
-        "source_tokens": 802,
+        "source_tokens": 775,
         "target_tokens": 4,
-        "source_kept": 802,
+        "source_kept": 775,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4179,7 +4179,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 794,
+        "context_tokens": 767,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4213,11 +4213,11 @@
     {
       "id": "bbh::web_of_lies::211",
       "draw": "draw2",
-      "prompt_chars": 3243,
+      "prompt_chars": 3165,
       "grad_side": {
-        "source_tokens": 954,
+        "source_tokens": 927,
         "target_tokens": 2,
-        "source_kept": 954,
+        "source_kept": 927,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4227,7 +4227,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 946,
+        "context_tokens": 919,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4237,11 +4237,11 @@
     {
       "id": "bbh::logical_deduction_five_objects::177",
       "draw": "draw2",
-      "prompt_chars": 3258,
+      "prompt_chars": 3180,
       "grad_side": {
-        "source_tokens": 916,
+        "source_tokens": 889,
         "target_tokens": 4,
-        "source_kept": 916,
+        "source_kept": 889,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4251,7 +4251,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 908,
+        "context_tokens": 881,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4261,11 +4261,11 @@
     {
       "id": "bbh::snarks::27",
       "draw": "draw2",
-      "prompt_chars": 3456,
+      "prompt_chars": 3378,
       "grad_side": {
-        "source_tokens": 920,
+        "source_tokens": 893,
         "target_tokens": 4,
-        "source_kept": 920,
+        "source_kept": 893,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4275,7 +4275,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 912,
+        "context_tokens": 885,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4285,11 +4285,11 @@
     {
       "id": "bbh::snarks::168",
       "draw": "draw2",
-      "prompt_chars": 3419,
+      "prompt_chars": 3341,
       "grad_side": {
-        "source_tokens": 899,
+        "source_tokens": 872,
         "target_tokens": 4,
-        "source_kept": 899,
+        "source_kept": 872,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4299,7 +4299,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 891,
+        "context_tokens": 864,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4309,11 +4309,11 @@
     {
       "id": "bbh::formal_fallacies::141",
       "draw": "draw2",
-      "prompt_chars": 5141,
+      "prompt_chars": 5063,
       "grad_side": {
-        "source_tokens": 1557,
+        "source_tokens": 1530,
         "target_tokens": 2,
-        "source_kept": 1557,
+        "source_kept": 1530,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4323,7 +4323,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1549,
+        "context_tokens": 1522,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4333,11 +4333,11 @@
     {
       "id": "bbh::object_counting::170",
       "draw": "draw2",
-      "prompt_chars": 1676,
+      "prompt_chars": 1598,
       "grad_side": {
-        "source_tokens": 628,
+        "source_tokens": 601,
         "target_tokens": 4,
-        "source_kept": 628,
+        "source_kept": 601,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4347,7 +4347,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 620,
+        "context_tokens": 593,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4357,11 +4357,11 @@
     {
       "id": "bbh::date_understanding::159",
       "draw": "draw2",
-      "prompt_chars": 1500,
+      "prompt_chars": 1422,
       "grad_side": {
-        "source_tokens": 814,
+        "source_tokens": 787,
         "target_tokens": 4,
-        "source_kept": 814,
+        "source_kept": 787,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4371,7 +4371,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 806,
+        "context_tokens": 779,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4381,11 +4381,11 @@
     {
       "id": "bbh::salient_translation_error_detection::221",
       "draw": "draw2",
-      "prompt_chars": 7580,
+      "prompt_chars": 7502,
       "grad_side": {
-        "source_tokens": 1889,
+        "source_tokens": 1862,
         "target_tokens": 4,
-        "source_kept": 1889,
+        "source_kept": 1862,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4395,7 +4395,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1881,
+        "context_tokens": 1854,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4405,11 +4405,11 @@
     {
       "id": "bbh::date_understanding::202",
       "draw": "draw2",
-      "prompt_chars": 1533,
+      "prompt_chars": 1455,
       "grad_side": {
-        "source_tokens": 820,
+        "source_tokens": 793,
         "target_tokens": 4,
-        "source_kept": 820,
+        "source_kept": 793,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4419,7 +4419,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 812,
+        "context_tokens": 785,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4429,11 +4429,11 @@
     {
       "id": "bbh::object_counting::198",
       "draw": "draw2",
-      "prompt_chars": 1692,
+      "prompt_chars": 1614,
       "grad_side": {
-        "source_tokens": 639,
+        "source_tokens": 612,
         "target_tokens": 4,
-        "source_kept": 639,
+        "source_kept": 612,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4443,7 +4443,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 631,
+        "context_tokens": 604,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4453,11 +4453,11 @@
     {
       "id": "bbh::tracking_shuffled_objects_three_objects::14",
       "draw": "draw2",
-      "prompt_chars": 3140,
+      "prompt_chars": 3062,
       "grad_side": {
-        "source_tokens": 971,
+        "source_tokens": 944,
         "target_tokens": 4,
-        "source_kept": 971,
+        "source_kept": 944,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4467,7 +4467,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 963,
+        "context_tokens": 936,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4477,11 +4477,11 @@
     {
       "id": "bbh::navigate::63",
       "draw": "draw2",
-      "prompt_chars": 2496,
+      "prompt_chars": 2418,
       "grad_side": {
-        "source_tokens": 865,
+        "source_tokens": 838,
         "target_tokens": 2,
-        "source_kept": 865,
+        "source_kept": 838,
         "target_kept": 2,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4491,7 +4491,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 857,
+        "context_tokens": 830,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4501,11 +4501,11 @@
     {
       "id": "bbh::word_sorting::156",
       "draw": "draw2",
-      "prompt_chars": 2389,
+      "prompt_chars": 2311,
       "grad_side": {
-        "source_tokens": 891,
+        "source_tokens": 864,
         "target_tokens": 20,
-        "source_kept": 891,
+        "source_kept": 864,
         "target_kept": 20,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4515,7 +4515,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 883,
+        "context_tokens": 856,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4525,11 +4525,11 @@
     {
       "id": "bbh::penguins_in_a_table::33",
       "draw": "draw2",
-      "prompt_chars": 3059,
+      "prompt_chars": 2981,
       "grad_side": {
-        "source_tokens": 1149,
+        "source_tokens": 1122,
         "target_tokens": 4,
-        "source_kept": 1149,
+        "source_kept": 1122,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4539,7 +4539,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 1141,
+        "context_tokens": 1114,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4549,11 +4549,11 @@
     {
       "id": "bbh::geometric_shapes::210",
       "draw": "draw2",
-      "prompt_chars": 5204,
+      "prompt_chars": 5126,
       "grad_side": {
-        "source_tokens": 2537,
+        "source_tokens": 2510,
         "target_tokens": 4,
-        "source_kept": 2537,
+        "source_kept": 2510,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4563,7 +4563,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 2529,
+        "context_tokens": 2502,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4573,11 +4573,11 @@
     {
       "id": "bbh::movie_recommendation::228",
       "draw": "draw2",
-      "prompt_chars": 2446,
+      "prompt_chars": 2368,
       "grad_side": {
-        "source_tokens": 837,
+        "source_tokens": 810,
         "target_tokens": 4,
-        "source_kept": 837,
+        "source_kept": 810,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4587,7 +4587,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 829,
+        "context_tokens": 802,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4597,11 +4597,11 @@
     {
       "id": "bbh::word_sorting::240",
       "draw": "draw2",
-      "prompt_chars": 2432,
+      "prompt_chars": 2354,
       "grad_side": {
-        "source_tokens": 905,
+        "source_tokens": 878,
         "target_tokens": 34,
-        "source_kept": 905,
+        "source_kept": 878,
         "target_kept": 34,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4611,7 +4611,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 897,
+        "context_tokens": 870,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true
@@ -4621,11 +4621,11 @@
     {
       "id": "bbh::reasoning_about_colored_objects::51",
       "draw": "draw2",
-      "prompt_chars": 2575,
+      "prompt_chars": 2497,
       "grad_side": {
-        "source_tokens": 905,
+        "source_tokens": 875,
         "target_tokens": 4,
-        "source_kept": 905,
+        "source_kept": 875,
         "target_kept": 4,
         "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
@@ -4635,7 +4635,7 @@
         "target_intact": true
       },
       "eval_side": {
-        "context_tokens": 897,
+        "context_tokens": 867,
         "budget": 3072,
         "tokens_left_truncated": 0,
         "fits": true

@@ -33,9 +33,7 @@ fewshot_config:
       (I) sector
 
       (J) triangle'
-    target: 'Let''s think step by step.
-
-      This SVG path element contains "M" and "L" commands. M takes two parameters (x,y) and moves the current point to the coordinates (x,y). L takes two parameters (x,y) and draws a line from the previous coordinate to the new coordinate (x,y).
+    target: 'This SVG path element contains "M" and "L" commands. M takes two parameters (x,y) and moves the current point to the coordinates (x,y). L takes two parameters (x,y) and draws a line from the previous coordinate to the new coordinate (x,y).
 
       This path can be decomposed into 9 separate commands.
 
@@ -81,9 +79,7 @@ fewshot_config:
       (I) sector
 
       (J) triangle'
-    target: 'Let''s think step by step.
-
-      This SVG path element contains "M" and "L" commands. M takes two parameters (x,y) and moves the current point to the coordinates (x,y). L takes two parameters (x,y) and draws a line from the previous coordinate to the new coordinate (x,y).
+    target: 'This SVG path element contains "M" and "L" commands. M takes two parameters (x,y) and moves the current point to the coordinates (x,y). L takes two parameters (x,y) and draws a line from the previous coordinate to the new coordinate (x,y).
 
       This path can be decomposed into 6 separate commands.
 
@@ -123,9 +119,7 @@ fewshot_config:
       (I) sector
 
       (J) triangle'
-    target: 'Let''s think step by step.
-
-      This SVG path element contains "M" and "L" commands. M takes two parameters (x,y) and moves the current point to the coordinates (x,y). L takes two parameters (x,y) and draws a line from the previous coordinate to the new coordinate (x,y).
+    target: 'This SVG path element contains "M" and "L" commands. M takes two parameters (x,y) and moves the current point to the coordinates (x,y). L takes two parameters (x,y) and draws a line from the previous coordinate to the new coordinate (x,y).
 
       This path can be decomposed into 5 separate commands.
 

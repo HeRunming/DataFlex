@@ -21,9 +21,7 @@ fewshot_config:
       (C) whitesnuake
 
       (D) mwhitesnake'
-    target: 'Let''s think step by step.
-
-      The original name is "whitesnake". This is the name of an old English hard rock band. It is a compound word, formed by the words "white" and "snake".
+    target: 'The original name is "whitesnake". This is the name of an old English hard rock band. It is a compound word, formed by the words "white" and "snake".
 
       (A) "whitesnape": It is formed by the combination of "white" and "snake"; therefore, "snake" has been changed to "snape". Snape makes a reference to the fictional character Severus Snape in the Harry Potter series, so (A) is indeed a meaningful and funny edit.
 
@@ -45,9 +43,7 @@ fewshot_config:
       (C) one of our dinosaurs is pissing
 
       (D) one of our dinosaur is missing'
-    target: 'Let''s think step by step.
-
-      The original name is "one of our dinosaurs is missing". This is the name of an old British movie.
+    target: 'The original name is "one of our dinosaurs is missing". This is the name of an old British movie.
 
       (A) "ofne of our dinosaurs is missing": Here "one of" is changed to "ofne", but the word "ofne" is not an actual word.
 
@@ -71,9 +67,7 @@ fewshot_config:
       (C) courting crows
 
       (D) coutnting crows'
-    target: 'Let''s think step by step.
-
-      The original name is "counting crows". This is the name of an American rock band. Historically, the band name comes from the British nursery rhyme "One for Sorrow", which is about counting of magpies.
+    target: 'The original name is "counting crows". This is the name of an American rock band. Historically, the band name comes from the British nursery rhyme "One for Sorrow", which is about counting of magpies.
 
       (A) "countingy crows": Here the word "counting" is changed to "countingy", but the word "countingy" is not an actual word.
 

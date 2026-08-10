@@ -6255,5 +6255,44 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "bbhx_draw0_target": {
+    "file_name": "/jizhicfs/karonhe/DataFlex_fa/data/bbh_external/query_prompts/bbh_query_draw0_prompts.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw1_target": {
+    "file_name": "/jizhicfs/karonhe/DataFlex_fa/data/bbh_external/query_prompts/bbh_query_draw1_prompts.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw2_target": {
+    "file_name": "/jizhicfs/karonhe/DataFlex_fa/data/bbh_external/query_prompts/bbh_query_draw2_prompts.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }

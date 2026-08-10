@@ -34,7 +34,7 @@ Why 3072 is protocol-derived and NOT accuracy-tuned:
   * Llama-2's native context is 4096 tokens;
   * the pinned `bbh_cot_fewshot` config reserves `max_gen_toks = 1024` for generation;
   * so the evaluation side's own input ceiling is exactly 4096 - 1024 = 3072;
-  * the measured maximum BBH evaluation context is 2596 tokens, comfortably inside it.
+  * the measured maximum BBH evaluation context is 2569 tokens, comfortably inside it.
 Setting the target cutoff to the evaluation side's own ceiling makes the gradient side able to represent
 every prompt the evaluation side can. No BBH accuracy has been observed at any point, so this cannot be
 accuracy-driven: it is a pre-compute input-integrity correction to a definite data-processing defect.
