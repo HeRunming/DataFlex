@@ -18,9 +18,33 @@ LlamaFactory truncates the source TAIL (`source_ids[:source_len]`, allocation by
 Cutting the tail therefore removes THE QUERY ITSELF, keeping only the demonstrations.
 
 This script measures that directly with the REAL installed tokenizer and the REAL LlamaFactory
-allocation function, and it FAILS LOUD. It deliberately does NOT change `cutoff_len`, the few-shot
-count, or the prompts: per the review, if anything is materially truncated we stop and report the
-distribution so the protocol correction is made once, explicitly, by a human.
+allocation function, and it FAILS LOUD.
+
+THE FIX APPLIED (decision recorded in code_review_0810_2)
+---------------------------------------------------------
+At `cutoff_len=2048` this audit reported HOLD: 7/192 records (all `geometric_shapes`) lost 493-560
+source tokens, which deleted the record's OWN query and the trailing CoT cue. Of the three candidate
+responses, the chosen one is to raise the cutoff for TARGET-GRADIENT EXTRACTION ONLY:
+
+    target-gradient extraction cutoff = 3072      (was 2048)
+    downstream selected-data SFT cutoff = 2048    (frozen recipe, UNCHANGED)
+    candidate gradient cache                       (UNCHANGED, not recomputed)
+
+Why 3072 is protocol-derived and NOT accuracy-tuned:
+  * Llama-2's native context is 4096 tokens;
+  * the pinned `bbh_cot_fewshot` config reserves `max_gen_toks = 1024` for generation;
+  * so the evaluation side's own input ceiling is exactly 4096 - 1024 = 3072;
+  * the measured maximum BBH evaluation context is 2596 tokens, comfortably inside it.
+Setting the target cutoff to the evaluation side's own ceiling makes the gradient side able to represent
+every prompt the evaluation side can. No BBH accuracy has been observed at any point, so this cannot be
+accuracy-driven: it is a pre-compute input-integrity correction to a definite data-processing defect.
+
+The rejected alternatives, for the record: accepting 7/192 would mean 7 target gradients are simply not
+computed on their own target question; reducing the few-shot count for `geometric_shapes` alone would
+create a task-dependent query protocol that no longer matches the fixed 3-shot BBH evaluation prompt.
+
+Consequence to disclose: the BBH target-gradient cutoff no longer equals the MMLU arm's 2048. That is a
+deliberate, pre-compute validity correction, not silent drift.
 """
 import argparse, glob, hashlib, json, os, warnings
 
@@ -29,7 +53,11 @@ warnings.filterwarnings("ignore")
 ROOT = "/jizhicfs/karonhe/DataFlex_fa"
 PROMPTS_DIR = f"{ROOT}/data/bbh_external/query_prompts"
 BASE_MODEL = "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf"
-CUTOFF_LEN = 2048          # frozen SFT/query-gradient recipe
+# TWO cutoffs, deliberately different (decision in code_review_0810_2):
+#   target-gradient extraction : 3072  -- protocol-derived, see docstring
+#   downstream selected-data SFT: 2048 -- frozen recipe, UNCHANGED
+TARGET_GRAD_CUTOFF = 3072
+SFT_CUTOFF = 2048
 EVAL_CTX = 4096            # Llama-2 native context
 MAX_GEN_TOKS = 1024        # pinned bbh_cot_fewshot generation reservation
 CUE = "Let's think step by step."
@@ -42,7 +70,9 @@ def sha(s):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=f"{ROOT}/experiments/less_aligned/bbh_token_truncation_audit.json")
-    ap.add_argument("--cutoff_len", type=int, default=CUTOFF_LEN)
+    ap.add_argument("--cutoff_len", type=int, default=TARGET_GRAD_CUTOFF,
+                    help="cutoff applied to QUERY/target-gradient extraction. Default 3072 per the "
+                         "code_review_0810_2 decision. Pass 2048 to reproduce the defect this fixed.")
     ap.add_argument("--expect_records", type=int, default=192,
                     help="required record count; auditing fewer is a FAILURE, not a pass. Generalizes "
                          "the gate-B vacuity fix: an audit that inspected 3 records must never read as "
@@ -136,6 +166,18 @@ def main():
         "n_materially_truncated": len(truncated),
         "env": {"tokenizer": BASE_MODEL, "transformers": tfv,
                 "llamafactory_allocator": "llamafactory.data.processor.processor_utils.infer_seqlen"},
+        "cutoff_protocol": {
+            "target_gradient_extraction": args.cutoff_len,
+            "downstream_selected_data_sft": SFT_CUTOFF,
+            "candidate_gradient_cache": "unchanged, not recomputed",
+            "rationale": ("3072 = Llama-2 context 4096 minus the pinned max_gen_toks 1024, i.e. the "
+                          "evaluation side's OWN input ceiling. Protocol-derived, not accuracy-tuned: "
+                          "no BBH accuracy has been observed. Pre-compute input-integrity correction."),
+            "disclosure": ("the BBH target-gradient cutoff (3072) deliberately DIFFERS from the MMLU "
+                           "arm's 2048; the SFT recipe itself is unchanged at 2048"),
+            "at_2048_this_audit_reported": ("HOLD: 7/192 records lost their own query and the CoT cue "
+                                            "(reproduce with --cutoff_len 2048)"),
+        },
         "grad_side_regime": {"template": "llama2", "wrapper": "<s>[INST] {ctx} [/INST] {target}</s>",
                             "cutoff_len": args.cutoff_len,
                             "truncation_direction": "source TAIL (source_ids[:source_len])",
@@ -161,6 +203,7 @@ def main():
             f"cutoff_len / few-shot count / prompts are NOT altered automatically.")
     json.dump(out, open(args.out, "w"), indent=2)
 
+    print(f"cutoff protocol             : target-grad={args.cutoff_len}  SFT={SFT_CUTOFF} (frozen)")
     print(f"records                     : {n}")
     print(f"grad side  max total tokens : {gmax}  (cutoff_len={args.cutoff_len})")
     print(f"eval side  max ctx tokens   : {emax}  (budget={EVAL_CTX - MAX_GEN_TOKS}, "

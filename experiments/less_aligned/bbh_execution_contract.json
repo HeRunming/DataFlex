@@ -37,7 +37,9 @@
       "adapter_model.safetensors": "44d9c580ca18583a4498dd7c3b5bad4094144e02b3ee83a86509e7d88beb2fdc",
       "optimizer.pt": "10a0169e7c5843aafdb4e3089b6e8ae1dab882c6b6e1af0cfedd5d97c9c31a25"
     },
-    "adapter_sha256_matches": true
+    "adapter_sha256_matches": true,
+    "optimizer_sha256_matches": true,
+    "why_optimizer_matters": "Adam preconditioning of candidate gradients reads exp_avg / exp_avg_sq from this checkpoint; a drifted optimizer.pt changes the candidate feature space without changing any config."
   },
   "base_model": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf",
   "budget_K": 2707,
@@ -126,13 +128,28 @@
       ]
     }
   },
+  "llamafactory_preprocessing_pin": {
+    "install_path": "/jizhicfs/karonhe/envs/dataflex-fa/lib/python3.10/site-packages/llamafactory",
+    "why": "infer_seqlen decides the source/target budget split; supervised.py applies source_ids[:source_len] (tail truncation); template.py defines the llama2 [INST] wrapper. All three determine what the query gradient is actually taken on.",
+    "files": {
+      "data/processor/processor_utils.py": "5452edcf5e9ea67bfec3369537d478d65d17adc3c925aa95fda7a12453038204",
+      "data/processor/supervised.py": "2741445b4da5a699246af4ab35dd05b0d6dd970bc77c6e6b33c333d6ad82ae53",
+      "data/template.py": "445fa2d95f010b7041c0a4474b5254fd51d84a331229ce6c5095e97a3dcac4eb"
+    },
+    "version": "0.9.3"
+  },
   "target_gradient_extraction": {
     "driver": "dataflex-cli train <select yaml> (target-only phase), as in run_targetdraw_pilot.sh",
     "template": "llama2",
     "formatting": "sharegpt",
-    "cutoff_len": 2048,
+    "cutoff_len": 3072,
+    "cutoff_len_rationale": "RAISED from 2048 to 3072 for target-gradient extraction ONLY (decision in code_review_0810_2). 3072 = Llama-2 context 4096 minus the pinned max_gen_toks 1024, i.e. the evaluation side's own input ceiling; measured max BBH eval context is 2596. At 2048, 7/192 query records lost their own query and CoT cue (source-tail truncation). Protocol-derived, NOT accuracy-tuned: no BBH accuracy has been observed.",
+    "sft_cutoff_len": 2048,
+    "sft_cutoff_note": "downstream selected-data SFT recipe is UNCHANGED at 2048",
+    "differs_from_mmlu_arm": "yes, deliberately: the MMLU arm used 2048 for query gradients. Disclosed as a pre-compute validity correction.",
     "candidate_symlink_rule": "the per-draw cache's train/1/all_projected_grads.pt must be a symlink resolving to the frozen candidate cache; verify with readlink -f before selection",
-    "TRUNCATION_GATE": "bbh_token_truncation_audit.json MUST report verdict=PASS before any target-gradient extraction. It currently reports HOLD."
+    "HOW_TO_APPLY_THE_CUTOFF": "scripts/setup_draw_target.py --cutoff_len 3072 for BBH draws. The script's DEFAULT is 2048 (the MMLU value), so the flag is MANDATORY for BBH -- omitting it silently reintroduces the defect. Verify the emitted select_<draw>.yaml contains cutoff_len: 3072 before running extraction.",
+    "TRUNCATION_GATE": "bbh_token_truncation_audit.json MUST report verdict=PASS before any target-gradient extraction. At cutoff_len=3072 it reports PASS with 192/192 records retaining the complete query, CoT cue and supervised target, and 0 tokens dropped."
   },
   "counts": {
     "draws": 3,

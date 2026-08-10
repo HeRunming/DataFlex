@@ -30,7 +30,7 @@ lora_target: q_proj,k_proj,v_proj,o_proj
 lora_dropout: 0.1
 dataset: less_train_all
 template: llama2
-cutoff_len: 2048
+cutoff_len: {cutoff_len}
 overwrite_cache: true
 preprocessing_num_workers: 16
 output_dir: {saves}/less_aligned/draw_{draw}
@@ -77,6 +77,11 @@ COMPONENT = """  {draw}:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--draw", required=True, help="e.g. stem80_draw0")
+    ap.add_argument("--cutoff_len", type=int, default=2048,
+                    help="cutoff for TARGET-GRADIENT extraction. MMLU draws used 2048. BBH draws MUST "
+                         "use 3072: at 2048, 7/192 BBH 3-shot CoT query prompts are tail-truncated so "
+                         "badly the query itself is deleted (see bbh_token_truncation_audit.json and "
+                         "code_review_0810_2). This does NOT change the downstream SFT cutoff.")
     args = ap.parse_args()
     draw = args.draw
     jsonl = f"{ROOT}/data/target_draws/{draw}.jsonl"
@@ -95,7 +100,8 @@ def main():
     # 2. select yaml
     os.makedirs(f"{ROOT}/experiments/less_aligned/configs/draws", exist_ok=True)
     open(f"{ROOT}/experiments/less_aligned/configs/draws/select_{draw}.yaml", "w").write(
-        SELECT_YAML.format(base=BASE, warmup=WARMUP, saves=SAVES, draw=draw))
+        SELECT_YAML.format(base=BASE, warmup=WARMUP, saves=SAVES, draw=draw,
+                           cutoff_len=args.cutoff_len))
 
     # 3. components file (create header once, append component if missing)
     comp_path = f"{ROOT}/src/dataflex/configs/components_draws.yaml"

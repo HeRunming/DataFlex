@@ -178,6 +178,13 @@ def main():
         "audit_coverage": {"truncation_records": trunc.get("n_records"),
                            "leakage_demonstrations": leak.get("n_demonstrations")},
         "execution_contract_candidate_cache_verified": contract["candidate_cache"].get("sha256_matches"),
+        "warmup_adapter_sha256_matches": contract["warmup_checkpoint"].get("adapter_sha256_matches"),
+        "warmup_optimizer_sha256_matches": contract["warmup_checkpoint"].get("optimizer_sha256_matches"),
+        "llamafactory_preprocessing_pinned": sum(
+            1 for v in (contract.get("llamafactory_preprocessing_pin", {}).get("files") or {}).values()
+            if v),
+        "target_grad_cutoff_len": contract["target_gradient_extraction"]["cutoff_len"],
+        "sft_cutoff_len": contract["target_gradient_extraction"]["sft_cutoff_len"],
         "execution_contract_gradient_types": {
             "candidate": contract["frozen_feature_contract"]["gradient_type_candidate"],
             "target": contract["frozen_feature_contract"]["gradient_type_target"]},
@@ -198,11 +205,13 @@ def main():
         blockers.append(f"token/truncation audit verdict={trunc['verdict']}: "
                         f"{trunc['n_materially_truncated']}/{trunc['n_records']} query records lose "
                         f"their own query tail at cutoff_len (see bbh_token_truncation_audit.json)")
-    if leak["verdict"] != "PASS":
+    # PASS and PASS_WITH_DISCLOSURE are both launchable; REVIEW/FAIL are not. PASS_WITH_DISCLOSURE means
+    # near-verbatim pairs exist but every one is inherent to the OFFICIAL BBH construction (see the
+    # audit's `disclosure` field) -- editing the benchmark to remove them would be worse.
+    if not str(leak["verdict"]).startswith("PASS"):
         blockers.append(f"few-shot demonstration leakage audit verdict={leak['verdict']}: "
-                        f"{leak.get('n_needing_human_clearance', '?')} near-verbatim demo/eval pairs "
-                        f"(of which {len(leak.get('answer_flip_pairs') or [])} carry a DIFFERENT gold "
-                        f"answer) need explicit human clearance")
+                        f"{len(leak.get('near_duplicate_pairs_escalated') or [])} escalated pair(s) need "
+                        f"explicit human clearance")
     # generalize the gate-B vacuity fix to the two new audits: an audit that inspected nothing must
     # never reach the manifest as clean.
     if trunc.get("n_records") != 192:
@@ -213,6 +222,16 @@ def main():
     if contract["candidate_cache"].get("sha256_matches") is not True:
         blockers.append("candidate cache tensor-content sha256 not verified against the master manifest "
                         "(re-run emit_bbh_execution_contract.py --verify_candidate_cache)")
+    # BOTH warm-up hashes must be true: the optimizer state feeds Adam preconditioning of the candidate
+    # gradients, so a drifted optimizer.pt changes the feature space with no config change.
+    w = contract["warmup_checkpoint"]
+    for k in ("adapter_sha256_matches", "optimizer_sha256_matches"):
+        if w.get(k) is not True:
+            blockers.append(f"warm-up checkpoint {k}={w.get(k)} (expected True)")
+    lf = contract.get("llamafactory_preprocessing_pin", {})
+    if not lf or any(v is None for v in lf.get("files", {"x": None}).values()):
+        blockers.append("LlamaFactory preprocessing/template sources not fully pinned "
+                        "(processor_utils.py, supervised.py, template.py)")
     if (contract["frozen_feature_contract"]["gradient_type_candidate"] != "adam"
             or contract["frozen_feature_contract"]["gradient_type_target"] != "sgd"):
         blockers.append("frozen gradient-type contract violated (must be candidate=adam, target=sgd)")

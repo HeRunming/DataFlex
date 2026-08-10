@@ -1,17 +1,25 @@
 {
   "audit": "execution-level tokenization / truncation over all query records",
-  "verdict": "HOLD",
+  "verdict": "PASS",
   "n_records": 192,
-  "n_materially_truncated": 7,
+  "n_materially_truncated": 0,
   "env": {
     "tokenizer": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf",
     "transformers": "4.50.0",
     "llamafactory_allocator": "llamafactory.data.processor.processor_utils.infer_seqlen"
   },
+  "cutoff_protocol": {
+    "target_gradient_extraction": 3072,
+    "downstream_selected_data_sft": 2048,
+    "candidate_gradient_cache": "unchanged, not recomputed",
+    "rationale": "3072 = Llama-2 context 4096 minus the pinned max_gen_toks 1024, i.e. the evaluation side's OWN input ceiling. Protocol-derived, not accuracy-tuned: no BBH accuracy has been observed. Pre-compute input-integrity correction.",
+    "disclosure": "the BBH target-gradient cutoff (3072) deliberately DIFFERS from the MMLU arm's 2048; the SFT recipe itself is unchanged at 2048",
+    "at_2048_this_audit_reported": "HOLD: 7/192 records lost their own query and the CoT cue (reproduce with --cutoff_len 2048)"
+  },
   "grad_side_regime": {
     "template": "llama2",
     "wrapper": "<s>[INST] {ctx} [/INST] {target}</s>",
-    "cutoff_len": 2048,
+    "cutoff_len": 3072,
     "truncation_direction": "source TAIL (source_ids[:source_len])",
     "max_observed_total_tokens": 2608
   },
@@ -23,9 +31,7 @@
     "max_observed_context_tokens": 2596,
     "all_fit": true
   },
-  "truncated_by_subtask": {
-    "geometric_shapes": 7
-  },
+  "truncated_by_subtask": {},
   "why_string_parity_missed_this": "gate B compares prompts BEFORE tokenization. BBH prompts are [3 CoT demos] ++ [query LAST] and LlamaFactory truncates the source TAIL, so an over-length record loses the query itself while the byte-for-byte string comparison still passes.",
   "records": [
     {
@@ -779,13 +785,13 @@
       "grad_side": {
         "source_tokens": 2604,
         "target_tokens": 4,
-        "source_kept": 2044,
+        "source_kept": 2604,
         "target_kept": 4,
-        "source_tokens_dropped": 560,
+        "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
-        "exceeds_cutoff": true,
-        "query_start_survives": false,
-        "ends_with_cot_cue": false,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
         "target_intact": true
       },
       "eval_side": {
@@ -794,7 +800,7 @@
         "tokens_left_truncated": 0,
         "fits": true
       },
-      "materially_truncated": true
+      "materially_truncated": false
     },
     {
       "id": "bbh::reasoning_about_colored_objects::101",
@@ -1307,13 +1313,13 @@
       "grad_side": {
         "source_tokens": 2554,
         "target_tokens": 4,
-        "source_kept": 2044,
+        "source_kept": 2554,
         "target_kept": 4,
-        "source_tokens_dropped": 510,
+        "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
-        "exceeds_cutoff": true,
-        "query_start_survives": false,
-        "ends_with_cot_cue": false,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
         "target_intact": true
       },
       "eval_side": {
@@ -1322,7 +1328,7 @@
         "tokens_left_truncated": 0,
         "fits": true
       },
-      "materially_truncated": true
+      "materially_truncated": false
     },
     {
       "id": "bbh::boolean_expressions::157",
@@ -1403,13 +1409,13 @@
       "grad_side": {
         "source_tokens": 2539,
         "target_tokens": 4,
-        "source_kept": 2044,
+        "source_kept": 2539,
         "target_kept": 4,
-        "source_tokens_dropped": 495,
+        "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
-        "exceeds_cutoff": true,
-        "query_start_survives": false,
-        "ends_with_cot_cue": false,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
         "target_intact": true
       },
       "eval_side": {
@@ -1418,7 +1424,7 @@
         "tokens_left_truncated": 0,
         "fits": true
       },
-      "materially_truncated": true
+      "materially_truncated": false
     },
     {
       "id": "bbh::snarks::86",
@@ -1715,13 +1721,13 @@
       "grad_side": {
         "source_tokens": 2538,
         "target_tokens": 4,
-        "source_kept": 2044,
+        "source_kept": 2538,
         "target_kept": 4,
-        "source_tokens_dropped": 494,
+        "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
-        "exceeds_cutoff": true,
-        "query_start_survives": false,
-        "ends_with_cot_cue": false,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
         "target_intact": true
       },
       "eval_side": {
@@ -1730,7 +1736,7 @@
         "tokens_left_truncated": 0,
         "fits": true
       },
-      "materially_truncated": true
+      "materially_truncated": false
     },
     {
       "id": "bbh::boolean_expressions::141",
@@ -3299,13 +3305,13 @@
       "grad_side": {
         "source_tokens": 2555,
         "target_tokens": 4,
-        "source_kept": 2044,
+        "source_kept": 2555,
         "target_kept": 4,
-        "source_tokens_dropped": 511,
+        "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
-        "exceeds_cutoff": true,
-        "query_start_survives": false,
-        "ends_with_cot_cue": false,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
         "target_intact": true
       },
       "eval_side": {
@@ -3314,7 +3320,7 @@
         "tokens_left_truncated": 0,
         "fits": true
       },
-      "materially_truncated": true
+      "materially_truncated": false
     },
     {
       "id": "bbh::dyck_languages::101",
@@ -4019,13 +4025,13 @@
       "grad_side": {
         "source_tokens": 2568,
         "target_tokens": 4,
-        "source_kept": 2044,
+        "source_kept": 2568,
         "target_kept": 4,
-        "source_tokens_dropped": 524,
+        "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
-        "exceeds_cutoff": true,
-        "query_start_survives": false,
-        "ends_with_cot_cue": false,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
         "target_intact": true
       },
       "eval_side": {
@@ -4034,7 +4040,7 @@
         "tokens_left_truncated": 0,
         "fits": true
       },
-      "materially_truncated": true
+      "materially_truncated": false
     },
     {
       "id": "bbh::disambiguation_qa::120",
@@ -4547,13 +4553,13 @@
       "grad_side": {
         "source_tokens": 2537,
         "target_tokens": 4,
-        "source_kept": 2044,
+        "source_kept": 2537,
         "target_kept": 4,
-        "source_tokens_dropped": 493,
+        "source_tokens_dropped": 0,
         "target_tokens_dropped": 0,
-        "exceeds_cutoff": true,
-        "query_start_survives": false,
-        "ends_with_cot_cue": false,
+        "exceeds_cutoff": false,
+        "query_start_survives": true,
+        "ends_with_cot_cue": true,
         "target_intact": true
       },
       "eval_side": {
@@ -4562,7 +4568,7 @@
         "tokens_left_truncated": 0,
         "fits": true
       },
-      "materially_truncated": true
+      "materially_truncated": false
     },
     {
       "id": "bbh::movie_recommendation::228",
@@ -4636,6 +4642,5 @@
       },
       "materially_truncated": false
     }
-  ],
-  "HOLD_reason": "7/192 query records are materially truncated at cutoff_len=2048. In each case the tail of the record's OWN query is dropped and the trailing \"A: Let's think step by step.\" cue is cut, so the query gradient would be taken on [demonstrations + a partial query] with no CoT cue. Per code_review_0810 this is a HOLD: cutoff_len / few-shot count / prompts are NOT altered automatically."
+  ]
 }

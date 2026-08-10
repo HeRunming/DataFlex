@@ -159,7 +159,15 @@ def main():
             "expected_optimizer_sha256": master["warmup_ckpt"]["optimizer_sha256"],
             "measured": dir_sha(WARMUP, ["adapter_model.safetensors", "optimizer.pt"])}
     am = warm["measured"].get("adapter_model.safetensors")
+    om = warm["measured"].get("optimizer.pt")
     warm["adapter_sha256_matches"] = (am == warm["expected_adapter_sha256"]) if am else None
+    # The OPTIMIZER state is load-bearing, not decorative: Adam-aware candidate gradients are
+    # preconditioned with exp_avg / exp_avg_sq from this very checkpoint, so a different optimizer.pt
+    # silently changes the candidate features. Assert it as explicitly as the adapter.
+    warm["optimizer_sha256_matches"] = (om == warm["expected_optimizer_sha256"]) if om else None
+    warm["why_optimizer_matters"] = ("Adam preconditioning of candidate gradients reads exp_avg / "
+                                     "exp_avg_sq from this checkpoint; a drifted optimizer.pt changes "
+                                     "the candidate feature space without changing any config.")
 
     per_draw = {str(d): {"random_k_seed": RANDOM_SEED_BASE + d,
                          "rr_perm_seed": RR_PERM_SEED_BASE + d,
@@ -167,6 +175,27 @@ def main():
                          "target_grads_expected": f"{SAVES}/draw_bbhx_draw{d}_output/target/1/all_projected_grads.pt",
                          "target_grad_expected_shape": [64, feature["proj_dim"]]}
                 for d in DRAWS}
+
+    # ---- LlamaFactory preprocessing/template source pin ----
+    # The 2048-truncation defect proved this code is load-bearing provenance, not an implementation
+    # detail: WHERE the truncation falls (source tail) and HOW the budget is split are decided by
+    # infer_seqlen / the supervised processor / the llama2 template. Pinning the installed .py files means
+    # "we verified the source tail is what gets cut" can be tied to the code that actually ran, rather
+    # than to some later upstream main.
+    import llamafactory
+    lf_dir = os.path.dirname(llamafactory.__file__)
+    lf_files = ["data/processor/processor_utils.py", "data/processor/supervised.py", "data/template.py"]
+    lf_pin = {"install_path": lf_dir,
+              "why": ("infer_seqlen decides the source/target budget split; supervised.py applies "
+                      "source_ids[:source_len] (tail truncation); template.py defines the llama2 "
+                      "[INST] wrapper. All three determine what the query gradient is actually taken on."),
+              "files": {f: (sha_file(f"{lf_dir}/{f}") if os.path.exists(f"{lf_dir}/{f}") else None)
+                        for f in lf_files}}
+    try:
+        import importlib.metadata as _md
+        lf_pin["version"] = _md.version("llamafactory")
+    except Exception:
+        lf_pin["version"] = getattr(llamafactory, "__version__", "unknown")
 
     contract = {
         "contract": "BBH external-validation execution contract",
@@ -182,14 +211,33 @@ def main():
         "selector_contract": SELECTORS,
         "n_methods": len(SELECTORS),
         "per_draw": per_draw,
+        "llamafactory_preprocessing_pin": lf_pin,
         "target_gradient_extraction": {
             "driver": "dataflex-cli train <select yaml> (target-only phase), as in run_targetdraw_pilot.sh",
-            "template": "llama2", "formatting": "sharegpt", "cutoff_len": 2048,
+            "template": "llama2", "formatting": "sharegpt",
+            "cutoff_len": 3072,
+            "cutoff_len_rationale": (
+                "RAISED from 2048 to 3072 for target-gradient extraction ONLY (decision in "
+                "code_review_0810_2). 3072 = Llama-2 context 4096 minus the pinned max_gen_toks 1024, "
+                "i.e. the evaluation side's own input ceiling; measured max BBH eval context is 2596. "
+                "At 2048, 7/192 query records lost their own query and CoT cue (source-tail truncation). "
+                "Protocol-derived, NOT accuracy-tuned: no BBH accuracy has been observed."),
+            "sft_cutoff_len": 2048,
+            "sft_cutoff_note": "downstream selected-data SFT recipe is UNCHANGED at 2048",
+            "differs_from_mmlu_arm": ("yes, deliberately: the MMLU arm used 2048 for query gradients. "
+                                      "Disclosed as a pre-compute validity correction."),
             "candidate_symlink_rule": ("the per-draw cache's train/1/all_projected_grads.pt must be a "
                                        "symlink resolving to the frozen candidate cache; verify with "
                                        "readlink -f before selection"),
+            "HOW_TO_APPLY_THE_CUTOFF": ("scripts/setup_draw_target.py --cutoff_len 3072 for BBH draws. "
+                                        "The script's DEFAULT is 2048 (the MMLU value), so the flag is "
+                                        "MANDATORY for BBH -- omitting it silently reintroduces the "
+                                        "defect. Verify the emitted select_<draw>.yaml contains "
+                                        "cutoff_len: 3072 before running extraction."),
             "TRUNCATION_GATE": ("bbh_token_truncation_audit.json MUST report verdict=PASS before any "
-                                "target-gradient extraction. It currently reports HOLD."),
+                                "target-gradient extraction. At cutoff_len=3072 it reports PASS with "
+                                "192/192 records retaining the complete query, CoT cue and supervised "
+                                "target, and 0 tokens dropped."),
         },
         "counts": {"draws": len(DRAWS), "methods": len(SELECTORS),
                    "frozen_subsets": len(DRAWS) * len(SELECTORS),
@@ -202,6 +250,9 @@ def main():
           f"candidate={feature['gradient_type_candidate']} target={feature['gradient_type_target']}")
     print(f"candidate cache : exists={cand['exists']} sha_verified={cand['sha256_matches']}")
     print(f"warmup adapter  : sha_matches={warm['adapter_sha256_matches']}")
+    print(f"warmup optimizer: sha_matches={warm['optimizer_sha256_matches']}")
+    print(f"llamafactory pin: {sum(1 for v in lf_pin['files'].values() if v)}/{len(lf_pin['files'])} "
+          f"preprocessing sources hashed (v{lf_pin['version']})")
     for m, v in SELECTORS.items():
         print(f"  {m:10s} -> {v['script']} {' '.join(v['args'])}")
     print(f"wrote {args.out}")

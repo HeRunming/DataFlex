@@ -4,7 +4,7 @@
   "status": "PRE-COMPUTE CHECKPOINT \u2014 artifacts + gates only. NO gradients, NO selection, NO SFT.",
   "prereg": "experiments/less_aligned/prereg_bbh_external.md",
   "run_plan": "experiments/less_aligned/bbh_external_run_plan.json",
-  "emitted_against_head": "bee7d298966b1d69f4b84c917636d5ac93a56333",
+  "emitted_against_head": "93284f8c05b6546c7affba1ea6db4a5e2a945dbb",
   "emitted_against_tree_clean": false,
   "launch_receipt": "run `emit_bbh_launch_manifest.py --receipt` on a CLEAN tree at the launch commit; it writes bbh_canary_launch_receipt.json recording the true executing HEAD. This manifest deliberately does not claim to be it.",
   "design": {
@@ -113,34 +113,34 @@
     },
     "query_eval_disjoint": true,
     "custom_suite_hash_drift": null,
-    "token_truncation_verdict": "HOLD",
-    "token_truncation_n_affected": 7,
-    "token_truncation_detail": {
-      "geometric_shapes": 7
-    },
-    "fewshot_leakage_verdict": "REVIEW",
+    "token_truncation_verdict": "PASS",
+    "token_truncation_n_affected": 0,
+    "token_truncation_detail": null,
+    "fewshot_leakage_verdict": "PASS_WITH_DISCLOSURE",
     "fewshot_leakage_exact": {
       "heldout_eval_5209": 0,
       "drawn_queries_192": 0,
       "query_reservoir_1302": 0
     },
-    "fewshot_leakage_needing_human_clearance": 5,
+    "fewshot_leakage_needing_human_clearance": null,
     "fewshot_leakage_answer_flip_pairs": 5,
     "audit_coverage": {
       "truncation_records": 192,
       "leakage_demonstrations": 81
     },
     "execution_contract_candidate_cache_verified": true,
+    "warmup_adapter_sha256_matches": true,
+    "warmup_optimizer_sha256_matches": true,
+    "llamafactory_preprocessing_pinned": 3,
+    "target_grad_cutoff_len": 3072,
+    "sft_cutoff_len": 2048,
     "execution_contract_gradient_types": {
       "candidate": "adam",
       "target": "sgd"
     }
   },
-  "GO_FOR_SELECTION_CANARY": false,
-  "blockers": [
-    "token/truncation audit verdict=HOLD: 7/192 query records lose their own query tail at cutoff_len (see bbh_token_truncation_audit.json)",
-    "few-shot demonstration leakage audit verdict=REVIEW: 5 near-verbatim demo/eval pairs (of which 5 carry a DIFFERENT gold answer) need explicit human clearance"
-  ],
+  "GO_FOR_SELECTION_CANARY": true,
+  "blockers": null,
   "next_gate": "selection-only canary: no-SFT held-out evaluation + draw0 target-gradient extraction + all 5 selectors to K=2707, verifying target cache, selection sizes, hashes, determinism, RR order, Random seed, Jaccard/source/token diagnostics. NO training. Only after that: the 30-adapter run.",
   "analysis_prereg": {
     "primary": "pinned micro group metric on the 5,209-example held-out split",
@@ -184,7 +184,7 @@
       "why": "frozen custom held-out suite (27 subtask configs)"
     },
     "experiments/less_aligned/bbh_execution_contract.json": {
-      "sha256": "c6158dda595ede525127bc53bdf13052234cf0f9b80f05ee2e25aebb77ce5eb7",
+      "sha256": "a46383ef351bf0d55143287fd47a06e7138f9717543d03f84d0b9d4a6996ee51",
       "why": "P0-1 frozen feature/selector contract (Adam cand / SGD target)"
     },
     "experiments/less_aligned/bbh_external_tasks/_bbh_external_heldout.yaml": {
@@ -192,7 +192,7 @@
       "why": "custom group config (micro aggregation)"
     },
     "experiments/less_aligned/bbh_fewshot_leakage_audit.json": {
-      "sha256": "9d15adf8e3545cd8302bd6aa03c8b93453b1f435a2e110dd49cb88816e03afde",
+      "sha256": "cedaa73100110fd7a0084f5661b585a64d496270fec8bf2c0ed9dc09cd46b4ec",
       "why": "81 CoT demos vs eval/query populations"
     },
     "experiments/less_aligned/bbh_lmeval_pin.json": {
@@ -208,7 +208,7 @@
       "why": "query prompts rendered from lm-eval fewshot_context()"
     },
     "experiments/less_aligned/bbh_token_truncation_audit.json": {
-      "sha256": "391fdf56c1061d1b3125964481603175850e879664d44092244d3bf1c64dcde8",
+      "sha256": "17f550da3505b96942fdc1ec4d3ccb6b907af8d5878210ded8178af29cac814f",
       "why": "P0-2 execution-level token/truncation gate"
     },
     "experiments/less_aligned/results_summary/contamination_global_lexical_bbh_heldout.json": {

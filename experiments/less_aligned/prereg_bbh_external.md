@@ -1,96 +1,95 @@
 # PRE-REGISTRATION: BBH external-validation experiment
 
-**Status: ON HOLD — NO COMPUTE RUN.** Artifacts, pins, and gates are built; **no gradients, no
-selection, no SFT, no evaluation**. The previous `GO_FOR_SELECTION_CANARY = true` is **withdrawn**:
-code_review_0810 identified a protocol defect that the string-level parity audit could not see, and
-adversarial self-review of the new gates then surfaced a second one. Both reproduce; both are recorded
-as machine-checked blockers, so the launch manifest now emits
-`GO_FOR_SELECTION_CANARY = false`.
+**Status: PRE-REGISTERED, GATES GREEN — NO COMPUTE RUN.** All artifacts, pins, and gates are built and
+verified; **no gradients, no selection, no SFT, no evaluation**. The two blockers raised in
+code_review_0810 are resolved per the decisions in code_review_0810_2, and the launch manifest now emits
+`GO_FOR_SELECTION_CANARY = true` with **no blockers**.
 
-| # | blocker | verdict artifact |
-|---|---|---|
-| 1 | 7/192 query prompts truncated at `cutoff_len=2048`, destroying the query itself | `bbh_token_truncation_audit.json` → **HOLD** |
-| 2 | a near-verbatim CoT demonstration carries the **opposite** gold answer to a scored draw1 query | `bbh_fewshot_leakage_audit.json` → **REVIEW** |
+## Resolution 1 — truncation: target-gradient cutoff raised to 3072 (FIXED, gate now PASS)
 
-Neither was auto-fixed. `cutoff_len`, the few-shot count, the demonstrations, and the prompts are all
-untouched; both protocol decisions are deferred to explicit human approval.
+At `cutoff_len = 2048`, 7/192 query records (all `geometric_shapes`) lost 493–560 source tokens.
+LlamaFactory truncates the source **tail** (`source_ids[:source_len]`, budget split by `infer_seqlen`)
+and BBH prompts are `[3 CoT demos] ++ [query LAST]`, so what was deleted was the record's **own query**
+plus the trailing CoT cue — for `geometric_shapes::50` the item's unique SVG path was entirely absent and
+only shared `Options:` boilerplate survived. That is 7 target gradients not computed on their own target
+question.
 
-## ⛔ BLOCKER: 7/192 query prompts are truncated so badly the query itself is destroyed
+**The fix, applied to target-gradient extraction ONLY:**
 
-`scripts/audit_bbh_token_truncation.py` → `bbh_token_truncation_audit.json`, verdict **HOLD**.
-
-The frozen query-gradient recipe is LlamaFactory `template: llama2` with **`cutoff_len = 2048`**. BBH
-CoT prompts are structured `[3 CoT demonstrations] ++ [the actual query LAST]`, and LlamaFactory
-truncates the **source tail** (`source_ids[:source_len]`, allocated by `infer_seqlen`). So for an
-over-length record the part that gets deleted is exactly the part that matters:
-
-| | |
+| | value |
 |---|---|
-| records audited | 192 (all 3 draws) |
-| **materially truncated** | **7 / 192 — every one in `geometric_shapes`** |
-| tokens lost | 493–560 of ~2,540–2,608 |
-| the record's own query survives? | **NO** |
-| trailing `A: Let's think step by step.` cue survives? | **NO** |
-| supervised target survives? | yes (targets are 1–4 tokens) |
+| **BBH target-gradient extraction cutoff** | **3072** (was 2048) |
+| downstream selected-data SFT cutoff | **2048** — frozen recipe, UNCHANGED |
+| candidate gradient cache | UNCHANGED, not recomputed |
 
-For those 7, **the query is 100% absent** — not merely clipped. For `bbh::geometric_shapes::50` the
-dropped 560 tokens contain all of demonstration 3's rationale *plus the entire query*: the item's unique
-SVG path (`M 15.44,15.80`) does not appear anywhere in the kept text, and what survives of the query
-region is only the shared `Options:\n(A) circle…` boilerplate. So the query gradient would be computed
-on *~2.5 demonstrations and no query at all*, with no CoT cue — while the paired evaluation sees the
-whole thing. Evaluation side is fine (max 2,596 context tokens against a 4096−1024 = 3,072 budget, 0
-left-truncated), so this is a **query-gradient-side defect only**, and it is asymmetric between the two
-sides: the evaluation side has ~1.5× the budget.
+**3072 is protocol-derived, not accuracy-tuned.** Llama-2's context is 4096 and the pinned
+`bbh_cot_fewshot` config reserves `max_gen_toks = 1024`, so the *evaluation* side's own input ceiling is
+exactly 4096 − 1024 = **3072**; the measured maximum BBH evaluation context is **2596**, comfortably
+inside it. Setting the gradient-side cutoff to the evaluation side's own ceiling lets the gradient side
+represent every prompt the evaluation side can. **No BBH accuracy has been observed at any point**, so
+this cannot be accuracy-driven — it is a pre-compute input-integrity correction to a definite
+data-processing defect.
 
-**Why gate B passed anyway:** it compares prompts as **strings**, i.e. before tokenization. Byte-identity
-of the pre-tokenization text says nothing about what survives `cutoff_len`. This is the concrete lesson —
-string parity was necessary but not sufficient.
+Rejected alternatives, recorded: accepting 7/192 would knowingly compute 7 wrong query gradients;
+reducing the few-shot count for `geometric_shapes` alone would create a task-dependent query protocol no
+longer matching the fixed 3-shot BBH evaluation prompt.
 
-**Per the review, nothing was auto-fixed.** `cutoff_len`, the few-shot count, and the prompts are all
-untouched; the distribution is reported and the protocol decision is deferred to explicit human
-approval. Options exist (raise `cutoff_len` for target extraction; drop to fewer shots for the long
-subtask; accept and disclose) but each changes the frozen recipe or the prompt parity, so none is taken
-unilaterally.
+**Disclosure:** the BBH target-gradient cutoff (3072) now deliberately **differs** from the MMLU arm's
+2048. This is a pre-compute validity correction, not silent drift, and the SFT recipe itself is unchanged.
 
-## ⛔ BLOCKER 2: a near-verbatim CoT demonstration carries the OPPOSITE answer to a scored query
+Re-audited at 3072 — `bbh_token_truncation_audit.json`, verdict **PASS**:
 
-Found by adversarial self-review of the leakage audit's own verdict policy (the first version passed on
-exact-identity only, which hid this). `bbh_fewshot_leakage_audit.json` verdict **REVIEW**.
+| check | result |
+|---|---|
+| records audited | **192 / 192** |
+| materially truncated | **0** |
+| query missing | **0** |
+| CoT cue missing | **0** |
+| supervised target truncated | **0** |
+| source tokens dropped (any record) | **0** |
+| evaluation side truncated | **0** (max 2,596 vs 3,072 budget) |
 
-The maximum demo↔item similarity is **J = 0.8929**, `causal_judgement#1` vs
-**`bbh::causal_judgement::128`**, and the two differ by exactly one phrase:
+The gate still detects the defect: `--cutoff_len 2048` reproduces `HOLD`, 7/192. So the PASS is
+informative, not vacuous.
 
-| | text | gold answer |
-|---|---|---|
-| few-shot demonstration | "…triggered if **at least one** person appeared in the room…" | **Yes** |
-| evaluated item | "…triggered if **more than one** person appeared in the room…" | **No** |
+## Resolution 2 — few-shot near-duplicates: official BBH structure, DISCLOSED not blocking
 
-This is a deliberate minimal-pair probe, and the perturbation **flips the answer**. The item is in
-**draw1**, i.e. a scored query record. So for that item the 3-shot prompt contains a near-identical
-vignette demonstrating the *opposite* conclusion — the plausible effect is **anti-leakage** (priming the
-wrong answer), which is a validity problem in its own right, not a harmless near-duplicate.
+The near-verbatim pair I had escalated is **not contamination introduced by our split**. Verified
+directly:
 
-5 pairs reach J ≥ 0.85 and **all 5 have a differing gold answer**. The other 4 are the benign
-template-generated case (`tracking_shuffled_objects`: same swap sequence, different queried person).
+- the demonstration appears **verbatim** in the official `cot-prompts/causal_judgement.txt` (checked
+  in-script; **all 81/81** demonstrations are verbatim-official);
+- the matched item is official BBH benchmark data;
+- the item `bbh::causal_judgement::128` is a **query-reservoir** record, and reservoir ∩ held-out
+  evaluation = **∅** (verified) — so **no final test answer is exposed in any prompt**.
 
-Two corrections this forced in my own work:
-- the earlier caveat attributed the maximum to *"template-generated subtasks"*. That was **factually
-  wrong** — `causal_judgement` is hand-written. The excuse did not apply to the case it excused.
-- the audit claimed to contextualize fuzzy hits against an *"item-vs-item p95 baseline"* that **was never
-  computed**. It is now computed per subtask (p50/p95 over 600 sampled pairs) and stored.
+The `at least one person → Yes` demo and `more than one person → No` item are therefore a minimal pair
+**built into the official BBH CoT evaluation protocol**. It may influence that one query gradient, but
+every target-aware method sees the identical query context, and the official evaluation uses the same
+demonstrations. Calling it "leakage" or even "anti-leakage" overstates it; the accurate description is:
 
-The verdict now has three levels — **FAIL** (exact identity), **REVIEW** (any pair ≥ J 0.85, must be
-human-cleared), **PASS** — and both non-PASS levels exit non-zero and block the launch manifest. Nothing
-was auto-resolved: whether to swap the demonstration, exclude the item, or accept and disclose is a
-protocol decision left to explicit approval.
+> official BBH few-shot/query near-neighbour minimal pairs; **zero exact identity** with any evaluation
+> or query item; disclosed as a prompt-structure characteristic.
+
+**We do not swap the demonstration and do not drop the item.** Both would be post-hoc editing of the
+official protocol / a frozen random draw *after* inspecting prompt similarity — and removing a hard
+minimal pair would itself invite a post-hoc-dataset-editing objection. Deleting official demonstrations
+would also make our numbers incomparable to every published BBH CoT result.
+
+Verdict is now **`PASS_WITH_DISCLOSURE`** (5 pairs at J ≥ 0.85, all official, all with a *differing* gold
+answer, 0 escalated). The **hard gate remains zero exact identity**. Escalation still fires when a
+demonstration is *not* verbatim-official, or when a near-verbatim pair shares the **same** gold answer and
+the item is in the held-out evaluation split — the only configuration where a test item's answer would
+become visible in its own prompt. Negative control: injecting a real held-out item as a demonstration
+yields **FAIL**, escalation, exit 1.
 
 ### Artifact index
 
 | artifact | what it fixes |
 |---|---|
-| `scripts/emit_bbh_execution_contract.py` → `bbh_execution_contract.json` | **P0-1**: the authoritative frozen feature/selector contract (Adam candidates, **SGD targets**, seed 123, dim 8192, exact per-method scripts) |
-| `scripts/audit_bbh_token_truncation.py` → `bbh_token_truncation_audit.json` | **P0-2**: execution-level token/truncation gate (currently **HOLD**) |
-| `scripts/audit_bbh_fewshot_leakage.py` → `bbh_fewshot_leakage_audit.json` | 81 CoT demos vs raw/reservoir/held-out/drawn populations |
+| `scripts/emit_bbh_execution_contract.py` → `bbh_execution_contract.json` | **P0-1**: the authoritative frozen feature/selector contract (Adam candidates, **SGD targets**, seed 123, dim 8192, exact per-method scripts); both warm-up hashes + LlamaFactory preprocessing sources pinned |
+| `scripts/audit_bbh_token_truncation.py` → `bbh_token_truncation_audit.json` | **P0-2**: execution-level token/truncation gate — **PASS** at the corrected 3072 target cutoff |
+| `scripts/audit_bbh_fewshot_leakage.py` → `bbh_fewshot_leakage_audit.json` | 81 CoT demos vs raw/reservoir/held-out/drawn populations, with official-provenance triage — **PASS_WITH_DISCLOSURE** |
 | `results_summary/inherited_context_corrections.md` | corrects two misremembered historical claims |
 | `scripts/gen_bbh_external_split.py` → `data/bbh_external/` | 20/80 split, 3 draws, 27/23 accounting, frozen selection seeds |
 | `scripts/pin_bbh_lmeval.py` → `bbh_lmeval_pin.json`, `bbh_pip_freeze.txt` | lm-eval pin incl. **Python runtime code**, tokenizer, and 172-package environment |
@@ -98,7 +97,7 @@ protocol decision left to explicit approval.
 | `scripts/render_bbh_query_prompts.py` → `bbh_query_prompt_manifest.json` | query prompts built from lm-eval's own `fewshot_context()` |
 | `scripts/audit_bbh_prompt_parity.py` → `bbh_prompt_parity_audit.json` | 27-subtask byte-for-byte parity gates A/B/C + gate D disclosure + `--tamper_check` |
 | `scripts/contamination_global_lexical.py` → `results_summary/contamination_global_lexical_*.json` | pool-wide lexical screen (32×2, **nominal** recall) |
-| `bbh_external_launch_manifest.json` | launch record; asserts the 15-subset invariant, now gated on the truncation verdict |
+| `bbh_external_launch_manifest.json` | launch record; asserts the 15-subset invariant, gated on every audit verdict + both warm-up hashes; `--receipt` emits the clean-head receipt |
 
 ### Verification bugs found by self-review of this checkpoint (all fixed before commit)
 
@@ -112,7 +111,7 @@ because "the gates passed" is only meaningful if the gates could have failed:
 | 3 | `split_manifest_sha256` in the pin manifest was **stale** (pinned before the metadata enrichment), and this document transcribed the stale value | re-ran `pin_bbh_eval.py`; the document no longer transcribes it at all, so it cannot go stale again | on-disk == pinned, verified |
 | 4 | `--verify` **wrote** the run plan — a read-only check mutating the tree | writes are skipped under `--verify` | "run plan NOT rewritten" |
 | 5 | the vacuity fix (#1) was **not generalized** to the two new audits: an empty tasks dir gave the leakage audit `PASS`/exit 0, and a 3-record prompt dir gave the truncation audit `PASS` — either would have produced `GO=true` having checked almost nothing | explicit vacuity guards (`--expect_records 192`, `--expect_demos 81`) that refuse to emit a verdict, plus coverage blockers in the manifest | 3-record dir ⇒ `VACUITY GUARD: audited 3, expected 192`; empty tasks dir ⇒ `found 0 demonstrations, expected 81`, no artifact written |
-| 6 | leakage verdict blocked on **exact identity only**, hiding Blocker 2; and it cited an "item-vs-item p95 baseline" that was **never computed** | three-level FAIL/REVIEW/PASS with a J ≥ 0.85 human-clearance threshold + answer-flip detection; p50/p95 baseline actually computed per subtask | verdict flipped to REVIEW, surfacing 5 answer-flip pairs |
+| 6 | leakage verdict blocked on **exact identity only**, hiding the near-duplicate case entirely; and it cited an "item-vs-item p95 baseline" that was **never computed** | FAIL / REVIEW / PASS_WITH_DISCLOSURE / PASS with a J ≥ 0.85 trigger, official-provenance triage, answer-flip detection, and the p50/p95 baseline actually computed per subtask | surfaced 5 near-verbatim pairs; injecting a real held-out item still yields FAIL + exit 1 |
 | 7 | `query_start_survives` used an 80-char substring probe that also matches inside the demo region for 48/192 records — a latent false-pass | replaced with a positional check (kept prefix must extend past the final `Q:` and retain the query's own tail) | same 7 records still caught |
 | 8 | the launch-manifest generator still emitted the retracted "no third hidden random axis" line and the "optionally D2(S,P_heldout)" line, contradicting the corrected prereg | both corrected in the generator, so the emitted JSON matches the prereg | re-emitted manifest |
 
@@ -265,7 +264,8 @@ MMLU prompt mismatch") overclaimed and is retracted.
 
 We therefore avoid the bare word "query-aligned", which invites a token-level reading that is not true.
 Three distinct gaps, all disclosed: the supervised continuation (below), the llama2 chat wrapper (gate
-D), and — pending the gate-3 HOLD — `cutoff_len` truncation on the gradient side only.
+D), and the `cutoff_len` asymmetry — now resolved by raising the target-gradient cutoff to 3072, with
+0/192 records truncated on either side (Resolution 1).
 
 Concretely:
 
@@ -414,7 +414,7 @@ because normalized-exact is 0, the long-n-gram hits are 5 manually-confirmed fal
 screen is also 0. Semantic (embedding-NN) contamination remains a disclosed release-time limitation.
 Artifacts: `results_summary/contamination_global_lexical_bbh_heldout.json`, `contamination_audit.md`.
 
-### Gate 1b — few-shot demonstration leakage: ⚠️ **REVIEW** (see Blocker 2)
+### Gate 1b — few-shot demonstration leakage: **PASS_WITH_DISCLOSURE** (see Resolution 2)
 
 `scripts/audit_bbh_fewshot_leakage.py` → `bbh_fewshot_leakage_audit.json`. Gate C only proved that the
 reservoir and held-out split are disjoint *from each other*; it never asked whether the **81 hard-coded
@@ -429,8 +429,9 @@ evaluated item's gold answer (or, as it turns out, the *opposite* answer) into i
 | drawn queries (192) | **0** | 1 | 1 |
 
 **Zero exact identities anywhere** — that part is clean. But exact identity is not the only leakage
-channel, so the verdict is **REVIEW**: 5 pairs reach J ≥ 0.85 and all 5 carry a differing gold answer.
-Details in Blocker 2. Moderate fuzzy overlap below the threshold does *not* block, because several BBH
+channel, so 5 pairs at J ≥ 0.85 are surfaced — **all 5 verbatim-official and all with a differing gold
+answer**, hence `PASS_WITH_DISCLOSURE` with 0 escalated. Details in Resolution 2. Moderate fuzzy overlap
+below the threshold does *not* block, because several BBH
 subtasks are template-generated and two independent items legitimately share most of their text — that
 judgement is now backed by the computed per-subtask item-vs-item p50/p95 baseline rather than by
 assertion.
@@ -440,7 +441,8 @@ leakage: stripping non-alphanumerics erased bracket-only `dyck_languages` payloa
 an `Options:`/`Input:` payload heuristic kept the wrong side for `hyperbaton`/`logical_deduction`
 (spurious J=1.0); and cross-subtask comparison with un-subtracted boilerplate inflated the n-gram
 counts. The audit now compares within-subtask with per-subtask boilerplate shingles removed. A fourth
-bug was in the *verdict* rather than the matcher: exact-only blocking, which is what hid Blocker 2.
+bug was in the *verdict* rather than the matcher: exact-only blocking, which hid the near-duplicate case
+entirely until the triage above was added.
 
 ### Gate 2 — 27-subtask prompt parity audit: **PASSED**
 
@@ -479,7 +481,7 @@ artifact under `known_intended_differences` rather than glossed.
 **Gate 2 is necessary but NOT sufficient** — see gate 3. It certifies the prompt *strings*; it says
 nothing about what survives tokenization and `cutoff_len`.
 
-### Gate 3 — execution-level token/truncation audit: ⛔ **HOLD**
+### Gate 3 — execution-level token/truncation audit: **PASS** (at target cutoff 3072)
 
 `scripts/audit_bbh_token_truncation.py` → `bbh_token_truncation_audit.json`. This is the gate that
 string parity could not provide, and it **fails**: 7/192 records (all `geometric_shapes`) lose 493–560
@@ -503,13 +505,21 @@ recorded and machine-verified rather than restated in prose (see "Frozen executi
 
 ### Gate 5 — remaining, in order
 
-1. **resolve the gate-3 HOLD** — explicit human decision on the truncation protocol; re-run the audit
-   to `PASS`;
+1. ~~resolve the gate-3 HOLD~~ — **DONE**: target-gradient cutoff raised to 3072, audit re-run to
+   `PASS` at 192/192 (Resolution 1);
 2. this pre-registration + the contract/split/pin/parity/leakage artifacts reviewed and approved;
-3. then a **selection-only, no-SFT canary**: base-model held-out evaluation + draw0 target-gradient
-   extraction + all five selectors run to K=2707, checking target cache integrity, selection sizes,
-   hashes, determinism, RR order, Random seed, and Jaccard/source/token diagnostics — **no training**;
-4. only then: 15 frozen subsets → 30 adapters → eval → aggregate.
+3. then a **selection-only, no-SFT canary** (approved in code_review_0810_2, contingent on the gates
+   above being green — they are): base-model held-out BBH evaluation + draw0's 64 target gradients + all
+   five selectors run to K=2707. Checks: target tensor `(64, 8192)`, finite, no zero rows; candidate
+   symlink resolves to the frozen cache; selection sizes/hashes/determinism; RR visiting order; Random-K
+   seed; Jaccard/source/token diagnostics — **no training**.
+   **draw0 deliberately contains the long `geometric_shapes` prompts**, so this canary also confirms
+   empirically that the 3072 fix means gradients are extracted on the *complete* query, not merely that
+   the tensor has the right shape;
+4. then a cheap **2-adapter end-to-end engineering canary** — draw0 DSMC seed42 + draw0 Random-K seed42 —
+   to exercise the custom BBH eval path, manifests, resume, and aggregation. This is an *engineering*
+   check, **not** an accuracy read: no decision may be taken on its scores;
+5. only then: the remaining 28 adapters (15 frozen subsets × 2 seeds = 30 total) → eval → aggregate.
 
 ## Frozen execution contract (P0-1, code_review_0810)
 
