@@ -1,6 +1,6 @@
 {
   "receipt": "BBH selection-canary launch receipt",
-  "executing_head": "0c03b4a1fddfa61c5f8889d399e51b19e931ee30",
+  "executing_head": "9458297c351df8b075b8a7adccc54d8b02da1b9d",
   "tree_clean": true,
   "gates": {
     "parity_all_gates_pass": true,
@@ -69,7 +69,7 @@
       "why": "20/80 split + 3 draws + frozen selection seeds"
     },
     "experiments/less_aligned/bbh_eval_pin_manifest.json": {
-      "sha256": "f4d7e1297d0ed306b88f27e2483113c18ef919d48841d0e58a00a6f0d380d854",
+      "sha256": "c5d916afd889847302bf5d28a8aace8fcd086ea9b2abf50551b62c81bc79ba74",
       "why": "frozen custom held-out suite (27 subtask configs)"
     },
     "experiments/less_aligned/bbh_execution_contract.json": {
