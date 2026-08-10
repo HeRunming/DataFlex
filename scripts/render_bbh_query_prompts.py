@@ -54,8 +54,9 @@ def load_pinned_tasks(subtasks):
     """Instantiate the pinned custom held-out lm-eval task objects (one per subtask).
 
     We use the CUSTOM held-out tasks rather than the stock ones only because they are the configs this
-    experiment actually evaluates with; the parity audit separately proves the two produce identical
-    prompts for the same doc, since the only difference between them is the dataset source.
+    experiment actually evaluates with. The two configs differ in exactly two preregistered ways — the
+    dataset source, and the removal of the duplicated CoT trigger that installed lm-eval v0.4.5 renders
+    twice per demonstration — and the parity audit verifies both explicitly.
     """
     from lm_eval.tasks import TaskManager
     tm = TaskManager(include_path=TASKS_DIR, verbosity="ERROR")

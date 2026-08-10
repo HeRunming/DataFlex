@@ -85,6 +85,16 @@ def git_commit():
         return "unknown"
 
 
+def diff_vs(ref):
+    """Files differing between `ref` and the current HEAD (empty list if none/unavailable)."""
+    try:
+        out = subprocess.check_output(["git", "-C", ROOT, "diff", "--name-only", f"{ref}..HEAD"],
+                                      stderr=subprocess.DEVNULL).decode().strip()
+        return [l for l in out.split("\n") if l]
+    except Exception:
+        return None
+
+
 def git_clean():
     """True iff the working tree has no uncommitted changes."""
     try:
@@ -314,7 +324,10 @@ def main():
             "custom_group": "bbh_external_heldout",
             "include_path": "experiments/less_aligned/bbh_external_tasks",
             "n_heldout_examples": pin["custom_heldout_suite"]["total_heldout_examples"],
-            "only_difference_vs_stock": "dataset source (audited byte-for-byte: gate A)",
+            "differences_vs_stock": 'TWO preregistered changes vs stock lm-eval v0.4.5: (1) dataset source -> the frozen 5,209-example held-out split; (2) removal of the redundant CoT trigger that installed v0.4.5 renders twice per demonstration, validated against the official BBH CoT prompts (upstream lm-eval later shipped the same fix). Generation settings, filtering, metric, num_fewshot, sampler and all other task semantics remain pinned.',
+            "audited_by": ("gate A: stock-vs-custom byte comparison with ONLY the duplicated CoT cue "
+                           "normalized away, plus per-demonstration validation against the official BBH "
+                           "cot-prompts and an exact match of all non-sample fewshot_config keys"),
             "num_fewshot": prompts["target_num_fewshot"],
         },
 

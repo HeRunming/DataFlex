@@ -196,7 +196,7 @@ undermine every downstream selection hash).
 | `results_summary/inherited_context_corrections.md` | corrects two misremembered historical claims |
 | `scripts/gen_bbh_external_split.py` → `data/bbh_external/` | 20/80 split, 3 draws, 27/23 accounting, frozen selection seeds |
 | `scripts/pin_bbh_lmeval.py` → `bbh_lmeval_pin.json`, `bbh_pip_freeze.txt` | lm-eval pin incl. **Python runtime code**, tokenizer, and 172-package environment |
-| `scripts/pin_bbh_eval.py` → `bbh_eval_pin_manifest.json`, `bbh_external_tasks/` | frozen custom held-out suite (dataset source is the only change) |
+| `scripts/pin_bbh_eval.py` → `bbh_eval_pin_manifest.json`, `bbh_external_tasks/` | frozen custom held-out suite: **two** preregistered changes vs stock — held-out dataset source, and removal of v0.4.5's duplicated CoT trigger (official-validated). Everything else pinned. |
 | `scripts/render_bbh_query_prompts.py` → `bbh_query_prompt_manifest.json` | query prompts built from lm-eval's own `fewshot_context()` |
 | `scripts/audit_bbh_prompt_parity.py` → `bbh_prompt_parity_audit.json` | 27-subtask parity gates A/B/C (A now validates demos against the **official** cot-prompts) + gate D disclosure + `--tamper_check` |
 | `scripts/setup_draw_target.py` → `configs/draws/select_bbhx_draw{0,1,2}.yaml` | registers the frozen BBH query prompts with fail-loud sha256/row/ordered-id verification and `cutoff_len: 3072` |
@@ -440,7 +440,17 @@ query reservoir). So `scripts/pin_bbh_eval.py` emits a frozen custom suite
 source changes** — prompt, few-shot samples, generation, filtering, metric, and micro aggregation are
 inherited verbatim from the pinned config.
 
-That "only the dataset source changes" claim is **audited, not asserted** — see gates below.
+**Exactly two things differ from stock**, both preregistered and both audited rather than asserted (see
+gates below):
+
+1. the **dataset source** → the frozen 5,209-example held-out split;
+2. removal of the **redundant CoT trigger** that installed v0.4.5 renders twice per demonstration,
+   validated against the official BBH CoT prompts (upstream lm-eval later shipped the same fix).
+
+Generation settings, filtering, metric, `num_fewshot`, `sampler` and all other task semantics remain
+pinned. The earlier phrasing "dataset source is the only change" was true when written and is now
+retracted: `bbh_eval_pin_manifest.json` records both the upstream v0.4.5 few-shot hash and the corrected
+one, so the provenance was always honest even while this sentence was stale.
 
 ## Metrics and analysis (fixed in advance)
 

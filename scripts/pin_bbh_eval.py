@@ -215,11 +215,13 @@ def main():
             "group_config": os.path.relpath(gp, ROOT), "group_sha256": sha_file(gp),
             "subtasks": emitted,
             "total_heldout_examples": sum(v["n_heldout"] for v in emitted.values()),
-            "invariants_preserved": ["description", "doc_to_text", "hard-coded 3-shot CoT samples",
+            "invariants_preserved": ["description", "doc_to_text",
+                                     "3-shot CoT samples (verbatim official text; only the DUPLICATED "
+                                     "cue rendered by v0.4.5 is removed)",
                                      "generate_until", "greedy (do_sample=false, temperature=0)",
                                      "max_gen_toks=1024", "until stops", "get-answer regex filter",
                                      "exact_match metric", "micro group aggregation"],
-            "only_difference": "dataset source replaced by the local held-out jsonl split",
+            "differences_vs_stock": 'TWO preregistered changes vs stock lm-eval v0.4.5: (1) dataset source -> the frozen 5,209-example held-out split; (2) removal of the redundant CoT trigger that installed v0.4.5 renders twice per demonstration, validated against the official BBH CoT prompts (upstream lm-eval later shipped the same fix). Generation settings, filtering, metric, num_fewshot, sampler and all other task semantics remain pinned.',
         },
         "cot_cue_deduplication": {
             "applied": True,

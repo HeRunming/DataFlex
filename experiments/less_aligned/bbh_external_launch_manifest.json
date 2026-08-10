@@ -4,7 +4,7 @@
   "status": "PRE-COMPUTE CHECKPOINT \u2014 artifacts + gates only. NO gradients, NO selection, NO SFT.",
   "prereg": "experiments/less_aligned/prereg_bbh_external.md",
   "run_plan": "experiments/less_aligned/bbh_external_run_plan.json",
-  "emitted_against_head": "2ac67ea13065ad417881d68180bd2c48d07f315a",
+  "emitted_against_head": "b88e73780f4194c6b35071c25922169853f0026c",
   "emitted_against_tree_clean": false,
   "launch_receipt": "run `emit_bbh_launch_manifest.py --receipt` on a CLEAN tree at the launch commit; it writes bbh_canary_launch_receipt.json recording the true executing HEAD. This manifest deliberately does not claim to be it.",
   "design": {
@@ -71,7 +71,8 @@
     "custom_group": "bbh_external_heldout",
     "include_path": "experiments/less_aligned/bbh_external_tasks",
     "n_heldout_examples": 5209,
-    "only_difference_vs_stock": "dataset source (audited byte-for-byte: gate A)",
+    "differences_vs_stock": "TWO preregistered changes vs stock lm-eval v0.4.5: (1) dataset source -> the frozen 5,209-example held-out split; (2) removal of the redundant CoT trigger that installed v0.4.5 renders twice per demonstration, validated against the official BBH CoT prompts (upstream lm-eval later shipped the same fix). Generation settings, filtering, metric, num_fewshot, sampler and all other task semantics remain pinned.",
+    "audited_by": "gate A: stock-vs-custom byte comparison with ONLY the duplicated CoT cue normalized away, plus per-demonstration validation against the official BBH cot-prompts and an exact match of all non-sample fewshot_config keys",
     "num_fewshot": 3
   },
   "prompt_alignment": {
@@ -180,7 +181,7 @@
       "why": "20/80 split + 3 draws + frozen selection seeds"
     },
     "experiments/less_aligned/bbh_eval_pin_manifest.json": {
-      "sha256": "f4d7e1297d0ed306b88f27e2483113c18ef919d48841d0e58a00a6f0d380d854",
+      "sha256": "c5d916afd889847302bf5d28a8aace8fcd086ea9b2abf50551b62c81bc79ba74",
       "why": "frozen custom held-out suite (27 subtask configs)"
     },
     "experiments/less_aligned/bbh_execution_contract.json": {
