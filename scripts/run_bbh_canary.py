@@ -128,6 +128,27 @@ def phase_target(rep):
     ck["candidate_link_resolves_to"] = os.path.realpath(link)
     ck["candidate_link_ok"] = os.path.realpath(link) == os.path.realpath(CAND_GRAD)
 
+    # CANARY FINDING (phase A, run 2): the extraction driver is a `dynamic_select` training run, so it
+    # ALSO writes a side-effect online selection to <cache>/step_1.json -- at the component's own
+    # num_select (13,533, the old MMLU 5% budget), not our K=2707. Worse, on a subsequent run the
+    # selector LOADS that cached step_1.json and short-circuits, so re-extraction silently does nothing
+    # and no target/ directory appears. Both are harmless to the frozen protocol (we never read that
+    # file; the real selections come from the offline scripts at K=2707), but the stale cache must be
+    # cleared before any re-extraction or the reproducibility check is vacuous.
+    side_effect = f"{cache}/step_1.json"
+    if os.path.exists(side_effect) and not os.path.exists(tgt_p):
+        stale = json.load(open(side_effect))
+        moved = f"{SAVES}/canary_sideeffect_step1_{DRAW}.json"
+        shutil.move(side_effect, moved)
+        ck["cleared_stale_online_selection"] = {
+            "moved_to": moved, "n_indices": len(stale.get("indices", [])),
+            "metric": stale.get("metric"),
+            "why": ("the dynamic_select driver writes an online selection at the component's own budget; "
+                    "leaving it in place makes the selector load the cache and skip extraction"),
+        }
+        print(f"[target] cleared stale online selection ({len(stale.get('indices', []))} indices) "
+              f"-> {moved}")
+
     # ---- run extraction (unless a valid cache already exists) ----
     if not os.path.exists(tgt_p):
         env = dict(os.environ, PATH=f"{ENVBIN}:{os.environ['PATH']}",
@@ -166,9 +187,53 @@ def phase_target(rep):
     return ok
 
 
+def phase_repro(rep, run1, run2):
+    """Pre-registered dropout-reproducibility check. LoRA dropout 0.1 is ACTIVE during extraction
+    (select_trainer.py calls model.train() before selection), so the pre-registered rule applies:
+    re-extract draw0 from a clean cache and require an identical projected-gradient hash.
+
+    On mismatch we STOP and report diagnostics. We do NOT set eval mode, force dropout=0, change the
+    seed, or pick one of the two caches -- that decision belongs to a human.
+    """
+    import torch
+    h1, s1, d1 = sha_tensor(run1)
+    h2, s2, d2 = sha_tensor(run2)
+    A = torch.load(run1, map_location="cpu").float()
+    B = torch.load(run2, map_location="cpu").float()
+    out = {"why": ("LoRA dropout is 0.1 and select_trainer.py:535 calls model.train() before selection, "
+                   "so stochastic dropout masks are active while per-sample target gradients are taken. "
+                   "Non-reproducible target gradients would make every downstream selection hash "
+                   "meaningless, so this is checked, not assumed."),
+           "run1_sha256_tensor_content": h1, "run2_sha256_tensor_content": h2,
+           "shapes": [list(s1), list(s2)], "dtypes": [d1, d2],
+           "identical": h1 == h2}
+    if h1 != h2:
+        an, bn = A / A.norm(dim=1, keepdim=True).clamp_min(1e-12), B / B.norm(dim=1, keepdim=True).clamp_min(1e-12)
+        rowcos = (an * bn).sum(1)
+        out["diagnostics"] = {
+            "flat_cosine": float(torch.nn.functional.cosine_similarity(
+                A.flatten().unsqueeze(0), B.flatten().unsqueeze(0)).item()),
+            "row_cosine_min": float(rowcos.min()), "row_cosine_mean": float(rowcos.mean()),
+            "row_cosine_median": float(rowcos.median()), "row_cosine_max": float(rowcos.max()),
+            "n_rows_cos_below_0.99": int((rowcos < 0.99).sum()),
+            "norm_abs_diff_mean": float((A.norm(dim=1) - B.norm(dim=1)).abs().mean()),
+            "max_abs_elementwise_diff": float((A - B).abs().max()),
+        }
+        out["VERDICT"] = ("NOT REPRODUCIBLE -- STOP. Report these diagnostics plus the DSMC selection "
+                          "Jaccard between the two target caches before changing anything. Do NOT "
+                          "silently set eval mode, dropout=0, or pick one cache.")
+    else:
+        out["VERDICT"] = ("reproducible: identical tensor-content hash across two independent "
+                          "extractions from a clean cache, despite dropout being active")
+    rep["phase_repro"] = out
+    return h1 == h2
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--phase", choices=["heads", "target", "select", "baseeval"], required=True)
+    ap.add_argument("--phase", choices=["heads", "target", "repro", "select", "baseeval"], required=True)
+    ap.add_argument("--run1", default=f"{SAVES}/canary_target_run1.pt")
+    ap.add_argument("--run2", default=f"{SAVES}/draw_{DRAW}_output/target/1/all_projected_grads.pt")
     ap.add_argument("--out", default=OUT)
     args = ap.parse_args()
 
@@ -185,6 +250,15 @@ def main():
                          "artifact; re-emit the receipt or check out the approved snapshot.")
 
     ok = True
+    if args.phase == "repro":
+        ok = phase_repro(rep, args.run1, args.run2)
+        r = rep["phase_repro"]
+        print(f"\n[repro] run1 = {r['run1_sha256_tensor_content']}")
+        print(f"[repro] run2 = {r['run2_sha256_tensor_content']}")
+        print(f"[repro] identical = {r['identical']}")
+        for k, v in (r.get("diagnostics") or {}).items():
+            print(f"    {k}: {v}")
+        print(f"[repro] {r['VERDICT']}")
     if args.phase == "target":
         ok = phase_target(rep)
         print(f"\n[target] PASS = {ok}")

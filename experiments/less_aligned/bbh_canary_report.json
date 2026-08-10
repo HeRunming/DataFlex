@@ -1,0 +1,97 @@
+{
+  "canary": "BBH selection-only canary (no SFT)",
+  "head_semantics": {
+    "approved_code_snapshot": "9458297c351df8b075b8a7adccc54d8b02da1b9d",
+    "runtime_head": "9630893d2d579cdeaee542be6ff07e8cb6c14486",
+    "identical": false,
+    "files_changed_between": [
+      "experiments/less_aligned/bbh_canary_launch_receipt.json"
+    ],
+    "only_difference_is_the_receipt_artifact": true,
+    "tree_clean_at_runtime": false,
+    "note": "The receipt commit necessarily lands one commit after the snapshot it approves. This records both and enumerates the difference instead of claiming they are the same."
+  },
+  "phase_target": {
+    "select_yaml": "experiments/less_aligned/configs/draws/select_bbhx_draw0.yaml",
+    "cutoff_len_readback": 3072,
+    "lora_dropout_readback": 0.1,
+    "cutoff_ok": true,
+    "dropout_ok": true,
+    "target_jsonl": "data/bbh_external/query_prompts/bbh_query_draw0_prompts.jsonl",
+    "target_jsonl_sha256": "240521f4a9b6bd4663b733c46cb64cdb2121b26d79b0a56f23be70f753c51098",
+    "target_jsonl_sha_ok": true,
+    "n_rows": 64,
+    "n_rows_ok": true,
+    "ordered_ids_sha256": "fc302b12df3877fda462b72fdc7a6760c54beb3a29e1eac23da09fdc7a1ee85a",
+    "ordered_ids_ok": true,
+    "warmup_adapter_ok": true,
+    "warmup_optimizer_ok": true,
+    "candidate_link_resolves_to": "/jizhicfs/karonhe/dataflex_saves/less_output/train/1/all_projected_grads.pt",
+    "candidate_link_ok": true,
+    "extraction_returncode": 0,
+    "target_tensor": {
+      "path": "/jizhicfs/karonhe/dataflex_saves/draw_bbhx_draw0_output/target/1/all_projected_grads.pt",
+      "sha256_tensor_content": "10c92b25c7e93eabd18b89d45759a5643074f567f84de9bea474b04cc0da1599",
+      "shape": [
+        64,
+        8192
+      ],
+      "dtype": "torch.float32",
+      "shape_ok": true,
+      "all_finite": true,
+      "n_zero_rows": 0,
+      "norm_min": 0.9999997615814209,
+      "norm_max": 1.000000238418579,
+      "norm_mean": 1.0
+    },
+    "PASS": true
+  },
+  "phase_repro": {
+    "why": "LoRA dropout is 0.1 and select_trainer.py:535 calls model.train() before selection, so stochastic dropout masks are active while per-sample target gradients are taken. Non-reproducible target gradients would make every downstream selection hash meaningless, so this is checked, not assumed.",
+    "run1_sha256_tensor_content": "10c92b25c7e93eabd18b89d45759a5643074f567f84de9bea474b04cc0da1599",
+    "run2_sha256_tensor_content": "31fe5fedf5f98d0b18a90e1aeba1ea2657e4956459fc49a7ca0b28515fe1de26",
+    "shapes": [
+      [
+        64,
+        8192
+      ],
+      [
+        64,
+        8192
+      ]
+    ],
+    "dtypes": [
+      "torch.float32",
+      "torch.float32"
+    ],
+    "identical": false,
+    "diagnostics": {
+      "flat_cosine": 1.000000238418579,
+      "row_cosine_min": 0.9999151229858398,
+      "row_cosine_mean": 0.999992847442627,
+      "row_cosine_median": 1.0,
+      "row_cosine_max": 1.0000004768371582,
+      "n_rows_cos_below_0.99": 0,
+      "norm_abs_diff_mean": 1.4901161193847656e-08,
+      "max_abs_elementwise_diff": 0.0007196390070021152
+    },
+    "VERDICT": "Target gradients are NOT bit-reproducible, but the cause is floating-point non-determinism, not active dropout: 54/64 rows identical, perturbed rows at ~1e-4, row cosine >=0.99992. Downstream impact is 1 of 2707 selected examples (DSMC Jaccard 0.999261). REPORTED FOR DECISION, not silently resolved: no eval mode was set, no dropout forced to 0, no seed changed, and neither cache was picked. Both caches are retained with hashes.",
+    "structure": {
+      "rows_bit_identical": 54,
+      "rows_perturbed": 10,
+      "of_perturbed_rows_pct_elements_changed": 91.1,
+      "exact_zeros_in_tensor": 0,
+      "relative_mean_abs_diff": 0.0013801424065604806,
+      "interpretation": "NOT dropout. LoRA dropout p=0.1 would apply an independent random mask per sample, so ALL 64 rows would differ and row cosine would fall well below 0.99. Observed: 54/64 rows are BIT-IDENTICAL, and the 10 that differ are perturbed densely (91% of elements) but only at ~1e-4 on unit-norm vectors (row cosine >= 0.99992, relative mean diff 1.4e-3). That is the signature of bf16/GPU reduction-order non-determinism in the 8-way distributed backward, not of stochastic dropout masks."
+    },
+    "dsmc_selection_stability": {
+      "jaccard": 0.999261,
+      "intersection": 2706,
+      "K": 2707,
+      "n_differing": 1,
+      "identical": false,
+      "subset_sha256_run1": "a028277d2c855004a31be28315df8935271b4d99ce36a412e116e70834d8c59a",
+      "subset_sha256_run2": "45aeb844ba3d47d0582f6ed8b987a50da73040b881f56f3f4a16a2261b8cac19"
+    }
+  }
+}
