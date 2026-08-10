@@ -1,7 +1,8 @@
 # Candidate-pool ↔ MMLU-test **lexical** contamination screen
 
 Hard gate before any new experiment (advice_0809), with scope corrected per code_review_0809.
-Artifacts: `contamination_audit.json` (L1–L3), `contamination_global_lexical.json` (pool-wide fuzzy).
+Artifacts: `contamination_audit.json` (L1–L3), `contamination_global_lexical_{mmlu,bbh_heldout}.json`
+(high-recall pool-wide fuzzy), `contamination_bbh_heldout.json` (13-gram vs BBH held-out).
 Scripts: `scripts/contamination_audit.py`, `scripts/contamination_global_lexical.py`.
 **Pool**: 270,679 Tulu/Flan-v2/CoT/Dolly/OASST1 candidates. **Target**: 7,858 MMLU **test** items from
 the STEM + Humanities subjects we evaluate on (`hails/mmlu_no_train`, offline cache).
@@ -17,7 +18,7 @@ run. See "Limitations" below.
 | L1 normalized exact | canonicalized question, and question+choices, hashed | pool-wide | **0** | 0.000000 |
 | L2 long n-gram containment | any shared 13-gram with a canonicalized test question | pool-wide | **7** | 0.000026 |
 | L3 fuzzy Jaccard (original) | Jaccard ≥ 0.5 over word 5-shingles | ⚠️ **L2 suspects only** | 0 | — |
-| **L3-global (added)** | **MinHash/LSH over the whole pool → exact shingle Jaccard on every collision** | **pool-wide** | **0** at ≥0.5, **0** at ≥0.3 | 0.00000000 |
+| **L3-global (added, HIGH-RECALL)** | **MinHash/LSH over the whole pool → exact shingle Jaccard on every collision**; 64 perms / **32 bands × 2 rows** ⇒ P_detect(J=0.3)=**95.1%**, P_detect(J=0.5)=**99.99%** | **pool-wide** | **0** at ≥0.5, **0** at ≥0.3 | 0.00000000 |
 | L4 semantic NN | bge-base cosine nearest neighbour | — | **NOT RUN** | — |
 
 ### Why L3 had to be redone (code_review_0809)
@@ -27,11 +28,24 @@ established only *"none of the seven 13-gram suspects also passes the fuzzy crit
 the pool is free of fuzzy near-duplicates. A candidate with no contiguous 13-gram overlap but high
 shingle similarity would never have been examined. That was a real scope error in my audit.
 
-`contamination_global_lexical.py` closes it: 5-word shingles, 64-permutation MinHash, 16-band LSH
-(122,215 buckets), every candidate probed against all 7,858 test items, and **every LSH collision
-verified with exact shingle Jaccard**. Result: **0 candidates at Jaccard ≥ 0.5, and 0 even at the
-deliberately loose ≥ 0.3** — pool-wide, not on a pre-filtered subset. Per-selector exposure is 0.00
-examples for all 7 selectors at both budgets.
+`contamination_global_lexical.py` closes it: 5-word shingles, 64-permutation MinHash, banded LSH,
+every candidate probed against all evaluation items, and **every LSH collision verified with exact
+shingle Jaccard** — pool-wide, not on a pre-filtered subset.
+
+**LSH recall correction (choice_0809).** My first run used 16 bands × 4 rows. LSH is *probabilistic*
+candidate generation, so detection probability for a true pair of similarity s is
+`1-(1-s^rows)^bands` — which for 16×4 is only **12.2% at J=0.3** and **64.4% at J=0.5**. A null result
+at that recall could NOT support a pool-wide exclusion claim; the reviewer was right to flag it. Rerun
+at **32 bands × 2 rows** ⇒ **95.1%** at J=0.3 and **99.99%** at J=0.5:
+
+| screened against | items | J ≥ 0.5 | J ∈ [0.3, 0.5) | per-selector |
+|---|---|---|---|---|
+| MMLU test (STEM+HUM) | 7,858 | **0 / 270,679** | **0 / 270,679** | 0.00 examples, all 7 methods, both budgets |
+| **BBH held-out eval split** | 5,209 | **0 / 270,679** | **0 / 270,679** | — (BBH selections not yet made) |
+
+At this recall a null result is a meaningful (if still approximate) pool-wide exclusion of fuzzy
+lexical near-duplicates. Artifacts: `contamination_global_lexical_mmlu.json`,
+`contamination_global_lexical_bbh_heldout.json`.
 
 ## The 7 L2 hits are false positives, not contamination
 
@@ -80,15 +94,25 @@ reason. **Lexical gate: PASSED.**
 2. **"Standard pool" is not an argument.** An earlier draft of this document said residual risk was
    bounded because this is the standard LESS pool. That is not a bound — reusing prior work's data does
    not mathematically limit contamination. Removed.
-3. When the BBH external split is fixed, contamination must be **re-run against the final held-out BBH
-   evaluation subset** (a preliminary pool-vs-BBH 13-gram pass already gives 5/270,679 = 0.000018).
+3. ~~Re-run against the final held-out BBH split~~ — **DONE**: 13-gram pass 5/270,679 = 0.0000185 (all
+   5 manually confirmed false positives: flan_v2 movie-plot QA / gender-coreference boilerplate), and
+   the high-recall pool-wide fuzzy screen returns **0** at both J≥0.5 and J≥0.3.
+4. LSH remains *approximate*: at 32×2 recall is 95.1% (J=0.3) / 99.99% (J=0.5), not 100%. The claim is
+   "no fuzzy lexical near-duplicates detected at high recall", not a proof of none existing.
+5. **Per-selector exposure for the BBH row is a pool-composition check, not the BBH experiment's
+   subsets.** The only selection subsets that exist are the MMLU-target ones; the BBH selections have
+   not been made yet (the experiment is pre-compute). The number is also trivially 0 whenever the
+   pool-wide count is 0. Recorded as `per_selector_scope` in the artifact so it cannot be misread as
+   evidence about BBH selections.
 
 ## Reproduction
 
 ```
 HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python scripts/contamination_audit.py            # L1-L3
-HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python scripts/contamination_global_lexical.py   # pool-wide fuzzy
+HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python scripts/contamination_global_lexical.py --target mmlu --bands 32
+HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 python scripts/contamination_global_lexical.py --target bbh_heldout --bands 32
 ```
-Parameters recorded in the artifacts: `ngram=13`, `jaccard_thr=0.5`; MinHash `perms=64`, `bands=16`,
-`rows=4`, `shingle_k=5`, `report_thr=0.3`.
+Parameters recorded in the artifacts: `ngram=13`, `jaccard_thr=0.5`; MinHash `perms=64`, **`bands=32`,
+`rows=2`** (high recall), `shingle_k=5`, `report_thr=0.3`. Each artifact also stores its measured
+`lsh_recall`.
 

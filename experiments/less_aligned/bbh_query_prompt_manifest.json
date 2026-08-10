@@ -1,0 +1,1470 @@
+{
+  "purpose": "BBH query-gradient prompts rendered from the pinned lm-eval CoT few-shot context",
+  "renderer": "lm_eval Task.fewshot_context() on the pinned custom held-out task configs",
+  "target_num_fewshot": 3,
+  "evaluation_num_fewshot": 3,
+  "alignment": {
+    "aligned": [
+      "task description",
+      "3 hard-coded CoT few-shot exemplars",
+      "Q:/A: delimiters",
+      "trailing \"A: Let's think step by step.\" cue"
+    ],
+    "not_aligned": [
+      "supervised continuation: BBH provides only a final answer per item, so the loss supervises the bare final target while evaluation scores a generated rationale ending in \"So the answer is X\""
+    ],
+    "claim": "prompt-context alignment, NOT reasoning-trace alignment"
+  },
+  "draws": {
+    "0": {
+      "prompts_jsonl": "data/bbh_external/query_prompts/bbh_query_draw0_prompts.jsonl",
+      "file_sha256": "ed47916a5f7d77693bebb7744ccf67c396520c8a5f31f2e5d1d6103274e01949",
+      "n": 64,
+      "subtask_composition_27": {
+        "navigate": 3,
+        "object_counting": 3,
+        "tracking_shuffled_objects_seven_objects": 2,
+        "web_of_lies": 2,
+        "salient_translation_error_detection": 3,
+        "sports_understanding": 5,
+        "tracking_shuffled_objects_three_objects": 4,
+        "logical_deduction_seven_objects": 6,
+        "movie_recommendation": 3,
+        "boolean_expressions": 2,
+        "temporal_sequences": 2,
+        "dyck_languages": 1,
+        "date_understanding": 5,
+        "tracking_shuffled_objects_five_objects": 1,
+        "disambiguation_qa": 4,
+        "penguins_in_a_table": 3,
+        "reasoning_about_colored_objects": 2,
+        "ruin_names": 2,
+        "geometric_shapes": 3,
+        "word_sorting": 1,
+        "snarks": 2,
+        "logical_deduction_three_objects": 1,
+        "multistep_arithmetic_two": 1,
+        "hyperbaton": 1,
+        "causal_judgement": 1,
+        "logical_deduction_five_objects": 1
+      },
+      "source_draw_jsonl_sha256": "3a8b1b60ff158900d5a815cf92008bf03f9cf3795388c6ca9a00a9e43f9803a9",
+      "per_example": [
+        {
+          "id": "bbh::navigate::243",
+          "file_task": "navigate",
+          "prompt_sha256": "e0bc27dc602a0596210b9908d6ffe3870d217d90a1ef0edb40994bee403cad60",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 2560
+        },
+        {
+          "id": "bbh::object_counting::7",
+          "file_task": "object_counting",
+          "prompt_sha256": "5c8c6bbf9eb7c1efb3e8ba803f90ddaf73a75b109f67717b701da300350f0bac",
+          "target_sha256": "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+          "prompt_chars": 1687
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::117",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "d04950a2467f809af453459ec67363564459e01439a04c23d0f660e8a8719f96",
+          "target_sha256": "8ab8154a7f41be6d36e584c84697e0154e3ac1019eca1e92977c6b4e690d3f9b",
+          "prompt_chars": 3544
+        },
+        {
+          "id": "bbh::web_of_lies::36",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "5df11e38df18741d7af4f57ddb23fbd99a403a4a03b5b22b0fb589629e608eb4",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 3221
+        },
+        {
+          "id": "bbh::salient_translation_error_detection::73",
+          "file_task": "salient_translation_error_detection",
+          "prompt_sha256": "53e039bef20938bea588ae92f6bda2ea54028afedb2fcd26648987592c398bd8",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 7368
+        },
+        {
+          "id": "bbh::sports_understanding::152",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "d78a9bbef89f4c18000634a79bbd0b18be0b050d708d870fc4d61b8d39d01cf0",
+          "target_sha256": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+          "prompt_chars": 1037
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::162",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "3d94e89e3c419f5678bb858907449aea7d8cc426b194f73967f62a8eaeff6172",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3138
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::101",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "1d3fc5b11c0a51798c5ef824e7a7fceb3416afa8391a3a61fda29dd138bda758",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3509
+        },
+        {
+          "id": "bbh::movie_recommendation::117",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "9fee7297ddf6432509eb82159a9a133dba4f07aec69040a3911697c5b9b0ba02",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 2434
+        },
+        {
+          "id": "bbh::sports_understanding::83",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "ad958cbd533822ec19a3ec8cb74e72794d9433f46928be083728084b8985e864",
+          "target_sha256": "8a798890fe93817163b10b5f7bd2ca4d25d84c52739a645a889c173eee7d9d3d",
+          "prompt_chars": 1004
+        },
+        {
+          "id": "bbh::boolean_expressions::38",
+          "file_task": "boolean_expressions",
+          "prompt_sha256": "32066094ed8c255b1148aedee69ae877e2461e830078e571182795022ccb38c5",
+          "target_sha256": "60a33e6cf5151f2d52eddae9685cfa270426aa89d8dbc7dfb854606f1d1a40fe",
+          "prompt_chars": 1854
+        },
+        {
+          "id": "bbh::movie_recommendation::172",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "d1ad3e4bb46e7ac1f045918d7938c81278b9bdc320ed382e072eedb2f2e7bc97",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 2448
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::194",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "0707a71edea51532c0591b25fef27d1ceb5ab51e1c52b9a22f20ba1f1f26ea37",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3232
+        },
+        {
+          "id": "bbh::temporal_sequences::243",
+          "file_task": "temporal_sequences",
+          "prompt_sha256": "dc7bc49d91aca28dc658e698dcd9b11c56077fa6a924c9ba697095e368d66e67",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3753
+        },
+        {
+          "id": "bbh::movie_recommendation::69",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "38c89b4a6b6c5c8610a9dc28c133a38d6d4bdf100bd236a64d0d6a81235b2f27",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 2408
+        },
+        {
+          "id": "bbh::dyck_languages::201",
+          "file_task": "dyck_languages",
+          "prompt_sha256": "4ef5070927f548bfd49598dd573af90b100b8361305a9404481b7ff15719e100",
+          "target_sha256": "ba5ec51d07a4ac0e951608704431d59a02b21a4e951acc10505a8dc407c501ee",
+          "prompt_chars": 2649
+        },
+        {
+          "id": "bbh::date_understanding::126",
+          "file_task": "date_understanding",
+          "prompt_sha256": "4e3fae449cf7b205144c0a68242cc2d3e451f311fb2373c339ddd8485f2099c3",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 1486
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::192",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "3012b69e16a6d9ada4188e106932cac19b14b6ee27a69be2e4aab8735c8d557a",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 3178
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::239",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "14c0350bd4f5836eb02f1b1a9cd47221337be10e91ec45926b9d95cd82fd5741",
+          "target_sha256": "3c0d63d2582a6c4eb98d1f6c2698fee9cdafbeb301483dd9ef5d053c93b48dff",
+          "prompt_chars": 3450
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_five_objects::64",
+          "file_task": "tracking_shuffled_objects_five_objects",
+          "prompt_sha256": "884ba92841866bc819bbca6fe267240b6e1c9adb1f6ebbf37e73207cef6e5068",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3394
+        },
+        {
+          "id": "bbh::navigate::217",
+          "file_task": "navigate",
+          "prompt_sha256": "cef3fead60f61188fafbc49e76b741027c3d018d53be60a9c7072c6188dcda4f",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 2405
+        },
+        {
+          "id": "bbh::disambiguation_qa::19",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "8d0026e8f291aaf8b520fd3b3e5b9a54c22c67690c948fa4f86a838acde77657",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3996
+        },
+        {
+          "id": "bbh::penguins_in_a_table::67",
+          "file_task": "penguins_in_a_table",
+          "prompt_sha256": "aa1ceae7b69a60803a8d6f070633b52062dc0004803ed4c05a35eb6a42e79657",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3140
+        },
+        {
+          "id": "bbh::reasoning_about_colored_objects::79",
+          "file_task": "reasoning_about_colored_objects",
+          "prompt_sha256": "47de1a952ad3be1e3fb8f929e6bf6727a6dfa937aca5fe1d2d851869e27cc53a",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 2831
+        },
+        {
+          "id": "bbh::object_counting::170",
+          "file_task": "object_counting",
+          "prompt_sha256": "532a208744c150449934d33b64a1740cd1453bff71e632b8c616abe565111b67",
+          "target_sha256": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
+          "prompt_chars": 1676
+        },
+        {
+          "id": "bbh::web_of_lies::16",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "92a1fbb3cf7530f1ad92b143d8291474d330ce388200297fb2294078cae6c18d",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 3226
+        },
+        {
+          "id": "bbh::ruin_names::175",
+          "file_task": "ruin_names",
+          "prompt_sha256": "640534b3005b70774fb09f06c7e2b0289eceb4f51f41e2e0b54bb062f26c9683",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3791
+        },
+        {
+          "id": "bbh::penguins_in_a_table::58",
+          "file_task": "penguins_in_a_table",
+          "prompt_sha256": "90c6bc29115c52e392e1bb73c3a9f3901ff227f62b7192c7e30a2e66cc7b03d5",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 2910
+        },
+        {
+          "id": "bbh::sports_understanding::49",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "209954a7ba6e76f7a48fa1c1ee99b73a6d004f73d55a5652eee335c5f6ae07ac",
+          "target_sha256": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+          "prompt_chars": 1012
+        },
+        {
+          "id": "bbh::date_understanding::182",
+          "file_task": "date_understanding",
+          "prompt_sha256": "e638e6d59454086f4ea318487b51e44744cf85537413f6a129f1d90f69905a5c",
+          "target_sha256": "3c0d63d2582a6c4eb98d1f6c2698fee9cdafbeb301483dd9ef5d053c93b48dff",
+          "prompt_chars": 1454
+        },
+        {
+          "id": "bbh::object_counting::191",
+          "file_task": "object_counting",
+          "prompt_sha256": "4601b4ca42f00c345a3e93686d31248655f49d1244258399ef147c4f7aca9c8b",
+          "target_sha256": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+          "prompt_chars": 1692
+        },
+        {
+          "id": "bbh::geometric_shapes::50",
+          "file_task": "geometric_shapes",
+          "prompt_sha256": "42c2d48c835ad0efed0f194af9b7e7a0f4c8873228415704e610506cb91c30bc",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 5278
+        },
+        {
+          "id": "bbh::reasoning_about_colored_objects::101",
+          "file_task": "reasoning_about_colored_objects",
+          "prompt_sha256": "0235fafc5b83544396e33b099c3f65ed18a4e204c0c56d3f803a6aad42c58948",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 2796
+        },
+        {
+          "id": "bbh::navigate::160",
+          "file_task": "navigate",
+          "prompt_sha256": "1466fe593ccc7f8cac31c72e6a6ee5f4308a9638ec2d9e927bba982a5b3559a5",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 2393
+        },
+        {
+          "id": "bbh::salient_translation_error_detection::181",
+          "file_task": "salient_translation_error_detection",
+          "prompt_sha256": "c545fd5b2f64bf3eb44b6ce2b5114c33f376eb3ab4bae545b042662804f01187",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 7269
+        },
+        {
+          "id": "bbh::word_sorting::159",
+          "file_task": "word_sorting",
+          "prompt_sha256": "f25542c161862f34a50c4490949b5006047bc4d5ba7d229cb26c4773e23aba0d",
+          "target_sha256": "5159f2e4a368331be9515c5318446b6c94649ebb7e29e280b04ed3aa1d356b4f",
+          "prompt_chars": 2342
+        },
+        {
+          "id": "bbh::snarks::91",
+          "file_task": "snarks",
+          "prompt_sha256": "2b7c959f620b4653eaefac1c949356fadce6cbe05a01ecfe66de48c4da1b7c08",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3440
+        },
+        {
+          "id": "bbh::logical_deduction_three_objects::185",
+          "file_task": "logical_deduction_three_objects",
+          "prompt_sha256": "a8303073e67a7ccb2ff6ee2b739263605ba3beddb9cc984d2069be1dd8d3966d",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 2961
+        },
+        {
+          "id": "bbh::multistep_arithmetic_two::163",
+          "file_task": "multistep_arithmetic_two",
+          "prompt_sha256": "d87d138742432a5ef6866e9a85e76e00381a7aac8c720d14784d8e764eead73b",
+          "target_sha256": "6f4b6612125fb3a0daecd2799dfd6c9c299424fd920f9b308110a2c1fbd8f443",
+          "prompt_chars": 2535
+        },
+        {
+          "id": "bbh::hyperbaton::217",
+          "file_task": "hyperbaton",
+          "prompt_sha256": "b7bf47dc24bdc083f91f3577aa20d5c33d20cb02f7ada5c8cb250df53ca075d6",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3379
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::215",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "6416c770b542ccfc208bdb21fe600bb831795a80d2ef2921a74f663153cf7484",
+          "target_sha256": "3c0d63d2582a6c4eb98d1f6c2698fee9cdafbeb301483dd9ef5d053c93b48dff",
+          "prompt_chars": 3462
+        },
+        {
+          "id": "bbh::disambiguation_qa::168",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "84cc876dcf7ec87d6b24aad29f74331d6af64fb070e7338f9f803a85cfe1bd60",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3988
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::62",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "12187fa623667b0377ea71fe323f3bcdba0d8f0813abebdaaa757a32a07c839a",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3247
+        },
+        {
+          "id": "bbh::date_understanding::241",
+          "file_task": "date_understanding",
+          "prompt_sha256": "0a353bb6920901197f0a71e94272b1fb5e2c5d3745634c9dd447c9a8607a2ef1",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 1430
+        },
+        {
+          "id": "bbh::date_understanding::67",
+          "file_task": "date_understanding",
+          "prompt_sha256": "3fcc278bdfaac836029a45f0f644d87ef143c3bf03288ed9f7de11b86d8179d5",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 1471
+        },
+        {
+          "id": "bbh::salient_translation_error_detection::223",
+          "file_task": "salient_translation_error_detection",
+          "prompt_sha256": "ac57b0149c0c07c10801514923a20b91958e2ece6c4afb58adbeebaf30173331",
+          "target_sha256": "3c0d63d2582a6c4eb98d1f6c2698fee9cdafbeb301483dd9ef5d053c93b48dff",
+          "prompt_chars": 7371
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::156",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "0a3a8fefae523541eb61a18cce758546194bde5aabd80b4cf2642ab517c3a21b",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3432
+        },
+        {
+          "id": "bbh::ruin_names::134",
+          "file_task": "ruin_names",
+          "prompt_sha256": "51a1fad09518d0b7521319fc1d22c6e6c50d403e2e5872777367cd798b3a5af9",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3756
+        },
+        {
+          "id": "bbh::date_understanding::239",
+          "file_task": "date_understanding",
+          "prompt_sha256": "2884ab03fbbb0a0d37f74456a1a4f661be99c771d09aeb22ebedef6256642cde",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 1527
+        },
+        {
+          "id": "bbh::causal_judgement::87",
+          "file_task": "causal_judgement",
+          "prompt_sha256": "7bfd228e47f5104ca60848795f9feddf18b5b51e0a30c5181a0da13a1c16a542",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 4691
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::59",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "146d329e53227d1236c02ef95d015679d614249640f41aa27b0a967b133c6697",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3525
+        },
+        {
+          "id": "bbh::disambiguation_qa::66",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "4b0ed1da837dc9790e3eca4ecda2b823d5dfe3ecd7f0a0a43c8cb8a9ef1f280b",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3997
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::203",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "bad3d478139a8befa93a1ef129e2626920cc00e3141a77d21cd2456e0bb0a2de",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3229
+        },
+        {
+          "id": "bbh::geometric_shapes::34",
+          "file_task": "geometric_shapes",
+          "prompt_sha256": "093ec642b88da362cd79de329f5caf2c55bd7ecb11d4f9b1fcfffd9191e6c574",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 5224
+        },
+        {
+          "id": "bbh::boolean_expressions::157",
+          "file_task": "boolean_expressions",
+          "prompt_sha256": "c0e24a499126862a56b7b8d33fbe60ae70319e1fc52c23367e4571489fc694be",
+          "target_sha256": "3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+          "prompt_chars": 1850
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::115",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "793efdaa72400ed79a13645e570efcc0ee3bf79da5bd99ad013b0b2e76903f4e",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3190
+        },
+        {
+          "id": "bbh::sports_understanding::242",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "3d22a0089d497a245b09cd35bc05e981df8a193862931362ad1fc90f1405eaef",
+          "target_sha256": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+          "prompt_chars": 1014
+        },
+        {
+          "id": "bbh::geometric_shapes::15",
+          "file_task": "geometric_shapes",
+          "prompt_sha256": "5612fdb5e30c20957281361b7bfab64edfb7a577c3b8e82f58908fd8bc83bdf5",
+          "target_sha256": "9d58b6116e218cab06c1da46ce4820f68172c81f321dc491b51c080cbcb9fe10",
+          "prompt_chars": 5206
+        },
+        {
+          "id": "bbh::snarks::86",
+          "file_task": "snarks",
+          "prompt_sha256": "576aa74c73fd86fea004d55ba80cde161a7cfa40ea2a7cd9c41d321db3186516",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3417
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::12",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "56fde8516badf81030627a2199a6637c2eceab930976b51d08abe645ef384c44",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3157
+        },
+        {
+          "id": "bbh::sports_understanding::79",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "348c39dd5fb312fc6c26a67e6ad085961b2373f4e13e3d945c2499f625351878",
+          "target_sha256": "8a798890fe93817163b10b5f7bd2ca4d25d84c52739a645a889c173eee7d9d3d",
+          "prompt_chars": 1017
+        },
+        {
+          "id": "bbh::penguins_in_a_table::15",
+          "file_task": "penguins_in_a_table",
+          "prompt_sha256": "449fa5af9ec25e7b48f947808e38a626757869c63de82eb6249f4c57c07d1c07",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3016
+        },
+        {
+          "id": "bbh::temporal_sequences::133",
+          "file_task": "temporal_sequences",
+          "prompt_sha256": "ab44f35b394f23f14aca5d1c42459ec9dcf21cc44ff52e769ef2d6d20a858e63",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3760
+        },
+        {
+          "id": "bbh::disambiguation_qa::194",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "f991c9cb724ec017bfdfd872d72c861113af5f021244c9323f9a5ffb12465a80",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3962
+        }
+      ]
+    },
+    "1": {
+      "prompts_jsonl": "data/bbh_external/query_prompts/bbh_query_draw1_prompts.jsonl",
+      "file_sha256": "56b7eeaf257f479b23e55e77e5da1d2daf30b97c014aea5eeb603d07790991d1",
+      "n": 64,
+      "subtask_composition_27": {
+        "formal_fallacies": 4,
+        "tracking_shuffled_objects_five_objects": 3,
+        "tracking_shuffled_objects_seven_objects": 5,
+        "navigate": 4,
+        "snarks": 3,
+        "web_of_lies": 7,
+        "geometric_shapes": 1,
+        "boolean_expressions": 1,
+        "word_sorting": 2,
+        "object_counting": 1,
+        "logical_deduction_three_objects": 3,
+        "movie_recommendation": 3,
+        "disambiguation_qa": 4,
+        "logical_deduction_five_objects": 3,
+        "hyperbaton": 3,
+        "dyck_languages": 2,
+        "date_understanding": 2,
+        "reasoning_about_colored_objects": 1,
+        "tracking_shuffled_objects_three_objects": 3,
+        "penguins_in_a_table": 1,
+        "sports_understanding": 2,
+        "causal_judgement": 1,
+        "logical_deduction_seven_objects": 4,
+        "multistep_arithmetic_two": 1
+      },
+      "source_draw_jsonl_sha256": "aac2deb5abcd1168f7561ba9fc364f326dca89de610d2cfdc67988466864d3ce",
+      "per_example": [
+        {
+          "id": "bbh::formal_fallacies::115",
+          "file_task": "formal_fallacies",
+          "prompt_sha256": "bde276286a42cef8ea9685e7f57f16e28bdf21793fe9e399ac566a60f5f6b3f9",
+          "target_sha256": "ec654fac9599f62e79e2706abef23dfb7c07c08185aa86db4d8695f0b718d1b3",
+          "prompt_chars": 5147
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_five_objects::95",
+          "file_task": "tracking_shuffled_objects_five_objects",
+          "prompt_sha256": "5b3d7577bdc85dc9c363979fada55590645b7b63329cd7a117d0ca1f7b07cc35",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 3394
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::101",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "672db16923c612ed0549d305a7323e11cbac55c3f241f96e303317f9b7f70cbc",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 3563
+        },
+        {
+          "id": "bbh::navigate::194",
+          "file_task": "navigate",
+          "prompt_sha256": "6d07ad564e29611458efd9af38a8a1ef9015125120b006e0af3c9829dee2555e",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 2414
+        },
+        {
+          "id": "bbh::snarks::162",
+          "file_task": "snarks",
+          "prompt_sha256": "3dbf4bf1fd1b1e1f824125ad707116846d1586d5c2bb881abdd51b00b8c5e4f3",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3420
+        },
+        {
+          "id": "bbh::web_of_lies::67",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "ba51e53271bdfbdd53183b01d55271adda9011e27202075a1136457309844a0c",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 3229
+        },
+        {
+          "id": "bbh::geometric_shapes::128",
+          "file_task": "geometric_shapes",
+          "prompt_sha256": "28eb1dbc2ae0c63c3b42ddaad7ea7977317bbb3ec759711a07024fd7f3e56fd1",
+          "target_sha256": "2121ff92c87ba524f896e44d3f504c0f9621f5109fe2a54c3e4e9ade077aaee5",
+          "prompt_chars": 5209
+        },
+        {
+          "id": "bbh::boolean_expressions::141",
+          "file_task": "boolean_expressions",
+          "prompt_sha256": "a9f22d815a48bc064a59a97d2ccd3218cd7cec6ff471aef2d82c1325b89f7374",
+          "target_sha256": "3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+          "prompt_chars": 1856
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::63",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "3d29aa486796d7af2ad4b2ee2b647b758ce498948285f7ffda083b9d925efa6e",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3452
+        },
+        {
+          "id": "bbh::word_sorting::74",
+          "file_task": "word_sorting",
+          "prompt_sha256": "ea8f0e8ea6f6cdb92c1d314a81185bf537d41c6bab1fc6f26650f0a066c70b1c",
+          "target_sha256": "3601ae60d3ad66a0fea3df718e1375737943e64723f707b315ae5b5e5c62bd28",
+          "prompt_chars": 2479
+        },
+        {
+          "id": "bbh::object_counting::160",
+          "file_task": "object_counting",
+          "prompt_sha256": "32a65d1b5ebd6e351fba28a917c33f34bd265638391065e968e5e4afb72f74bc",
+          "target_sha256": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+          "prompt_chars": 1638
+        },
+        {
+          "id": "bbh::logical_deduction_three_objects::215",
+          "file_task": "logical_deduction_three_objects",
+          "prompt_sha256": "f0061aade6724ebf9c8333f4cdb5c44dcabcf2d6c4fed17b0d87ca640a278bf5",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 2990
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_five_objects::100",
+          "file_task": "tracking_shuffled_objects_five_objects",
+          "prompt_sha256": "dd8eb5a7f015245ec4b64434b7d02d559a30d9d3fc1ef3bbe2a4c0600126ed42",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3398
+        },
+        {
+          "id": "bbh::word_sorting::100",
+          "file_task": "word_sorting",
+          "prompt_sha256": "43f028cfabee47c5061ca55f8a2b2f6e85e4f60706edbfe51d2913b32d37182f",
+          "target_sha256": "9884d918447398e2bab88f8886865447e28180c3000ff0fd734378ac1c7c73ab",
+          "prompt_chars": 2356
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_five_objects::73",
+          "file_task": "tracking_shuffled_objects_five_objects",
+          "prompt_sha256": "515782adec00d136bcb769cb8b8000e770269b92bb404c1273f6970db07fb705",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3398
+        },
+        {
+          "id": "bbh::movie_recommendation::5",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "dc162d6c107e4b92adc7d37b7c3ce1cf0e95398c993f2e24db6b9f40a48cd968",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 2418
+        },
+        {
+          "id": "bbh::disambiguation_qa::216",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "db2145ab69f0599507157f8c168c718ad315d55dfd029fee0c31eaeeff7b7c67",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3984
+        },
+        {
+          "id": "bbh::snarks::98",
+          "file_task": "snarks",
+          "prompt_sha256": "b9a41d69f61fd60f64ae47543d6ad0315730f8e3a09eefcc06ecc0bfe18505c9",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3416
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::134",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "123dfd4c741bf74c997445c4d606a5ce4bbb43a42aed44c0a982db964e4862bb",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3106
+        },
+        {
+          "id": "bbh::navigate::67",
+          "file_task": "navigate",
+          "prompt_sha256": "5c79d0f9ac1aff6461a65ec24b2b14c2cb46008e88cbd2726f3502ccbf9ba596",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 2431
+        },
+        {
+          "id": "bbh::hyperbaton::18",
+          "file_task": "hyperbaton",
+          "prompt_sha256": "71dc9a4426622c76d5123a6582d9353937bf75ae7c2a3c34e21bef5f825ca04d",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3399
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::42",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "5708934cbb64faa9ed9aa6ff4687083351985b52db6117fbba1a717c44d61779",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3579
+        },
+        {
+          "id": "bbh::hyperbaton::50",
+          "file_task": "hyperbaton",
+          "prompt_sha256": "af8cc1b33314cd2464d7cf7a84d10901861a2697dee45a598ec060cb1ace4354",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3381
+        },
+        {
+          "id": "bbh::formal_fallacies::31",
+          "file_task": "formal_fallacies",
+          "prompt_sha256": "63c745bed3720b31016e4bfd65c920c9b6820f36cb6123e411255e5b63be9c55",
+          "target_sha256": "ec654fac9599f62e79e2706abef23dfb7c07c08185aa86db4d8695f0b718d1b3",
+          "prompt_chars": 5023
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::144",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "f85fd5f94546cdb198ae4b7098a48f9617d52a821d3ae81e6f62084548b8b173",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3243
+        },
+        {
+          "id": "bbh::dyck_languages::198",
+          "file_task": "dyck_languages",
+          "prompt_sha256": "d82e7ecceb7dedfb19c8f17b745dff0c06e3dd15681cd7c2136600e7c9f9750f",
+          "target_sha256": "62b67e1f685b7fef51102005dddd27774be3fee38c42965c53aab035d0b6b221",
+          "prompt_chars": 2761
+        },
+        {
+          "id": "bbh::navigate::88",
+          "file_task": "navigate",
+          "prompt_sha256": "ba2f709eb4a60f3599d63c0d9b5afe95a7bacbe0de799f0aa92e85d9d9cb5b8b",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 2468
+        },
+        {
+          "id": "bbh::date_understanding::234",
+          "file_task": "date_understanding",
+          "prompt_sha256": "0133e3fe37a3a53ac559ff918387eb0a8e29ce33ee339a22f58114cf42e027d5",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 1544
+        },
+        {
+          "id": "bbh::reasoning_about_colored_objects::247",
+          "file_task": "reasoning_about_colored_objects",
+          "prompt_sha256": "982ab54823a59c2af677f6685446a1010e6959394ecc8c3a9b07250be468711f",
+          "target_sha256": "69e14f62625bd7118c3e1ae0dd9a9484d51d800768e7687fe8c6f3b5c5684a1e",
+          "prompt_chars": 2736
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::223",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "fdf02bee20c84df8be5571223d40d1e320c65672525d6a003eedeb6c2f944dd8",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3139
+        },
+        {
+          "id": "bbh::web_of_lies::214",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "344c1f26414cce000ec4f35901400ef5be7e75c234fd664467ee2435cf0f56e6",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 3222
+        },
+        {
+          "id": "bbh::web_of_lies::196",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "4698ea15ef1a48205715e821de18c6f13ec02d1fb21c1f4c5cf89387bd96f9ca",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 3242
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::198",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "d8a196ea3aa7acdf42466a60b07c321ffa090cf50b4f5182282fb9d8caaa1a26",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3580
+        },
+        {
+          "id": "bbh::penguins_in_a_table::124",
+          "file_task": "penguins_in_a_table",
+          "prompt_sha256": "94f0a5f1c93439751e7993f48f4e5a3518fd6064ae02cfa4f107701f0ec7cf8c",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 2907
+        },
+        {
+          "id": "bbh::navigate::205",
+          "file_task": "navigate",
+          "prompt_sha256": "71d96481211a49fa546c8603f9552dcd517e2e13cfd3d7bd2ea186c741ceade3",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 2451
+        },
+        {
+          "id": "bbh::web_of_lies::83",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "5b81087c4b905c59d5754d3371b8b0b9b90fb3d21e37a486e043939e2259fa56",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 3206
+        },
+        {
+          "id": "bbh::web_of_lies::20",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "ebd50bf728a9a3fc568da8af38468997946929118f78b3bb32ac6ca814289d5e",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 3217
+        },
+        {
+          "id": "bbh::sports_understanding::108",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "975085bbdd6f631b2525b62d995a8c0b52a582d7c42acbc1fc788411b7501c7a",
+          "target_sha256": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+          "prompt_chars": 1033
+        },
+        {
+          "id": "bbh::dyck_languages::115",
+          "file_task": "dyck_languages",
+          "prompt_sha256": "0e19de68243f5cc93340df01f3651ffc16257ef4b4200da11071da969b0f11d6",
+          "target_sha256": "ec8fd0446819452a7ebdf043713c4e05e9ec3d67a3a8dcc7e7d891609129f5b1",
+          "prompt_chars": 2627
+        },
+        {
+          "id": "bbh::logical_deduction_three_objects::227",
+          "file_task": "logical_deduction_three_objects",
+          "prompt_sha256": "eeab625ee23c9bd7b2a98ac8f2b288667775252d57dc0bcbed4f35b08e9ed40f",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3043
+        },
+        {
+          "id": "bbh::causal_judgement::128",
+          "file_task": "causal_judgement",
+          "prompt_sha256": "b67fb1ae88d50a337669aa1f0a8af49a8b08296e127dad231c7e533bed925361",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 4399
+        },
+        {
+          "id": "bbh::web_of_lies::36",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "5df11e38df18741d7af4f57ddb23fbd99a403a4a03b5b22b0fb589629e608eb4",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 3221
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::122",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "773b6977d636f711e1571584f4e9a7923805510141ef79d7671aac8a9473201b",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3438
+        },
+        {
+          "id": "bbh::formal_fallacies::83",
+          "file_task": "formal_fallacies",
+          "prompt_sha256": "2670dc0dedd2e368a9ff9087f458ccb72d2260946e7731c38b476d52a40e9281",
+          "target_sha256": "f1234d75178d892a133a410355a5a990cf75d2f33eba25d575943d4df632f3a4",
+          "prompt_chars": 5119
+        },
+        {
+          "id": "bbh::multistep_arithmetic_two::120",
+          "file_task": "multistep_arithmetic_two",
+          "prompt_sha256": "7b122f5c21d78651a977d9101237b8d646b46d5334f6608409c3525df1a5a3d6",
+          "target_sha256": "9ede5ec9d73eccdc4e8662c7d231c0e5eeafaee388f97ca1d73cab4af4f5433b",
+          "prompt_chars": 2536
+        },
+        {
+          "id": "bbh::formal_fallacies::25",
+          "file_task": "formal_fallacies",
+          "prompt_sha256": "7257dc0b246e4144ce2d87aa274c198a8480bab463fb034f9346286e2629a0b2",
+          "target_sha256": "ec654fac9599f62e79e2706abef23dfb7c07c08185aa86db4d8695f0b718d1b3",
+          "prompt_chars": 5072
+        },
+        {
+          "id": "bbh::disambiguation_qa::185",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "5d069786cd414cd26b379cb29a8ee2faa0b53fce4dbc19ea4daa2de0bd06b75d",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 4012
+        },
+        {
+          "id": "bbh::logical_deduction_three_objects::150",
+          "file_task": "logical_deduction_three_objects",
+          "prompt_sha256": "2ff3aa2c0db128e240a820c3ff1c190c72231a3a6008929bfef2c09363d071ee",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3087
+        },
+        {
+          "id": "bbh::movie_recommendation::59",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "9f44f523f26ef899b542fa5a2e4374e0625a1df6f262e98fb466617dff096643",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 2429
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::162",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "3d94e89e3c419f5678bb858907449aea7d8cc426b194f73967f62a8eaeff6172",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3138
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::234",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "b1ad61bca316b55c098d92d9125c5fec3ea841aff4f91cc24062e83dd16cdd01",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3166
+        },
+        {
+          "id": "bbh::snarks::1",
+          "file_task": "snarks",
+          "prompt_sha256": "1fef74ba7167030eb70b0be827a14ac9075fb54759570457be90060b87b11081",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3383
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::58",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "2f5a020467a3f9fb258a6c568c74bee20d0426b162e2c528dc63332df5122850",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3474
+        },
+        {
+          "id": "bbh::web_of_lies::116",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "c48564f694474d1b4cee3b885ba2edb6e20a167c0b25130764d2bf1202a35598",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 3263
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::75",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "e2c0afc9c1a9c70ccdddec4e43412fb06f0aaebc2a63ce7ad31f7da1c1a382b0",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3216
+        },
+        {
+          "id": "bbh::date_understanding::15",
+          "file_task": "date_understanding",
+          "prompt_sha256": "96730a626632fc2d36a76a66ac828b866e585e9b02242dbdffc233fc12b7dfe9",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 1494
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::227",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "b1fd2909cb0ae215d4e8b8df25103fd01703dc4b28ea4587267f9c7ed8429b5a",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3446
+        },
+        {
+          "id": "bbh::disambiguation_qa::21",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "8402d72f0137585519da3b4f6fb2311f0c3e1b5f3e2e466639bf149b2bbb98d6",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3997
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::11",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "2101218bf44de0095d5cc4b764dcdcda195932353dca78a47c4828673733cde8",
+          "target_sha256": "8ab8154a7f41be6d36e584c84697e0154e3ac1019eca1e92977c6b4e690d3f9b",
+          "prompt_chars": 3514
+        },
+        {
+          "id": "bbh::movie_recommendation::193",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "31f1192c3841cf87d6eb4c420db45bb9cb46499b219f63c19844f8757b929c9c",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 2397
+        },
+        {
+          "id": "bbh::hyperbaton::136",
+          "file_task": "hyperbaton",
+          "prompt_sha256": "2e5452d4d7eb8f7ca09ab6931b82d96061692e3118b15ec7200243466307ea6e",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3365
+        },
+        {
+          "id": "bbh::sports_understanding::1",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "4c6ce6f054a154ef556f1fe1fda1cd9fd8ede74223a0d3b666705840b3611ee2",
+          "target_sha256": "8a798890fe93817163b10b5f7bd2ca4d25d84c52739a645a889c173eee7d9d3d",
+          "prompt_chars": 1015
+        },
+        {
+          "id": "bbh::disambiguation_qa::79",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "7405aa5bec7c86a610d37e58da10cbd560d0ba46a87b3897a2a389ef88d700d3",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3980
+        },
+        {
+          "id": "bbh::logical_deduction_seven_objects::111",
+          "file_task": "logical_deduction_seven_objects",
+          "prompt_sha256": "d60a17585738ba48c8f38adf34c303bdc25e8f5195d5b39171585e0aca277c5e",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3428
+        }
+      ]
+    },
+    "2": {
+      "prompts_jsonl": "data/bbh_external/query_prompts/bbh_query_draw2_prompts.jsonl",
+      "file_sha256": "8ceeaf170aa93021ae3c35debfb840dd72a9cb14ec0c6539e988b90d585d870a",
+      "n": 64,
+      "subtask_composition_27": {
+        "salient_translation_error_detection": 2,
+        "logical_deduction_three_objects": 2,
+        "object_counting": 3,
+        "causal_judgement": 2,
+        "tracking_shuffled_objects_five_objects": 2,
+        "word_sorting": 4,
+        "sports_understanding": 1,
+        "logical_deduction_five_objects": 4,
+        "geometric_shapes": 3,
+        "dyck_languages": 4,
+        "snarks": 4,
+        "date_understanding": 6,
+        "reasoning_about_colored_objects": 4,
+        "tracking_shuffled_objects_three_objects": 3,
+        "temporal_sequences": 1,
+        "hyperbaton": 2,
+        "multistep_arithmetic_two": 3,
+        "navigate": 3,
+        "web_of_lies": 2,
+        "movie_recommendation": 2,
+        "boolean_expressions": 2,
+        "tracking_shuffled_objects_seven_objects": 1,
+        "disambiguation_qa": 1,
+        "penguins_in_a_table": 2,
+        "formal_fallacies": 1
+      },
+      "source_draw_jsonl_sha256": "2c4b5b233b981feaf40a2aba891ff6ed890cea9edcf38ba19e68337ec442ef22",
+      "per_example": [
+        {
+          "id": "bbh::salient_translation_error_detection::218",
+          "file_task": "salient_translation_error_detection",
+          "prompt_sha256": "e941f97d5dbaf1fe92f590249b2dd1152774a379816be453c0e7a3987ea4e9b3",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 7316
+        },
+        {
+          "id": "bbh::logical_deduction_three_objects::231",
+          "file_task": "logical_deduction_three_objects",
+          "prompt_sha256": "3951a616207950dfa78fb1a4346ad34fdebf4e1464f5b577e8f2aa0d23fb6d57",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3058
+        },
+        {
+          "id": "bbh::object_counting::95",
+          "file_task": "object_counting",
+          "prompt_sha256": "69d4aabfff40b2c4fc7ee8d053ab4dcf77af1c2cfcdacbcafd383e17cfbbd476",
+          "target_sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+          "prompt_chars": 1651
+        },
+        {
+          "id": "bbh::causal_judgement::29",
+          "file_task": "causal_judgement",
+          "prompt_sha256": "02f4166afce4ee8af34511b8fd397edc3f88da1daad6a54cc65df9d3987bedba",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 4585
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_five_objects::170",
+          "file_task": "tracking_shuffled_objects_five_objects",
+          "prompt_sha256": "5af985d38b2b41489449e7ee8d1cf787a0e0c54b8b1e4867c684f8e21a6e51dc",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 3322
+        },
+        {
+          "id": "bbh::word_sorting::52",
+          "file_task": "word_sorting",
+          "prompt_sha256": "1cd7ffaf589ba2f5814ea94c4fb212e4fae6fb24a043c019a0047d55865737f9",
+          "target_sha256": "19fd38ebdc4d54807900bd6e87621dca521f5bf3a576889b62cfa774975593d1",
+          "prompt_chars": 2372
+        },
+        {
+          "id": "bbh::sports_understanding::219",
+          "file_task": "sports_understanding",
+          "prompt_sha256": "ed70280a60dfc8bb95f9ae434ef0ccd969c6e93ef3959b3fce77450db889cb58",
+          "target_sha256": "9390298f3fb0c5b160498935d79cb139aef28e1c47358b4bbba61862b9c26e59",
+          "prompt_chars": 1012
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::242",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "7ec9b90b05ecc536f8c4155b5b926f22761f63d14f1e1957f86d915c22704c1e",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 3171
+        },
+        {
+          "id": "bbh::geometric_shapes::143",
+          "file_task": "geometric_shapes",
+          "prompt_sha256": "54cd97c7a8e3dad2f9a6c89898a690aaeb78a54a6bb9429c0a9a70cad0cbda92",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 5225
+        },
+        {
+          "id": "bbh::dyck_languages::101",
+          "file_task": "dyck_languages",
+          "prompt_sha256": "54c5d0dae5dbcfd55bdab47806341c9a2a9e0c0ba7d95d84553c6d2f18ac8a46",
+          "target_sha256": "62b67e1f685b7fef51102005dddd27774be3fee38c42965c53aab035d0b6b221",
+          "prompt_chars": 2625
+        },
+        {
+          "id": "bbh::snarks::75",
+          "file_task": "snarks",
+          "prompt_sha256": "cbd3f19292305e5b8621a237935f5b671cfe46181fbb34b3eb45133bef04181f",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3459
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::71",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "d660a71c61f6376a5efaee19bee0e6a61d60a5a85097957dbf8798357ef07f7f",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3249
+        },
+        {
+          "id": "bbh::dyck_languages::109",
+          "file_task": "dyck_languages",
+          "prompt_sha256": "a8394fefcc7d35b80b969e29d5f42841e253edf67ab143045f081df8023078ab",
+          "target_sha256": "ba5ec51d07a4ac0e951608704431d59a02b21a4e951acc10505a8dc407c501ee",
+          "prompt_chars": 2801
+        },
+        {
+          "id": "bbh::word_sorting::67",
+          "file_task": "word_sorting",
+          "prompt_sha256": "3e3ef18f62e924fa8d5c7dfbe62efc91f5c7945710323268ab370a6e78feac95",
+          "target_sha256": "1181e69aeeee25e3bf3d6487f178e4de3f177331663c6517425dbda9b1b140f1",
+          "prompt_chars": 2495
+        },
+        {
+          "id": "bbh::logical_deduction_three_objects::36",
+          "file_task": "logical_deduction_three_objects",
+          "prompt_sha256": "3930d708bccfd91ce2a41fff095b89e85a096114d75dbb34de75c0256204754f",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3057
+        },
+        {
+          "id": "bbh::date_understanding::209",
+          "file_task": "date_understanding",
+          "prompt_sha256": "be11b213caa163e0b539f2ea07434ed24f0ddeb8eff2679ff3adf0a89f8bf827",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 1462
+        },
+        {
+          "id": "bbh::reasoning_about_colored_objects::227",
+          "file_task": "reasoning_about_colored_objects",
+          "prompt_sha256": "76b22eb2cfd473afab341f761bfe6a264d914778659ee418a957cb15a53d2c19",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 2746
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::7",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "22d4c4ec316e76a80472ad4d80912bad7579d75d41e84ae798ed96b673eba760",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3200
+        },
+        {
+          "id": "bbh::date_understanding::61",
+          "file_task": "date_understanding",
+          "prompt_sha256": "851f91d4cd1e30d52c93a358a532016308362f6748669d4cef62a5d7353e0b8b",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 1468
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_five_objects::31",
+          "file_task": "tracking_shuffled_objects_five_objects",
+          "prompt_sha256": "fe3daefe0239c198badd60466ae48e844f5f2d63616ab9e5afc13ebd1765d565",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3367
+        },
+        {
+          "id": "bbh::temporal_sequences::4",
+          "file_task": "temporal_sequences",
+          "prompt_sha256": "46446779d019fb6e96ac6170f5382817cc6c1885949dd1a3a1aa2dcf05854eaa",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3619
+        },
+        {
+          "id": "bbh::reasoning_about_colored_objects::59",
+          "file_task": "reasoning_about_colored_objects",
+          "prompt_sha256": "d7d54f427682aff0769ecca24f5ddf59180743aa00db739284f4f1a931691fa7",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 2805
+        },
+        {
+          "id": "bbh::hyperbaton::145",
+          "file_task": "hyperbaton",
+          "prompt_sha256": "e166094db10ca090fb1c783911fa9dd5a1371608cdaae9587d21801c58ede69d",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3381
+        },
+        {
+          "id": "bbh::multistep_arithmetic_two::68",
+          "file_task": "multistep_arithmetic_two",
+          "prompt_sha256": "63a49f54cd84360984073f97a7bf2c48a47519b9c9baa4fd3ccc4231b196a6fb",
+          "target_sha256": "38ba4d774db065ae5ed9730a1bff2b14c50a15552aff2cba17e73745dd3d78a7",
+          "prompt_chars": 2536
+        },
+        {
+          "id": "bbh::causal_judgement::156",
+          "file_task": "causal_judgement",
+          "prompt_sha256": "e4e95088ab516ce2eeebfd771de5fb948bb92fd1fae626a2b16467305ea598eb",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 4723
+        },
+        {
+          "id": "bbh::multistep_arithmetic_two::67",
+          "file_task": "multistep_arithmetic_two",
+          "prompt_sha256": "13baf4560caa4a2d1042c0a7331c851467df0d93c76f83f8cb99df3484342c53",
+          "target_sha256": "89447a036b07e637f0d9c02455ac5778f3c8708d1bda4c822e69aa31716e2fbf",
+          "prompt_chars": 2536
+        },
+        {
+          "id": "bbh::navigate::53",
+          "file_task": "navigate",
+          "prompt_sha256": "b5300768ff9e702772a45b4479143ac1bc9376437b146612fb43c82b89020169",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 2450
+        },
+        {
+          "id": "bbh::navigate::150",
+          "file_task": "navigate",
+          "prompt_sha256": "6b8a5e6639d31f58cd736f452b2d8a2d3b7c59997d8d28dbc65195314b55b14c",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 2448
+        },
+        {
+          "id": "bbh::web_of_lies::29",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "6efb0ca48c02c481bd7663d70381f8510b83c50b30a48a740aca87cf29c6b0e2",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 3229
+        },
+        {
+          "id": "bbh::movie_recommendation::5",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "dc162d6c107e4b92adc7d37b7c3ce1cf0e95398c993f2e24db6b9f40a48cd968",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 2418
+        },
+        {
+          "id": "bbh::dyck_languages::67",
+          "file_task": "dyck_languages",
+          "prompt_sha256": "55743a27bbb22ffa87c5901e92400a0b73d7565de15259ad6126eddfcaf5e346",
+          "target_sha256": "7dd4dd2ea466904551784ea580f1db9713039224a001648a81fa47f6a328e9b0",
+          "prompt_chars": 2651
+        },
+        {
+          "id": "bbh::date_understanding::14",
+          "file_task": "date_understanding",
+          "prompt_sha256": "35064c865fdc24cb628b8f74d4f79885f0f41f053840f3451a366eda0b7f28cd",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 1456
+        },
+        {
+          "id": "bbh::hyperbaton::237",
+          "file_task": "hyperbaton",
+          "prompt_sha256": "36c8d1e3e431daeb6566f151393d93895b4c0b43107ad0ea490fd63aa0b4acc8",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3367
+        },
+        {
+          "id": "bbh::multistep_arithmetic_two::25",
+          "file_task": "multistep_arithmetic_two",
+          "prompt_sha256": "e1118cae06846b3b87dbf490dfe22cec8004ae26aff997d9bcb6ed94cbac4f88",
+          "target_sha256": "7f2253d7e228b22a08bda1f09c516f6fead81df6536eb02fa991a34bb38d9be8",
+          "prompt_chars": 2535
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::62",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "12187fa623667b0377ea71fe323f3bcdba0d8f0813abebdaaa757a32a07c839a",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3247
+        },
+        {
+          "id": "bbh::boolean_expressions::139",
+          "file_task": "boolean_expressions",
+          "prompt_sha256": "af815f226e712ef5dd15917666e5c8ee1ccae267617a4720816b6dbf145f8fda",
+          "target_sha256": "60a33e6cf5151f2d52eddae9685cfa270426aa89d8dbc7dfb854606f1d1a40fe",
+          "prompt_chars": 1853
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_seven_objects::117",
+          "file_task": "tracking_shuffled_objects_seven_objects",
+          "prompt_sha256": "d04950a2467f809af453459ec67363564459e01439a04c23d0f660e8a8719f96",
+          "target_sha256": "8ab8154a7f41be6d36e584c84697e0154e3ac1019eca1e92977c6b4e690d3f9b",
+          "prompt_chars": 3544
+        },
+        {
+          "id": "bbh::dyck_languages::54",
+          "file_task": "dyck_languages",
+          "prompt_sha256": "a4a25fff2481a50c43c2d735a2cb2ef66e9060c98c8b0e1b4c33a912fad3d905",
+          "target_sha256": "ba5ec51d07a4ac0e951608704431d59a02b21a4e951acc10505a8dc407c501ee",
+          "prompt_chars": 2801
+        },
+        {
+          "id": "bbh::geometric_shapes::214",
+          "file_task": "geometric_shapes",
+          "prompt_sha256": "856f0ca04a0d76bbe904fc1fd2faba1faa4230699825df2523351a28eff9d277",
+          "target_sha256": "3c0d63d2582a6c4eb98d1f6c2698fee9cdafbeb301483dd9ef5d053c93b48dff",
+          "prompt_chars": 5239
+        },
+        {
+          "id": "bbh::disambiguation_qa::120",
+          "file_task": "disambiguation_qa",
+          "prompt_sha256": "c4b56eda88ab74984f48cac18d0ac5d6f3b35aa96c4246d7c04607c6a582dc7e",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3994
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::2",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "ceb5f7cf0de8c00fe85c2fb38c76ea93ce5c403ff4785f980d1c075dbbf053f6",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 3250
+        },
+        {
+          "id": "bbh::reasoning_about_colored_objects::162",
+          "file_task": "reasoning_about_colored_objects",
+          "prompt_sha256": "a06ba8290a08936c006db2c6743abfc6f20cc2527d23b86937ed177351836691",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 2785
+        },
+        {
+          "id": "bbh::penguins_in_a_table::54",
+          "file_task": "penguins_in_a_table",
+          "prompt_sha256": "6c4de1ee0e72592cb6764511ccec9ec1e5bdc09c14c9e266ca9736838b2db139",
+          "target_sha256": "cf725bc17907cc5e0c950fd9c2fca1042dc19a8f4b54be5de5cb545244fdd32c",
+          "prompt_chars": 3005
+        },
+        {
+          "id": "bbh::snarks::1",
+          "file_task": "snarks",
+          "prompt_sha256": "1fef74ba7167030eb70b0be827a14ac9075fb54759570457be90060b87b11081",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3383
+        },
+        {
+          "id": "bbh::date_understanding::82",
+          "file_task": "date_understanding",
+          "prompt_sha256": "7f9816591309e2f0fd89a077b25d63db52e9ca012eded8b2b6a29b1d06da213d",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 1458
+        },
+        {
+          "id": "bbh::boolean_expressions::35",
+          "file_task": "boolean_expressions",
+          "prompt_sha256": "05887c1159fa55bac34d227133ec07dfc8634df7c234b33a5030270740624af7",
+          "target_sha256": "3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18",
+          "prompt_chars": 1856
+        },
+        {
+          "id": "bbh::web_of_lies::211",
+          "file_task": "web_of_lies",
+          "prompt_sha256": "1aa3e9eb16653298ecfe194664cf68814ae58506563b461e999e31deafdef15f",
+          "target_sha256": "85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e",
+          "prompt_chars": 3243
+        },
+        {
+          "id": "bbh::logical_deduction_five_objects::177",
+          "file_task": "logical_deduction_five_objects",
+          "prompt_sha256": "6d70dccc547414baeeabf9e559130ef1fc3c7707e78ec4242ebcad7537870b8c",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3258
+        },
+        {
+          "id": "bbh::snarks::27",
+          "file_task": "snarks",
+          "prompt_sha256": "36a8de9944f970ae6b7c570a84d3d465f7bcb7d87aa9aaff48511fee3cd3434c",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 3456
+        },
+        {
+          "id": "bbh::snarks::168",
+          "file_task": "snarks",
+          "prompt_sha256": "0c47c88ada6ce3938e02dfcd9f6bc6de136e1f01814c48dfe58cf115641355f7",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 3419
+        },
+        {
+          "id": "bbh::formal_fallacies::141",
+          "file_task": "formal_fallacies",
+          "prompt_sha256": "137b02c3c724417cac83c0e141a6aaacc0266ba76edc1fff262dc91e47f20017",
+          "target_sha256": "f1234d75178d892a133a410355a5a990cf75d2f33eba25d575943d4df632f3a4",
+          "prompt_chars": 5141
+        },
+        {
+          "id": "bbh::object_counting::170",
+          "file_task": "object_counting",
+          "prompt_sha256": "532a208744c150449934d33b64a1740cd1453bff71e632b8c616abe565111b67",
+          "target_sha256": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
+          "prompt_chars": 1676
+        },
+        {
+          "id": "bbh::date_understanding::159",
+          "file_task": "date_understanding",
+          "prompt_sha256": "775ff43443e1a411daf4e95650863f4d6a9dba68c7934f923b40a4e9a615ac35",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 1500
+        },
+        {
+          "id": "bbh::salient_translation_error_detection::221",
+          "file_task": "salient_translation_error_detection",
+          "prompt_sha256": "7fbc1629c5349a1d6a8d8f3f785d7b0268543b6502ee8614dbf750b15db8baec",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 7580
+        },
+        {
+          "id": "bbh::date_understanding::202",
+          "file_task": "date_understanding",
+          "prompt_sha256": "88257f0dbfcff56c97bcf0ade8b489454a8decfcaa4a4a11fdd80ff54c036121",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 1533
+        },
+        {
+          "id": "bbh::object_counting::198",
+          "file_task": "object_counting",
+          "prompt_sha256": "344075625fd6e5ed6c14f3664836d9f0b52b22534551cd818a33d594f7102ee0",
+          "target_sha256": "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+          "prompt_chars": 1692
+        },
+        {
+          "id": "bbh::tracking_shuffled_objects_three_objects::14",
+          "file_task": "tracking_shuffled_objects_three_objects",
+          "prompt_sha256": "61327a0f7cbd108df10fbcecd5ce8fa7375a1d64e330352e926cf2d7e9f133bb",
+          "target_sha256": "ab0531c9d89473e8c5af60d4621a5d5bfaa6a5b1f1ebf3cc69e20814fee801cc",
+          "prompt_chars": 3140
+        },
+        {
+          "id": "bbh::navigate::63",
+          "file_task": "navigate",
+          "prompt_sha256": "cc975e940e87728f7a51779033f634712bb6c2cb51a14a5080b8de2471ac27a2",
+          "target_sha256": "1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d",
+          "prompt_chars": 2496
+        },
+        {
+          "id": "bbh::word_sorting::156",
+          "file_task": "word_sorting",
+          "prompt_sha256": "c1e8bb571792583dd66e2f1d8b2ac4d6a0f879b4b97c61bc1023c8256c094f9b",
+          "target_sha256": "c44d9a062cf33f4407d3f29bd9dd6019546e06b524fba179a80f08169e21bb28",
+          "prompt_chars": 2389
+        },
+        {
+          "id": "bbh::penguins_in_a_table::33",
+          "file_task": "penguins_in_a_table",
+          "prompt_sha256": "13fbcd0b39d5ef03a5767d8c3b6ed8e4214b88960bb4061500027d5a81560a98",
+          "target_sha256": "bf97bdceb17f2739335afb287573b4a3d50f25b57916b12cab5829ee8cd768c1",
+          "prompt_chars": 3059
+        },
+        {
+          "id": "bbh::geometric_shapes::210",
+          "file_task": "geometric_shapes",
+          "prompt_sha256": "6bb0788f2b8a028a119ae7c553b6cf63f9d7d1082c15405104635a0976c7b805",
+          "target_sha256": "9d58b6116e218cab06c1da46ce4820f68172c81f321dc491b51c080cbcb9fe10",
+          "prompt_chars": 5204
+        },
+        {
+          "id": "bbh::movie_recommendation::228",
+          "file_task": "movie_recommendation",
+          "prompt_sha256": "6579f7b2c01b0f2566f9c391474d1be1ecbe54a8663cf3a3b0439cbe3f3936be",
+          "target_sha256": "2e5b320c4307603615d67098d9e1459ea7b6705b7d553049197d1f1e3a750840",
+          "prompt_chars": 2446
+        },
+        {
+          "id": "bbh::word_sorting::240",
+          "file_task": "word_sorting",
+          "prompt_sha256": "df88a2961d1c9e3789b0747f77968eed2c1fd44b1943855b5e625149012153c3",
+          "target_sha256": "c41ddd149e39b90435d6381a8d197431402af7549e553c8c3a33c701490f6925",
+          "prompt_chars": 2432
+        },
+        {
+          "id": "bbh::reasoning_about_colored_objects::51",
+          "file_task": "reasoning_about_colored_objects",
+          "prompt_sha256": "50be433974a80aa620f6295170750b4cd4edcaf063d040a9c1e2d9d4c91718a3",
+          "target_sha256": "79398e2d8cadfc05f0152f92591166a1f81ebeeb0156179ef1a0f6c55ebc9af9",
+          "prompt_chars": 2575
+        }
+      ]
+    }
+  },
+  "no_compute_run": "artifacts only: no gradients, no selection, no SFT"
+}

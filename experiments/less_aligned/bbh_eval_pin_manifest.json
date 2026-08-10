@@ -1,0 +1,431 @@
+{
+  "lm_eval_version": "0.4.5",
+  "lm_eval_path": "/jizhicfs/karonhe/envs/dataflex-fa/lib/python3.10/site-packages/lm_eval",
+  "pinned_source": {
+    "group_yaml": {
+      "path": "tasks/bbh/cot_fewshot/_bbh_cot_fewshot.yaml",
+      "sha256": "4434c2bf0565edfa35f4c5e764355ff888ca5007c264fdd321b3a05210c0fa2c"
+    },
+    "template_yaml": {
+      "path": "tasks/bbh/cot_fewshot/_cot_fewshot_template_yaml",
+      "sha256": "361f566fda37a18c1844985aa6a7af25247999dbd7b2a9f2f039343502fc9789"
+    },
+    "n_subtasks": 27,
+    "subtasks": [
+      "boolean_expressions",
+      "causal_judgement",
+      "date_understanding",
+      "disambiguation_qa",
+      "dyck_languages",
+      "formal_fallacies",
+      "geometric_shapes",
+      "hyperbaton",
+      "logical_deduction_five_objects",
+      "logical_deduction_seven_objects",
+      "logical_deduction_three_objects",
+      "movie_recommendation",
+      "multistep_arithmetic_two",
+      "navigate",
+      "object_counting",
+      "penguins_in_a_table",
+      "reasoning_about_colored_objects",
+      "ruin_names",
+      "salient_translation_error_detection",
+      "snarks",
+      "sports_understanding",
+      "temporal_sequences",
+      "tracking_shuffled_objects_five_objects",
+      "tracking_shuffled_objects_seven_objects",
+      "tracking_shuffled_objects_three_objects",
+      "web_of_lies",
+      "word_sorting"
+    ],
+    "aggregation": "mean with weight_by_size=true (MICRO over the 27 subtasks)",
+    "num_fewshot": 3,
+    "generation_kwargs": {
+      "max_gen_toks": 1024,
+      "until": [
+        "</s>",
+        "Q",
+        "\n\n"
+      ],
+      "do_sample": false,
+      "temperature": 0.0
+    },
+    "filter_list": [
+      {
+        "name": "get-answer",
+        "filter": [
+          {
+            "function": "regex",
+            "regex_pattern": "(?<=the answer is )(.*)(?=.)"
+          },
+          {
+            "function": "take_first"
+          }
+        ]
+      }
+    ],
+    "metric_list": [
+      {
+        "metric": "exact_match",
+        "aggregation": "mean",
+        "higher_is_better": true
+      }
+    ],
+    "stock_dataset_path": "lukaemon/bbh"
+  },
+  "task_accounting": {
+    "conceptual_task_families_23": [
+      "boolean_expressions",
+      "causal_judgement",
+      "date_understanding",
+      "disambiguation_qa",
+      "dyck_languages",
+      "formal_fallacies",
+      "geometric_shapes",
+      "hyperbaton",
+      "logical_deduction",
+      "movie_recommendation",
+      "multistep_arithmetic_two",
+      "navigate",
+      "object_counting",
+      "penguins_in_a_table",
+      "reasoning_about_colored_objects",
+      "ruin_names",
+      "salient_translation_error_detection",
+      "snarks",
+      "sports_understanding",
+      "temporal_sequences",
+      "tracking_shuffled_objects",
+      "web_of_lies",
+      "word_sorting"
+    ],
+    "n_conceptual_families": 23,
+    "lm_eval_subtasks_27": [
+      "boolean_expressions",
+      "causal_judgement",
+      "date_understanding",
+      "disambiguation_qa",
+      "dyck_languages",
+      "formal_fallacies",
+      "geometric_shapes",
+      "hyperbaton",
+      "logical_deduction_five_objects",
+      "logical_deduction_seven_objects",
+      "logical_deduction_three_objects",
+      "movie_recommendation",
+      "multistep_arithmetic_two",
+      "navigate",
+      "object_counting",
+      "penguins_in_a_table",
+      "reasoning_about_colored_objects",
+      "ruin_names",
+      "salient_translation_error_detection",
+      "snarks",
+      "sports_understanding",
+      "temporal_sequences",
+      "tracking_shuffled_objects_five_objects",
+      "tracking_shuffled_objects_seven_objects",
+      "tracking_shuffled_objects_three_objects",
+      "web_of_lies",
+      "word_sorting"
+    ],
+    "n_lm_eval_subtasks": 27,
+    "note": "Primary reporting is the 27 lm-eval subtasks and their micro aggregate, matching the pinned group. The 23-family regrouping is a SECONDARY diagnostic only."
+  },
+  "custom_heldout_suite": {
+    "group_config": "experiments/less_aligned/bbh_external_tasks/_bbh_external_heldout.yaml",
+    "group_sha256": "02044a4e38e163bb69abd24e0d5f6d4effa306aa84e4b95b5904d8c90b832db2",
+    "subtasks": {
+      "boolean_expressions": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_boolean_expressions.yaml",
+        "n_heldout": 200,
+        "data_sha256": "01aacad8e7a6046c1a2faac8a9385dbb1dff7d91620f13e755d2e3ec75bddfa3",
+        "config_sha256": "70069c8153f1659f548421daed1e773f7ed2a36dc335c2138d9fc986fa4c9ee6",
+        "conceptual_family": "boolean_expressions",
+        "source_subtask_yaml_sha256": "1ceccc1bb945a46b0cd39156a26b7dc6072a633b6f2211ad683ce7d9ca903b28",
+        "fewshot_samples_sha256": "8275ad0dbb5422e9ba3b4109ea3c31227e7bcb6c99394c6f91c5548141b26221"
+      },
+      "causal_judgement": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_causal_judgement.yaml",
+        "n_heldout": 150,
+        "data_sha256": "3986677a4bdc4cf8d00b34e27b71947e640fb480db1ecc38bfde94c918c52c4a",
+        "config_sha256": "ed95b17f1425bc397fda157940cfa70ee0e6274737a8980c8da69b9d2a608a58",
+        "conceptual_family": "causal_judgement",
+        "source_subtask_yaml_sha256": "e001e4b36ccde9c21f4c391b4bc3a521b3eadc25820b984abda10fdef07dd84e",
+        "fewshot_samples_sha256": "15849f8ffaab3a1734070e280b1ef13decc9d96295e9884d4a0a121f004d4acf"
+      },
+      "date_understanding": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_date_understanding.yaml",
+        "n_heldout": 200,
+        "data_sha256": "428bc6062c506b04ebdc49100eefa70fe3de21c726d0d8a3c55fab5e45c2dd05",
+        "config_sha256": "d18e092aea76cf1b2a1d90e98630750f2c7e0fe6f1e6df2762f764ef3c43eed0",
+        "conceptual_family": "date_understanding",
+        "source_subtask_yaml_sha256": "dd5c87d43ec742e6a3bffd8e7ba70db6784b953095495a2476d4b4ac9a642ba0",
+        "fewshot_samples_sha256": "19fde11db87fdb916d0e2f49861fa26e8d22ba48fc6b85adc44fef358fca9eef"
+      },
+      "disambiguation_qa": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_disambiguation_qa.yaml",
+        "n_heldout": 200,
+        "data_sha256": "8e94580e2537b59ba3803e154f0de779668ce028a6d03df7a0af70ee3c0d6507",
+        "config_sha256": "dc423171b4772a8c37cbe8c70bce0bd4124eeb8155d50a3a32dd143efb48d5de",
+        "conceptual_family": "disambiguation_qa",
+        "source_subtask_yaml_sha256": "6529b6bf6c1727ec8f8feb9d0e8837f580b4fe52b0a1d98ec0f7efdd51c3abd7",
+        "fewshot_samples_sha256": "d25f118238a6ba6bceb036aad5e48e453759769d2a32d93efb5d0bbd5adf5065"
+      },
+      "dyck_languages": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_dyck_languages.yaml",
+        "n_heldout": 200,
+        "data_sha256": "7192b43a48d60232af358fdc90a0358676510ef8a1ab0b817a1c5354381f0eb0",
+        "config_sha256": "0d049c6e2316c820361fc110907b701426a1acce310289fcf68f23729f74566a",
+        "conceptual_family": "dyck_languages",
+        "source_subtask_yaml_sha256": "6f05c8f7e58699b04dfbdda011f2e98f3d2b025fb7d44eb1bdf88b75a3e4ed0b",
+        "fewshot_samples_sha256": "34fea15170c6326bf0f7750679b20a73f38f0e5a853bcff261420f682397889c"
+      },
+      "formal_fallacies": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_formal_fallacies.yaml",
+        "n_heldout": 200,
+        "data_sha256": "469713861797b15d07ca157a6667618a3f6ab65f242c6f5f13138ff482baa33c",
+        "config_sha256": "27ece10d94988d41feb7c9b66814f84aa6d8c283e3c072bf6e11c8220fbbdfc6",
+        "conceptual_family": "formal_fallacies",
+        "source_subtask_yaml_sha256": "45851823fc1ce60323afb16d32f80626aea8e41b122b675822abd6febbff3190",
+        "fewshot_samples_sha256": "4e05e420f692d922f3c8850ce599ad03c1e70b04eaa831dd68dd698903fe7971"
+      },
+      "geometric_shapes": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_geometric_shapes.yaml",
+        "n_heldout": 200,
+        "data_sha256": "2f8b00af0c51b1266925133021f313033d04409b68929869ea0ae7b557c0d835",
+        "config_sha256": "b9036b160df31546c43931ea76a933768dd9f28b48bd65277364c9dae7a5b8a6",
+        "conceptual_family": "geometric_shapes",
+        "source_subtask_yaml_sha256": "5290cb7550cb488cbd4b1761ea1320e17fc668f5358895f5ac1be91eb392c63c",
+        "fewshot_samples_sha256": "bbf5c09c8234490ebd537862c0380c9fd8cb02b89740711326be91bb94eb3f13"
+      },
+      "hyperbaton": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_hyperbaton.yaml",
+        "n_heldout": 200,
+        "data_sha256": "bbcea26a1b6e7b9da212a4ce04c900a82c7a993c45db750b7bdea35d1dc10335",
+        "config_sha256": "d8a82fdf4b426ecd670e471db9e179b945267e6bfefc110842486843d6c5c71a",
+        "conceptual_family": "hyperbaton",
+        "source_subtask_yaml_sha256": "a872af8351d498dd179b7c15b5c93cee77c047a94be2a808695d007c928b98db",
+        "fewshot_samples_sha256": "2f67b3b1a6036c19b1d891af2671ea408efbaf67bb49f1b57478084f17e3a088"
+      },
+      "logical_deduction_five_objects": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_logical_deduction_five_objects.yaml",
+        "n_heldout": 200,
+        "data_sha256": "0209e698f75d79796a45662e2fbbdd0886953a125c954cdecd05f80ae5a0df03",
+        "config_sha256": "36cfde44d7265ad20640d047b0a9d9d5a5a009a682686bbf79735a2f72f82197",
+        "conceptual_family": "logical_deduction",
+        "source_subtask_yaml_sha256": "4f2e06b694a4be08a5216dcc5d7e0f1f9736caf08468f8889fcca3d61f9fff86",
+        "fewshot_samples_sha256": "9554eebe62ae9995a003d481865b3ed24122db9cf8ce0ab83fe06ce9cc3d2857"
+      },
+      "logical_deduction_seven_objects": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_logical_deduction_seven_objects.yaml",
+        "n_heldout": 200,
+        "data_sha256": "894e7218e93fded0fb394dc109fbea1e6bfb11571c2da7c2010299fd747bcf1b",
+        "config_sha256": "180c4cd7664a907d7c40340e299dd2e3777575fc18f3addb138ec7cf677203ec",
+        "conceptual_family": "logical_deduction",
+        "source_subtask_yaml_sha256": "3a4579704b06d5d02f46c1036382db16d27b2647ae402e91a89fbc4af9e40b9a",
+        "fewshot_samples_sha256": "9554eebe62ae9995a003d481865b3ed24122db9cf8ce0ab83fe06ce9cc3d2857"
+      },
+      "logical_deduction_three_objects": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_logical_deduction_three_objects.yaml",
+        "n_heldout": 200,
+        "data_sha256": "d0a0a3a4e989d505887ce95772be3b6bd8cdc54497f296f1e31cba62b6c815dc",
+        "config_sha256": "dea004c2a9de729be3a5daab5adfcf92857ac125591fcf9be60efbe98e0760b8",
+        "conceptual_family": "logical_deduction",
+        "source_subtask_yaml_sha256": "267a2521f10cc4ccfe6d9c08d0d15fc8d517e97e152b3395cbc8a60224541016",
+        "fewshot_samples_sha256": "9554eebe62ae9995a003d481865b3ed24122db9cf8ce0ab83fe06ce9cc3d2857"
+      },
+      "movie_recommendation": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_movie_recommendation.yaml",
+        "n_heldout": 200,
+        "data_sha256": "1d6f73b438413bd3600b953a2b79b7954ce99bea958d6a47d0622e5cdfd2b458",
+        "config_sha256": "3d27ebae29b09ae0bb0834f9c09308346d554e198479173cef6ed000beecfe56",
+        "conceptual_family": "movie_recommendation",
+        "source_subtask_yaml_sha256": "1906107518c0a12b335da7fc08c55133f0d61dbd11c22746938eaf442de0c5d4",
+        "fewshot_samples_sha256": "a97424309b71c1a56c05cdd0a0b50f272e7f3e5e7a7ded4df3f3bd6236214bed"
+      },
+      "multistep_arithmetic_two": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_multistep_arithmetic_two.yaml",
+        "n_heldout": 200,
+        "data_sha256": "35115ecff1d2b73124cf4bb70838dbc9c4b1212d337e8361f62e9edd3bfbb9ef",
+        "config_sha256": "4a43bf7f5da61ac872955c906704ee26655fb665b914fe423df5a9d8210d7179",
+        "conceptual_family": "multistep_arithmetic_two",
+        "source_subtask_yaml_sha256": "439980161e9bff29275d3e43e14d787480b09cea21a5a6e6b1bdf555db86e286",
+        "fewshot_samples_sha256": "8bd01101e9e33b0fa7a44b4c571a6065cef112daac2a7b45ab061d376a3fa725"
+      },
+      "navigate": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_navigate.yaml",
+        "n_heldout": 200,
+        "data_sha256": "6ae65b5275e521674edd7ede2d44ed90398380aab86b18560c80bb00c180e983",
+        "config_sha256": "2837217e01e67d5ca1861b66d6a817452db6e95b52eeee77c1b162919b4bd6d7",
+        "conceptual_family": "navigate",
+        "source_subtask_yaml_sha256": "c15c07bc4b853a9b9aa6c77cb4cd0aaef64a7d9c5ca7c3f7d874e33293cde620",
+        "fewshot_samples_sha256": "fabe05c083e5ae85ad507e89f67f3a3f6eb04b26b85e874d6aca3b7a4adaa49d"
+      },
+      "object_counting": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_object_counting.yaml",
+        "n_heldout": 200,
+        "data_sha256": "cce3b89576219cd779eaf714bc1bcd97b18cfa9f90fd7bed20ff1102d2c7b4a3",
+        "config_sha256": "8912e8fbc5a73ce1d68e1baeb8acc12ea950548a5bbf08feb06f70e1646c017f",
+        "conceptual_family": "object_counting",
+        "source_subtask_yaml_sha256": "18276018e3f795686ccec4d30c4e0a543d088fd9f70086a5c5ce2f2a2c62cf22",
+        "fewshot_samples_sha256": "fd9109e07bedb2e29fc514d20c34a885d026531f0c0125558b593e4c4109196a"
+      },
+      "penguins_in_a_table": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_penguins_in_a_table.yaml",
+        "n_heldout": 117,
+        "data_sha256": "c442b87117f853b898b2eb676f223b00048e3cbb392f0dcfce53b0c2359d2966",
+        "config_sha256": "5dd1328abc4a7b8a1ed05e84dbe841e7af76f9361f4cf7ae7dc07b0e0b8d2ff0",
+        "conceptual_family": "penguins_in_a_table",
+        "source_subtask_yaml_sha256": "771868c903eea5be7d1f0db348990bfa2d369fa73927350b918af8ef2ad37185",
+        "fewshot_samples_sha256": "1a616882d8a3520bb27f502e71e62af51cd682c5dd78c9ee4829f2b10a361f3d"
+      },
+      "reasoning_about_colored_objects": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_reasoning_about_colored_objects.yaml",
+        "n_heldout": 200,
+        "data_sha256": "173460d0388e78a968f044383fd83ca0d850b84845dcfae82573c55ff48ec968",
+        "config_sha256": "9208e076923daa3602df6df5b3767919ca0ceb1224a28e8da6d44f090d8ca4ef",
+        "conceptual_family": "reasoning_about_colored_objects",
+        "source_subtask_yaml_sha256": "51c69ef379f7f1fc7a76aba7394099ca2d6ffbe703570a55805944e1db68b442",
+        "fewshot_samples_sha256": "074476eb03e1f5453630b13219aa73bc185967a991475d1a1132a05f258ac86d"
+      },
+      "ruin_names": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_ruin_names.yaml",
+        "n_heldout": 200,
+        "data_sha256": "7a294cac72e4590c4a47ca8b6e25b146d76e58c457d580f66552c78c0f003fe7",
+        "config_sha256": "bacf153585b205334c7631176acfc0e4da86db32e3931ca7fb2289fa015771ed",
+        "conceptual_family": "ruin_names",
+        "source_subtask_yaml_sha256": "cdc9dad492feb97a0644f94ad0487ecc78d756a87fc9e4ae3ea1378f74e39ce3",
+        "fewshot_samples_sha256": "00580accb9908f481f92870b591bc3eb0cfa3d573e3f4a780b4deb16f7390f48"
+      },
+      "salient_translation_error_detection": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_salient_translation_error_detection.yaml",
+        "n_heldout": 200,
+        "data_sha256": "fd7ffeb3ce7418f1c26cf869fca44361573f4bf2525b2f806937282589f1c0e4",
+        "config_sha256": "bc47424065bae1d143856a78e74fa47e02f6a1baf084b81a8c1a4aa2f8fce54b",
+        "conceptual_family": "salient_translation_error_detection",
+        "source_subtask_yaml_sha256": "35d3006063dd0f57cf7f84d033f7be80529c5909424cccc2304342293bbc54e6",
+        "fewshot_samples_sha256": "6c601453209a225397569578838bd90cf4fef1f61289382ae104897cd0c116ab"
+      },
+      "snarks": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_snarks.yaml",
+        "n_heldout": 142,
+        "data_sha256": "ba0927e56a05005c9c6f2b54c0c3339961c534ac67fc5787d9a6bc158e504424",
+        "config_sha256": "a46312e17b7b5d4820f617e104f57e6853cce5267eebef2c04b9cc1d49701619",
+        "conceptual_family": "snarks",
+        "source_subtask_yaml_sha256": "474d11b0d009e206f5414f67fad321f6e0635b417885aa5e6d7e7543fffc3a24",
+        "fewshot_samples_sha256": "b116a08d71e0d11eba71ad0b62803b1e9ed5db9efe420ebfa3551dd3052c4a2d"
+      },
+      "sports_understanding": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_sports_understanding.yaml",
+        "n_heldout": 200,
+        "data_sha256": "7ea8e4d8790b1d8eb229d4a8dd87ff0608969d8c1811d1503630dbe968e4302f",
+        "config_sha256": "c9a2b68dc82037176ae5656b0ec1a7f1399ca91861588dc72bbe215c67bcf007",
+        "conceptual_family": "sports_understanding",
+        "source_subtask_yaml_sha256": "02ba27de705991cfc9a2379c69dbb0a57f1d0973da1de7e43c1e3f8641354e03",
+        "fewshot_samples_sha256": "3cb893e86c02add2d749a4ffcfdd1962573d8532fc4ba37eb35bc42231df08ab"
+      },
+      "temporal_sequences": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_temporal_sequences.yaml",
+        "n_heldout": 200,
+        "data_sha256": "9f9bc9a7a7ee5a7bc3d5d8b98c2d819ff243b887f91253d1be396f5e2e4ebcca",
+        "config_sha256": "73eda2c9d15e0a3317943e741f87c421df574841368312b4c75413753098787c",
+        "conceptual_family": "temporal_sequences",
+        "source_subtask_yaml_sha256": "36508d5f870cf21ee7443de71f6014e1dbe640cc7efd1690759df97ba8ecf9b1",
+        "fewshot_samples_sha256": "a0344bc70903acee6599a262da30fc0edecda24e54ccc5ddfeb3cbf5af11f43a"
+      },
+      "tracking_shuffled_objects_five_objects": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_tracking_shuffled_objects_five_objects.yaml",
+        "n_heldout": 200,
+        "data_sha256": "b4a346a2c577e68aa52d0917bdb549d716c84a40e94fb02890790ab98ff8d383",
+        "config_sha256": "f768a08afe49d0ce02badf07c50bdc96c7c2db78e0f866970b5d734cb0b11c4d",
+        "conceptual_family": "tracking_shuffled_objects",
+        "source_subtask_yaml_sha256": "82eeedd04ffb2bacd0e765b2c04602c25eafe0f10c328b6816b716c8a0ce5f86",
+        "fewshot_samples_sha256": "dd07ad65a0ee3d62f3469832472d71d689f87edbf91752e08a7f3306ce751468"
+      },
+      "tracking_shuffled_objects_seven_objects": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_tracking_shuffled_objects_seven_objects.yaml",
+        "n_heldout": 200,
+        "data_sha256": "39accaf6bb7f9453938994e367ebaaf63c442109e9c9bf7a1e18fb977c82a9d7",
+        "config_sha256": "13da70377f76b1ca96c831209ee4e2053740f1eed63bb809d7e67c8e6172f598",
+        "conceptual_family": "tracking_shuffled_objects",
+        "source_subtask_yaml_sha256": "51f8548fdb73e03675397ab1f7af944e0de77e54d009e5e91f23f493733d2017",
+        "fewshot_samples_sha256": "dd07ad65a0ee3d62f3469832472d71d689f87edbf91752e08a7f3306ce751468"
+      },
+      "tracking_shuffled_objects_three_objects": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_tracking_shuffled_objects_three_objects.yaml",
+        "n_heldout": 200,
+        "data_sha256": "273db94eb42e0a52016d3631351ab7d953efc7cb53396be1fdb74b71c4e128c0",
+        "config_sha256": "3b4fe168d9b6e2bee6b2e720dadad37f959458592c97919bfcfd6d30144b81f6",
+        "conceptual_family": "tracking_shuffled_objects",
+        "source_subtask_yaml_sha256": "2b20f6f088956c4fcde66662cc60be5c6ea32c9bc30555104ae47fdfb60352bc",
+        "fewshot_samples_sha256": "dd07ad65a0ee3d62f3469832472d71d689f87edbf91752e08a7f3306ce751468"
+      },
+      "web_of_lies": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_web_of_lies.yaml",
+        "n_heldout": 200,
+        "data_sha256": "cd1ae698e33fc0d23e4a4fbd1a8ff2bbcfdd7fcff6f2ee05858d8ce99fb437b1",
+        "config_sha256": "6283657ec36a378c2af6fcadec1e37ed0663865a8e8b98417a8d8628e477efca",
+        "conceptual_family": "web_of_lies",
+        "source_subtask_yaml_sha256": "d7af5e55231d2fa45b0d85769710c896495116fb0bbb14e9d08073c128109cb4",
+        "fewshot_samples_sha256": "cfbce090ea52fc6956e7642897d5bc4d9a23b2177bbf41c2f9baa044bd646bff"
+      },
+      "word_sorting": {
+        "config": "experiments/less_aligned/bbh_external_tasks/bbh_external_heldout_word_sorting.yaml",
+        "n_heldout": 200,
+        "data_sha256": "4bf6ec0162357af609c7d759f0cde39523841468f19257be555e6ffb87d2f1eb",
+        "config_sha256": "c446d67601a13b569bd885baafb0c25671f8ec72aa0235368507ba45e3c94f38",
+        "conceptual_family": "word_sorting",
+        "source_subtask_yaml_sha256": "2eda362aac06e2340920205d2b971d62afa9fbfde22b158dfa1e44d9a64c664b",
+        "fewshot_samples_sha256": "d51c34679b3afb47d8a5fbe934364ec6212adcf9ad9d94bbe051f75d241e2b37"
+      }
+    },
+    "total_heldout_examples": 5209,
+    "invariants_preserved": [
+      "description",
+      "doc_to_text",
+      "hard-coded 3-shot CoT samples",
+      "generate_until",
+      "greedy (do_sample=false, temperature=0)",
+      "max_gen_toks=1024",
+      "until stops",
+      "get-answer regex filter",
+      "exact_match metric",
+      "micro group aggregation"
+    ],
+    "only_difference": "dataset source replaced by the local held-out jsonl split"
+  },
+  "raw_bbh_data": {
+    "boolean_expressions.json": "ea6c754ec005e2d3f2d085d349a740f593b5764f32ea4638ffed4cfc0061b12a",
+    "causal_judgement.json": "6e8bca44dd402008ed41c07a3d0a1d5e7b03db7001a7e002fcdf4c60985ea081",
+    "date_understanding.json": "0148d4ac5fca05b2f82373e5fef7208e15363b9c6079493034d77b3dab496bf5",
+    "disambiguation_qa.json": "cf06df9ebf911b883671cb1b35d3fbd1a1c306b19b9e9a012407e596c85fe8c6",
+    "dyck_languages.json": "3f9badedf15c2be1ce53d94fdf016299bb30ba231ef087ab9f51a7ed6d0bdc25",
+    "formal_fallacies.json": "4c1adb664821157faade1d4153685403afcc02648f3c180a608a18f17f589629",
+    "geometric_shapes.json": "07be68a124420caa2ebc0b2c858ad79fc55c5c8806170e496e1e17ebfb11f31c",
+    "hyperbaton.json": "b6d7f55c75f5d02f2987a4f3123802dfa093872089a56a334144aae8a7264fdc",
+    "logical_deduction_five_objects.json": "d2df31394b903b7f0e085d42a69572a092987856eac076799017d70ef266fa8f",
+    "logical_deduction_seven_objects.json": "2896c7e3482eea318dd37bcc370d24ec3cc91e8374c1784287b5dbd38a529e33",
+    "logical_deduction_three_objects.json": "e590fae72e3a6041fbd23bd8ff6b74baf44ca563f6ba40a041c55e7b867c1681",
+    "movie_recommendation.json": "a8b53a87ee21a865b7248e694f388a9b8f7cf6b839b11d44796a2dd3fc088983",
+    "multistep_arithmetic_two.json": "c9d5a6433c9b78256422a15c78463949c8bec8d85607aa28b52d7234ad4a8595",
+    "navigate.json": "b7944dfd3c81da5c4815bd75b00d6fa3c64140823498e78ed496f4c3d36f7f0d",
+    "object_counting.json": "8acef14dbbdd40d2326ef7755750b6b5fe919fef06276af1bab3f1c297f022ff",
+    "penguins_in_a_table.json": "bb87ee449698eee51215e025a453b1bcb2f5e6589c2063b2c79e68b8f0655228",
+    "reasoning_about_colored_objects.json": "0a8850cf95166020fce7a78244026ceedd7ea839302471512b4f8744e85a6a49",
+    "ruin_names.json": "b6f723aef2bafdd4c7bfc3c7e0329c7e8a8279391a609969c8ed76c9319f5f7f",
+    "salient_translation_error_detection.json": "becf3eb8dd53c821a555ecd5c1334ecd93eb25f980e63be963c518e7138de5da",
+    "snarks.json": "54a0661fe2de06167645a4965e6bcf963c4ba307e76262a7c750998b0e3d0d0e",
+    "sports_understanding.json": "63ca262858f6176864515cd8cf53cdaa40839ebecc155b726d77930855d167bf",
+    "temporal_sequences.json": "92a1189faaa84aacc4c405aaa13f13f48c2992eb884772eedb622505252baef5",
+    "tracking_shuffled_objects_five_objects.json": "2063a46a4fb484236ed4310523606543a3e1dd4a4dc34eda65d407910ece25a5",
+    "tracking_shuffled_objects_seven_objects.json": "b59fd05b850c37cf57cb514ae1e6975c00b1638ade2291722056b2af3c54084d",
+    "tracking_shuffled_objects_three_objects.json": "546cc7bf10c6a01a6a4c17ae28a4966485f21f29fd5d111f37858ec78e354f6b",
+    "web_of_lies.json": "3e60323f8514a107fdb4edf35f8832a9171c5a09c0eaa47823559de905e8ab8b",
+    "word_sorting.json": "2a6132d2c99f00d0d2eb1113ac6b4a918bd969d863c48749210d969713db8d43"
+  },
+  "split_manifest_sha256": "07152d8e9eeb087a5902471e5a279439627109c57bede7bf3b528897122eb12c",
+  "no_compute_run": "artifacts only: no model loaded, nothing evaluated"
+}

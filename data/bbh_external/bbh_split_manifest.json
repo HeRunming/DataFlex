@@ -40,6 +40,12 @@
       "tracking_shuffled_objects_seven_objects"
     ]
   },
+  "task_accounting": {
+    "primary": "27 lm-eval subtasks (one per local file), micro-aggregated with weight_by_size=true exactly as the pinned bbh_cot_fewshot group does",
+    "secondary": "23 conceptual BBH task families (logical_deduction and tracking_shuffled_objects each collapse 3 size-variants); regrouping is a DIAGNOSTIC only and is never the primary metric",
+    "n_lm_eval_subtasks_27": 27,
+    "n_conceptual_families_23": 23
+  },
   "n_examples_total": 6511,
   "master_seed": 20260809,
   "reservoir_frac": 0.2,
@@ -211,6 +217,29 @@
       "n_heldout": 200
     }
   },
+  "frozen_selection_seeds": {
+    "random_k_seed": "5000 + draw_id",
+    "rr_perm_seed": "6000 + draw_id",
+    "rr_seed_shared_by": [
+      "first_rr",
+      "second_rr"
+    ],
+    "per_draw": {
+      "0": {
+        "random_k_seed": 5000,
+        "rr_perm_seed": 6000
+      },
+      "1": {
+        "random_k_seed": 5001,
+        "rr_perm_seed": 6001
+      },
+      "2": {
+        "random_k_seed": 5002,
+        "rr_perm_seed": 6002
+      }
+    },
+    "invariant": "selection seeds depend on draw_id only, NOT on the SFT seed, so the 15 subsets (3 draws x 5 methods) are frozen and reused verbatim by both SFT seeds -> 30 adapters over 15 subsets"
+  },
   "draws": {
     "0": {
       "draw": 0,
@@ -218,7 +247,36 @@
       "file_sha256": "3a8b1b60ff158900d5a815cf92008bf03f9cf3795388c6ca9a00a9e43f9803a9",
       "ordered_ids_sha256": "fc302b12df3877fda462b72fdc7a6760c54beb3a29e1eac23da09fdc7a1ee85a",
       "unordered_ids_sha256": "89dadc8e018875248ef8eaf11f556cfdc108f6b6dc369334efba872f4b6c0c6e",
-      "official_task_composition": {
+      "subtask_composition_27": {
+        "navigate": 3,
+        "object_counting": 3,
+        "tracking_shuffled_objects_seven_objects": 2,
+        "web_of_lies": 2,
+        "salient_translation_error_detection": 3,
+        "sports_understanding": 5,
+        "tracking_shuffled_objects_three_objects": 4,
+        "logical_deduction_seven_objects": 6,
+        "movie_recommendation": 3,
+        "boolean_expressions": 2,
+        "temporal_sequences": 2,
+        "dyck_languages": 1,
+        "date_understanding": 5,
+        "tracking_shuffled_objects_five_objects": 1,
+        "disambiguation_qa": 4,
+        "penguins_in_a_table": 3,
+        "reasoning_about_colored_objects": 2,
+        "ruin_names": 2,
+        "geometric_shapes": 3,
+        "word_sorting": 1,
+        "snarks": 2,
+        "logical_deduction_three_objects": 1,
+        "multistep_arithmetic_two": 1,
+        "hyperbaton": 1,
+        "causal_judgement": 1,
+        "logical_deduction_five_objects": 1
+      },
+      "n_subtasks_covered_27": 26,
+      "conceptual_family_composition_23": {
         "navigate": 3,
         "object_counting": 3,
         "tracking_shuffled_objects": 7,
@@ -242,12 +300,19 @@
         "hyperbaton": 1,
         "causal_judgement": 1
       },
+      "n_families_covered_23": 22,
       "sampling": "independent sample without replacement from the fixed reservoir",
       "sft_seeds_to_run": [
         42,
         1
       ],
-      "note": "seeds are CROSSED with draws (each draw trained under both seeds)"
+      "random_k_seed": 5000,
+      "rr_perm_seed": 6000,
+      "rr_perm_seed_shared_by": [
+        "first_rr",
+        "second_rr"
+      ],
+      "note": "seeds are CROSSED with draws (each draw trained under both seeds); selection seeds depend on the draw only, so subsets are seed-invariant"
     },
     "1": {
       "draw": 1,
@@ -255,7 +320,34 @@
       "file_sha256": "aac2deb5abcd1168f7561ba9fc364f326dca89de610d2cfdc67988466864d3ce",
       "ordered_ids_sha256": "303b598919ec011399442e9977363120652dea21fb345c52a2c63b748d7ed6a8",
       "unordered_ids_sha256": "b714075e6b1d30a95338776db6e4d7e865786cc9c51d44e392f67ddd80e42570",
-      "official_task_composition": {
+      "subtask_composition_27": {
+        "formal_fallacies": 4,
+        "tracking_shuffled_objects_five_objects": 3,
+        "tracking_shuffled_objects_seven_objects": 5,
+        "navigate": 4,
+        "snarks": 3,
+        "web_of_lies": 7,
+        "geometric_shapes": 1,
+        "boolean_expressions": 1,
+        "word_sorting": 2,
+        "object_counting": 1,
+        "logical_deduction_three_objects": 3,
+        "movie_recommendation": 3,
+        "disambiguation_qa": 4,
+        "logical_deduction_five_objects": 3,
+        "hyperbaton": 3,
+        "dyck_languages": 2,
+        "date_understanding": 2,
+        "reasoning_about_colored_objects": 1,
+        "tracking_shuffled_objects_three_objects": 3,
+        "penguins_in_a_table": 1,
+        "sports_understanding": 2,
+        "causal_judgement": 1,
+        "logical_deduction_seven_objects": 4,
+        "multistep_arithmetic_two": 1
+      },
+      "n_subtasks_covered_27": 24,
+      "conceptual_family_composition_23": {
         "formal_fallacies": 4,
         "tracking_shuffled_objects": 11,
         "navigate": 4,
@@ -277,12 +369,19 @@
         "causal_judgement": 1,
         "multistep_arithmetic_two": 1
       },
+      "n_families_covered_23": 20,
       "sampling": "independent sample without replacement from the fixed reservoir",
       "sft_seeds_to_run": [
         42,
         1
       ],
-      "note": "seeds are CROSSED with draws (each draw trained under both seeds)"
+      "random_k_seed": 5001,
+      "rr_perm_seed": 6001,
+      "rr_perm_seed_shared_by": [
+        "first_rr",
+        "second_rr"
+      ],
+      "note": "seeds are CROSSED with draws (each draw trained under both seeds); selection seeds depend on the draw only, so subsets are seed-invariant"
     },
     "2": {
       "draw": 2,
@@ -290,7 +389,35 @@
       "file_sha256": "2c4b5b233b981feaf40a2aba891ff6ed890cea9edcf38ba19e68337ec442ef22",
       "ordered_ids_sha256": "29f349375bee87728a1723a0158f1f3df96ace7255c51a61a294191916d43ffc",
       "unordered_ids_sha256": "3a442e9610e6595688897b3cdf41f35d22ba743380248bf9d7d6dfbfe7dc19d6",
-      "official_task_composition": {
+      "subtask_composition_27": {
+        "salient_translation_error_detection": 2,
+        "logical_deduction_three_objects": 2,
+        "object_counting": 3,
+        "causal_judgement": 2,
+        "tracking_shuffled_objects_five_objects": 2,
+        "word_sorting": 4,
+        "sports_understanding": 1,
+        "logical_deduction_five_objects": 4,
+        "geometric_shapes": 3,
+        "dyck_languages": 4,
+        "snarks": 4,
+        "date_understanding": 6,
+        "reasoning_about_colored_objects": 4,
+        "tracking_shuffled_objects_three_objects": 3,
+        "temporal_sequences": 1,
+        "hyperbaton": 2,
+        "multistep_arithmetic_two": 3,
+        "navigate": 3,
+        "web_of_lies": 2,
+        "movie_recommendation": 2,
+        "boolean_expressions": 2,
+        "tracking_shuffled_objects_seven_objects": 1,
+        "disambiguation_qa": 1,
+        "penguins_in_a_table": 2,
+        "formal_fallacies": 1
+      },
+      "n_subtasks_covered_27": 25,
+      "conceptual_family_composition_23": {
         "salient_translation_error_detection": 2,
         "logical_deduction": 6,
         "object_counting": 3,
@@ -314,12 +441,19 @@
         "penguins_in_a_table": 2,
         "formal_fallacies": 1
       },
+      "n_families_covered_23": 22,
       "sampling": "independent sample without replacement from the fixed reservoir",
       "sft_seeds_to_run": [
         42,
         1
       ],
-      "note": "seeds are CROSSED with draws (each draw trained under both seeds)"
+      "random_k_seed": 5002,
+      "rr_perm_seed": 6002,
+      "rr_perm_seed_shared_by": [
+        "first_rr",
+        "second_rr"
+      ],
+      "note": "seeds are CROSSED with draws (each draw trained under both seeds); selection seeds depend on the draw only, so subsets are seed-invariant"
     }
   },
   "pairwise_overlap": {

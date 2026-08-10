@@ -4,7 +4,36 @@
   "file_sha256": "3a8b1b60ff158900d5a815cf92008bf03f9cf3795388c6ca9a00a9e43f9803a9",
   "ordered_ids_sha256": "fc302b12df3877fda462b72fdc7a6760c54beb3a29e1eac23da09fdc7a1ee85a",
   "unordered_ids_sha256": "89dadc8e018875248ef8eaf11f556cfdc108f6b6dc369334efba872f4b6c0c6e",
-  "official_task_composition": {
+  "subtask_composition_27": {
+    "navigate": 3,
+    "object_counting": 3,
+    "tracking_shuffled_objects_seven_objects": 2,
+    "web_of_lies": 2,
+    "salient_translation_error_detection": 3,
+    "sports_understanding": 5,
+    "tracking_shuffled_objects_three_objects": 4,
+    "logical_deduction_seven_objects": 6,
+    "movie_recommendation": 3,
+    "boolean_expressions": 2,
+    "temporal_sequences": 2,
+    "dyck_languages": 1,
+    "date_understanding": 5,
+    "tracking_shuffled_objects_five_objects": 1,
+    "disambiguation_qa": 4,
+    "penguins_in_a_table": 3,
+    "reasoning_about_colored_objects": 2,
+    "ruin_names": 2,
+    "geometric_shapes": 3,
+    "word_sorting": 1,
+    "snarks": 2,
+    "logical_deduction_three_objects": 1,
+    "multistep_arithmetic_two": 1,
+    "hyperbaton": 1,
+    "causal_judgement": 1,
+    "logical_deduction_five_objects": 1
+  },
+  "n_subtasks_covered_27": 26,
+  "conceptual_family_composition_23": {
     "navigate": 3,
     "object_counting": 3,
     "tracking_shuffled_objects": 7,
@@ -28,10 +57,17 @@
     "hyperbaton": 1,
     "causal_judgement": 1
   },
+  "n_families_covered_23": 22,
   "sampling": "independent sample without replacement from the fixed reservoir",
   "sft_seeds_to_run": [
     42,
     1
   ],
-  "note": "seeds are CROSSED with draws (each draw trained under both seeds)"
+  "random_k_seed": 5000,
+  "rr_perm_seed": 6000,
+  "rr_perm_seed_shared_by": [
+    "first_rr",
+    "second_rr"
+  ],
+  "note": "seeds are CROSSED with draws (each draw trained under both seeds); selection seeds depend on the draw only, so subsets are seed-invariant"
 }

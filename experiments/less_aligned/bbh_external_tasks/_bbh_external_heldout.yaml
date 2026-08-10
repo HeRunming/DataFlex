@@ -1,0 +1,38 @@
+group: bbh_external_heldout
+task:
+- bbh_external_heldout_boolean_expressions
+- bbh_external_heldout_causal_judgement
+- bbh_external_heldout_date_understanding
+- bbh_external_heldout_disambiguation_qa
+- bbh_external_heldout_dyck_languages
+- bbh_external_heldout_formal_fallacies
+- bbh_external_heldout_geometric_shapes
+- bbh_external_heldout_hyperbaton
+- bbh_external_heldout_logical_deduction_five_objects
+- bbh_external_heldout_logical_deduction_seven_objects
+- bbh_external_heldout_logical_deduction_three_objects
+- bbh_external_heldout_movie_recommendation
+- bbh_external_heldout_multistep_arithmetic_two
+- bbh_external_heldout_navigate
+- bbh_external_heldout_object_counting
+- bbh_external_heldout_penguins_in_a_table
+- bbh_external_heldout_reasoning_about_colored_objects
+- bbh_external_heldout_ruin_names
+- bbh_external_heldout_salient_translation_error_detection
+- bbh_external_heldout_snarks
+- bbh_external_heldout_sports_understanding
+- bbh_external_heldout_temporal_sequences
+- bbh_external_heldout_tracking_shuffled_objects_five_objects
+- bbh_external_heldout_tracking_shuffled_objects_seven_objects
+- bbh_external_heldout_tracking_shuffled_objects_three_objects
+- bbh_external_heldout_web_of_lies
+- bbh_external_heldout_word_sorting
+aggregate_metric_list:
+- metric: exact_match
+  aggregation: mean
+  weight_by_size: true
+  filter_list: get-answer
+metadata:
+  version: 1.0
+  derived_from: lm_eval bbh_cot_fewshot (pinned; see bbh_eval_pin_manifest.json)
+  difference: dataset source only -> local held-out split

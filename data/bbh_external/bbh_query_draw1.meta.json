@@ -4,7 +4,34 @@
   "file_sha256": "aac2deb5abcd1168f7561ba9fc364f326dca89de610d2cfdc67988466864d3ce",
   "ordered_ids_sha256": "303b598919ec011399442e9977363120652dea21fb345c52a2c63b748d7ed6a8",
   "unordered_ids_sha256": "b714075e6b1d30a95338776db6e4d7e865786cc9c51d44e392f67ddd80e42570",
-  "official_task_composition": {
+  "subtask_composition_27": {
+    "formal_fallacies": 4,
+    "tracking_shuffled_objects_five_objects": 3,
+    "tracking_shuffled_objects_seven_objects": 5,
+    "navigate": 4,
+    "snarks": 3,
+    "web_of_lies": 7,
+    "geometric_shapes": 1,
+    "boolean_expressions": 1,
+    "word_sorting": 2,
+    "object_counting": 1,
+    "logical_deduction_three_objects": 3,
+    "movie_recommendation": 3,
+    "disambiguation_qa": 4,
+    "logical_deduction_five_objects": 3,
+    "hyperbaton": 3,
+    "dyck_languages": 2,
+    "date_understanding": 2,
+    "reasoning_about_colored_objects": 1,
+    "tracking_shuffled_objects_three_objects": 3,
+    "penguins_in_a_table": 1,
+    "sports_understanding": 2,
+    "causal_judgement": 1,
+    "logical_deduction_seven_objects": 4,
+    "multistep_arithmetic_two": 1
+  },
+  "n_subtasks_covered_27": 24,
+  "conceptual_family_composition_23": {
     "formal_fallacies": 4,
     "tracking_shuffled_objects": 11,
     "navigate": 4,
@@ -26,10 +53,17 @@
     "causal_judgement": 1,
     "multistep_arithmetic_two": 1
   },
+  "n_families_covered_23": 20,
   "sampling": "independent sample without replacement from the fixed reservoir",
   "sft_seeds_to_run": [
     42,
     1
   ],
-  "note": "seeds are CROSSED with draws (each draw trained under both seeds)"
+  "random_k_seed": 5001,
+  "rr_perm_seed": 6001,
+  "rr_perm_seed_shared_by": [
+    "first_rr",
+    "second_rr"
+  ],
+  "note": "seeds are CROSSED with draws (each draw trained under both seeds); selection seeds depend on the draw only, so subsets are seed-invariant"
 }

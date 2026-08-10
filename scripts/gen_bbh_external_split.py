@@ -3,16 +3,20 @@
 
 Implements the frozen design in `experiments/less_aligned/prereg_bbh_external.md` (code_review_0809):
 
-  * official 23-task BBH suite. The local layout ships 27 files because `logical_deduction` and
-    `tracking_shuffled_objects` each appear as three size-variants; we keep all 27 files but record the
-    23-task grouping so no ad-hoc benchmark is invented.
+  * the official BBH suite. The local layout ships 27 files because `logical_deduction` and
+    `tracking_shuffled_objects` each appear as three size-variants. The 27 files ARE the 27 lm-eval
+    subtasks that the pinned `bbh_cot_fewshot` group micro-aggregates (`weight_by_size: true`), so 27 is
+    the PRIMARY unit of reporting; the 23 conceptual families are recorded as a secondary regrouping.
   * ONE deterministic, per-task-stratified split: 20% -> query reservoir, 80% -> held-out evaluation.
-    Query and evaluation are therefore exactly disjoint.
+    Query and evaluation are therefore exactly disjoint. Stratification is per FILE task (all 27), which
+    is what keeps the split aligned with the micro metric.
   * THREE query draws of M=64 sampled INDEPENDENTLY from the fixed reservoir (without replacement
     within a draw; overlap ACROSS draws is allowed and reported — we do not force global disjointness,
     which would induce negative correlation as it did in the MMLU design).
   * every draw is later trained under BOTH SFT seeds {42, 1} (fully crossed), so query-realization
-    variance and seed variance are no longer confounded. Seeds are not attached to draws here.
+    variance and seed variance are no longer confounded. Selection randomness (Random-K seed, RR query
+    permutation seed) is frozen here as a function of the draw ONLY, so each draw's subsets are
+    identical under both SFT seeds and training stochasticity is the sole remaining axis.
 
 Writes: bbh_split_manifest.json, bbh_eval_heldout.jsonl, bbh_query_reservoir.jsonl,
         bbh_query_draw{0,1,2}.jsonl (+ .meta.json), bbh_draw_overlap.csv
@@ -31,6 +35,12 @@ TASK_GROUPS = {
                                   "tracking_shuffled_objects_five_objects",
                                   "tracking_shuffled_objects_seven_objects"],
 }
+
+# Frozen selection randomness (choice_0809 item 4). Both are functions of the DRAW ONLY — never of the
+# SFT seed — so that a draw's selected subset is bit-identical under both SFT seeds and the crossed
+# design stays (query realization) x (training stochasticity) without a third hidden random axis.
+RANDOM_SEED_BASE = 5000      # Random-K selection seed  = 5000 + draw_id
+RR_PERM_SEED_BASE = 6000     # RR query visitation seed = 6000 + draw_id, SHARED by First-RR/Second-RR
 
 
 def sha_str(s):
@@ -115,19 +125,34 @@ def main():
     for d, rows in draws.items():
         p = f"{OUT}/bbh_query_draw{d}.jsonl"
         hh = write_jsonl(p, rows)
-        comp = {}
+        # BOTH accountings are recorded (choice_0809 item 1): the 27 lm-eval subtasks are PRIMARY,
+        # because the pinned `bbh_cot_fewshot` group micro-aggregates exactly those 27 with
+        # weight_by_size=true; the 23 conceptual families are a SECONDARY regrouping only.
+        comp27, comp23 = {}, {}
         for x in rows:
-            comp[x["official_task"]] = comp.get(x["official_task"], 0) + 1
+            comp27[x["file_task"]] = comp27.get(x["file_task"], 0) + 1
+            comp23[x["official_task"]] = comp23.get(x["official_task"], 0) + 1
         meta = {"draw": d, "n": len(rows), "file_sha256": hh,
                 "ordered_ids_sha256": sha_str(json.dumps([x["id"] for x in rows])),
                 "unordered_ids_sha256": sha_str(json.dumps(sorted(x["id"] for x in rows))),
-                "official_task_composition": comp,
+                "subtask_composition_27": comp27,
+                "n_subtasks_covered_27": len(comp27),
+                "conceptual_family_composition_23": comp23,
+                "n_families_covered_23": len(comp23),
                 "sampling": "independent sample without replacement from the fixed reservoir",
                 "sft_seeds_to_run": [42, 1],
-                "note": "seeds are CROSSED with draws (each draw trained under both seeds)"}
+                # frozen selection randomness (choice_0809 item 4) — these are a function of the draw
+                # ONLY, never of the SFT seed, so each draw's 5 subsets are identical across seeds.
+                "random_k_seed": RANDOM_SEED_BASE + d,
+                "rr_perm_seed": RR_PERM_SEED_BASE + d,
+                "rr_perm_seed_shared_by": ["first_rr", "second_rr"],
+                "note": "seeds are CROSSED with draws (each draw trained under both seeds); "
+                        "selection seeds depend on the draw only, so subsets are seed-invariant"}
         json.dump(meta, open(f"{OUT}/bbh_query_draw{d}.meta.json", "w"), indent=2)
         draw_meta[d] = meta
-        print(f"[bbh] draw{d}: {len(rows)} queries over {len(comp)} official tasks  sha={hh[:10]}")
+        print(f"[bbh] draw{d}: {len(rows)} queries over {len(comp27)} lm-eval subtasks "
+              f"/ {len(comp23)} conceptual families  sha={hh[:10]}  "
+              f"random_k_seed={meta['random_k_seed']} rr_perm_seed={meta['rr_perm_seed']}")
 
     # ---- pairwise overlap (expected small, NOT forced to zero) ----
     ids = {d: set(x["id"] for x in rows) for d, rows in draws.items()}
@@ -143,11 +168,28 @@ def main():
     man = {"family": "BBH", "source_dir": BBH_DIR,
            "n_local_files": len(files), "n_official_tasks": len(official),
            "official_tasks": official, "task_groups_note": TASK_GROUPS,
+           "task_accounting": {
+               "primary": "27 lm-eval subtasks (one per local file), micro-aggregated with "
+                          "weight_by_size=true exactly as the pinned bbh_cot_fewshot group does",
+               "secondary": "23 conceptual BBH task families (logical_deduction and "
+                            "tracking_shuffled_objects each collapse 3 size-variants); regrouping is a "
+                            "DIAGNOSTIC only and is never the primary metric",
+               "n_lm_eval_subtasks_27": len(per_file),
+               "n_conceptual_families_23": len(official)},
            "n_examples_total": total,
            "master_seed": args.master_seed, "reservoir_frac": args.reservoir_frac,
            "n_reservoir": len(reservoir), "n_heldout": len(heldout),
            "reservoir_sha256": h_res, "heldout_eval_sha256": h_eval,
            "per_task_split": split_table,
+           "frozen_selection_seeds": {
+               "random_k_seed": f"{RANDOM_SEED_BASE} + draw_id",
+               "rr_perm_seed": f"{RR_PERM_SEED_BASE} + draw_id",
+               "rr_seed_shared_by": ["first_rr", "second_rr"],
+               "per_draw": {str(d): {"random_k_seed": RANDOM_SEED_BASE + d,
+                                     "rr_perm_seed": RR_PERM_SEED_BASE + d} for d in draws},
+               "invariant": "selection seeds depend on draw_id only, NOT on the SFT seed, so the 15 "
+                            "subsets (3 draws x 5 methods) are frozen and reused verbatim by both SFT "
+                            "seeds -> 30 adapters over 15 subsets"},
            "draws": {str(d): draw_meta[d] for d in draw_meta},
            "pairwise_overlap": {f"draw{a}-draw{b}": n for a, b, n in off},
            "expected_pairwise_overlap": exp,

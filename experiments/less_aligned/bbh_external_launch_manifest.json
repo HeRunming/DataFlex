@@ -1,0 +1,445 @@
+{
+  "experiment": "bbh_external_validation",
+  "purpose": "test whether the MMLU finding (DSMC beats targeted selectors, ties/loses to Random) is an MMLU-family artifact, on a different benchmark family",
+  "status": "PRE-COMPUTE CHECKPOINT \u2014 artifacts + gates only. NO gradients, NO selection, NO SFT.",
+  "prereg": "experiments/less_aligned/prereg_bbh_external.md",
+  "run_plan": "experiments/less_aligned/bbh_external_run_plan.json",
+  "launch_commit_pending": "see launch_commit after this commit",
+  "commit_at_emit": "c2d16a5cde1620162afcc7c4c8af407f94d63ad0",
+  "design": {
+    "draws": [
+      0,
+      1,
+      2
+    ],
+    "methods": [
+      "dsmc",
+      "second_rr",
+      "first_rr",
+      "less",
+      "randk"
+    ],
+    "sft_seeds": [
+      42,
+      1
+    ],
+    "n_frozen_subsets": 15,
+    "n_adapters": 30,
+    "shared_no_sft_reference": 1,
+    "crossed": "seeds fully CROSSED with draws: 3 draws x 2 seeds, every draw under both seeds",
+    "budget": 2707,
+    "epochs": 4,
+    "optimizer_steps_per_adapter": 84,
+    "effective_batch": 128,
+    "model": "Llama-2-7B + LoRA r128/alpha512/dropout0.05 on q,k,v,o; lr 2e-5 linear, warmup_ratio 0.03, bf16, cutoff 2048",
+    "warmup_checkpoint": "warmup_seed42/checkpoint-1692 (hash-pinned)",
+    "candidate_pool": "Tulu 270,679 (unchanged, so only the target/eval axis moves)"
+  },
+  "frozen_selection_seeds": {
+    "random_k_seed": "5000 + draw_id",
+    "rr_perm_seed": "6000 + draw_id",
+    "rr_seed_shared_by": [
+      "first_rr",
+      "second_rr"
+    ],
+    "per_draw": {
+      "0": {
+        "random_k_seed": 5000,
+        "rr_perm_seed": 6000
+      },
+      "1": {
+        "random_k_seed": 5001,
+        "rr_perm_seed": 6001
+      },
+      "2": {
+        "random_k_seed": 5002,
+        "rr_perm_seed": 6002
+      }
+    },
+    "INVARIANT": "selection seeds are functions of draw_id ONLY, never of the SFT seed. The 15 subsets are therefore reused bit-identically by both SFT seeds, so the design is exactly (query realization) x (training stochasticity) with no third hidden random axis. To be re-verified by subset hash after selection."
+  },
+  "task_accounting": {
+    "primary": "27 lm-eval subtasks, micro-aggregated (weight_by_size=true) exactly as the pinned bbh_cot_fewshot group does",
+    "secondary_diagnostic_only": "23 conceptual BBH task families",
+    "n_subtasks": 27,
+    "n_families": 23
+  },
+  "evaluation": {
+    "lm_eval_version": "0.4.5",
+    "custom_group": "bbh_external_heldout",
+    "include_path": "experiments/less_aligned/bbh_external_tasks",
+    "n_heldout_examples": 5209,
+    "only_difference_vs_stock": "dataset source (audited byte-for-byte: gate A)",
+    "num_fewshot": 3
+  },
+  "prompt_alignment": {
+    "claim": "prompt-context alignment, NOT reasoning-trace alignment",
+    "aligned": [
+      "task description",
+      "3 hard-coded CoT few-shot exemplars",
+      "Q:/A: delimiters",
+      "trailing \"A: Let's think step by step.\" cue"
+    ],
+    "not_aligned": [
+      "supervised continuation: BBH provides only a final answer per item, so the loss supervises the bare final target while evaluation scores a generated rationale ending in \"So the answer is X\""
+    ],
+    "renderer": "lm_eval Task.fewshot_context() on the pinned custom held-out task configs"
+  },
+  "gates": {
+    "parity_all_gates_pass": true,
+    "parity_gate_a_27_subtasks": true,
+    "parity_gate_b_query_prompts": {
+      "pass": true,
+      "n_prompts": 192,
+      "subtasks_covered": 27,
+      "n_distinct_examples": 185
+    },
+    "parity_gate_c_heldout_rows": {
+      "pass": true,
+      "n_examples": 5209
+    },
+    "contamination_strong_J0.5": 0,
+    "contamination_weak_J0.3": 0,
+    "contamination_lsh_recall": {
+      "P_detect_0.3": 0.9510982327503508,
+      "P_detect_0.5": 0.9998995475742793
+    },
+    "query_eval_disjoint": true,
+    "custom_suite_hash_drift": null
+  },
+  "GO_FOR_SELECTION_CANARY": true,
+  "blockers": null,
+  "next_gate": "selection-only canary: no-SFT held-out evaluation + draw0 target-gradient extraction + all 5 selectors to K=2707, verifying target cache, selection sizes, hashes, determinism, RR order, Random seed, Jaccard/source/token diagnostics. NO training. Only after that: the 30-adapter run.",
+  "analysis_prereg": {
+    "primary": "pinned micro group metric on the 5,209-example held-out split",
+    "paired": "DSMC - method within each (draw, seed) cell => 6 paired observations",
+    "summaries": [
+      "per-cell values",
+      "mean",
+      "median",
+      "win counts out of 6",
+      "query-draw spread (average over seeds within each draw)",
+      "seed sensitivity (average over draws within each seed)",
+      "optional descriptive two-way draw x seed table"
+    ],
+    "explicitly_not_done": [
+      "variance-component inference",
+      "p-value thresholds",
+      "significance claims",
+      "any custom aggregate metric",
+      "LR/LoRA/epoch/budget sweeps",
+      "source-balanced DSMC variant"
+    ],
+    "d2_reference": "D2(S, Q_d) primary; optionally D2(S, P_heldout) where P_heldout is the 5,209 held-out examples under lm-eval micro weighting. No 'balanced BBH reference' is invented.",
+    "reporting": "both outcomes informative; reported as a held-out BBH external-validation split, never as an official full-BBH leaderboard score"
+  },
+  "pinned_artifacts": {
+    "data/bbh_external/bbh_eval_heldout.jsonl": {
+      "sha256": "0222e66b4bd6bb46005a8fb843cb15f1b2ef3f8784e1e28a1c18024800ce4647",
+      "why": "the 5,209 held-out evaluation examples"
+    },
+    "data/bbh_external/bbh_query_reservoir.jsonl": {
+      "sha256": "3d3c549ddd1bb72537fdbd34d50843ec0ec64e65d344116266629680750f7aee",
+      "why": "the 1,302 query reservoir (disjoint from eval)"
+    },
+    "data/bbh_external/bbh_split_manifest.json": {
+      "sha256": "07152d8e9eeb087a5902471e5a279439627109c57bede7bf3b528897122eb12c",
+      "why": "20/80 split + 3 draws + frozen selection seeds"
+    },
+    "experiments/less_aligned/bbh_eval_pin_manifest.json": {
+      "sha256": "eda8d8e2039fe0240d7ab49bd31968b6e443321a13e9874c584b877530fd6715",
+      "why": "frozen custom held-out suite (27 subtask configs)"
+    },
+    "experiments/less_aligned/bbh_external_tasks/_bbh_external_heldout.yaml": {
+      "sha256": "02044a4e38e163bb69abd24e0d5f6d4effa306aa84e4b95b5904d8c90b832db2",
+      "why": "custom group config (micro aggregation)"
+    },
+    "experiments/less_aligned/bbh_lmeval_pin.json": {
+      "sha256": "b5c86e4ac8dff084572476e91edde561db57834ca8517c254688be007ad0b1e1",
+      "why": "installed lm-eval version + all upstream YAML/data hashes"
+    },
+    "experiments/less_aligned/bbh_prompt_parity_audit.json": {
+      "sha256": "d9d85e550bb62995fd661e3b9f5ea2a9a99ad3bb76a028562618c78527fd6976",
+      "why": "27-subtask byte-for-byte parity gates A/B/C"
+    },
+    "experiments/less_aligned/bbh_query_prompt_manifest.json": {
+      "sha256": "39ad9a41b12cbc3e55e29589510b9960abb8930a0f437081ea9d50cf720f75e5",
+      "why": "query prompts rendered from lm-eval fewshot_context()"
+    },
+    "experiments/less_aligned/results_summary/contamination_global_lexical_bbh_heldout.json": {
+      "sha256": "57bb8caee2523ba2d21982ace138ce3f75e19eb6c289364305df42ceb7972330",
+      "why": "high-recall pool-wide lexical screen vs the held-out split"
+    },
+    "subtask_config:boolean_expressions": {
+      "sha256": "70069c8153f1659f548421daed1e773f7ed2a36dc335c2138d9fc986fa4c9ee6",
+      "expected_in_pin_manifest": "70069c8153f1659f548421daed1e773f7ed2a36dc335c2138d9fc986fa4c9ee6",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:boolean_expressions": {
+      "sha256": "01aacad8e7a6046c1a2faac8a9385dbb1dff7d91620f13e755d2e3ec75bddfa3",
+      "expected_in_pin_manifest": "01aacad8e7a6046c1a2faac8a9385dbb1dff7d91620f13e755d2e3ec75bddfa3",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:causal_judgement": {
+      "sha256": "ed95b17f1425bc397fda157940cfa70ee0e6274737a8980c8da69b9d2a608a58",
+      "expected_in_pin_manifest": "ed95b17f1425bc397fda157940cfa70ee0e6274737a8980c8da69b9d2a608a58",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:causal_judgement": {
+      "sha256": "3986677a4bdc4cf8d00b34e27b71947e640fb480db1ecc38bfde94c918c52c4a",
+      "expected_in_pin_manifest": "3986677a4bdc4cf8d00b34e27b71947e640fb480db1ecc38bfde94c918c52c4a",
+      "why": "the 150 held-out examples for this subtask"
+    },
+    "subtask_config:date_understanding": {
+      "sha256": "d18e092aea76cf1b2a1d90e98630750f2c7e0fe6f1e6df2762f764ef3c43eed0",
+      "expected_in_pin_manifest": "d18e092aea76cf1b2a1d90e98630750f2c7e0fe6f1e6df2762f764ef3c43eed0",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:date_understanding": {
+      "sha256": "428bc6062c506b04ebdc49100eefa70fe3de21c726d0d8a3c55fab5e45c2dd05",
+      "expected_in_pin_manifest": "428bc6062c506b04ebdc49100eefa70fe3de21c726d0d8a3c55fab5e45c2dd05",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:disambiguation_qa": {
+      "sha256": "dc423171b4772a8c37cbe8c70bce0bd4124eeb8155d50a3a32dd143efb48d5de",
+      "expected_in_pin_manifest": "dc423171b4772a8c37cbe8c70bce0bd4124eeb8155d50a3a32dd143efb48d5de",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:disambiguation_qa": {
+      "sha256": "8e94580e2537b59ba3803e154f0de779668ce028a6d03df7a0af70ee3c0d6507",
+      "expected_in_pin_manifest": "8e94580e2537b59ba3803e154f0de779668ce028a6d03df7a0af70ee3c0d6507",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:dyck_languages": {
+      "sha256": "0d049c6e2316c820361fc110907b701426a1acce310289fcf68f23729f74566a",
+      "expected_in_pin_manifest": "0d049c6e2316c820361fc110907b701426a1acce310289fcf68f23729f74566a",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:dyck_languages": {
+      "sha256": "7192b43a48d60232af358fdc90a0358676510ef8a1ab0b817a1c5354381f0eb0",
+      "expected_in_pin_manifest": "7192b43a48d60232af358fdc90a0358676510ef8a1ab0b817a1c5354381f0eb0",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:formal_fallacies": {
+      "sha256": "27ece10d94988d41feb7c9b66814f84aa6d8c283e3c072bf6e11c8220fbbdfc6",
+      "expected_in_pin_manifest": "27ece10d94988d41feb7c9b66814f84aa6d8c283e3c072bf6e11c8220fbbdfc6",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:formal_fallacies": {
+      "sha256": "469713861797b15d07ca157a6667618a3f6ab65f242c6f5f13138ff482baa33c",
+      "expected_in_pin_manifest": "469713861797b15d07ca157a6667618a3f6ab65f242c6f5f13138ff482baa33c",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:geometric_shapes": {
+      "sha256": "b9036b160df31546c43931ea76a933768dd9f28b48bd65277364c9dae7a5b8a6",
+      "expected_in_pin_manifest": "b9036b160df31546c43931ea76a933768dd9f28b48bd65277364c9dae7a5b8a6",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:geometric_shapes": {
+      "sha256": "2f8b00af0c51b1266925133021f313033d04409b68929869ea0ae7b557c0d835",
+      "expected_in_pin_manifest": "2f8b00af0c51b1266925133021f313033d04409b68929869ea0ae7b557c0d835",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:hyperbaton": {
+      "sha256": "d8a82fdf4b426ecd670e471db9e179b945267e6bfefc110842486843d6c5c71a",
+      "expected_in_pin_manifest": "d8a82fdf4b426ecd670e471db9e179b945267e6bfefc110842486843d6c5c71a",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:hyperbaton": {
+      "sha256": "bbcea26a1b6e7b9da212a4ce04c900a82c7a993c45db750b7bdea35d1dc10335",
+      "expected_in_pin_manifest": "bbcea26a1b6e7b9da212a4ce04c900a82c7a993c45db750b7bdea35d1dc10335",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:logical_deduction_five_objects": {
+      "sha256": "36cfde44d7265ad20640d047b0a9d9d5a5a009a682686bbf79735a2f72f82197",
+      "expected_in_pin_manifest": "36cfde44d7265ad20640d047b0a9d9d5a5a009a682686bbf79735a2f72f82197",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:logical_deduction_five_objects": {
+      "sha256": "0209e698f75d79796a45662e2fbbdd0886953a125c954cdecd05f80ae5a0df03",
+      "expected_in_pin_manifest": "0209e698f75d79796a45662e2fbbdd0886953a125c954cdecd05f80ae5a0df03",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:logical_deduction_seven_objects": {
+      "sha256": "180c4cd7664a907d7c40340e299dd2e3777575fc18f3addb138ec7cf677203ec",
+      "expected_in_pin_manifest": "180c4cd7664a907d7c40340e299dd2e3777575fc18f3addb138ec7cf677203ec",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:logical_deduction_seven_objects": {
+      "sha256": "894e7218e93fded0fb394dc109fbea1e6bfb11571c2da7c2010299fd747bcf1b",
+      "expected_in_pin_manifest": "894e7218e93fded0fb394dc109fbea1e6bfb11571c2da7c2010299fd747bcf1b",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:logical_deduction_three_objects": {
+      "sha256": "dea004c2a9de729be3a5daab5adfcf92857ac125591fcf9be60efbe98e0760b8",
+      "expected_in_pin_manifest": "dea004c2a9de729be3a5daab5adfcf92857ac125591fcf9be60efbe98e0760b8",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:logical_deduction_three_objects": {
+      "sha256": "d0a0a3a4e989d505887ce95772be3b6bd8cdc54497f296f1e31cba62b6c815dc",
+      "expected_in_pin_manifest": "d0a0a3a4e989d505887ce95772be3b6bd8cdc54497f296f1e31cba62b6c815dc",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:movie_recommendation": {
+      "sha256": "3d27ebae29b09ae0bb0834f9c09308346d554e198479173cef6ed000beecfe56",
+      "expected_in_pin_manifest": "3d27ebae29b09ae0bb0834f9c09308346d554e198479173cef6ed000beecfe56",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:movie_recommendation": {
+      "sha256": "1d6f73b438413bd3600b953a2b79b7954ce99bea958d6a47d0622e5cdfd2b458",
+      "expected_in_pin_manifest": "1d6f73b438413bd3600b953a2b79b7954ce99bea958d6a47d0622e5cdfd2b458",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:multistep_arithmetic_two": {
+      "sha256": "4a43bf7f5da61ac872955c906704ee26655fb665b914fe423df5a9d8210d7179",
+      "expected_in_pin_manifest": "4a43bf7f5da61ac872955c906704ee26655fb665b914fe423df5a9d8210d7179",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:multistep_arithmetic_two": {
+      "sha256": "35115ecff1d2b73124cf4bb70838dbc9c4b1212d337e8361f62e9edd3bfbb9ef",
+      "expected_in_pin_manifest": "35115ecff1d2b73124cf4bb70838dbc9c4b1212d337e8361f62e9edd3bfbb9ef",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:navigate": {
+      "sha256": "2837217e01e67d5ca1861b66d6a817452db6e95b52eeee77c1b162919b4bd6d7",
+      "expected_in_pin_manifest": "2837217e01e67d5ca1861b66d6a817452db6e95b52eeee77c1b162919b4bd6d7",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:navigate": {
+      "sha256": "6ae65b5275e521674edd7ede2d44ed90398380aab86b18560c80bb00c180e983",
+      "expected_in_pin_manifest": "6ae65b5275e521674edd7ede2d44ed90398380aab86b18560c80bb00c180e983",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:object_counting": {
+      "sha256": "8912e8fbc5a73ce1d68e1baeb8acc12ea950548a5bbf08feb06f70e1646c017f",
+      "expected_in_pin_manifest": "8912e8fbc5a73ce1d68e1baeb8acc12ea950548a5bbf08feb06f70e1646c017f",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:object_counting": {
+      "sha256": "cce3b89576219cd779eaf714bc1bcd97b18cfa9f90fd7bed20ff1102d2c7b4a3",
+      "expected_in_pin_manifest": "cce3b89576219cd779eaf714bc1bcd97b18cfa9f90fd7bed20ff1102d2c7b4a3",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:penguins_in_a_table": {
+      "sha256": "5dd1328abc4a7b8a1ed05e84dbe841e7af76f9361f4cf7ae7dc07b0e0b8d2ff0",
+      "expected_in_pin_manifest": "5dd1328abc4a7b8a1ed05e84dbe841e7af76f9361f4cf7ae7dc07b0e0b8d2ff0",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:penguins_in_a_table": {
+      "sha256": "c442b87117f853b898b2eb676f223b00048e3cbb392f0dcfce53b0c2359d2966",
+      "expected_in_pin_manifest": "c442b87117f853b898b2eb676f223b00048e3cbb392f0dcfce53b0c2359d2966",
+      "why": "the 117 held-out examples for this subtask"
+    },
+    "subtask_config:reasoning_about_colored_objects": {
+      "sha256": "9208e076923daa3602df6df5b3767919ca0ceb1224a28e8da6d44f090d8ca4ef",
+      "expected_in_pin_manifest": "9208e076923daa3602df6df5b3767919ca0ceb1224a28e8da6d44f090d8ca4ef",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:reasoning_about_colored_objects": {
+      "sha256": "173460d0388e78a968f044383fd83ca0d850b84845dcfae82573c55ff48ec968",
+      "expected_in_pin_manifest": "173460d0388e78a968f044383fd83ca0d850b84845dcfae82573c55ff48ec968",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:ruin_names": {
+      "sha256": "bacf153585b205334c7631176acfc0e4da86db32e3931ca7fb2289fa015771ed",
+      "expected_in_pin_manifest": "bacf153585b205334c7631176acfc0e4da86db32e3931ca7fb2289fa015771ed",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:ruin_names": {
+      "sha256": "7a294cac72e4590c4a47ca8b6e25b146d76e58c457d580f66552c78c0f003fe7",
+      "expected_in_pin_manifest": "7a294cac72e4590c4a47ca8b6e25b146d76e58c457d580f66552c78c0f003fe7",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:salient_translation_error_detection": {
+      "sha256": "bc47424065bae1d143856a78e74fa47e02f6a1baf084b81a8c1a4aa2f8fce54b",
+      "expected_in_pin_manifest": "bc47424065bae1d143856a78e74fa47e02f6a1baf084b81a8c1a4aa2f8fce54b",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:salient_translation_error_detection": {
+      "sha256": "fd7ffeb3ce7418f1c26cf869fca44361573f4bf2525b2f806937282589f1c0e4",
+      "expected_in_pin_manifest": "fd7ffeb3ce7418f1c26cf869fca44361573f4bf2525b2f806937282589f1c0e4",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:snarks": {
+      "sha256": "a46312e17b7b5d4820f617e104f57e6853cce5267eebef2c04b9cc1d49701619",
+      "expected_in_pin_manifest": "a46312e17b7b5d4820f617e104f57e6853cce5267eebef2c04b9cc1d49701619",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:snarks": {
+      "sha256": "ba0927e56a05005c9c6f2b54c0c3339961c534ac67fc5787d9a6bc158e504424",
+      "expected_in_pin_manifest": "ba0927e56a05005c9c6f2b54c0c3339961c534ac67fc5787d9a6bc158e504424",
+      "why": "the 142 held-out examples for this subtask"
+    },
+    "subtask_config:sports_understanding": {
+      "sha256": "c9a2b68dc82037176ae5656b0ec1a7f1399ca91861588dc72bbe215c67bcf007",
+      "expected_in_pin_manifest": "c9a2b68dc82037176ae5656b0ec1a7f1399ca91861588dc72bbe215c67bcf007",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:sports_understanding": {
+      "sha256": "7ea8e4d8790b1d8eb229d4a8dd87ff0608969d8c1811d1503630dbe968e4302f",
+      "expected_in_pin_manifest": "7ea8e4d8790b1d8eb229d4a8dd87ff0608969d8c1811d1503630dbe968e4302f",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:temporal_sequences": {
+      "sha256": "73eda2c9d15e0a3317943e741f87c421df574841368312b4c75413753098787c",
+      "expected_in_pin_manifest": "73eda2c9d15e0a3317943e741f87c421df574841368312b4c75413753098787c",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:temporal_sequences": {
+      "sha256": "9f9bc9a7a7ee5a7bc3d5d8b98c2d819ff243b887f91253d1be396f5e2e4ebcca",
+      "expected_in_pin_manifest": "9f9bc9a7a7ee5a7bc3d5d8b98c2d819ff243b887f91253d1be396f5e2e4ebcca",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:tracking_shuffled_objects_five_objects": {
+      "sha256": "f768a08afe49d0ce02badf07c50bdc96c7c2db78e0f866970b5d734cb0b11c4d",
+      "expected_in_pin_manifest": "f768a08afe49d0ce02badf07c50bdc96c7c2db78e0f866970b5d734cb0b11c4d",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:tracking_shuffled_objects_five_objects": {
+      "sha256": "b4a346a2c577e68aa52d0917bdb549d716c84a40e94fb02890790ab98ff8d383",
+      "expected_in_pin_manifest": "b4a346a2c577e68aa52d0917bdb549d716c84a40e94fb02890790ab98ff8d383",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:tracking_shuffled_objects_seven_objects": {
+      "sha256": "13da70377f76b1ca96c831209ee4e2053740f1eed63bb809d7e67c8e6172f598",
+      "expected_in_pin_manifest": "13da70377f76b1ca96c831209ee4e2053740f1eed63bb809d7e67c8e6172f598",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:tracking_shuffled_objects_seven_objects": {
+      "sha256": "39accaf6bb7f9453938994e367ebaaf63c442109e9c9bf7a1e18fb977c82a9d7",
+      "expected_in_pin_manifest": "39accaf6bb7f9453938994e367ebaaf63c442109e9c9bf7a1e18fb977c82a9d7",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:tracking_shuffled_objects_three_objects": {
+      "sha256": "3b4fe168d9b6e2bee6b2e720dadad37f959458592c97919bfcfd6d30144b81f6",
+      "expected_in_pin_manifest": "3b4fe168d9b6e2bee6b2e720dadad37f959458592c97919bfcfd6d30144b81f6",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:tracking_shuffled_objects_three_objects": {
+      "sha256": "273db94eb42e0a52016d3631351ab7d953efc7cb53396be1fdb74b71c4e128c0",
+      "expected_in_pin_manifest": "273db94eb42e0a52016d3631351ab7d953efc7cb53396be1fdb74b71c4e128c0",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:web_of_lies": {
+      "sha256": "6283657ec36a378c2af6fcadec1e37ed0663865a8e8b98417a8d8628e477efca",
+      "expected_in_pin_manifest": "6283657ec36a378c2af6fcadec1e37ed0663865a8e8b98417a8d8628e477efca",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:web_of_lies": {
+      "sha256": "cd1ae698e33fc0d23e4a4fbd1a8ff2bbcfdd7fcff6f2ee05858d8ce99fb437b1",
+      "expected_in_pin_manifest": "cd1ae698e33fc0d23e4a4fbd1a8ff2bbcfdd7fcff6f2ee05858d8ce99fb437b1",
+      "why": "the 200 held-out examples for this subtask"
+    },
+    "subtask_config:word_sorting": {
+      "sha256": "c446d67601a13b569bd885baafb0c25671f8ec72aa0235368507ba45e3c94f38",
+      "expected_in_pin_manifest": "c446d67601a13b569bd885baafb0c25671f8ec72aa0235368507ba45e3c94f38",
+      "why": "frozen evaluation prompt for this subtask"
+    },
+    "subtask_data:word_sorting": {
+      "sha256": "4bf6ec0162357af609c7d759f0cde39523841468f19257be555e6ffb87d2f1eb",
+      "expected_in_pin_manifest": "4bf6ec0162357af609c7d759f0cde39523841468f19257be555e6ffb87d2f1eb",
+      "why": "the 200 held-out examples for this subtask"
+    }
+  },
+  "no_compute_run": "artifacts only: no gradients, no selection, no SFT"
+}

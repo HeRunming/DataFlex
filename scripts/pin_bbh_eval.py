@@ -1,0 +1,159 @@
+#!/usr/bin/env python3
+"""Pin the lm-eval BBH CoT-fewshot evaluation and build a frozen CUSTOM held-out suite
+(choice_0809 items 3 and 6/7). Artifacts only — no model is loaded, nothing is evaluated.
+
+Why a custom suite is required: the stock `bbh_cot_fewshot` group evaluates the FULL BBH test split,
+but our external-validation design evaluates only the 5,209-example held-out split (the complementary
+1,302 are the query reservoir). We therefore emit per-subtask YAMLs that change ONLY the dataset
+source (a local held-out jsonl) and keep every other behaviour byte-identical to the pinned config:
+same `description`, same `doc_to_text`, the same hard-coded 3-shot CoT samples, `generate_until`,
+greedy decoding, `max_gen_toks=1024`, the same `until` stops, the same `get-answer` regex filter, and
+the same `exact_match` metric + micro (`weight_by_size: true`) group aggregation.
+
+Also records the pin: lm_eval version, group/template/subtask YAML hashes, few-shot sample hashes,
+raw BBH data hashes, and the 27-subtask <-> 23-family mapping.
+"""
+import argparse, hashlib, json, os, glob, shutil
+
+ROOT = "/jizhicfs/karonhe/DataFlex_fa"
+LM = "/jizhicfs/karonhe/envs/dataflex-fa/lib/python3.10/site-packages/lm_eval"
+SRC = f"{LM}/tasks/bbh/cot_fewshot"
+BBH_RAW = "/jizhicfs/karonhe/less_data_zip/data/eval/bbh/test"
+OUT_TASKS = f"{ROOT}/experiments/less_aligned/bbh_external_tasks"
+SPLIT_DIR = f"{ROOT}/data/bbh_external"
+
+FAMILY_OF = {}
+for base in ["logical_deduction", "tracking_shuffled_objects"]:
+    for sz in ["three", "five", "seven"]:
+        FAMILY_OF[f"{base}_{sz}_objects"] = base
+
+
+def sha_file(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def sha_str(s):
+    return hashlib.sha256(s.encode()).hexdigest()
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default=f"{ROOT}/experiments/less_aligned/bbh_eval_pin_manifest.json")
+    args = ap.parse_args()
+    os.makedirs(OUT_TASKS, exist_ok=True)
+
+    import lm_eval
+    try:
+        import importlib.metadata as md
+        ver = md.version("lm_eval")
+    except Exception:
+        ver = getattr(lm_eval, "__version__", "unknown")
+
+    group_yaml = f"{SRC}/_bbh_cot_fewshot.yaml"
+    tmpl_yaml = f"{SRC}/_cot_fewshot_template_yaml"
+    subtask_files = sorted(p for p in glob.glob(f"{SRC}/*.yaml")
+                           if not os.path.basename(p).startswith("_"))
+    subtasks = [os.path.basename(p).replace(".yaml", "") for p in subtask_files]
+    assert len(subtasks) == 27, f"expected 27 lm-eval BBH subtasks, found {len(subtasks)}"
+
+    import yaml as _yaml
+    tmpl = _yaml.safe_load(open(tmpl_yaml))
+
+    # ---- emit custom held-out subtask configs: ONLY the data source changes ----
+    heldout_by_task = {}
+    for row in (json.loads(l) for l in open(f"{SPLIT_DIR}/bbh_eval_heldout.jsonl")):
+        heldout_by_task.setdefault(row["file_task"], []).append(row)
+    os.makedirs(f"{OUT_TASKS}/data", exist_ok=True)
+    emitted = {}
+    for p, name in zip(subtask_files, subtasks):
+        cfg = _yaml.safe_load(open(p))
+        task = name.replace("bbh_cot_fewshot_", "")
+        rows = heldout_by_task.get(task, [])
+        if not rows:
+            raise RuntimeError(f"no held-out rows for subtask {task}")
+        dpath = f"{OUT_TASKS}/data/{task}_heldout.jsonl"
+        with open(dpath, "w") as f:
+            for r in rows:
+                f.write(json.dumps({"input": r["input"], "target": r["target"]},
+                                   ensure_ascii=False) + "\n")
+        newcfg = dict(cfg)
+        newcfg.pop("include", None)
+        newcfg.pop("dataset_name", None)
+        # inherit every pinned behaviour verbatim from the template, then override ONLY the source
+        for k, v in tmpl.items():
+            newcfg.setdefault(k, v)
+        newcfg["task"] = f"bbh_external_heldout_{task}"
+        newcfg["dataset_path"] = "json"
+        newcfg["dataset_kwargs"] = {"data_files": {"test": dpath}}
+        newcfg["test_split"] = "test"
+        outp = f"{OUT_TASKS}/bbh_external_heldout_{task}.yaml"
+        with open(outp, "w") as f:
+            _yaml.safe_dump(newcfg, f, sort_keys=False, allow_unicode=True, width=10**6)
+        emitted[task] = {"config": os.path.relpath(outp, ROOT), "n_heldout": len(rows),
+                         "data_sha256": sha_file(dpath), "config_sha256": sha_file(outp),
+                         "conceptual_family": FAMILY_OF.get(task, task),
+                         "source_subtask_yaml_sha256": sha_file(p),
+                         "fewshot_samples_sha256": sha_str(json.dumps(cfg.get("fewshot_config", {}),
+                                                                     sort_keys=True))}
+    # group config with the SAME micro aggregation as the pinned group
+    grp = {"group": "bbh_external_heldout",
+           "task": [f"bbh_external_heldout_{t}" for t in sorted(emitted)],
+           "aggregate_metric_list": [{"metric": "exact_match", "aggregation": "mean",
+                                      "weight_by_size": True, "filter_list": "get-answer"}],
+           "metadata": {"version": 1.0,
+                        "derived_from": "lm_eval bbh_cot_fewshot (pinned; see bbh_eval_pin_manifest.json)",
+                        "difference": "dataset source only -> local held-out split"}}
+    gp = f"{OUT_TASKS}/_bbh_external_heldout.yaml"
+    with open(gp, "w") as f:
+        _yaml.safe_dump(grp, f, sort_keys=False, allow_unicode=True, width=10**6)
+
+    man = {
+        "lm_eval_version": ver,
+        "lm_eval_path": LM,
+        "pinned_source": {
+            "group_yaml": {"path": os.path.relpath(group_yaml, LM), "sha256": sha_file(group_yaml)},
+            "template_yaml": {"path": os.path.relpath(tmpl_yaml, LM), "sha256": sha_file(tmpl_yaml)},
+            "n_subtasks": len(subtasks), "subtasks": subtasks,
+            "aggregation": "mean with weight_by_size=true (MICRO over the 27 subtasks)",
+            "num_fewshot": tmpl.get("num_fewshot"),
+            "generation_kwargs": tmpl.get("generation_kwargs"),
+            "filter_list": tmpl.get("filter_list"),
+            "metric_list": tmpl.get("metric_list"),
+            "stock_dataset_path": tmpl.get("dataset_path"),
+        },
+        "task_accounting": {
+            "conceptual_task_families_23": sorted({FAMILY_OF.get(t, t) for t in emitted}),
+            "n_conceptual_families": len({FAMILY_OF.get(t, t) for t in emitted}),
+            "lm_eval_subtasks_27": sorted(emitted),
+            "n_lm_eval_subtasks": len(emitted),
+            "note": "Primary reporting is the 27 lm-eval subtasks and their micro aggregate, matching "
+                    "the pinned group. The 23-family regrouping is a SECONDARY diagnostic only.",
+        },
+        "custom_heldout_suite": {
+            "group_config": os.path.relpath(gp, ROOT), "group_sha256": sha_file(gp),
+            "subtasks": emitted,
+            "total_heldout_examples": sum(v["n_heldout"] for v in emitted.values()),
+            "invariants_preserved": ["description", "doc_to_text", "hard-coded 3-shot CoT samples",
+                                     "generate_until", "greedy (do_sample=false, temperature=0)",
+                                     "max_gen_toks=1024", "until stops", "get-answer regex filter",
+                                     "exact_match metric", "micro group aggregation"],
+            "only_difference": "dataset source replaced by the local held-out jsonl split",
+        },
+        "raw_bbh_data": {os.path.basename(p): sha_file(p) for p in sorted(glob.glob(f"{BBH_RAW}/*.json"))},
+        "split_manifest_sha256": sha_file(f"{SPLIT_DIR}/bbh_split_manifest.json"),
+        "no_compute_run": "artifacts only: no model loaded, nothing evaluated",
+    }
+    json.dump(man, open(args.out, "w"), indent=2)
+    print(f"lm_eval {ver}; pinned group={len(subtasks)} subtasks, micro aggregation")
+    print(f"emitted {len(emitted)} custom held-out subtask configs "
+          f"({man['custom_heldout_suite']['total_heldout_examples']} examples) -> {OUT_TASKS}")
+    print(f"23 conceptual families vs 27 lm-eval subtasks recorded")
+    print(f"wrote {args.out}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,89 @@
+{
+  "target": "bbh_heldout",
+  "target_label": "BBH held-out eval split",
+  "lsh_recall": {
+    "P_detect_0.3": 0.9510982327503508,
+    "P_detect_0.5": 0.9998995475742793
+  },
+  "n_candidates": 270679,
+  "n_test": 5209,
+  "params": {
+    "perms": 64,
+    "bands": 32,
+    "rows": 2,
+    "shingle_k": 5,
+    "jaccard_thr": 0.5,
+    "report_thr": 0.3
+  },
+  "pool_strong_count": 0,
+  "pool_strong_rate": 0.0,
+  "pool_weak_count": 0,
+  "pool_weak_rate": 0.0,
+  "strong_hits": {},
+  "weak_hits_sample": {},
+  "per_selector": {
+    "1pct": {
+      "dsmc": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk_lenmatch": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "second_rr": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "less": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "gist": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "nice": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      }
+    },
+    "5pct": {
+      "dsmc": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "randk_lenmatch": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "second_rr": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "less": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "gist": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      },
+      "nice": {
+        "rate": 0.0,
+        "mean_examples": 0.0
+      }
+    }
+  },
+  "per_selector_scope": "Selection subsets exist only for the MMLU-target experiments. For --target bbh_heldout these are a pool-composition check, NOT the BBH experiment's subsets, which are not selected yet.",
+  "scope_note": "This screen is POOL-WIDE: every one of the 270679 candidates is MinHash/LSH-probed against all 5209 BBH held-out eval split items and every collision is verified with exact shingle Jaccard. It supersedes the earlier L3, which only examined L2 13-gram suspects.",
+  "recall_caveat": "LSH is probabilistic candidate generation: at 32 bands x 2 rows detection probability is 1-(1-s^rows)^bands, i.e. 0.951 at J=0.3 and 0.99990 at J=0.5. A null result is 'no near-duplicates detected at high recall', not a proof that none exist."
+}

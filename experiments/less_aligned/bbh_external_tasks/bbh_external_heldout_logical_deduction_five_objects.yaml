@@ -1,0 +1,104 @@
+description: 'A logical deduction task which requires deducing the order of a sequence of objects.
+
+
+  '
+doc_to_text: 'Q: {{input}}
+
+  A: Let''s think step by step.
+
+  '
+fewshot_config:
+  sampler: first_n
+  samples:
+  - input: 'The following paragraphs each describe a set of three objects arranged in a fixed order. The statements are logically consistent within each paragraph. In a golf tournament, there were three golfers: Amy, Eli, and Eve. Eve finished above Amy. Eli finished below Amy.
+
+      Options:
+
+      (A) Amy finished last
+
+      (B) Eli finished last
+
+      (C) Eve finished last'
+    target: 'Let''s think step by step.
+
+      (1) Eve finished above Amy: "(above) ? Eve ? Amy ? (below)".
+
+      (2) Eli finished below Amy: "(above) ? Amy ? Eli ? (below)".
+
+      (3) Combining (1) and (2) we get the following ordering: "(above) Eve Amy Eli (below)".
+
+      According to this ordering, the person who finished last (the one at the bottom of this list) is Eli.
+
+      Eli finished last. So the answer is (B).'
+  - input: 'The following paragraphs each describe a set of three objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a shelf, there are three books: a white book, a green book, and an orange book. The green book is to the right of the white book. The orange book is the rightmost.
+
+      Options:
+
+      (A) The white book is the leftmost
+
+      (B) The green book is the leftmost
+
+      (C) The orange book is the leftmost'
+    target: 'Let''s think step by step.
+
+      (1) The green book is to the right of the white book: "(left) ? white ? green ? (right)".
+
+      (2) The orange book is the rightmost: "(left) ? white ? green orange (right)".
+
+      (3) Combining (1) and (2) we get the following ordering: "(left) white green orange (right)".
+
+      According to this ordering, the leftmost book is the white book.
+
+      The white book is the leftmost. So the answer is (A).'
+  - input: 'The following paragraphs each describe a set of three objects arranged in a fixed order. The statements are logically consistent within each paragraph. On a shelf, there are three books: a red book, a gray book, and a white book. The white book is to the left of the gray book. The red book is the second from the left.
+
+      Options:
+
+      (A) The red book is the leftmost
+
+      (B) The gray book is the leftmost
+
+      (C) The white book is the leftmost'
+    target: 'Let''s think step by step.
+
+      (1) The white book is to the left of the gray book: "(left) ? white ? gray ? (right)".
+
+      (2) The red book is the second from the left: "(left) ? white red gray ? (right)".
+
+      (3) Combining (1) and (2) we get the following ordering: "(left) white red gray (right)".
+
+      According to this ordering, the leftmost book is the white book.
+
+      The white book is the leftmost. So the answer is (C).'
+task: bbh_external_heldout_logical_deduction_five_objects
+dataset_path: json
+output_type: generate_until
+test_split: test
+doc_to_target: '{{target}}'
+metric_list:
+- metric: exact_match
+  aggregation: mean
+  higher_is_better: true
+generation_kwargs:
+  max_gen_toks: 1024
+  until:
+  - </s>
+  - Q
+  - '
+
+
+    '
+  do_sample: false
+  temperature: 0.0
+filter_list:
+- name: get-answer
+  filter:
+  - function: regex
+    regex_pattern: (?<=the answer is )(.*)(?=.)
+  - function: take_first
+num_fewshot: 3
+metadata:
+  version: 3.0
+dataset_kwargs:
+  data_files:
+    test: /jizhicfs/karonhe/DataFlex_fa/experiments/less_aligned/bbh_external_tasks/data/logical_deduction_five_objects_heldout.jsonl
