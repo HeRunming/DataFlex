@@ -238,6 +238,88 @@ This is **one shared baseline, not six replicates**. Sanity profile is plausible
 `multistep_arithmetic_two` 0.005, `dyck_languages` 0.025, `word_sorting` 0.11 at the bottom;
 `sports_understanding` 0.90, `movie_recommendation` 0.70 at the top.
 
+## Random-K-LengthMatched — pre-registered SECONDARY sensitivity control (added before any BBH accuracy)
+
+### Why, and why now
+
+Phase B measured, on the canonical draw0 cache at fixed K=2707, that DSMC's selected data carries
+**1.51× Random-K's post-cutoff sequence tokens**. The MMLU arm already has a length-matched control; BBH
+being the *external validation* and having the *larger* length gap makes its absence the obvious
+reviewer question. **No BBH adapter accuracy exists yet**, so adding it now cannot be outcome-driven;
+adding it after the 2-adapter canary would be.
+
+### First: the length definition had to be fixed
+
+Two corrections, both mine:
+
+1. **I mis-stated the quantity.** I wrote "DSMC adapters would see ~1.5× more *supervised* tokens". That
+   was **backwards**. Measured with the exact pipeline (`candidate_length_cache_llamafactory.npz`,
+   sha256 `aedc4862636d…`, LlamaFactory v0.9.3 `infer_seqlen` + llama2 template + `cutoff_len=2048`):
+
+   | subset | sequence tokens | vs DSMC | **supervised label tokens** | vs DSMC | mean seq |
+   |---|---|---|---|---|---|
+   | DSMC | 1,430,484 | 1.000 | **47,438** | 1.000 | 528.4 |
+   | Second-RR | 1,439,254 | 1.006 | 94,966 | 2.00 | 531.7 |
+   | First-RR | 1,288,710 | 0.901 | 95,005 | 2.00 | 476.1 |
+   | LESS TopK | 1,246,637 | 0.871 | 82,274 | 1.73 | 460.5 |
+   | Random-K | 948,457 | 0.663 | **268,850** | 5.67 | 350.4 |
+
+   DSMC has **1.51× the sequence tokens but only 0.18× the loss-bearing tokens**. The prompt is masked
+   under llama2, so the two ratios point in **opposite** directions.
+
+   *Mechanism* (a substantive finding, measured pre-training): DSMC systematically selects **long prompts
+   with very short answers** — mean 528 sequence tokens but mean **17.5** label tokens (3% supervised;
+   median 9; 334/2707 with ≤2 label tokens). That is classification / multiple-choice / extractive data.
+   Random draws free-form generation data (28% supervised, median 38). The other target-aware selectors
+   sit at 6–7%. This looks like *faithful* targeting: the BBH queries' own supervised targets **are**
+   single tokens like `(C)`, `14`, `Yes`.
+
+2. **`select_randk_lenmatch.py` did not do what its docstring said.** It claimed the llama2 template was
+   applied but actually tokenized `"\n".join(m["content"] …)`. It now takes `--length_npz` and buckets on
+   the **exact executed** post-template post-cutoff length; the legacy path is retained only so the
+   completed MMLU arm stays reproducible. **Consequence for the paper:** the MMLU length-matched arm must
+   be described as **coarse content-length matched**, *not* exact post-template matched. Its qualitative
+   conclusion is unaffected (it was always a coarse sensitivity check, and it agreed with Random).
+
+### Protocol (frozen)
+
+- **Status: SECONDARY sensitivity control, not a sixth primary selector.** The primary comparison set
+  remains DSMC / Second-RR / First-RR / LESS-style TopK / Random-K, unchanged.
+- One LengthMatched subset **per draw**, K=2707, matched bucket-by-bucket to **that draw's** DSMC subset
+  over `[0,256) [256,512) [512,1024) [1024,1536) [1536,2048]`.
+- **Selection seed `7000 + draw_id`**, frozen here. Shared across both SFT seeds, exactly like every
+  other subset.
+- Plain Random-K is **untouched**.
+- **Only the sequence-length axis is matched.** Supervised-label tokens are *reported, not matched* —
+  and they move the other way, which is stated as a limitation rather than hidden.
+- **No source-matched Random** will be added. Length and provenance are correlated (the matched subset's
+  source entropy rises to 1.208, close to Random's 1.201), so this controls length only and makes no
+  causal claim about source. Further controls would be an infinite regress.
+- Tokens are **not** equalized by changing epochs or steps. Fixed K, fixed 4 epochs, only the Random
+  subset composition changes — altering the optimizer horizon would reintroduce exactly the confound the
+  1% equal-step arm already showed to be uninterpretable.
+
+draw0 realized (canonical cache, seed 7000): buckets `[1219, 598, 418, 176, 296]`, sequence tokens
+**1,407,691 = 0.984×** DSMC, source entropy 1.208, Jaccard 0.0088 vs DSMC and 0.0037 vs Random.
+
+### Interpretation rules — fixed BEFORE any training
+
+| observation | conclusion |
+|---|---|
+| DSMC > Random **and** DSMC > LengthMatched-Random | length distribution alone does **not** explain DSMC's advantage |
+| DSMC > plain Random but **≈** LengthMatched-Random | the advantage **cannot be separated** from length exposure; it must **not** be attributed to target awareness |
+| DSMC **≤** both | strengthens the negative target-awareness result |
+| LengthMatched-Random **<** plain Random | "longer" is not universally better, so length alone cannot explain targeted-selector performance |
+
+**Both** plain Random and LengthMatched-Random are reported regardless of outcome. LengthMatched is
+secondary and may never alter the primary comparisons.
+
+### Cost
+
+**30 → 36 adapters** (3 draws × 2 seeds added). Remaining budget ≈ 36 × 111.4 min eval + ~9 h train ≈
+**75.8 GPU-h** (from ~63.2). Evaluations parallelize across the 8 H20s, so the increase is in GPU-hours,
+not a proportional wall-clock increase.
+
 ### Artifact index
 
 | artifact | what it fixes |

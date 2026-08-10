@@ -4,7 +4,7 @@
   "status": "PRE-COMPUTE CHECKPOINT \u2014 artifacts + gates only. NO gradients, NO selection, NO SFT.",
   "prereg": "experiments/less_aligned/prereg_bbh_external.md",
   "run_plan": "experiments/less_aligned/bbh_external_run_plan.json",
-  "emitted_against_head": "b88e73780f4194c6b35071c25922169853f0026c",
+  "emitted_against_head": "8ac5d0a14e237062df0e04d597adb5aa37d8eae6",
   "emitted_against_tree_clean": false,
   "launch_receipt": "run `emit_bbh_launch_manifest.py --receipt` on a CLEAN tree at the launch commit; it writes bbh_canary_launch_receipt.json recording the true executing HEAD. This manifest deliberately does not claim to be it.",
   "design": {
@@ -13,19 +13,23 @@
       1,
       2
     ],
-    "methods": [
+    "methods_primary": [
       "dsmc",
       "second_rr",
       "first_rr",
       "less",
       "randk"
     ],
+    "methods_secondary_control": [
+      "randk_lenmatch"
+    ],
+    "secondary_control_note": "randk_lenmatch matches DSMC's post-template SEQUENCE-length distribution at fixed K (seed 7000+draw_id). It is a sensitivity control only: the primary comparison set is unchanged and the primary analysis may not be altered by it. Supervised-label tokens are reported but NOT matched, and move the opposite way.",
     "sft_seeds": [
       42,
       1
     ],
-    "n_frozen_subsets": 15,
-    "n_adapters": 30,
+    "n_frozen_subsets": 18,
+    "n_adapters": 36,
     "shared_no_sft_reference": 1,
     "crossed": "seeds fully CROSSED with draws: 3 draws x 2 seeds, every draw under both seeds",
     "budget": 2707,
@@ -185,7 +189,7 @@
       "why": "frozen custom held-out suite (27 subtask configs)"
     },
     "experiments/less_aligned/bbh_execution_contract.json": {
-      "sha256": "021d5b0ecf1c26d91f46f5dadd0cba0ea9c9a77b02c91edd33919f9940388802",
+      "sha256": "b825bfdd43762ae243ec3463a3f9cf6da469ce91c25da3003ab0731f32699035",
       "why": "P0-1 frozen feature/selector contract (Adam cand / SGD target)"
     },
     "experiments/less_aligned/bbh_external_tasks/_bbh_external_heldout.yaml": {

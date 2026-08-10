@@ -17,7 +17,12 @@ SAVES = "/jizhicfs/karonhe/dataflex_saves"
 
 DRAWS = [0, 1, 2]
 SFT_SEEDS = [42, 1]
+# PRIMARY comparison set (unchanged by advice_0810_2)
 METHODS = ["dsmc", "second_rr", "first_rr", "less", "randk"]
+# SECONDARY sensitivity control, added pre-accuracy: matches DSMC's post-template SEQUENCE-length
+# distribution at fixed K. Not a sixth primary selector; may never alter the primary comparisons.
+SECONDARY = ["randk_lenmatch"]
+LENMATCH_SEED_BASE = 7000
 BUDGET = 2707
 RANDOM_SEED_BASE, RR_PERM_SEED_BASE = 5000, 6000
 
@@ -109,7 +114,7 @@ def build_run_plan():
     """30 cells = 3 draws x 5 methods x 2 SFT seeds, over 15 frozen subsets."""
     cells = []
     for d in DRAWS:
-        for m in METHODS:
+        for m in METHODS + SECONDARY:
             subset_id = f"bbhx_draw{d}_{m}"          # the FROZEN subset: no seed in the name, by design
             for s in SFT_SEEDS:
                 adapter_id = f"{subset_id}_seed{s}"
@@ -124,6 +129,8 @@ def build_run_plan():
                     "eval_out": f"{SAVES}/eval_results/bbh_external/{adapter_id}",
                     "random_k_seed": RANDOM_SEED_BASE + d if m == "randk" else None,
                     "rr_perm_seed": RR_PERM_SEED_BASE + d if m in ("first_rr", "second_rr") else None,
+                    "lenmatch_seed": LENMATCH_SEED_BASE + d if m == "randk_lenmatch" else None,
+                    "role": "secondary_sensitivity_control" if m in SECONDARY else "primary",
                 })
     return cells
 
@@ -252,7 +259,9 @@ def main():
 
     cells = build_run_plan()
     subsets = sorted({c["subset_id"] for c in cells})
-    assert len(cells) == 30 and len(subsets) == 15, (len(cells), len(subsets))
+    n_m = len(METHODS) + len(SECONDARY)
+    assert len(cells) == len(DRAWS) * n_m * len(SFT_SEEDS), len(cells)
+    assert len(subsets) == len(DRAWS) * n_m, len(subsets)
     # the invariant, checked structurally: each subset must appear exactly once per SFT seed
     for sid in subsets:
         seeds = sorted(c["train_seed"] for c in cells if c["subset_id"] == sid)
@@ -279,7 +288,14 @@ def main():
                            "executing HEAD. This manifest deliberately does not claim to be it."),
 
         "design": {
-            "draws": DRAWS, "methods": METHODS, "sft_seeds": SFT_SEEDS,
+            "draws": DRAWS, "methods_primary": METHODS,
+            "methods_secondary_control": SECONDARY,
+            "secondary_control_note": ("randk_lenmatch matches DSMC's post-template SEQUENCE-length "
+                                       "distribution at fixed K (seed 7000+draw_id). It is a sensitivity "
+                                       "control only: the primary comparison set is unchanged and the "
+                                       "primary analysis may not be altered by it. Supervised-label "
+                                       "tokens are reported but NOT matched, and move the opposite way."),
+            "sft_seeds": SFT_SEEDS,
             "n_frozen_subsets": len(subsets), "n_adapters": len(cells),
             "shared_no_sft_reference": 1,
             "crossed": "seeds fully CROSSED with draws: 3 draws x 2 seeds, every draw under both seeds",

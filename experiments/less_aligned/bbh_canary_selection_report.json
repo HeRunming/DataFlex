@@ -360,5 +360,83 @@
       "why_it_still_needs_a_control": "Both axes are now confounded with method, just in opposite directions: DSMC-trained adapters see MORE forward/backward compute per epoch but FAR LESS supervised signal. Either could drive a downstream difference, so the length-matched Random control is if anything MORE motivated than when the concern was one-directional. Note the matching is on SEQUENCE length (what the buckets are defined over); the supervised-token gap is reported but NOT matched, and that limitation must be stated.",
       "interpretation_caveat": "This is a property of the SELECTED DATA measured before any training. It is not evidence about downstream accuracy and must not be used to alter any selector."
     }
+  },
+  "secondary_control_randk_lenmatch": {
+    "role": "PRE-REGISTERED SECONDARY SENSITIVITY CONTROL \u2014 not a sixth primary selector",
+    "draw": "bbhx_draw0",
+    "K": 2707,
+    "seed": 7000,
+    "seed_rule": "7000 + draw_id",
+    "subset_sha256": "c0e5cf37ddbf1e1b161019887194b431ad55936f521ff26bd0d83e657d3b1e7c",
+    "n_unique": 2707,
+    "min": 127,
+    "max": 270459,
+    "length_source": "EXACT LlamaFactory sequence_tokens_after_cutoff from data/candidate_length_cache_llamafactory.npz",
+    "length_field": "sequence_tokens_after_cutoff",
+    "bucket_counts": [
+      {
+        "bucket": [
+          0,
+          256
+        ],
+        "dsmc": 1219,
+        "picked": 1219,
+        "candidates_available": 142228
+      },
+      {
+        "bucket": [
+          256,
+          512
+        ],
+        "dsmc": 598,
+        "picked": 598,
+        "candidates_available": 69895
+      },
+      {
+        "bucket": [
+          512,
+          1024
+        ],
+        "dsmc": 418,
+        "picked": 418,
+        "candidates_available": 42513
+      },
+      {
+        "bucket": [
+          1024,
+          1536
+        ],
+        "dsmc": 176,
+        "picked": 176,
+        "candidates_available": 9220
+      },
+      {
+        "bucket": [
+          1536,
+          2049
+        ],
+        "dsmc": 296,
+        "picked": 296,
+        "candidates_available": 6823
+      }
+    ],
+    "sequence_tokens": 1407691,
+    "sequence_tokens_dsmc": 1430484,
+    "sequence_token_ratio_vs_dsmc": 0.9841,
+    "supervised_label_tokens": 338607,
+    "supervised_label_tokens_dsmc": 47438,
+    "supervised_ratio_vs_dsmc": 7.1379,
+    "source_entropy_nats": 1.208,
+    "source_composition": {
+      "flan_v2": 1129,
+      "cot": 909,
+      "oasst1": 520,
+      "dolly": 149
+    },
+    "jaccard_vs_dsmc": 0.0088,
+    "jaccard_vs_randk": 0.0037,
+    "matched_axis": "post-template post-cutoff SEQUENCE length distribution only",
+    "NOT_matched": "loss-bearing supervised tokens: this control has 7.14x DSMC's label tokens, i.e. it matches sequence exposure while retaining Random-like supervision density. Reported, not matched.",
+    "draws_1_2": "pending their target-gradient extraction; same seed rule 7000+draw_id"
   }
 }
