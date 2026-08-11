@@ -317,5 +317,148 @@
     "total_remaining_gpu_hours": 63.2,
     "wall_clock_plan": "~9-12 h on 8 H20s allowing for scheduling and I/O, not the ideal ~8 h",
     "do_not": "do not change batch size or the evaluation protocol to save compute"
+  },
+  "canonical_target_caches": {
+    "bbhx_draw0": {
+      "tensor_sha256": "10c92b25c7e93eabd18b89d45759a5643074f567f84de9bea474b04cc0da1599",
+      "justification": "first successful extraction from the approved canary, frozen BEFORE any downstream accuracy was observed. It is NOT chosen because run1 looked better on any metric: neither cache has been through SFT or evaluation, so no outcome information could inform this choice."
+    },
+    "bbhx_draw1": {
+      "tensor_sha256": "10c266489c3a84839b8bbabaa0175b885492ab8930bcd87f220f1fe9ec5fd7ca",
+      "shape": [
+        64,
+        8192
+      ],
+      "justification": "first successful extraction from the approved pipeline, frozen by hash before any downstream BBH accuracy for this draw was observed"
+    },
+    "bbhx_draw2": {
+      "tensor_sha256": "4334a5746a189283e0c03b9306e86b50da7b638d6fb5d5e6c54d85a7125c02bc",
+      "shape": [
+        64,
+        8192
+      ],
+      "justification": "first successful extraction from the approved pipeline, frozen by hash before any downstream BBH accuracy for this draw was observed"
+    }
+  },
+  "all_18_frozen_subsets": {
+    "n": 18,
+    "all_distinct": true,
+    "subsets": {
+      "bbhx_draw0_dsmc": {
+        "subset_sha256": "a028277d2c855004a31be28315df8935271b4d99ce36a412e116e70834d8c59a",
+        "n": 2707,
+        "role": "primary"
+      },
+      "bbhx_draw0_second_rr": {
+        "subset_sha256": "0c2309de72fefe8f178e9c93a8b8ee48f53c030523ab592be71640f8d1c978e9",
+        "n": 2707,
+        "role": "primary",
+        "perm_seed": 6000
+      },
+      "bbhx_draw0_first_rr": {
+        "subset_sha256": "bf3ea41e10544fd5d22b7246ac5036316a89bffb22ccd5f5b5d0898cd3c299bc",
+        "n": 2707,
+        "role": "primary",
+        "perm_seed": 6000
+      },
+      "bbhx_draw0_less": {
+        "subset_sha256": "eb43548ce653ba5f1d91eba2e7c0b8c83d8269af3277a15fed3bfcd92ad9b910",
+        "n": 2707,
+        "role": "primary"
+      },
+      "bbhx_draw0_randk": {
+        "subset_sha256": "e925dfcfec1ceef45c42c9dbe8a2646b5ea2d346956611eaefee8f72af8ff57d",
+        "n": 2707,
+        "role": "primary",
+        "seed": 5000
+      },
+      "bbhx_draw0_randk_seqlabelmatch": {
+        "subset_sha256": "c997ec0f9036072ebf347da0236141c77448b622d1877cfd96bf426ff933d58e",
+        "n": 2707,
+        "role": "secondary_sensitivity_control",
+        "seed": 7000,
+        "seq_ratio_vs_dsmc": 0.976,
+        "label_ratio_vs_dsmc": 1.1515,
+        "n_cells": 21,
+        "feasibility": "PASSED"
+      },
+      "bbhx_draw1_dsmc": {
+        "subset_sha256": "dfc4ac50c3cc8daa87337d200448772a2a47a4387c9127f6187f48e29cdb834e",
+        "n": 2707,
+        "role": "primary"
+      },
+      "bbhx_draw1_second_rr": {
+        "subset_sha256": "1825fba2721da78fd8edb752df01a3a2530cf833c4a2c0cacd272ff1cc989cd9",
+        "n": 2707,
+        "role": "primary",
+        "perm_seed": 6001
+      },
+      "bbhx_draw1_first_rr": {
+        "subset_sha256": "2d3b9601338d037d918e16c12b89711316c4767ff40d6b4f4e83dc57efc4df08",
+        "n": 2707,
+        "role": "primary",
+        "perm_seed": 6001
+      },
+      "bbhx_draw1_less": {
+        "subset_sha256": "2fc5ae1e5bdf3b13b1b2e41bb7ceb22990de9357d337b659e1e732230485d5ce",
+        "n": 2707,
+        "role": "primary"
+      },
+      "bbhx_draw1_randk": {
+        "subset_sha256": "2d4642f96a4cfcd7361869b9c1657195a24f6a98e08cc9c912c36b8d53e1058a",
+        "n": 2707,
+        "role": "primary",
+        "seed": 5001
+      },
+      "bbhx_draw1_randk_seqlabelmatch": {
+        "subset_sha256": "06c2d884c4b8fc99112b64949279e82085830f4a5d351d3c241b170e1ad188f3",
+        "n": 2707,
+        "role": "secondary_sensitivity_control",
+        "seed": 7001,
+        "seq_ratio_vs_dsmc": 0.9716,
+        "label_ratio_vs_dsmc": 1.1597,
+        "n_cells": 21,
+        "feasibility": "PASSED"
+      },
+      "bbhx_draw2_dsmc": {
+        "subset_sha256": "57f36c36877bf868fedf0867a04f950b9b0e933e6749af1006be1a3bdf1ced21",
+        "n": 2707,
+        "role": "primary"
+      },
+      "bbhx_draw2_second_rr": {
+        "subset_sha256": "9848c906f9fed2e296ba585c7a73e3322ffd0f04983a9ea4fb6684d2426b321b",
+        "n": 2707,
+        "role": "primary",
+        "perm_seed": 6002
+      },
+      "bbhx_draw2_first_rr": {
+        "subset_sha256": "7c7f789385d9f32a5f8f07be538ed173eb3bd9686b84c9a68670a2173213327d",
+        "n": 2707,
+        "role": "primary",
+        "perm_seed": 6002
+      },
+      "bbhx_draw2_less": {
+        "subset_sha256": "6858980bb4726e7ffce959d322f5093693bf229540dbf1e3e644bf65b9c3212c",
+        "n": 2707,
+        "role": "primary"
+      },
+      "bbhx_draw2_randk": {
+        "subset_sha256": "4bb6e9861a9ed615661b761440cf4bc42594bd0bbb80c8cb4766fc3a6a9507cf",
+        "n": 2707,
+        "role": "primary",
+        "seed": 5002
+      },
+      "bbhx_draw2_randk_seqlabelmatch": {
+        "subset_sha256": "5085afaadb80e3fef71c0734f1cc52a87052bb34c414c21e00061e1520fa9af7",
+        "n": 2707,
+        "role": "secondary_sensitivity_control",
+        "seed": 7002,
+        "seq_ratio_vs_dsmc": 0.9691,
+        "label_ratio_vs_dsmc": 1.1879,
+        "n_cells": 21,
+        "feasibility": "PASSED"
+      }
+    },
+    "verified": "each 2707 unique in-range; every exported jsonl round-trip-verified against the pool at its selected indices; RR pairs share query order per draw; all frozen seeds correct (randk 5000+d, rr 6000+d, seqlabelmatch 7000+d)"
   }
 }

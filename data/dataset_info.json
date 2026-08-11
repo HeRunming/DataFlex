@@ -6372,5 +6372,161 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "bbhx_draw1_dsmc": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw1_dsmc_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw1_second_rr": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw1_second_rr_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw1_first_rr": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw1_first_rr_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw1_less": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw1_less_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw1_randk": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw1_randk_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw1_randk_seqlabelmatch": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw1_randk_seqlabelmatch_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw2_dsmc": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw2_dsmc_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw2_second_rr": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw2_second_rr_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw2_first_rr": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw2_first_rr_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw2_less": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw2_less_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw2_randk": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw2_randk_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw2_randk_seqlabelmatch": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw2_randk_seqlabelmatch_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
