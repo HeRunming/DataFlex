@@ -1,0 +1,67 @@
+{
+  "cells": {
+    "bbhx_draw0_dsmc_seed1": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "87b3a9ac7ad9acc29020526e2e6fa15b8e0e53052626c6b720a523360ea55d86",
+      "train_minutes": 21.5
+    },
+    "bbhx_draw0_second_rr_seed42": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "54cf09e6f31be228bf9ae47d37515165bf2c04f5e163dfb2672a5b863e7d1a11",
+      "train_minutes": 20.5
+    },
+    "bbhx_draw0_second_rr_seed1": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "7f91ae89c16d023849c4dcde90f9c5710b8cbccf657fe8dad5ceae8a92db3a4b",
+      "train_minutes": 39.4
+    },
+    "bbhx_draw0_first_rr_seed42": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "75a32a4fb6f4ed15c8134d465f8468d4501fb3954eaa0f0467ee48761045a3a5",
+      "train_minutes": 30.7
+    },
+    "bbhx_draw0_first_rr_seed1": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "72484754a015f740b66bb17dbe8f9bd50127f03bc33607d6ce5fa8b009e69df9",
+      "train_minutes": 25.3
+    },
+    "bbhx_draw0_less_seed42": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "fd04aeeda1167e4739054459d24ed8c0141465ad859faa836441764a65c16efc",
+      "train_minutes": 25.4
+    },
+    "bbhx_draw0_less_seed1": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "40f446abdb83a6bbe765bfbaf2c8ec51b2a6bb052966c73c20de84b20f53ae2d",
+      "train_minutes": 19.2
+    },
+    "bbhx_draw0_randk_seed1": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "9b84d2471ccc71d0b61d1ce9cacc0c1e02581179ce2f19d85991e6609016c8ae",
+      "train_minutes": 15.9
+    },
+    "bbhx_draw0_randk_seqlabelmatch_seed42": {
+      "train_ok": true,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "e7ae5392c9238e882b9a12ff63aad9e60f603992f0bbfd9b2347d66ac4cd6670",
+      "train_minutes": 22.3
+    }
+  }
+}
