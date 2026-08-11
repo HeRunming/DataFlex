@@ -43,14 +43,16 @@
           "3584": 1
         }
       },
-      "exact_llamafactory_tokens": {
-        "sequence_tokens_after_cutoff": 1430484,
-        "supervised_label_tokens": 47438,
-        "mean_sequence": 528.4,
-        "mean_label": 17.5,
-        "median_label": 9,
+      "authoritative_tokens": {
+        "sequence_tokens_after_cutoff": 1430691,
+        "loss_bearing_label_positions": 47461,
+        "mean_sequence": 528.5,
+        "mean_label_positions": 17.5,
+        "median_label_positions": 9,
         "label_fraction_of_sequence": 0.0332,
-        "n_label_le_2": 334
+        "n_multi_turn": 23,
+        "seq_ratio_vs_dsmc": 1.0,
+        "label_ratio_vs_dsmc": 1.0
       }
     },
     "less": {
@@ -89,14 +91,16 @@
           "3584": 0
         }
       },
-      "exact_llamafactory_tokens": {
-        "sequence_tokens_after_cutoff": 1246637,
-        "supervised_label_tokens": 82274,
-        "mean_sequence": 460.5,
-        "mean_label": 30.4,
-        "median_label": 17,
+      "authoritative_tokens": {
+        "sequence_tokens_after_cutoff": 1247204,
+        "loss_bearing_label_positions": 82337,
+        "mean_sequence": 460.7,
+        "mean_label_positions": 30.4,
+        "median_label_positions": 17,
         "label_fraction_of_sequence": 0.066,
-        "n_label_le_2": 227
+        "n_multi_turn": 62,
+        "seq_ratio_vs_dsmc": 0.8717,
+        "label_ratio_vs_dsmc": 1.7348
       }
     },
     "first_rr": {
@@ -135,14 +139,16 @@
           "3584": 0
         }
       },
-      "exact_llamafactory_tokens": {
-        "sequence_tokens_after_cutoff": 1288710,
-        "supervised_label_tokens": 95005,
-        "mean_sequence": 476.1,
-        "mean_label": 35.1,
-        "median_label": 20,
+      "authoritative_tokens": {
+        "sequence_tokens_after_cutoff": 1289268,
+        "loss_bearing_label_positions": 95067,
+        "mean_sequence": 476.3,
+        "mean_label_positions": 35.1,
+        "median_label_positions": 20,
         "label_fraction_of_sequence": 0.0737,
-        "n_label_le_2": 245
+        "n_multi_turn": 61,
+        "seq_ratio_vs_dsmc": 0.9012,
+        "label_ratio_vs_dsmc": 2.0031
       }
     },
     "second_rr": {
@@ -181,14 +187,16 @@
           "3584": 0
         }
       },
-      "exact_llamafactory_tokens": {
-        "sequence_tokens_after_cutoff": 1439254,
-        "supervised_label_tokens": 94966,
-        "mean_sequence": 531.7,
-        "mean_label": 35.1,
-        "median_label": 17,
+      "authoritative_tokens": {
+        "sequence_tokens_after_cutoff": 1439686,
+        "loss_bearing_label_positions": 95014,
+        "mean_sequence": 531.8,
+        "mean_label_positions": 35.1,
+        "median_label_positions": 17,
         "label_fraction_of_sequence": 0.066,
-        "n_label_le_2": 344
+        "n_multi_turn": 47,
+        "seq_ratio_vs_dsmc": 1.0063,
+        "label_ratio_vs_dsmc": 2.0019
       }
     },
     "randk": {
@@ -228,14 +236,16 @@
           "3584": 0
         }
       },
-      "exact_llamafactory_tokens": {
-        "sequence_tokens_after_cutoff": 948457,
-        "supervised_label_tokens": 268850,
-        "mean_sequence": 350.4,
-        "mean_label": 99.3,
-        "median_label": 38,
-        "label_fraction_of_sequence": 0.2835,
-        "n_label_le_2": 191
+      "authoritative_tokens": {
+        "sequence_tokens_after_cutoff": 950653,
+        "loss_bearing_label_positions": 269094,
+        "mean_sequence": 351.2,
+        "mean_label_positions": 99.4,
+        "median_label_positions": 38,
+        "label_fraction_of_sequence": 0.2831,
+        "n_multi_turn": 229,
+        "seq_ratio_vs_dsmc": 0.6645,
+        "label_ratio_vs_dsmc": 5.6698
       }
     }
   },
@@ -303,65 +313,104 @@
     "RETRACTED_WORDING": "I wrote 'DSMC adapters would see ~1.5x more supervised tokens'. That is WRONG and is retracted. The measured field is post-template SEQUENCE tokens (full input_ids), not loss-bearing labels. Under the llama2 template the prompt is MASKED, so only the assistant continuation is supervised -- on a 300-candidate probe that is ~18.5% of the sequence. A 1.53x sequence-token ratio therefore does NOT imply a 1.53x supervised-token ratio.",
     "CORRECT_WORDING": "DSMC has ~1.5x greater post-template SEQUENCE-TOKEN exposure than Random-K at fixed K=2707. The difference in loss-bearing supervised tokens is measured separately in candidate_length_cache_manifest.json and the phase-B recomputation; it must not be assumed equal to the sequence ratio.",
     "ratio_is_not_a_tail_artifact": "Subtracting the tokens lost to the 2048 cutoff, retained sequence exposure is still (1459218-28734)/(950783-2326) = 1.51x, so the gap is not caused by a few over-long outliers.",
-    "EXACT_MEASUREMENT": {
-      "cache": "data/candidate_length_cache_llamafactory.npz",
-      "cache_sha256": "aedc4862636da34ffe676337d5d57939ef67a72133df1735f82c63d2f5cd63da",
+    "AUTHORITATIVE_MEASUREMENT": {
+      "supersedes": "the earlier numbers (47,438 / 268,850) were computed from a cache that hand-rebuilt a single [INST] u [/INST] a turn. A message-structure audit found 24,628/270,679 candidates (9.10%, all oasst1) are MULTI-TURN, where LlamaFactory wraps every user turn and supervises every assistant turn. Those numbers are therefore SUPERSEDED -- though they were only slightly off, see below.",
+      "cache": "data/candidate_length_cache_authoritative.npz",
+      "cache_sha256": "a40659820407d1cd6c885105e8b295098d005b572546321b13fead74d7092b59",
+      "built_by": "SupervisedDatasetProcessor._encode_data_example (the exact SFT function), pinned llama2 template",
+      "parity_vs_manual": {
+        "single_turn_mismatch_rate": 0.0,
+        "multi_turn_mismatch_rate": 1.0,
+        "overall_mismatch_rate": 0.090986,
+        "note": "exactly as predicted: 0% wrong on single-turn rows, 100% wrong on multi-turn rows"
+      },
       "per_method": {
         "dsmc": {
-          "sequence_tokens_after_cutoff": 1430484,
-          "supervised_label_tokens": 47438,
-          "mean_sequence": 528.4,
-          "mean_label": 17.5,
-          "median_label": 9,
+          "sequence_tokens_after_cutoff": 1430691,
+          "loss_bearing_label_positions": 47461,
+          "mean_sequence": 528.5,
+          "mean_label_positions": 17.5,
+          "median_label_positions": 9,
           "label_fraction_of_sequence": 0.0332,
-          "n_label_le_2": 334
+          "n_multi_turn": 23,
+          "seq_ratio_vs_dsmc": 1.0,
+          "label_ratio_vs_dsmc": 1.0
         },
         "less": {
-          "sequence_tokens_after_cutoff": 1246637,
-          "supervised_label_tokens": 82274,
-          "mean_sequence": 460.5,
-          "mean_label": 30.4,
-          "median_label": 17,
+          "sequence_tokens_after_cutoff": 1247204,
+          "loss_bearing_label_positions": 82337,
+          "mean_sequence": 460.7,
+          "mean_label_positions": 30.4,
+          "median_label_positions": 17,
           "label_fraction_of_sequence": 0.066,
-          "n_label_le_2": 227
+          "n_multi_turn": 62,
+          "seq_ratio_vs_dsmc": 0.8717,
+          "label_ratio_vs_dsmc": 1.7348
         },
         "first_rr": {
-          "sequence_tokens_after_cutoff": 1288710,
-          "supervised_label_tokens": 95005,
-          "mean_sequence": 476.1,
-          "mean_label": 35.1,
-          "median_label": 20,
+          "sequence_tokens_after_cutoff": 1289268,
+          "loss_bearing_label_positions": 95067,
+          "mean_sequence": 476.3,
+          "mean_label_positions": 35.1,
+          "median_label_positions": 20,
           "label_fraction_of_sequence": 0.0737,
-          "n_label_le_2": 245
+          "n_multi_turn": 61,
+          "seq_ratio_vs_dsmc": 0.9012,
+          "label_ratio_vs_dsmc": 2.0031
         },
         "second_rr": {
-          "sequence_tokens_after_cutoff": 1439254,
-          "supervised_label_tokens": 94966,
-          "mean_sequence": 531.7,
-          "mean_label": 35.1,
-          "median_label": 17,
+          "sequence_tokens_after_cutoff": 1439686,
+          "loss_bearing_label_positions": 95014,
+          "mean_sequence": 531.8,
+          "mean_label_positions": 35.1,
+          "median_label_positions": 17,
           "label_fraction_of_sequence": 0.066,
-          "n_label_le_2": 344
+          "n_multi_turn": 47,
+          "seq_ratio_vs_dsmc": 1.0063,
+          "label_ratio_vs_dsmc": 2.0019
         },
         "randk": {
-          "sequence_tokens_after_cutoff": 948457,
-          "supervised_label_tokens": 268850,
-          "mean_sequence": 350.4,
-          "mean_label": 99.3,
-          "median_label": 38,
-          "label_fraction_of_sequence": 0.2835,
-          "n_label_le_2": 191
+          "sequence_tokens_after_cutoff": 950653,
+          "loss_bearing_label_positions": 269094,
+          "mean_sequence": 351.2,
+          "mean_label_positions": 99.4,
+          "median_label_positions": 38,
+          "label_fraction_of_sequence": 0.2831,
+          "n_multi_turn": 229,
+          "seq_ratio_vs_dsmc": 0.6645,
+          "label_ratio_vs_dsmc": 5.6698
+        },
+        "randk_lenmatch": {
+          "sequence_tokens_after_cutoff": 1410184,
+          "loss_bearing_label_positions": 338847,
+          "mean_sequence": 520.9,
+          "mean_label_positions": 125.2,
+          "median_label_positions": 41,
+          "label_fraction_of_sequence": 0.2403,
+          "n_multi_turn": 265,
+          "seq_ratio_vs_dsmc": 0.9857,
+          "label_ratio_vs_dsmc": 7.1395
+        },
+        "randk_seqlabelmatch": {
+          "sequence_tokens_after_cutoff": 1396313,
+          "loss_bearing_label_positions": 54650,
+          "mean_sequence": 515.8,
+          "mean_label_positions": 20.2,
+          "median_label_positions": 9,
+          "label_fraction_of_sequence": 0.0391,
+          "n_multi_turn": 23,
+          "seq_ratio_vs_dsmc": 0.976,
+          "label_ratio_vs_dsmc": 1.1515
         }
       },
-      "dsmc_over_random_sequence_ratio": 1.5082,
-      "dsmc_over_random_supervised_ratio": 0.1764,
-      "HEADLINE": "The two ratios point in OPPOSITE directions. DSMC has 1.51x Random-K's post-cutoff SEQUENCE tokens but only 0.18x its LOSS-BEARING supervised tokens (47,438 vs 268,850). My earlier claim that \"DSMC adapters would see ~1.5x more supervised tokens\" was not merely imprecise -- it was BACKWARDS.",
-      "mechanism": "DSMC systematically selects LONG PROMPTS WITH VERY SHORT ANSWERS: mean 528 sequence tokens but mean 17.5 label tokens (3% supervised; median label 9; 334/2707 examples have <=2 label tokens). That is the signature of classification / multiple-choice / extractive data, where a large masked context is followed by a one-token answer. Random-K instead draws free-form generation data: mean 350 sequence tokens with mean 99.3 label tokens (28% supervised; median 38). The other target-aware selectors sit in between (6-7% supervised), so this is a general property of gradient-similarity targeting against a BBH query set whose own targets are single tokens like \"(C)\", \"14\", \"Yes\" -- the selectors are faithfully matching the query format.",
-      "why_it_still_needs_a_control": "Both axes are now confounded with method, just in opposite directions: DSMC-trained adapters see MORE forward/backward compute per epoch but FAR LESS supervised signal. Either could drive a downstream difference, so the length-matched Random control is if anything MORE motivated than when the concern was one-directional. Note the matching is on SEQUENCE length (what the buckets are defined over); the supervised-token gap is reported but NOT matched, and that limitation must be stated.",
-      "interpretation_caveat": "This is a property of the SELECTED DATA measured before any training. It is not evidence about downstream accuracy and must not be used to alter any selector."
+      "dsmc_over_random_sequence_ratio": 1.505,
+      "dsmc_over_random_label_ratio": 0.1764,
+      "FINDING_SURVIVES": "sequence ratio 1.5050 (was 1.5082 provisionally) and label ratio 0.1764 (unchanged). The effect was real; it is now measured on the correct base.",
+      "CORRECT_TERMINOLOGY": "DSMC exposes the model to 1.51x as many POST-CUTOFF SEQUENCE POSITIONS but only 0.18x as many LOSS-BEARING LABEL POSITIONS per epoch as Random-K. Do NOT call sequence tokens \"GPU cost\" (batches pad to the longest member, so unpadded sums are not FLOPs). Do NOT call label positions \"amount of supervised signal\" (the loss ignores -100 then takes a token-normalized mean CE, so Nx positions is not Nx gradient signal).",
+      "MECHANISM_STATUS": "CONSISTENT WITH format matching, NOT a demonstrated mechanism. DSMC selects long prompts with very short answers (mean 528 sequence positions, mean 17.5 label positions = 3%; median 9; 334/2707 with <=2), i.e. classification/multiple-choice/extractive data, while Random draws free-form generation (28%). BBH's own targets ARE single tokens like \"(C)\", \"14\", \"Yes\" -- consistent, but the causal claim is not established."
     }
   },
-  "secondary_control_randk_lenmatch": {
+  "superseded_control_randk_lenmatch": {
     "role": "PRE-REGISTERED SECONDARY SENSITIVITY CONTROL \u2014 not a sixth primary selector",
     "draw": "bbhx_draw0",
     "K": 2707,
@@ -437,6 +486,23 @@
     "jaccard_vs_randk": 0.0037,
     "matched_axis": "post-template post-cutoff SEQUENCE length distribution only",
     "NOT_matched": "loss-bearing supervised tokens: this control has 7.14x DSMC's label tokens, i.e. it matches sequence exposure while retaining Random-like supervision density. Reported, not matched.",
-    "draws_1_2": "pending their target-gradient extraction; same seed rule 7000+draw_id"
+    "draws_1_2": "pending their target-gradient extraction; same seed rule 7000+draw_id",
+    "STATUS": "SUPERSEDED and UNTRAINED. Retained as a diagnostic artifact only, and removed from the run plan: it matched sequence tokens to 0.986x but still carried 7.14x DSMC's loss-bearing label positions, so it could not rule out the response-length / classification-vs-generation format axis."
+  },
+  "secondary_control_randk_seqlabelmatch": {
+    "role": "PRE-REGISTERED SECONDARY SENSITIVITY CONTROL (replaces the sequence-only arm; total stays 36)",
+    "draw": "bbhx_draw0",
+    "K": 2707,
+    "seed": 7000,
+    "seed_rule": "7000 + draw_id",
+    "n_cells_occupied": 21,
+    "histogram_matches_exactly": true,
+    "seq_ratio_vs_dsmc": 0.976,
+    "label_ratio_vs_dsmc": 1.1515,
+    "source_entropy_nats": 0.885,
+    "feasibility_gate": "PASSED \u2014 all 21 DSMC-occupied cells have ample pool candidates (min margin 746 vs 32)",
+    "deterministic_rerun": true,
+    "matched_axes": "BOTH sequence length AND loss-bearing label positions (coarse 5x5 2D)",
+    "not_matched": "source composition (diagnostic only; length and provenance are correlated)"
   }
 }

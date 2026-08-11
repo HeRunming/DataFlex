@@ -4,7 +4,7 @@
   "status": "PRE-COMPUTE CHECKPOINT \u2014 artifacts + gates only. NO gradients, NO selection, NO SFT.",
   "prereg": "experiments/less_aligned/prereg_bbh_external.md",
   "run_plan": "experiments/less_aligned/bbh_external_run_plan.json",
-  "emitted_against_head": "8ac5d0a14e237062df0e04d597adb5aa37d8eae6",
+  "emitted_against_head": "1bc4bced75dfcf90c0c509e23f3245194bc91a06",
   "emitted_against_tree_clean": false,
   "launch_receipt": "run `emit_bbh_launch_manifest.py --receipt` on a CLEAN tree at the launch commit; it writes bbh_canary_launch_receipt.json recording the true executing HEAD. This manifest deliberately does not claim to be it.",
   "design": {
@@ -21,9 +21,10 @@
       "randk"
     ],
     "methods_secondary_control": [
-      "randk_lenmatch"
+      "randk_seqlabelmatch"
     ],
-    "secondary_control_note": "randk_lenmatch matches DSMC's post-template SEQUENCE-length distribution at fixed K (seed 7000+draw_id). It is a sensitivity control only: the primary comparison set is unchanged and the primary analysis may not be altered by it. Supervised-label tokens are reported but NOT matched, and move the opposite way.",
+    "secondary_control_note": "randk_seqlabelmatch jointly matches DSMC's 2D (post-cutoff sequence length, loss-bearing label positions) histogram at fixed K over 5x5 pre-fixed bins, seed 7000+draw_id. It REPLACES the earlier sequence-only randk_lenmatch, which matched sequence tokens to 0.986x but still carried 7.14x DSMC's label positions and so could not rule out the response-length / classification-vs-generation format axis. Sensitivity control ONLY: the primary comparison set is unchanged and the primary analysis may not be altered by it. Source composition is a diagnostic, NOT matched.",
+    "superseded_secondary_control": "randk_lenmatch (sequence-only) is retained as an UNTRAINED diagnostic artifact and is not in the run plan",
     "sft_seeds": [
       42,
       1

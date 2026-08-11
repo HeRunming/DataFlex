@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+SUPERSEDED FOR NEW ARMS (code_review_0811) -- use `select_randk_seqlabelmatch.py`, which matches BOTH
+sequence length AND loss-bearing label positions. This sequence-only control matched DSMC's sequence
+tokens to 0.986x but still carried 7.14x its label positions, so it cannot rule out the response-length /
+classification-vs-generation format axis. Retained to reproduce the completed MMLU arm and the untrained
+draw0 diagnostic subset.
+
 Random-K-LengthMatched selection (choice_0730 / review_0731 item 6): a fixed-K=13533 random subset
 whose POST-TOKENIZATION length histogram matches the DSMC subset's, bucket-by-bucket. Controls for
 the possibility that a method's gain comes merely from selecting longer/shorter (more/fewer training

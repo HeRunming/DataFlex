@@ -1,5 +1,21 @@
 #!/usr/bin/env python3
-"""Immutable candidate-level LENGTH cache using the EXACT executed LlamaFactory pipeline (advice_0810_2).
+"""SUPERSEDED — do not use for new work. Kept only to reproduce the provisional numbers it produced.
+Use `build_candidate_length_cache_authoritative.py` instead.
+
+WHY SUPERSEDED (code_review_0811): this script concatenates all user messages into one string and all
+assistant messages into another, then hand-builds ONE `[INST] user [/INST] assistant` pair. A
+message-structure audit of the pool found 24,628 / 270,679 candidates (9.10%, all oasst1) are MULTI-TURN,
+and LlamaFactory wraps EVERY user turn in its own `[INST] ... [/INST]` and supervises EVERY assistant
+turn. Measured parity against the authoritative cache: 0.0000% mismatch on single-turn rows, 100% on
+multi-turn rows. So this file is right for 90.9% of the pool and wrong for the rest, and it must not be
+called "exact".
+
+The finding it produced did survive the rebuild (DSMC/Random sequence ratio 1.5082 -> 1.5050, label ratio
+0.1764 unchanged), but the authoritative cache is the one to cite.
+
+Original docstring follows.
+---
+Immutable candidate-level LENGTH cache using a HAND-RECONSTRUCTED LlamaFactory template (advice_0810_2).
 Artifacts only — no model, no gradients, no SFT.
 
 Why this exists
@@ -7,8 +23,8 @@ Why this exists
 Phase B reported `post_template_tokens` and I described the DSMC/Random ratio as "~1.5x more supervised
 tokens". That conflated two different quantities, and the correction matters:
 
-  sequence_tokens_after_cutoff   the full `input_ids` length -- what costs GPU time
-  supervised_label_tokens        count(labels != IGNORE_INDEX) -- what actually carries loss
+  sequence_tokens_after_cutoff   the full `input_ids` length -- post-cutoff sequence-token EXPOSURE
+  supervised_label_tokens        count(labels != IGNORE_INDEX) -- LOSS-BEARING LABEL POSITIONS
 
 Under the llama2 template the prompt is MASKED, so only the assistant continuation is supervised. On a
 300-candidate probe that is ~18.5% of the sequence. So a 1.5x sequence-token ratio does NOT imply a 1.5x
@@ -96,9 +112,11 @@ def main():
         },
         "fields": {
             "sequence_tokens_before_cutoff": "source+target tokens, untruncated",
-            "sequence_tokens_after_cutoff": "len(input_ids) actually trained on (== GPU cost)",
-            "supervised_label_tokens": "#labels != IGNORE_INDEX (== loss-bearing tokens); the prompt is "
-                                       "masked under llama2, so this is the assistant continuation only",
+            "sequence_tokens_after_cutoff": ("len(input_ids): post-cutoff sequence-token EXPOSURE. NOT \"GPU cost\" -- batches pad to the longest member, so unpadded sums are not FLOPs."),
+            "supervised_label_tokens": ("#labels != IGNORE_INDEX: LOSS-BEARING LABEL POSITIONS. NOT "
+                                       "\"amount of supervised signal\" -- the loss ignores -100 then "
+                                       "takes a token-normalized mean CE. The prompt is masked under "
+                                       "llama2, so this counts assistant continuations only."),
         },
         "stats": {k: {"mean": float(v.mean()), "median": float(np.median(v)),
                       "p90": float(np.percentile(v, 90)), "max": int(v.max()), "total": int(v.sum())}

@@ -1,0 +1,97 @@
+{
+  "cache": "data/candidate_length_cache_authoritative.npz",
+  "sha256": "a40659820407d1cd6c885105e8b295098d005b572546321b13fead74d7092b59",
+  "n_candidates": 270679,
+  "cutoff_len": 2048,
+  "authoritative_because": "built by calling SupervisedDatasetProcessor._encode_data_example -- the exact function the SFT run uses -- through the pinned llama2 template, pinned tokenizer and the same DataArguments. No hand-built template.",
+  "pipeline": {
+    "llamafactory": "0.9.3",
+    "transformers": "4.50.0",
+    "tokenizer": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf",
+    "template": "llama2",
+    "processor": "llamafactory.data.processor.supervised.SupervisedDatasetProcessor",
+    "data_args": {
+      "cutoff_len": 2048,
+      "train_on_prompt": false,
+      "mask_history": false
+    }
+  },
+  "fields": {
+    "sequence_tokens_after_cutoff": "len(input_ids): POST-CUTOFF SEQUENCE-TOKEN EXPOSURE. Not 'GPU cost' -- real batches pad to the longest member, so a sum of unpadded lengths is not FLOPs.",
+    "loss_bearing_label_positions": "count(labels != -100): LOSS-BEARING LABEL POSITIONS. Not 'amount of supervised signal' -- the loss ignores -100 then takes a token-normalized mean CE, so Nx the positions is not Nx the gradient signal.",
+    "n_turns": "number of (user, assistant) pairs in the conversation"
+  },
+  "turn_distribution": {
+    "1": 246051,
+    "2": 23089,
+    "3": 1539
+  },
+  "stats": {
+    "sequence_tokens_after_cutoff": {
+      "mean": 354.26515909989325,
+      "median": 238.0,
+      "p90": 752.0,
+      "max": 2048,
+      "total": 95892139
+    },
+    "loss_bearing_label_positions": {
+      "mean": 101.47236024959454,
+      "median": 39.0,
+      "p90": 274.0,
+      "max": 2033,
+      "total": 27466437
+    }
+  },
+  "label_fraction_of_sequence": 0.28643053837812504,
+  "parity_vs_manual_cache": {
+    "compared_against": "data/candidate_length_cache_llamafactory.npz",
+    "n_mismatched": 24628,
+    "mismatch_rate": 0.090986,
+    "sequence_diff": {
+      "mean": 0.861,
+      "max_abs": 18,
+      "total_manual": 95659093,
+      "total_authoritative": 95892139
+    },
+    "label_diff": {
+      "mean": 0.092,
+      "max_abs": 565,
+      "total_manual": 27441462,
+      "total_authoritative": 27466437
+    },
+    "by_source": {
+      "cot": {
+        "n": 100000,
+        "n_mismatch": 0,
+        "mismatch_rate": 0.0,
+        "mean_seq_diff": 0.0,
+        "mean_label_diff": 0.0
+      },
+      "dolly": {
+        "n": 15011,
+        "n_mismatch": 0,
+        "mismatch_rate": 0.0,
+        "mean_seq_diff": 0.0,
+        "mean_label_diff": 0.0
+      },
+      "flan_v2": {
+        "n": 100000,
+        "n_mismatch": 0,
+        "mismatch_rate": 0.0,
+        "mean_seq_diff": 0.0,
+        "mean_label_diff": 0.0
+      },
+      "oasst1": {
+        "n": 55668,
+        "n_mismatch": 24628,
+        "mismatch_rate": 0.442409,
+        "mean_seq_diff": 4.186,
+        "mean_label_diff": 0.449
+      }
+    },
+    "single_turn_mismatch_rate": 0.0,
+    "multi_turn_mismatch_rate": 1.0,
+    "conclusion": "the manual cache is wrong exactly where the audit predicted: multi-turn rows. Single-turn rows should agree closely (the manual reconstruction matches the template for one turn), multi-turn rows should not."
+  },
+  "no_compute_run": "artifacts only: no model loaded, no gradients, no SFT"
+}

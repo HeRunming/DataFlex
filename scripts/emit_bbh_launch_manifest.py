@@ -21,7 +21,11 @@ SFT_SEEDS = [42, 1]
 METHODS = ["dsmc", "second_rr", "first_rr", "less", "randk"]
 # SECONDARY sensitivity control, added pre-accuracy: matches DSMC's post-template SEQUENCE-length
 # distribution at fixed K. Not a sixth primary selector; may never alter the primary comparisons.
-SECONDARY = ["randk_lenmatch"]
+# REPLACED the sequence-only control with the JOINT (sequence, label) matched control per
+# code_review_0811: the sequence-only version still carried 7.14x DSMC's loss-bearing label positions, so
+# it could only rule out coarse input length, not the response-length / classification-vs-generation
+# format axis. Same 6-adapter budget -> total stays 36, not 42.
+SECONDARY = ["randk_seqlabelmatch"]
 LENMATCH_SEED_BASE = 7000
 BUDGET = 2707
 RANDOM_SEED_BASE, RR_PERM_SEED_BASE = 5000, 6000
@@ -129,7 +133,7 @@ def build_run_plan():
                     "eval_out": f"{SAVES}/eval_results/bbh_external/{adapter_id}",
                     "random_k_seed": RANDOM_SEED_BASE + d if m == "randk" else None,
                     "rr_perm_seed": RR_PERM_SEED_BASE + d if m in ("first_rr", "second_rr") else None,
-                    "lenmatch_seed": LENMATCH_SEED_BASE + d if m == "randk_lenmatch" else None,
+                    "lenmatch_seed": LENMATCH_SEED_BASE + d if m == "randk_seqlabelmatch" else None,
                     "role": "secondary_sensitivity_control" if m in SECONDARY else "primary",
                 })
     return cells
@@ -290,11 +294,16 @@ def main():
         "design": {
             "draws": DRAWS, "methods_primary": METHODS,
             "methods_secondary_control": SECONDARY,
-            "secondary_control_note": ("randk_lenmatch matches DSMC's post-template SEQUENCE-length "
-                                       "distribution at fixed K (seed 7000+draw_id). It is a sensitivity "
-                                       "control only: the primary comparison set is unchanged and the "
-                                       "primary analysis may not be altered by it. Supervised-label "
-                                       "tokens are reported but NOT matched, and move the opposite way."),
+            "secondary_control_note": (
+                "randk_seqlabelmatch jointly matches DSMC's 2D (post-cutoff sequence length, loss-bearing "
+                "label positions) histogram at fixed K over 5x5 pre-fixed bins, seed 7000+draw_id. It "
+                "REPLACES the earlier sequence-only randk_lenmatch, which matched sequence tokens to "
+                "0.986x but still carried 7.14x DSMC's label positions and so could not rule out the "
+                "response-length / classification-vs-generation format axis. Sensitivity control ONLY: "
+                "the primary comparison set is unchanged and the primary analysis may not be altered by "
+                "it. Source composition is a diagnostic, NOT matched."),
+            "superseded_secondary_control": ("randk_lenmatch (sequence-only) is retained as an UNTRAINED "
+                                             "diagnostic artifact and is not in the run plan"),
             "sft_seeds": SFT_SEEDS,
             "n_frozen_subsets": len(subsets), "n_adapters": len(cells),
             "shared_no_sft_reference": 1,
