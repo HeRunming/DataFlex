@@ -1,10 +1,15 @@
 # PRE-REGISTRATION: BBH external-validation experiment
 
-**Status: PRE-REGISTERED, GATES GREEN — NO COMPUTE RUN.** All artifacts, pins, and gates are built and
-verified; **no gradients, no selection, no SFT, no evaluation**. The two blockers raised in
-code_review_0810 are resolved per the decisions in code_review_0810_2, the two further issues raised in
-code_review_0810_3 are fixed, and the launch manifest emits `GO_FOR_SELECTION_CANARY = true` with **no
-blockers**.
+**Status: PROTOCOL FROZEN — selection canary COMPLETE, SFT canary approved.** The selection-only canary
+ran (draw0 target gradients, five selectors at K=2707, one no-SFT base reference); **no adapter has been
+trained and no comparative BBH accuracy has been observed**. Design is
+**36 adapters over 18 planned/frozen-by-rule subsets** = 3 draws × (5 primary methods + 1 secondary
+control) × 2 SFT seeds, plus 1 shared no-SFT reference.
+
+**STOP RULE IN FORCE (advice_0811):** no further matched Random, source control, LR control, epoch
+control, or method variant will be added. From here the only permitted changes are infrastructure fixes
+(paths, manifests, offline eval, resume, disk, hash bookkeeping) — never method, SFT hyperparameters,
+prompts, subsets, or eval definitions.
 
 | # | issue | round | status |
 |---|---|---|---|
@@ -12,6 +17,8 @@ blockers**.
 | 2 | near-verbatim CoT demo with the opposite answer | 0810 / 0810_2 | **DISCLOSED** — official BBH structure, reservoir-only, zero exact identity |
 | 3 | pinned v0.4.5 duplicates the CoT trigger in every demonstration | 0810_3 | **FIXED** — 78/81 demos restored to the official single-cue form |
 | 4 | BBH target data was never actually wired into `setup_draw_target.py` | 0810_3 | **FIXED** — explicit `--target_jsonl` + fail-loud sha/row/id verification |
+| 5 | the "exact" length cache was not exact (9.1% multi-turn flattened) | 0811 | **FIXED** — rebuilt via the real `SupervisedDatasetProcessor`; finding survived (1.505× / 0.176×) |
+| 6 | sequence-only length control left label positions 7.14× off | 0811 | **REPLACED** — coarse joint (seq, label) matched Random; total stays 36 |
 
 ## Resolution 1 — truncation: target-gradient cutoff raised to 3072 (FIXED, gate now PASS)
 
@@ -232,7 +239,7 @@ active and the kernel-level source was **not isolated** — and deliberately not
 | micro aggregate `exact_match` | **0.396429** ± 0.006090 |
 | independently recomputed from per-subtask × *n* | 0.396429 ✓ |
 | subtasks / examples | 27 / 5,209 (both match the frozen split) |
-| results JSON sha256 | `bb4006ada919…` (pinned; all 30 adapters are reported as deltas against it) |
+| results JSON sha256 | `bb4006ada919…` (pinned; all **36** adapters are reported as deltas against it) |
 
 This is **one shared baseline, not six replicates**. Sanity profile is plausible for a 7B base:
 `multistep_arithmetic_two` 0.005, `dyck_languages` 0.025, `word_sorting` 0.11 at the bottom;
@@ -311,7 +318,12 @@ the run plan.
   LESS-style TopK / Random-K — is unchanged, and plain Random-K is untouched.
 - Bins **fixed in advance**: sequence `[0,256) [256,512) [512,1024) [1024,1536) [1536,∞)` × label
   `[0,4) [4,16) [16,64) [64,256) [256,∞)`.
-- Match **that draw's** DSMC 2D histogram exactly, cell by cell, at K=2707. Seed **`7000 + draw_id`**,
+- Match **that draw's** DSMC 2D **bin histogram** exactly, cell by cell, at K=2707. **What is matched is
+  the coarse 5×5 histogram, not the token totals**: draw0 lands at 0.976× DSMC's sequence positions and
+  1.1515× its label positions. Call this a **coarse joint sequence/label-length matched Random**, never an
+  "exact token-budget matched Random". Going from 1.15× to ~1.02× would mean redesigning bins or hunting a
+  seed after the fact, which would destroy the pre-registration for a marginal gain — plain Random sits at
+  5.67×, so the format axis is already controlled by a wide margin. Seed **`7000 + draw_id`**,
   shared across both SFT seeds.
 - **Feasibility gate ran first**: DSMC occupies 21 of 25 cells and every one has ample pool candidates
   (smallest margin 746 available vs 32 needed). If a cell had been short, the script **fails loudly**
@@ -361,7 +373,7 @@ Random, source control, LR control, epoch control, or method variant will be add
 | `scripts/audit_bbh_prompt_parity.py` → `bbh_prompt_parity_audit.json` | 27-subtask parity gates A/B/C (A now validates demos against the **official** cot-prompts) + gate D disclosure + `--tamper_check` |
 | `scripts/setup_draw_target.py` → `configs/draws/select_bbhx_draw{0,1,2}.yaml` | registers the frozen BBH query prompts with fail-loud sha256/row/ordered-id verification and `cutoff_len: 3072` |
 | `scripts/contamination_global_lexical.py` → `results_summary/contamination_global_lexical_*.json` | pool-wide lexical screen (32×2, **nominal** recall) |
-| `bbh_external_launch_manifest.json` | launch record; asserts the 15-subset invariant, gated on every audit verdict + both warm-up hashes; `--receipt` emits the clean-head receipt |
+| `bbh_external_launch_manifest.json` | launch record; asserts the 18-subset invariant (36 cells), gated on every audit verdict + both warm-up hashes; `--receipt` emits the clean-head receipt |
 
 ### Verification bugs found by self-review of this checkpoint (all fixed before commit)
 
@@ -459,7 +471,10 @@ Expected overlap 64²/1302 ≈ **3.1** — observed 2–3, i.e. genuinely indepe
 
 ## Design (frozen)
 
-**3 query draws × 2 SFT seeds × 5 methods = 30 adapters**, plus **1 shared no-SFT reference**.
+**3 query draws × 2 SFT seeds × 5 primary methods = 30 adapters**, plus **6** for the secondary
+`Random-K-SeqLabelMatched` control ⇒ **36 adapters** over **18 planned/frozen-by-rule subsets**, plus
+**1 shared no-SFT reference**. (Subsets are frozen *by rule* — seeds and matching targets are fixed here —
+but the draw1/draw2 artifacts are generated only after those draws' target gradients exist.)
 
 - **Seeds {42, 1} fully CROSSED with draws** — every draw is trained under both seeds. This decouples
   query-realization variance from training-seed variance, which the MMLU design confounded (there each
@@ -492,7 +507,8 @@ $$\text{random\_k\_seed}(d) = 5000 + d, \qquad \text{rr\_perm\_seed}(d) = 6000 +
   `rr_perm_seed`), so the only difference between them is first- vs second-order similarity, not the
   visiting order.
 - **The selected subset for a draw is bit-identical across the two SFT seeds.** Concretely:
-  **3 draws × 5 methods = 15 frozen subsets**, each trained twice ⇒ **30 adapters**. The training seed
+  **3 draws × 6 methods (5 primary + 1 secondary control) = 18 planned/frozen-by-rule subsets**, each
+  trained twice ⇒ **36 adapters**. The training seed
   is a training axis only; it must never change which examples are in the subset.
 - **What this does and does not eliminate (corrected per code_review_0810).** An earlier draft claimed
   the design is "exactly (query realization) × (training stochasticity) with no third hidden random
@@ -511,7 +527,7 @@ $$\text{random\_k\_seed}(d) = 5000 + d, \qquad \text{rr\_perm\_seed}(d) = 6000 +
 
 Recorded per draw in `bbh_query_draw{d}.meta.json` (`random_k_seed`, `rr_perm_seed`,
 `rr_perm_seed_shared_by`) and in `bbh_split_manifest.json` → `frozen_selection_seeds`. The launch
-manifest re-asserts the 15-subset invariant, and it will be verified by hash after selection.
+manifest re-asserts the 18-subset invariant, and it will be verified by hash after selection.
 
 ## Prompt alignment: what is aligned, and what is not
 
@@ -793,7 +809,7 @@ recorded and machine-verified rather than restated in prose (see "Frozen executi
 4. then a cheap **2-adapter end-to-end engineering canary** — draw0 DSMC seed42 + draw0 Random-K seed42 —
    to exercise the custom BBH eval path, manifests, resume, and aggregation. This is an *engineering*
    check, **not** an accuracy read: no decision may be taken on its scores;
-5. only then: the remaining 28 adapters (15 frozen subsets × 2 seeds = 30 total) → eval → aggregate.
+5. only then: the remaining 34 adapters (18 planned subsets × 2 seeds = 36 total) → eval → aggregate.
 
 ## Frozen execution contract (P0-1, code_review_0810)
 
@@ -837,8 +853,8 @@ per-example rate from it does not transfer.
 |---|---|
 | **no-SFT held-out evaluation** (5,209 examples, 27 subtasks, batch 16, bf16, 1 GPU) | **111.4 min** |
 | ⇒ per example | ~1.28 s (vs the 0.224 s assumed) |
-| **31 evaluations** (30 adapters + shared base reference) | **~57 h** |
-| 30 adapters × ~15 min training (K=2707, 4 epochs ⇒ ~84 steps) | **~7.5 h** |
+| **37 evaluations** (36 adapters + shared base reference) | **~68 h** |
+| 36 adapters × ~15 min training (K=2707, 4 epochs ⇒ ~84 steps) | **~9 h** |
 | **total, serial** | **~65 h** |
 
 **Remaining** budget, now that the base evaluation is already done: 30 × 111.4 min + ~7.5 h ≈

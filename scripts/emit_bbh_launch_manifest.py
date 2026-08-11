@@ -115,7 +115,11 @@ def git_clean():
 
 
 def build_run_plan():
-    """30 cells = 3 draws x 5 methods x 2 SFT seeds, over 15 frozen subsets."""
+    """36 cells = 3 draws x (5 primary + 1 secondary control) x 2 SFT seeds, over 18 subsets.
+
+    Subsets are frozen BY RULE here (seeds and matching targets fixed); the draw1/draw2 artifacts are
+    generated only once those draws' target gradients exist.
+    """
     cells = []
     for d in DRAWS:
         for m in METHODS + SECONDARY:

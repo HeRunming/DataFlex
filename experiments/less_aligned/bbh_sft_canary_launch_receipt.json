@@ -1,0 +1,97 @@
+{
+  "materialized_subsets": {
+    "dsmc": {
+      "dataset_key": "bbhx_draw0_dsmc",
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_dsmc_sel.jsonl",
+      "n": 2707,
+      "subset_sha256": "a028277d2c855004a31be28315df8935271b4d99ce36a412e116e70834d8c59a",
+      "jsonl_sha256": "b0901846e6719db9c875e4a83c41e38b4c41c73ea988cade1a82a8c33642bf93"
+    },
+    "second_rr": {
+      "dataset_key": "bbhx_draw0_second_rr",
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_second_rr_sel.jsonl",
+      "n": 2707,
+      "subset_sha256": "0c2309de72fefe8f178e9c93a8b8ee48f53c030523ab592be71640f8d1c978e9",
+      "jsonl_sha256": "9265b9664495e7718c24f7f6fe27a0582f3aa2f835e1d583c43815e8e3ba7c85"
+    },
+    "first_rr": {
+      "dataset_key": "bbhx_draw0_first_rr",
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_first_rr_sel.jsonl",
+      "n": 2707,
+      "subset_sha256": "bf3ea41e10544fd5d22b7246ac5036316a89bffb22ccd5f5b5d0898cd3c299bc",
+      "jsonl_sha256": "2c8f00b57644f90a45ac6fd77503ab2413253db0ce1dc4a914dc5ca04c5c6b3a"
+    },
+    "less": {
+      "dataset_key": "bbhx_draw0_less",
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_less_sel.jsonl",
+      "n": 2707,
+      "subset_sha256": "eb43548ce653ba5f1d91eba2e7c0b8c83d8269af3277a15fed3bfcd92ad9b910",
+      "jsonl_sha256": "1ea1952631d8282bac2a147a593692c9de7e6d67c7125c3ad52d820be60ddaea"
+    },
+    "randk": {
+      "dataset_key": "bbhx_draw0_randk",
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_randk_sel.jsonl",
+      "n": 2707,
+      "subset_sha256": "e925dfcfec1ceef45c42c9dbe8a2646b5ea2d346956611eaefee8f72af8ff57d",
+      "jsonl_sha256": "e7e0c77e38a409d19f0985721d6f7ddd83b3e9174de9fd2fb1288d0f669f6a2d"
+    },
+    "randk_seqlabelmatch": {
+      "dataset_key": "bbhx_draw0_randk_seqlabelmatch",
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_randk_seqlabelmatch_sel.jsonl",
+      "n": 2707,
+      "subset_sha256": "c997ec0f9036072ebf347da0236141c77448b622d1877cfd96bf426ff933d58e",
+      "jsonl_sha256": "66cb9feda4b3ccc608f4c686adcec55a7658ff8a15e4cd8b08b121ed9053f347"
+    }
+  },
+  "loader_check": {
+    "dsmc": {
+      "dataset_key": "bbhx_draw0_dsmc",
+      "n_examples": 2707,
+      "expected": 2707,
+      "ok": true,
+      "first_example_input_ids_len": 92,
+      "first_example_label_positions": 8
+    },
+    "second_rr": {
+      "dataset_key": "bbhx_draw0_second_rr",
+      "n_examples": 2707,
+      "expected": 2707,
+      "ok": true,
+      "first_example_input_ids_len": 315,
+      "first_example_label_positions": 2
+    },
+    "first_rr": {
+      "dataset_key": "bbhx_draw0_first_rr",
+      "n_examples": 2707,
+      "expected": 2707,
+      "ok": true,
+      "first_example_input_ids_len": 963,
+      "first_example_label_positions": 73
+    },
+    "less": {
+      "dataset_key": "bbhx_draw0_less",
+      "n_examples": 2707,
+      "expected": 2707,
+      "ok": true,
+      "first_example_input_ids_len": 92,
+      "first_example_label_positions": 8
+    },
+    "randk": {
+      "dataset_key": "bbhx_draw0_randk",
+      "n_examples": 2707,
+      "expected": 2707,
+      "ok": true,
+      "first_example_input_ids_len": 108,
+      "first_example_label_positions": 64
+    },
+    "randk_seqlabelmatch": {
+      "dataset_key": "bbhx_draw0_randk_seqlabelmatch",
+      "n_examples": 2707,
+      "expected": 2707,
+      "ok": true,
+      "first_example_input_ids_len": 77,
+      "first_example_label_positions": 3
+    }
+  },
+  "loader_check_note": "all SIX draw0 dataset keys resolve through the real LlamaFactory SFT data path to exactly K=2707. The new randk_seqlabelmatch key is included even though the two-adapter canary does not train it, precisely so its registration path is exercised before the full run."
+}

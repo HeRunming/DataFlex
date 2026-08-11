@@ -4,7 +4,7 @@
   "status": "PRE-COMPUTE CHECKPOINT \u2014 artifacts + gates only. NO gradients, NO selection, NO SFT.",
   "prereg": "experiments/less_aligned/prereg_bbh_external.md",
   "run_plan": "experiments/less_aligned/bbh_external_run_plan.json",
-  "emitted_against_head": "1bc4bced75dfcf90c0c509e23f3245194bc91a06",
+  "emitted_against_head": "047960b7baefef7a297c7241941b352c4b5c9b59",
   "emitted_against_tree_clean": false,
   "launch_receipt": "run `emit_bbh_launch_manifest.py --receipt` on a CLEAN tree at the launch commit; it writes bbh_canary_launch_receipt.json recording the true executing HEAD. This manifest deliberately does not claim to be it.",
   "design": {

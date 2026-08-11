@@ -6294,5 +6294,83 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "bbhx_draw0_dsmc": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_dsmc_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw0_second_rr": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_second_rr_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw0_first_rr": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_first_rr_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw0_less": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_less_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw0_randk": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_randk_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
+  },
+  "bbhx_draw0_randk_seqlabelmatch": {
+    "file_name": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/bbhx_draw0_randk_seqlabelmatch_sel.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }
