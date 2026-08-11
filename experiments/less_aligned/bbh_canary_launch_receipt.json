@@ -1,6 +1,6 @@
 {
   "receipt": "BBH selection-canary launch receipt",
-  "executing_head": "9458297c351df8b075b8a7adccc54d8b02da1b9d",
+  "executing_head": "f52d6a580fcb2287f9524dc0a31f085f9414ee01",
   "tree_clean": true,
   "gates": {
     "parity_all_gates_pass": true,
@@ -50,10 +50,10 @@
       "target": "sgd"
     }
   },
-  "n_cells": 30,
-  "n_frozen_subsets": 15,
+  "n_cells": 36,
+  "n_frozen_subsets": 18,
   "budget": 2707,
-  "execution_contract_sha256": "021d5b0ecf1c26d91f46f5dadd0cba0ea9c9a77b02c91edd33919f9940388802",
+  "execution_contract_sha256": "b825bfdd43762ae243ec3463a3f9cf6da469ce91c25da3003ab0731f32699035",
   "pinned_artifact_count": 66,
   "pinned_artifacts": {
     "data/bbh_external/bbh_eval_heldout.jsonl": {
@@ -73,7 +73,7 @@
       "why": "frozen custom held-out suite (27 subtask configs)"
     },
     "experiments/less_aligned/bbh_execution_contract.json": {
-      "sha256": "021d5b0ecf1c26d91f46f5dadd0cba0ea9c9a77b02c91edd33919f9940388802",
+      "sha256": "b825bfdd43762ae243ec3463a3f9cf6da469ce91c25da3003ab0731f32699035",
       "why": "P0-1 frozen feature/selector contract (Adam cand / SGD target)"
     },
     "experiments/less_aligned/bbh_external_tasks/_bbh_external_heldout.yaml": {
