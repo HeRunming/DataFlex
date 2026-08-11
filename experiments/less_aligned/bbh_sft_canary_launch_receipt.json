@@ -93,5 +93,49 @@
       "first_example_label_positions": 3
     }
   },
-  "loader_check_note": "all SIX draw0 dataset keys resolve through the real LlamaFactory SFT data path to exactly K=2707. The new randk_seqlabelmatch key is included even though the two-adapter canary does not train it, precisely so its registration path is exercised before the full run."
+  "loader_check_note": "all SIX draw0 dataset keys resolve through the real LlamaFactory SFT data path to exactly K=2707. The new randk_seqlabelmatch key is included even though the two-adapter canary does not train it, precisely so its registration path is exercised before the full run.",
+  "receipt": "BBH SFT CANARY launch receipt",
+  "scope": "authorises EXACTLY the two engineering adapters below. It does NOT authorise the remaining 34, and it is a SEPARATE gate from bbh_canary_launch_receipt.json, which approved a selection/artifact state rather than any training.",
+  "approved_cells": [
+    "bbhx_draw0_dsmc_seed42",
+    "bbhx_draw0_randk_seed42"
+  ],
+  "approved_subsets": {
+    "dsmc": {
+      "subset_sha256": "a028277d2c855004a31be28315df8935271b4d99ce36a412e116e70834d8c59a",
+      "n": 2707
+    },
+    "randk": {
+      "subset_sha256": "e925dfcfec1ceef45c42c9dbe8a2646b5ea2d346956611eaefee8f72af8ff57d",
+      "n": 2707
+    }
+  },
+  "runtime_head": "6f566b59b4b8e23f240294eebd69354ecf80c433",
+  "tree_clean": true,
+  "resolved_sft_recipe": {
+    "base_model": "/jizhicfs/karonhe/models/shakechen/Llama-2-7b-hf",
+    "warmup_checkpoint": "/jizhicfs/karonhe/dataflex_saves/sft_results/warmup_seed42/checkpoint-1692",
+    "budget_K": 2707,
+    "epochs": 4,
+    "expected_optimizer_steps": 84,
+    "effective_batch": 128,
+    "lora": "r128 / alpha512 / dropout 0.05 on q,k,v,o",
+    "lr": "2e-5 linear, warmup_ratio 0.03",
+    "bf16": true,
+    "cutoff_len": 2048,
+    "note": "SFT cutoff is 2048; the 3072 cutoff applies ONLY to target-gradient extraction. SFT LoRA dropout is 0.05; extraction uses 0.1."
+  },
+  "held_out_eval_suite": {
+    "group": "bbh_external_heldout",
+    "n_subtasks": 27,
+    "n_examples": 5209,
+    "group_config_sha256": "02044a4e38e163bb69abd24e0d5f6d4effa306aa84e4b95b5904d8c90b832db2"
+  },
+  "base_reference": {
+    "micro_exact_match": 0.39642925705509696,
+    "results_json_sha256": "bb4006ada919bc46f6b1f8c3984fbba668b9b6f83c78a40a8420cc86bd08ab97",
+    "role": "shared no-SFT reference; all 36 adapters are reported as deltas against it"
+  },
+  "ENGINEERING_ONLY": "Interim accuracy from these two adapters CANNOT alter the protocol. It is not a stopping condition even if the DSMC-vs-Random gap is large. Raw outputs are stored and hashed but must not be compared in any summary. On engineering failure only infrastructure fixes are permitted (paths, manifests, offline eval, resume, disk, hash bookkeeping) -- never method, SFT hyperparameters, prompts, subsets, or eval definitions.",
+  "stop_rule": "advice_0811: no further matched Random, source control, LR control, epoch control, or method variant will be added."
 }
