@@ -1,0 +1,172 @@
+{
+  "diagnostic": "task-level specialization",
+  "STATUS": "EXPLORATORY, post-hoc, not pre-registered",
+  "warning": "no protocol or method decision may depend on this",
+  "H1_exposure": {
+    "per_draw": {
+      "0": {
+        "n_tasks_in_query_draw": 26,
+        "spearman_exposure_vs_dsmc_minus_random": -0.20983840250191785,
+        "spearman_exposure_vs_dsmc_minus_base": -0.2127879150214617
+      },
+      "1": {
+        "n_tasks_in_query_draw": 24,
+        "spearman_exposure_vs_dsmc_minus_random": -0.2801867574492669,
+        "spearman_exposure_vs_dsmc_minus_base": -0.2718187773320998
+      },
+      "2": {
+        "n_tasks_in_query_draw": 25,
+        "spearman_exposure_vs_dsmc_minus_random": -0.223917097823799,
+        "spearman_exposure_vs_dsmc_minus_base": -0.006909082962305159
+      }
+    },
+    "mean_spearman_vs_random": -0.23798075259166127,
+    "mean_spearman_vs_base": -0.16383859177195556,
+    "FINDING": "The correlations are NEGATIVE and consistent in sign across all three draws (-0.21, -0.28, -0.22 vs Random). More query exposure is associated with slightly MORE damage relative to Random, not less. This is the OPPOSITE of what task-level specialization predicts: if DSMC were narrowly specializing toward the sampled tasks, high-exposure tasks should have been protected.",
+    "IMPLICATION": "The degradation is therefore NOT plausibly explained as narrow specialization toward the particular BBH tasks that happen to appear in the 64-query draw. Whatever the selectors are over-fitting to lives at the format / response-style level (long context, single-token answer) rather than at the task level -- which is consistent with the SeqLabelMatched control moving 41% of the gap while task exposure predicts nothing protective.",
+    "caveat": "n=27 subtasks per draw and exposure counts are small (0-13). These are descriptive rank correlations, not tests."
+  },
+  "H2_base_accuracy": {
+    "spearman_base_vs_dsmc_minus_base": -0.4316898233778647,
+    "spearman_base_vs_random_minus_base": -0.23260073260073263,
+    "FINDING": "Both are negative (DSMC -0.43, Random -0.23): the higher a subtask's base accuracy, the larger its post-SFT drop -- and the effect is about twice as strong for DSMC as for Random.",
+    "MANDATORY_CAVEAT": "This is NOT causal and is heavily confounded by ceiling effects and regression to the mean: a task at 0.90 has far more room to fall than one at 0.005, and any noisy post-measurement will correlate negatively with a noisy pre-measurement. Reported as a descriptive association only. The fact that DSMC's coefficient is roughly double Random's is the interesting part, since both share the same ceiling/regression structure.",
+    "per_task": {
+      "boolean_expressions": {
+        "base": 0.685,
+        "dsmc_minus_base": -0.03,
+        "random_minus_base": -0.0133
+      },
+      "causal_judgement": {
+        "base": 0.5733333333333334,
+        "dsmc_minus_base": -0.0444,
+        "random_minus_base": -0.0278
+      },
+      "date_understanding": {
+        "base": 0.61,
+        "dsmc_minus_base": 0.0192,
+        "random_minus_base": 0.0333
+      },
+      "disambiguation_qa": {
+        "base": 0.45,
+        "dsmc_minus_base": -0.0525,
+        "random_minus_base": -0.0333
+      },
+      "dyck_languages": {
+        "base": 0.025,
+        "dsmc_minus_base": -0.0233,
+        "random_minus_base": -0.0092
+      },
+      "formal_fallacies": {
+        "base": 0.535,
+        "dsmc_minus_base": -0.0008,
+        "random_minus_base": 0.0033
+      },
+      "geometric_shapes": {
+        "base": 0.41,
+        "dsmc_minus_base": -0.1158,
+        "random_minus_base": -0.0417
+      },
+      "hyperbaton": {
+        "base": 0.525,
+        "dsmc_minus_base": -0.0042,
+        "random_minus_base": -0.01
+      },
+      "logical_deduction_five_objects": {
+        "base": 0.295,
+        "dsmc_minus_base": -0.0183,
+        "random_minus_base": 0.0425
+      },
+      "logical_deduction_seven_objects": {
+        "base": 0.265,
+        "dsmc_minus_base": -0.0383,
+        "random_minus_base": -0.0033
+      },
+      "logical_deduction_three_objects": {
+        "base": 0.54,
+        "dsmc_minus_base": -0.0583,
+        "random_minus_base": -0.0125
+      },
+      "movie_recommendation": {
+        "base": 0.7,
+        "dsmc_minus_base": -0.2092,
+        "random_minus_base": -0.0258
+      },
+      "multistep_arithmetic_two": {
+        "base": 0.005,
+        "dsmc_minus_base": 0.0083,
+        "random_minus_base": 0.0108
+      },
+      "navigate": {
+        "base": 0.53,
+        "dsmc_minus_base": -0.0533,
+        "random_minus_base": 0.0625
+      },
+      "object_counting": {
+        "base": 0.48,
+        "dsmc_minus_base": -0.0042,
+        "random_minus_base": -0.03
+      },
+      "penguins_in_a_table": {
+        "base": 0.2905982905982906,
+        "dsmc_minus_base": 0.0185,
+        "random_minus_base": 0.0299
+      },
+      "reasoning_about_colored_objects": {
+        "base": 0.44,
+        "dsmc_minus_base": -0.0117,
+        "random_minus_base": 0.0267
+      },
+      "ruin_names": {
+        "base": 0.335,
+        "dsmc_minus_base": -0.0475,
+        "random_minus_base": -0.0433
+      },
+      "salient_translation_error_detection": {
+        "base": 0.225,
+        "dsmc_minus_base": 0.0275,
+        "random_minus_base": 0.0442
+      },
+      "snarks": {
+        "base": 0.4788732394366197,
+        "dsmc_minus_base": -0.0106,
+        "random_minus_base": 0.0059
+      },
+      "sports_understanding": {
+        "base": 0.9,
+        "dsmc_minus_base": -0.12,
+        "random_minus_base": -0.0325
+      },
+      "temporal_sequences": {
+        "base": 0.125,
+        "dsmc_minus_base": 0.0208,
+        "random_minus_base": 0.0075
+      },
+      "tracking_shuffled_objects_five_objects": {
+        "base": 0.18,
+        "dsmc_minus_base": -0.0192,
+        "random_minus_base": -0.005
+      },
+      "tracking_shuffled_objects_seven_objects": {
+        "base": 0.155,
+        "dsmc_minus_base": -0.01,
+        "random_minus_base": -0.035
+      },
+      "tracking_shuffled_objects_three_objects": {
+        "base": 0.34,
+        "dsmc_minus_base": -0.0458,
+        "random_minus_base": -0.0208
+      },
+      "web_of_lies": {
+        "base": 0.52,
+        "dsmc_minus_base": -0.045,
+        "random_minus_base": -0.0225
+      },
+      "word_sorting": {
+        "base": 0.11,
+        "dsmc_minus_base": -0.0067,
+        "random_minus_base": 0.0042
+      }
+    }
+  }
+}

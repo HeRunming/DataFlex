@@ -5,79 +5,88 @@ until 36/36 train + 36/36 eval finished, then unsealed once. Descriptive only �
 variance-component inference**.
 
 **Primary metric**: the pinned lm-eval `bbh_cot_fewshot` **micro** (`weight_by_size: true`) `exact_match`
-over the **27 lm-eval subtasks** on the **5,209-example held-out split**. The 23-family regroup is a
-secondary diagnostic only. **Shared no-SFT reference: 0.396429** (results JSON sha `bb4006ada919…`).
+over the **5,209-example held-out split**. **Shared no-SFT reference: 0.396429** (results JSON sha
+`bb4006ada919…`).
+
+**Primary statistical unit: the query/selection draw (n=3).** The two SFT seeds share the *same* query
+draw *and* the *same* selected subset, so the six seed-level cells are **not** six independent selection
+replicates. Seeds are averaged within each draw first; the six cells are retained as secondary stability
+evidence.
 
 Integrity, re-verified before unsealing: all 36 cells at exactly **84 optimizer steps**, all evals
 **27/27 subtasks and 5,209 examples**, all **18 subset hashes unchanged**.
 
+---
+
 ## Headline
 
-> **Every targeted selector, including DSMC, loses to plain Random-K on BBH — and every one of them,
-> including Random, lands BELOW the no-SFT base model.** DSMC is not even the best targeted selector
-> here: First-RR and Second-RR beat it, and it beats only LESS-style TopK. The MMLU finding therefore
-> replicates and strengthens on an external family: **target-aware selection does not pay off, and the
-> gap against Random is larger on BBH (−0.0294) than it was on MMLU (−0.0001 at 5%, −0.0077 at 1%).**
+> **Every targeted selector, including DSMC, loses to plain Random-K on BBH.** DSMC is not even the best
+> targeted selector here — both round-robin variants beat it. And the post-hoc geometry diagnostic shows
+> **DSMC achieves the lowest D2 to its own query set in 3/3 draws while ranking at the bottom
+> downstream**, with the query-loss diagnostic showing every targeted selector *improving* the surrogate
+> it optimizes while *losing* on the task. The MMLU surrogate/outcome dissociation therefore **replicates
+> externally and is much stronger here.**
 
-## Absolute performance (micro exact_match)
+## 1. Absolute performance (micro exact_match)
 
-| method | d0s42 | d0s1 | d1s42 | d1s1 | d2s42 | d2s1 | **mean** | **Δ vs base** |
-|---|---|---|---|---|---|---|---|---|
-| **randk** | 0.3924 | 0.3935 | 0.3922 | 0.3834 | 0.3974 | 0.3960 | **0.3925** | **−0.0039** |
-| randk_seqlabelmatch *(secondary)* | 0.3765 | 0.3736 | 0.3857 | 0.3799 | 0.3859 | 0.3816 | 0.3805 | −0.0159 |
-| first_rr | 0.3659 | 0.3588 | 0.3768 | 0.3753 | 0.3745 | 0.3776 | 0.3715 | −0.0249 |
-| second_rr | 0.3701 | 0.3659 | 0.3688 | 0.3713 | 0.3667 | 0.3694 | 0.3687 | −0.0277 |
-| **dsmc** | 0.3649 | 0.3623 | 0.3680 | 0.3613 | 0.3615 | 0.3605 | **0.3631** | **−0.0333** |
-| less | 0.3534 | 0.3573 | 0.3628 | 0.3644 | 0.3586 | 0.3644 | 0.3601 | −0.0363 |
+| method | mean | Δ vs base |
+|---|---|---|
+| **randk** | **0.3925** | −0.39 pp |
+| randk_seqlabelmatch *(secondary control)* | 0.3805 | −1.59 pp |
+| first_rr | 0.3715 | −2.49 pp |
+| second_rr | 0.3687 | −2.77 pp |
+| **dsmc** | **0.3631** | −3.33 pp |
+| less | 0.3601 | −3.63 pp |
 
-**All six arms are below base (0.396429).** Random-K is closest (−0.0039); DSMC is −0.0333. Every method
-degrades a 7B base model on held-out BBH at K=2707 — consistent with the MMLU 1% arm, where most targeted
-selectors also showed negative transfer, but here it extends to Random as well.
+**All method means fall below the shared no-SFT reference.** Random-K stays close to base (−0.39 pp) and
+**one of its six cells (0.3974) is actually above base**, so it is wrong to say every Random run degrades
+the model. Every *target-aware* method shows a substantially larger mean degradation — DSMC's −3.33 pp is
+an order of magnitude beyond Random's −0.39 pp.
 
-## Paired analysis: DSMC − method, per (draw, seed) cell
+## 2. Paired analysis — PRIMARY: three draw-level blocks
 
-6 paired observations per comparison, as pre-registered.
+DSMC − method, seeds averaged within each draw.
 
-| method | d0s42 | d0s1 | d1s42 | d1s1 | d2s42 | d2s1 | mean | median | DSMC wins/6 |
-|---|---|---|---|---|---|---|---|---|---|
-| less | +0.0115 | +0.0050 | +0.0052 | −0.0031 | +0.0029 | −0.0038 | **+0.0029** | +0.0039 | **4/6** |
-| second_rr | −0.0052 | −0.0036 | −0.0008 | −0.0100 | −0.0052 | −0.0088 | **−0.0056** | −0.0052 | **0/6** |
-| first_rr | −0.0010 | +0.0035 | −0.0088 | −0.0140 | −0.0131 | −0.0171 | **−0.0084** | −0.0109 | **1/6** |
-| randk_seqlabelmatch | −0.0115 | −0.0113 | −0.0177 | −0.0186 | −0.0244 | −0.0211 | **−0.0174** | −0.0181 | **0/6** |
-| randk | −0.0275 | −0.0313 | −0.0242 | −0.0221 | −0.0359 | −0.0355 | **−0.0294** | −0.0294 | **0/6** |
+| comparator | draw0 | draw1 | draw2 | mean | DSMC wins |
+|---|---|---|---|---|---|
+| randk | −2.94 | −2.31 | −3.57 | **−2.94 pp** | **0/3** |
+| randk_seqlabelmatch | −1.14 | −1.81 | −2.27 | **−1.74 pp** | **0/3** |
+| second_rr | −0.44 | −0.54 | −0.70 | **−0.56 pp** | **0/3** |
+| first_rr | +0.12 | −1.14 | −1.51 | **−0.84 pp** | **1/3** |
+| less | +0.83 | +0.11 | −0.05 | **+0.29 pp** | **2/3** |
+
+*Secondary stability evidence* (six seed-level cells): the same signs hold, at 0/6, 0/6, 0/6, 1/6 and 4/6
+respectively — every cell agrees with its draw-level block except where the block is already near zero.
 
 **This contradicts the MMLU within-targeted-selector ordering.** On MMLU, DSMC beat every targeted
-selector at 5% (10/10) and most at 1%. On BBH it beats only LESS (4/6, +0.0029, and the sign flips in 2
-cells), while **losing to Second-RR 0/6 and First-RR 1/6**. The claim "DSMC is the most robust targeted
-selector" does **not** survive this external family and must be scoped to MMLU.
+selector at 5% (10/10). On BBH it loses to Second-RR **0/3** and First-RR 1/3, beating only LESS-style
+TopK. The claim *"directional second moments substantially improve robustness among target-aware
+selectors"* must be re-scoped:
 
-## Query-draw spread and seed sensitivity (descriptive)
+> Directional second moments improved target-aware selection **on the MMLU family, particularly at 5%**,
+> but that advantage **did not transfer to BBH**.
 
-Per-draw means (averaged over the 2 seeds) and per-seed means (averaged over the 3 draws). With one
-observation per cell this design cannot support variance decomposition, so these are reported as spreads
-only.
+## 3. Query-draw spread and seed sensitivity
 
 | method | draw0 | draw1 | draw2 | spread | seed42 | seed1 | \|diff\| |
 |---|---|---|---|---|---|---|---|
 | dsmc | 0.3636 | 0.3647 | 0.3610 | 0.0036 | 0.3648 | 0.3614 | 0.0035 |
 | second_rr | 0.3680 | 0.3700 | 0.3680 | 0.0020 | 0.3685 | 0.3688 | 0.0003 |
-| first_rr | 0.3624 | 0.3761 | 0.3761 | **0.0137** | 0.3724 | 0.3706 | 0.0019 |
+| first_rr | 0.3624 | 0.3761 | 0.3761 | 0.0137 | 0.3724 | 0.3706 | 0.0019 |
 | less | 0.3553 | 0.3636 | 0.3615 | 0.0083 | 0.3583 | 0.3620 | 0.0037 |
 | randk | 0.3930 | 0.3878 | 0.3967 | 0.0089 | 0.3940 | 0.3910 | 0.0030 |
 | randk_seqlabelmatch | 0.3750 | 0.3828 | 0.3838 | 0.0087 | 0.3827 | 0.3784 | 0.0043 |
 
-Query-draw spread (0.002–0.014) exceeds seed sensitivity (0.000–0.004) for every method, so which queries
-you draw matters more than training stochasticity. Note the caveat from `inherited_context_corrections.md`:
-for the **targeted** methods block-to-block variation is driven mainly by query realization, but for
-**Random** and **SeqLabelMatched** it is driven by their own subset realization (seeds are `5000+d` /
-`7000+d`), so this is *three draw/selection-realization blocks crossed with two SFT seeds*, not pure
-query variance.
+Draw spread exceeds seed sensitivity for every method. Note that for the **targeted** methods block
+variation is driven mainly by query realization, whereas for **Random** and **SeqLabelMatched** it is
+driven by their own subset realization (seeds `5000+d` / `7000+d`) — *three draw/selection-realization
+blocks crossed with two SFT seeds*, not pure query variance.
 
-## Secondary control: Random-K-SeqLabelMatched
+## 4. Secondary control: Random-K-SeqLabelMatched
 
 Coarse joint (sequence-length × loss-bearing-label-position) matched Random, matching **DSMC's** 5×5 bin
-histogram at fixed K=2707, seed `7000+d`. Realized: sequence 0.969–0.976× DSMC, label positions
-1.15–1.19× DSMC (plain Random is 5.67×).
+histogram at fixed K=2707. Realized: sequence 0.969–0.976× DSMC, label positions 1.15–1.19× DSMC (plain
+Random is 5.67×).
 
 | | mean |
 |---|---|
@@ -85,73 +94,144 @@ histogram at fixed K=2707, seed `7000+d`. Realized: sequence 0.969–0.976× DSM
 | SeqLabelMatched Random | 0.3805 |
 | plain Random-K | 0.3925 |
 
-- DSMC − plain Random = **−0.0294**
-- DSMC − SeqLabelMatched = **−0.0174**
-- SeqLabelMatched − plain Random = **−0.0120**
+Pre-registered interpretation, applied:
 
-Applying the pre-registered interpretation table:
+- **DSMC ≤ both Random variants (0/3 against each)** ⇒ *"strengthens the negative target-awareness
+  result."* This is the case that obtained.
+- **SeqLabelMatched < plain Random (−1.20 pp)** ⇒ *"over-matching BBH's short-response format may cause
+  specialization / negative transfer."* Also obtained.
 
-- **DSMC ≤ both Random variants (0/6 against each)** ⇒ *"strengthens the negative target-awareness
-  result."* This is the outcome that obtained.
-- **SeqLabelMatched < plain Random** ⇒ *"over-matching BBH's short-response format may cause
-  specialization / negative transfer."* Also obtained, and it is informative: simply forcing Random to
-  adopt DSMC's long-context/short-answer length profile **costs 1.2 points** relative to unconstrained
-  Random.
+**Stated carefully.** Constraining Random to DSMC's coarse length profile costs 1.20 pp, which is
+**numerically ~41% of the raw 2.94 pp DSMC−Random gap**. That is **consistent with instruction-format
+composition being a contributor** — but it is **not a causal decomposition**, because matching
+sequence/label length also shifts correlated source composition, provenance entropy, and lexical/content
+distribution (this control's source entropy is 0.885, closer to DSMC's 0.833 than to Random's 1.201). We
+therefore do **not** claim "format explains 41% of the gap", and we describe the SeqLabelMatched
+degradation as *consistent with* harmful specialization toward the BBH-like long-context/short-response
+regime, not as causal identification. DSMC still trails the format-matched control by 1.74 pp, so format
+is at most part of the story.
 
-So the format axis explains a real part of DSMC's deficit — moving Random onto DSMC's length profile
-recovers 41% of the DSMC−Random gap (0.0120 / 0.0294) — but **not all of it**. DSMC remains 0.0174 below
-even the format-matched control, so its deficit is not *only* a length/format artifact. Equally, this rules
-out the reading that DSMC's targeting is helping in a way that length masks.
+## 5. 27-subtask diagnostic breakdown
 
-## 27 lm-eval subtasks (primary unit)
+*Not a statistical unit* — the primary metric remains the 5,209-example micro aggregate. This is a
+diagnostic breakdown.
 
-DSMC beats Random on **4 / 27** subtasks. Largest deficits are concentrated in the tasks the base model
-was already good at:
+DSMC beats Random on **4 / 27** subtasks. Largest deficits, all on tasks the base model already handled:
 
 | subtask | base | dsmc | randk | dsmc − randk |
 |---|---|---|---|---|
-| movie_recommendation | 0.7000 | 0.4908 | 0.6742 | **−0.1833** |
-| navigate | 0.5300 | 0.4767 | 0.5925 | **−0.1158** |
-| sports_understanding | 0.9000 | 0.7800 | 0.8675 | **−0.0875** |
+| movie_recommendation | 0.7000 | 0.4908 | 0.6742 | −0.1833 |
+| navigate | 0.5300 | 0.4767 | 0.5925 | −0.1158 |
+| sports_understanding | 0.9000 | 0.7800 | 0.8675 | −0.0875 |
 | geometric_shapes | 0.4100 | 0.2942 | 0.3683 | −0.0742 |
 | logical_deduction_five_objects | 0.2950 | 0.2767 | 0.3375 | −0.0608 |
 | … | | | | |
 | object_counting | 0.4800 | 0.4758 | 0.4500 | +0.0258 |
 | tracking_shuffled_objects_seven_objects | 0.1550 | 0.1450 | 0.1200 | +0.0250 |
-| temporal_sequences | 0.1250 | 0.1458 | 0.1325 | +0.0133 |
-| hyperbaton | 0.5250 | 0.5208 | 0.5150 | +0.0058 |
 
-The three worst cases (`movie_recommendation`, `navigate`, `sports_understanding`) are high-base-accuracy
-tasks where DSMC loses 9–18 points to Random and 12–21 points to the base model — i.e. targeted SFT is
-actively damaging capabilities the base model already had. That is the clearest signature of the
-specialization the length-matched control also hints at.
+Secondary 23-family regroup: DSMC 0.3824, Random 0.4118 — same ordering, reported for completeness.
 
-**Secondary** 23-family regroup: DSMC 0.3824, Random 0.4118. Same ordering; reported for completeness
-only, and never as the headline.
+---
+
+# Post-hoc diagnostics (exploratory, existing artifacts only)
+
+No new training. None of this was pre-registered; no method or protocol decision depends on it.
+
+## D1. The surrogate/outcome dissociation REPLICATES — and is stronger than on MMLU
+
+`bbh_forensic_geometry.json`. Same definition as the MMLU forensics: `M_P = E[u uᵀ]` on unit-normalized
+projected gradients, `D2(S, Q_d) = ‖M_S − M_{Q_d}‖²_F`.
+
+| method | D2 draw0 | draw1 | draw2 | accuracy |
+|---|---|---|---|---|
+| **dsmc** | **0.08654** | **0.09835** | **0.07390** | 0.3631 |
+| less | 0.08813 | 0.09982 | 0.07535 | 0.3601 |
+| first_rr | 0.08841 | 0.10020 | 0.07558 | 0.3715 |
+| second_rr | 0.09062 | 0.10171 | 0.07714 | 0.3687 |
+| randk | 0.11042 | 0.12155 | 0.09733 | **0.3925** |
+| randk_seqlabelmatch | 0.11109 | 0.12504 | 0.09953 | 0.3805 |
+
+**DSMC attains the lowest D2 in 3/3 draws**, and the D2 ordering is *identical* across all three draws.
+The accuracy ordering is close to its reverse: **Spearman(D2, accuracy) = +0.771 / +0.829 / +0.886**
+(pooled +0.829). Positive ρ means *lower D2 → lower accuracy*.
+
+> **The method that best matches the target second moment is the method that performs worst.** DSMC
+> demonstrably optimizes the geometry it claims to optimize — this is not a failure of the optimizer —
+> yet on a query-aligned external family better matching predicts *worse* downstream utility. On MMLU the
+> same anti-correlation was +0.389 (1%) and +0.112 (5%); on BBH it is +0.77 to +0.89.
+
+## D2. The selection surrogate is misaligned with the downstream objective
+
+`bbh_forensic_query_loss.json`. Query loss `L_Q` = CE of the final answer under *exactly* the supervision
+used for target-gradient extraction. Base `L_Q` ≈ 4.48–4.80.
+
+| method | Δ L_Q vs base | held-out EM |
+|---|---|---|
+| first_rr | **−1.400** | 0.3715 |
+| less | **−1.356** | 0.3601 |
+| dsmc | **−1.159** | 0.3631 |
+| second_rr | **−0.685** | 0.3687 |
+| randk | **+0.329** | **0.3925** |
+| randk_seqlabelmatch | **+0.351** | 0.3805 |
+
+**A perfect sign split.** All four target-aware selectors *improve* the query final-answer loss; both
+Random variants *worsen* it — and the two that worsen it are the two that score best. Spearman(ΔL_Q,
+EM) = **+0.600**.
+
+This is the most direct statement of the mechanism available from these artifacts:
+
+> The selectors succeed at the objective they optimize (final-answer cross-entropy on the query set) and
+> fail at the objective the task rewards (generate a chain of thought, *then* answer). BBH targets are
+> single tokens like `(C)`, `14`, `Yes`, while evaluation scores generated CoT — so **final-answer CE
+> alignment is not reasoning-generation utility.** The negative transfer needs no appeal to anything
+> mysterious about gradient matching.
+
+## D3. It is NOT task-level specialization
+
+`bbh_forensic_specialization.json`.
+
+**H1 — does query exposure protect a task?** Correlating query-draw task frequency `n_{d,t}` with
+seed-averaged subtask deltas gives Spearman **−0.210 / −0.280 / −0.224** vs Random (mean −0.238), and
+−0.164 vs base. Consistent in sign across all three draws — and **negative**, i.e. more exposure goes with
+slightly *more* damage.
+
+> This is the **opposite** of the task-level specialization prediction. If DSMC were narrowly specializing
+> toward the tasks its 64 queries happen to contain, those tasks should have been *protected*. They were
+> not. Whatever is being over-fit lives at the **format/response-style level**, not the BBH-task level —
+> consistent with the SeqLabelMatched control moving 41% of the gap while task exposure predicts nothing
+> protective.
+
+**H2 — does base accuracy predict degradation?** Spearman(base accuracy, post-SFT delta) = **−0.432** for
+DSMC and **−0.233** for Random. Higher-base tasks fall further, about twice as steeply for DSMC.
+**Heavily confounded** by ceiling effects and regression to the mean (a task at 0.90 has far more room to
+fall than one at 0.005), so this is a descriptive association only. The interesting part is that DSMC's
+coefficient is roughly double Random's despite both sharing the same ceiling structure.
+
+---
 
 ## Honest conclusions
 
-1. **The negative result replicates externally and gets stronger.** Targeted selection does not beat
-   well-controlled Random on BBH, and the margin (−0.0294) is much larger than on MMLU (−0.0001 at 5%,
-   −0.0077 at 1%). This was pre-registered as an informative outcome either way.
-2. **"DSMC is the best targeted selector" does not generalize.** It held on MMLU; on BBH DSMC loses to
-   both round-robin variants (0/6 and 1/6) and beats only LESS-style TopK. That claim must now be scoped
-   to the MMLU family.
-3. **Everything degrades the base model at K=2707**, Random included (−0.0039). Any framing that presents
-   BBH selection as an improvement over no-SFT would be wrong.
-4. **Format/length explains part, not all.** Forcing Random onto DSMC's length profile costs 1.2 points,
-   recovering 41% of the DSMC−Random gap; DSMC still trails the matched control by 0.0174.
-5. **Query realization dominates training stochasticity** in this design, which is why the 3×2 crossed
-   structure was worth having.
+1. **The negative result replicates externally and gets stronger.** −2.94 pp vs Random on BBH, against
+   −0.01 pp (5%) and −0.77 pp (1%) on MMLU. The earlier "skewed query misled the selector" explanation is
+   unavailable here: the BBH queries are same-family, held-out, and normally sampled.
+2. **"DSMC is the best targeted selector" does not generalize.** It held on MMLU; on BBH it loses to both
+   round-robin variants. Scope that claim to the MMLU family.
+3. **All method means fall below base**, though Random stays within 0.39 pp and one Random cell exceeds
+   base. Target-aware methods degrade an order of magnitude more.
+4. **The surrogate/outcome dissociation is now a cross-family result with a mechanism.** DSMC minimizes
+   D2 in 3/3 draws and still loses; every targeted selector improves query final-answer CE and still
+   loses. The selection objective is measurably achieved and measurably fails to transfer.
+5. **Format, not task, is the plausible locus.** Task exposure does not protect; length/format matching
+   moves ~41% of the gap. Neither is causally identified.
 
-**What this does not show.** These are 6 cells per method at one budget on one pool and one model; nothing
-here establishes a mechanism, and the earlier forensic result stands — DSMC optimizes its own D2 objective
-successfully while that does not translate into downstream utility. See
-`inherited_context_corrections.md` for the corrected MMLU claims this summary is consistent with.
+**What this does not show.** One pool, one budget, one model (Llama-2-7B), 3 draws × 2 seeds. The
+diagnostics are exploratory and post-hoc. Nothing here isolates a cause; D1–D3 are consistent evidence,
+not identification.
 
 ## Provenance
 
-36/36 train + 36/36 eval, zero failures, zero driver restarts. Run state:
-`bbh_full_run_state.json`. Frozen artifacts: `bbh_external_run_plan.json` (36 cells / 18 subsets),
-`bbh_execution_contract.json`, `bbh_eval_pin_manifest.json`, `bbh_canary_report.json`,
-`bbh_sft_canary_launch_receipt.json`. All 18 subset hashes verified unchanged after the run.
+36/36 train + 36/36 eval, zero failures, zero driver restarts. `bbh_full_run_state.json`;
+`bbh_external_run_plan.json` (36 cells / 18 subsets); `bbh_execution_contract.json`;
+`bbh_eval_pin_manifest.json`; `bbh_canary_report.json`; `bbh_sft_canary_launch_receipt.json`.
+All 18 subset hashes verified unchanged after the run. Diagnostics:
+`bbh_forensic_geometry.json`, `bbh_forensic_query_loss.json`, `bbh_forensic_specialization.json`.

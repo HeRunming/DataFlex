@@ -1,0 +1,404 @@
+{
+  "diagnostic": "query final-answer loss vs held-out CoT exact-match",
+  "supervision": "identical to target-gradient extraction: llama2 template, cutoff 3072, prompt masked, loss on the bare final BBH answer only",
+  "why": "BBH targets are single tokens like (C)/14/Yes while evaluation requires generating a chain of thought and then the answer -- two different objectives",
+  "DIAGNOSTIC_ONLY": "no model, method, or protocol decision may depend on this",
+  "base_query_loss": {
+    "0": 4.598650703206658,
+    "1": 4.799404592253268,
+    "2": 4.4844880839809775
+  },
+  "cells": {
+    "bbhx_draw0_dsmc_seed42": {
+      "draw": 0,
+      "method": "dsmc",
+      "seed": 42,
+      "query_loss": 3.4799112118780613,
+      "delta_vs_base": -1.118739491328597,
+      "heldout_exact_match": 0.36494528700326356
+    },
+    "bbhx_draw0_dsmc_seed1": {
+      "draw": 0,
+      "method": "dsmc",
+      "seed": 1,
+      "query_loss": 3.5328080849722028,
+      "delta_vs_base": -1.0658426182344556,
+      "heldout_exact_match": 0.36225763102322905
+    },
+    "bbhx_draw0_second_rr_seed42": {
+      "draw": 0,
+      "method": "second_rr",
+      "seed": 42,
+      "query_loss": 4.063751770183444,
+      "delta_vs_base": -0.5348989330232143,
+      "heldout_exact_match": 0.37012862353618736
+    },
+    "bbhx_draw0_second_rr_seed1": {
+      "draw": 0,
+      "method": "second_rr",
+      "seed": 1,
+      "query_loss": 4.023199779912829,
+      "delta_vs_base": -0.575450923293829,
+      "heldout_exact_match": 0.3659051641389902
+    },
+    "bbhx_draw0_first_rr_seed42": {
+      "draw": 0,
+      "method": "first_rr",
+      "seed": 42,
+      "query_loss": 3.4072079295292497,
+      "delta_vs_base": -1.1914427736774087,
+      "heldout_exact_match": 0.3659051641389902
+    },
+    "bbhx_draw0_first_rr_seed1": {
+      "draw": 0,
+      "method": "first_rr",
+      "seed": 1,
+      "query_loss": 3.280698417685926,
+      "delta_vs_base": -1.3179522855207324,
+      "heldout_exact_match": 0.35880207333461317
+    },
+    "bbhx_draw0_less_seed42": {
+      "draw": 0,
+      "method": "less",
+      "seed": 42,
+      "query_loss": 3.2480982281267643,
+      "delta_vs_base": -1.350552475079894,
+      "heldout_exact_match": 0.35342676137454404
+    },
+    "bbhx_draw0_less_seed1": {
+      "draw": 0,
+      "method": "less",
+      "seed": 1,
+      "query_loss": 3.264505051076412,
+      "delta_vs_base": -1.3341456521302462,
+      "heldout_exact_match": 0.3572662699174506
+    },
+    "bbhx_draw0_randk_seed42": {
+      "draw": 0,
+      "method": "randk",
+      "seed": 42,
+      "query_loss": 4.850536352023482,
+      "delta_vs_base": 0.25188564881682396,
+      "heldout_exact_match": 0.3923977730850451
+    },
+    "bbhx_draw0_randk_seed1": {
+      "draw": 0,
+      "method": "randk",
+      "seed": 1,
+      "query_loss": 4.775274351239204,
+      "delta_vs_base": 0.17662364803254604,
+      "heldout_exact_match": 0.39354962564791707
+    },
+    "bbhx_draw0_randk_seqlabelmatch_seed42": {
+      "draw": 0,
+      "method": "randk_seqlabelmatch",
+      "seed": 42,
+      "query_loss": 5.1131392698735,
+      "delta_vs_base": 0.5144885666668415,
+      "heldout_exact_match": 0.3764638126319831
+    },
+    "bbhx_draw0_randk_seqlabelmatch_seed1": {
+      "draw": 0,
+      "method": "randk_seqlabelmatch",
+      "seed": 1,
+      "query_loss": 5.0009311474859715,
+      "delta_vs_base": 0.4022804442793131,
+      "heldout_exact_match": 0.37358418122480325
+    },
+    "bbhx_draw1_dsmc_seed42": {
+      "draw": 1,
+      "method": "dsmc",
+      "seed": 42,
+      "query_loss": 3.6097725313156843,
+      "delta_vs_base": -1.1896320609375834,
+      "heldout_exact_match": 0.3680168938375888
+    },
+    "bbhx_draw1_dsmc_seed1": {
+      "draw": 1,
+      "method": "dsmc",
+      "seed": 1,
+      "query_loss": 3.5757742328569293,
+      "delta_vs_base": -1.2236303593963385,
+      "heldout_exact_match": 0.3612977538875024
+    },
+    "bbhx_draw1_second_rr_seed42": {
+      "draw": 1,
+      "method": "second_rr",
+      "seed": 42,
+      "query_loss": 3.9775507720187306,
+      "delta_vs_base": -0.8218538202345371,
+      "heldout_exact_match": 0.3687847955461701
+    },
+    "bbhx_draw1_second_rr_seed1": {
+      "draw": 1,
+      "method": "second_rr",
+      "seed": 1,
+      "query_loss": 3.9660432068631053,
+      "delta_vs_base": -0.8333613853901625,
+      "heldout_exact_match": 0.37128047609905934
+    },
+    "bbhx_draw1_first_rr_seed42": {
+      "draw": 1,
+      "method": "first_rr",
+      "seed": 42,
+      "query_loss": 3.236323135904968,
+      "delta_vs_base": -1.5630814563483,
+      "heldout_exact_match": 0.37684776348627375
+    },
+    "bbhx_draw1_first_rr_seed1": {
+      "draw": 1,
+      "method": "first_rr",
+      "seed": 1,
+      "query_loss": 3.200745747424662,
+      "delta_vs_base": -1.5986588448286057,
+      "heldout_exact_match": 0.37531196006911116
+    },
+    "bbhx_draw1_less_seed42": {
+      "draw": 1,
+      "method": "less",
+      "seed": 42,
+      "query_loss": 3.2630118941888213,
+      "delta_vs_base": -1.5363926980644464,
+      "heldout_exact_match": 0.362833557304665
+    },
+    "bbhx_draw1_less_seed1": {
+      "draw": 1,
+      "method": "less",
+      "seed": 1,
+      "query_loss": 3.32172922603786,
+      "delta_vs_base": -1.4776753662154078,
+      "heldout_exact_match": 0.36436936072182763
+    },
+    "bbhx_draw1_randk_seed42": {
+      "draw": 1,
+      "method": "randk",
+      "seed": 42,
+      "query_loss": 5.2384668700397015,
+      "delta_vs_base": 0.4390622777864337,
+      "heldout_exact_match": 0.3922057976578998
+    },
+    "bbhx_draw1_randk_seed1": {
+      "draw": 1,
+      "method": "randk",
+      "seed": 1,
+      "query_loss": 5.189987384714186,
+      "delta_vs_base": 0.3905827924609184,
+      "heldout_exact_match": 0.3833749280092148
+    },
+    "bbhx_draw1_randk_seqlabelmatch_seed42": {
+      "draw": 1,
+      "method": "randk_seqlabelmatch",
+      "seed": 42,
+      "query_loss": 5.053923222236335,
+      "delta_vs_base": 0.2545186299830675,
+      "heldout_exact_match": 0.3856786331349587
+    },
+    "bbhx_draw1_randk_seqlabelmatch_seed1": {
+      "draw": 1,
+      "method": "randk_seqlabelmatch",
+      "seed": 1,
+      "query_loss": 5.1279682936146855,
+      "delta_vs_base": 0.32856370136141777,
+      "heldout_exact_match": 0.37991937032059897
+    },
+    "bbhx_draw2_dsmc_seed42": {
+      "draw": 2,
+      "method": "dsmc",
+      "seed": 42,
+      "query_loss": 3.3006117958575487,
+      "delta_vs_base": -1.1838762881234288,
+      "heldout_exact_match": 0.36148972931464773
+    },
+    "bbhx_draw2_dsmc_seed1": {
+      "draw": 2,
+      "method": "dsmc",
+      "seed": 1,
+      "query_loss": 3.311909409239888,
+      "delta_vs_base": -1.1725786747410893,
+      "heldout_exact_match": 0.3605298521789211
+    },
+    "bbhx_draw2_second_rr_seed42": {
+      "draw": 2,
+      "method": "second_rr",
+      "seed": 42,
+      "query_loss": 3.801936944015324,
+      "delta_vs_base": -0.6825511399656534,
+      "heldout_exact_match": 0.36667306584757153
+    },
+    "bbhx_draw2_second_rr_seed1": {
+      "draw": 2,
+      "method": "second_rr",
+      "seed": 1,
+      "query_loss": 3.824026240967214,
+      "delta_vs_base": -0.6604618430137634,
+      "heldout_exact_match": 0.36936072182760604
+    },
+    "bbhx_draw2_first_rr_seed42": {
+      "draw": 2,
+      "method": "first_rr",
+      "seed": 42,
+      "query_loss": 3.141728462651372,
+      "delta_vs_base": -1.3427596213296056,
+      "heldout_exact_match": 0.37454405836052984
+    },
+    "bbhx_draw2_first_rr_seed1": {
+      "draw": 2,
+      "method": "first_rr",
+      "seed": 1,
+      "query_loss": 3.100618216674775,
+      "delta_vs_base": -1.3838698673062027,
+      "heldout_exact_match": 0.37761566519485507
+    },
+    "bbhx_draw2_less_seed42": {
+      "draw": 2,
+      "method": "less",
+      "seed": 42,
+      "query_loss": 3.2352590365335345,
+      "delta_vs_base": -1.249229047447443,
+      "heldout_exact_match": 0.35861009790746784
+    },
+    "bbhx_draw2_less_seed1": {
+      "draw": 2,
+      "method": "less",
+      "seed": 1,
+      "query_loss": 3.2979694195091724,
+      "delta_vs_base": -1.186518664471805,
+      "heldout_exact_match": 0.36436936072182763
+    },
+    "bbhx_draw2_randk_seed42": {
+      "draw": 2,
+      "method": "randk",
+      "seed": 42,
+      "query_loss": 4.834972074255347,
+      "delta_vs_base": 0.3504839902743697,
+      "heldout_exact_match": 0.39738913419082356
+    },
+    "bbhx_draw2_randk_seed1": {
+      "draw": 2,
+      "method": "randk",
+      "seed": 1,
+      "query_loss": 4.848723564296961,
+      "delta_vs_base": 0.3642354803159833,
+      "heldout_exact_match": 0.3960453062008063
+    },
+    "bbhx_draw2_randk_seqlabelmatch_seed42": {
+      "draw": 2,
+      "method": "randk_seqlabelmatch",
+      "seed": 42,
+      "query_loss": 4.800113098695874,
+      "delta_vs_base": 0.3156250147148967,
+      "heldout_exact_match": 0.38587060856210403
+    },
+    "bbhx_draw2_randk_seqlabelmatch_seed1": {
+      "draw": 2,
+      "method": "randk_seqlabelmatch",
+      "seed": 1,
+      "query_loss": 4.776715042069554,
+      "delta_vs_base": 0.2922269580885768,
+      "heldout_exact_match": 0.3816471491649069
+    }
+  },
+  "method_summary": {
+    "dsmc": {
+      "delta_query_loss_per_draw": [
+        -1.0922910547815263,
+        -1.206631210166961,
+        -1.178227481432259
+      ],
+      "delta_query_loss_mean": -1.1590499154602487,
+      "heldout_em_per_draw": [
+        0.3636014590132463,
+        0.36465732386254557,
+        0.3610097907467844
+      ],
+      "heldout_em_mean": 0.36308952454085874
+    },
+    "second_rr": {
+      "delta_query_loss_per_draw": [
+        -0.5551749281585217,
+        -0.8276076028123498,
+        -0.6715064914897084
+      ],
+      "delta_query_loss_mean": -0.6847630074868599,
+      "heldout_em_per_draw": [
+        0.3680168938375888,
+        0.3700326358226147,
+        0.3680168938375888
+      ],
+      "heldout_em_mean": 0.3686888078325974
+    },
+    "first_rr": {
+      "delta_query_loss_per_draw": [
+        -1.2546975295990705,
+        -1.5808701505884528,
+        -1.3633147443179041
+      ],
+      "delta_query_loss_mean": -1.3996274748351425,
+      "heldout_em_per_draw": [
+        0.3623536187368017,
+        0.3760798617776925,
+        0.3760798617776925
+      ],
+      "heldout_em_mean": 0.3715044474307289
+    },
+    "less": {
+      "delta_query_loss_per_draw": [
+        -1.3423490636050701,
+        -1.5070340321399271,
+        -1.217873855959624
+      ],
+      "delta_query_loss_mean": -1.3557523172348738,
+      "heldout_em_per_draw": [
+        0.3553465156459973,
+        0.3636014590132463,
+        0.36148972931464773
+      ],
+      "heldout_em_mean": 0.3601459013246304
+    },
+    "randk": {
+      "delta_query_loss_per_draw": [
+        0.214254648424685,
+        0.41482253512367606,
+        0.3573597352951765
+      ],
+      "delta_query_loss_mean": 0.3288123062811792,
+      "heldout_em_per_draw": [
+        0.3929736993664811,
+        0.3877903628335573,
+        0.3967172201958149
+      ],
+      "heldout_em_mean": 0.3924937607986177
+    },
+    "randk_seqlabelmatch": {
+      "delta_query_loss_per_draw": [
+        0.4583845054730773,
+        0.29154116567224264,
+        0.30392598640173674
+      ],
+      "delta_query_loss_mean": 0.3512838858490189,
+      "heldout_em_per_draw": [
+        0.37502399692839317,
+        0.3827990017277788,
+        0.38375887886350546
+      ],
+      "heldout_em_mean": 0.3805272925065591
+    }
+  },
+  "ranking_by_query_loss_improvement": [
+    "first_rr",
+    "less",
+    "dsmc",
+    "second_rr",
+    "randk",
+    "randk_seqlabelmatch"
+  ],
+  "ranking_by_heldout_accuracy": [
+    "randk",
+    "randk_seqlabelmatch",
+    "first_rr",
+    "second_rr",
+    "dsmc",
+    "less"
+  ],
+  "INTERPRETATION": "If the ordering by query-loss improvement is roughly the REVERSE of the ordering by held-out accuracy, the selection surrogate (final-answer CE on the query set) is misaligned with the downstream objective (generate a CoT, then answer). That would explain the negative transfer without appealing to anything mysterious about gradient matching."
+}
