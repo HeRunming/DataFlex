@@ -138,16 +138,34 @@
   },
   "gate4": {
     "draw0_dsmc": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_dsmc/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_dsmc/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "1e7d31b2614af5000359007836db2ca960a0c4fc1c0f75a05fc3ba153c4c7f11",
+      "pass": true
     },
     "draw0_first_rr": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_first_rr/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_first_rr/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "506854350bbf6efe02f6d2c9991df7f34ba90fb4144a68376a03a74e36d6ef06",
+      "pass": true
     },
     "draw0_second_rr": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_second_rr/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_second_rr/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "2d0a276b1f084e92eff6c5b1de5c68d30502acab57de22553fe2332e90fdaddd",
+      "pass": true
     },
     "draw0_randk_reuse": {
       "frozen_llama2_selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_randk/step_1.json",
@@ -160,16 +178,34 @@
       "pass": true
     },
     "draw1_dsmc": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_dsmc/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_dsmc/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "751f8a8e9571118e922f72e4a029a0ea715627b9e753e1e86a05b67127a8aba6",
+      "pass": true
     },
     "draw1_first_rr": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_first_rr/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_first_rr/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "05ecc4c734b7b3b1f90c6b5f843934eee70da16f4e950bfb50b0328a971b3bf4",
+      "pass": true
     },
     "draw1_second_rr": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_second_rr/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_second_rr/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "e676dae56123c278dcf93fa775cab5b6d941719b3e5de460921213f405424d96",
+      "pass": true
     },
     "draw1_randk_reuse": {
       "frozen_llama2_selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw1_randk/step_1.json",
@@ -182,16 +218,34 @@
       "pass": true
     },
     "draw2_dsmc": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_dsmc/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_dsmc/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "6df43eb7d4c0e84dd4439e2f55515dd31592fb3a03e596ee15bb9c96538ea6cd",
+      "pass": true
     },
     "draw2_first_rr": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_first_rr/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_first_rr/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "0a850829db5917920ecd2ac9bcffbc596a16f9729df004c8dd9f9d0de802170f",
+      "pass": true
     },
     "draw2_second_rr": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_second_rr/step_1.json",
-      "pass": false
+      "file": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_second_rr/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "n_unique": 2707,
+      "unique_ok": true,
+      "in_range": true,
+      "idx_sha256": "250f3e89c53aa6b3b865569a94f6c08280027a2ed3dff3965e62cc2068881dfe",
+      "pass": true
     },
     "draw2_randk_reuse": {
       "frozen_llama2_selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw2_randk/step_1.json",
@@ -203,13 +257,69 @@
       "reuse_rationale": "Random-K is target-independent, so reusing the exact Llama-2 indices gives the two model stacks a genuinely constant data baseline. DSMC/First-RR/Second-RR must NOT be reused.",
       "pass": true
     },
-    "all_pass": false
+    "all_pass": true
   },
-  "ALL_GATES_PASS": false,
+  "ALL_GATES_PASS": true,
   "no_accuracy_inspected": true,
   "tamper_check": {
     "gate3_flips_to_fail": true,
     "gate4_flips_to_fail": true,
     "note": "negative control: dropping one target-gradient row and one selected index, and corrupting the Random-K hash, must each make the gate FAIL. If a gate still passed here it would be vacuous."
+  },
+  "model_specificity_check": {
+    "question": "the prereg REQUIRES DSMC/First-RR/Second-RR to be Llama-3.2's own selections. If they came out identical to Llama-2's, \"rebuilt\" would be false and this would be cross-model transfer of Llama-2-selected subsets -- explicitly forbidden.",
+    "per_cell": {
+      "draw0_dsmc": {
+        "jaccard_vs_llama2": 0.048,
+        "overlap": 248,
+        "identical": false
+      },
+      "draw0_first_rr": {
+        "jaccard_vs_llama2": 0.0624,
+        "overlap": 318,
+        "identical": false
+      },
+      "draw0_second_rr": {
+        "jaccard_vs_llama2": 0.0456,
+        "overlap": 236,
+        "identical": false
+      },
+      "draw1_dsmc": {
+        "jaccard_vs_llama2": 0.045,
+        "overlap": 233,
+        "identical": false
+      },
+      "draw1_first_rr": {
+        "jaccard_vs_llama2": 0.0552,
+        "overlap": 283,
+        "identical": false
+      },
+      "draw1_second_rr": {
+        "jaccard_vs_llama2": 0.0412,
+        "overlap": 214,
+        "identical": false
+      },
+      "draw2_dsmc": {
+        "jaccard_vs_llama2": 0.0444,
+        "overlap": 230,
+        "identical": false
+      },
+      "draw2_first_rr": {
+        "jaccard_vs_llama2": 0.0562,
+        "overlap": 288,
+        "identical": false
+      },
+      "draw2_second_rr": {
+        "jaccard_vs_llama2": 0.0394,
+        "overlap": 205,
+        "identical": false
+      }
+    },
+    "jaccard_range": [
+      0.0394,
+      0.0624
+    ],
+    "none_identical": true,
+    "verdict": "PASS - Jaccard 0.0394-0.0624 against the Llama-2 selections on the same draws and the same candidate pool, i.e. only ~205-318 of 2707 indices shared. The two model stacks genuinely select different data, so the model-specific gradient geometry was rebuilt rather than transferred. Random-K is the deliberate exception and is byte-identical by design."
   }
 }
