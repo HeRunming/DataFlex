@@ -1,0 +1,357 @@
+{
+  "arm": "Llama-3.2-3B second model-stack confirmation",
+  "base_model": "/jizhicfs/karonhe/models/modelscope/LLM-Research/Llama-3___2-3B",
+  "n_cells": 24,
+  "budget_K": 2707,
+  "accuracy_policy": "accuracy is written to disk but NOT summarized or compared until all 24 cells complete, so no interim number can influence the protocol",
+  "materialized": true,
+  "loader_checked": true,
+  "cells": [
+    {
+      "adapter_id": "l32_draw0_dsmc_seed42",
+      "draw": 0,
+      "method": "dsmc",
+      "train_seed": 42,
+      "dataset_key": "l32_draw0_dsmc",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_dsmc_seed42",
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "5d578e1d115cb9a033612aaee4a863e82b3b33805f6cb376c644b7dc2607f04d",
+      "train_minutes": 9.3
+    },
+    {
+      "adapter_id": "l32_draw0_dsmc_seed1",
+      "draw": 0,
+      "method": "dsmc",
+      "train_seed": 1,
+      "dataset_key": "l32_draw0_dsmc",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_dsmc_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw0_first_rr_seed42",
+      "draw": 0,
+      "method": "first_rr",
+      "train_seed": 42,
+      "dataset_key": "l32_draw0_first_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_first_rr_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw0_first_rr_seed1",
+      "draw": 0,
+      "method": "first_rr",
+      "train_seed": 1,
+      "dataset_key": "l32_draw0_first_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_first_rr_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw0_second_rr_seed42",
+      "draw": 0,
+      "method": "second_rr",
+      "train_seed": 42,
+      "dataset_key": "l32_draw0_second_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_second_rr_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw0_second_rr_seed1",
+      "draw": 0,
+      "method": "second_rr",
+      "train_seed": 1,
+      "dataset_key": "l32_draw0_second_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_second_rr_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw0_randk_seed42",
+      "draw": 0,
+      "method": "randk",
+      "train_seed": 42,
+      "dataset_key": "l32_draw0_randk",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_randk_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw0_randk_seed1",
+      "draw": 0,
+      "method": "randk",
+      "train_seed": 1,
+      "dataset_key": "l32_draw0_randk",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_randk_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_dsmc_seed42",
+      "draw": 1,
+      "method": "dsmc",
+      "train_seed": 42,
+      "dataset_key": "l32_draw1_dsmc",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_dsmc_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_dsmc_seed1",
+      "draw": 1,
+      "method": "dsmc",
+      "train_seed": 1,
+      "dataset_key": "l32_draw1_dsmc",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_dsmc_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_first_rr_seed42",
+      "draw": 1,
+      "method": "first_rr",
+      "train_seed": 42,
+      "dataset_key": "l32_draw1_first_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_first_rr_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_first_rr_seed1",
+      "draw": 1,
+      "method": "first_rr",
+      "train_seed": 1,
+      "dataset_key": "l32_draw1_first_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_first_rr_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_second_rr_seed42",
+      "draw": 1,
+      "method": "second_rr",
+      "train_seed": 42,
+      "dataset_key": "l32_draw1_second_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_second_rr_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_second_rr_seed1",
+      "draw": 1,
+      "method": "second_rr",
+      "train_seed": 1,
+      "dataset_key": "l32_draw1_second_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_second_rr_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_randk_seed42",
+      "draw": 1,
+      "method": "randk",
+      "train_seed": 42,
+      "dataset_key": "l32_draw1_randk",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_randk_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw1_randk_seed1",
+      "draw": 1,
+      "method": "randk",
+      "train_seed": 1,
+      "dataset_key": "l32_draw1_randk",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_randk_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_dsmc_seed42",
+      "draw": 2,
+      "method": "dsmc",
+      "train_seed": 42,
+      "dataset_key": "l32_draw2_dsmc",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_dsmc_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_dsmc_seed1",
+      "draw": 2,
+      "method": "dsmc",
+      "train_seed": 1,
+      "dataset_key": "l32_draw2_dsmc",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_dsmc_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_first_rr_seed42",
+      "draw": 2,
+      "method": "first_rr",
+      "train_seed": 42,
+      "dataset_key": "l32_draw2_first_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_first_rr_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_first_rr_seed1",
+      "draw": 2,
+      "method": "first_rr",
+      "train_seed": 1,
+      "dataset_key": "l32_draw2_first_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_first_rr_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_second_rr_seed42",
+      "draw": 2,
+      "method": "second_rr",
+      "train_seed": 42,
+      "dataset_key": "l32_draw2_second_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_second_rr_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_second_rr_seed1",
+      "draw": 2,
+      "method": "second_rr",
+      "train_seed": 1,
+      "dataset_key": "l32_draw2_second_rr",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_second_rr_seed1",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_randk_seed42",
+      "draw": 2,
+      "method": "randk",
+      "train_seed": 42,
+      "dataset_key": "l32_draw2_randk",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_randk_seed42",
+      "trained": false,
+      "evaluated": false
+    },
+    {
+      "adapter_id": "l32_draw2_randk_seed1",
+      "draw": 2,
+      "method": "randk",
+      "train_seed": 1,
+      "dataset_key": "l32_draw2_randk",
+      "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_randk_seed1",
+      "trained": false,
+      "evaluated": false
+    }
+  ],
+  "base_eval": false,
+  "gates_verified": true,
+  "subsets": {
+    "l32_draw0_dsmc": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw0_dsmc_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "68f34ce65e3e3c877960161a7164aa9dd454edaab55f57ca73194cbc8b49ae12",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_dsmc/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw0_first_rr": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw0_first_rr_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "3cf02f8b148949c2db9ddd035204463eaf189b35b3d2eb8d797e752d4e1056e2",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_first_rr/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw0_second_rr": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw0_second_rr_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "ab09dba01d9a36dd444074a859d8b7239330caa8bbcfac9ac3238f1c997ba323",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_second_rr/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw0_randk": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw0_randk_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "e7e0c77e38a409d19f0985721d6f7ddd83b3e9174de9fd2fb1288d0f669f6a2d",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_randk/step_1.json",
+      "reused_llama2_indices": true
+    },
+    "l32_draw1_dsmc": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw1_dsmc_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "a5dd9857644063571917a5bebbbc421cb08607cc471d268e5510bed4aba9f213",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_dsmc/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw1_first_rr": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw1_first_rr_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "5193087badf96610f600be108b3d5d1fa021b0a9e51526f0855136ca250be768",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_first_rr/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw1_second_rr": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw1_second_rr_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "db2e3a053b51e7ec690dd7c834d3f9f8b13800f6a6a4a309d6e34b7f96051ffa",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_second_rr/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw1_randk": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw1_randk_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "950d07b2ea5ec858fd5e242b1ab8f806f33f25109dcce1607e6af51c8ecebb43",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw1_randk/step_1.json",
+      "reused_llama2_indices": true
+    },
+    "l32_draw2_dsmc": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw2_dsmc_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "26a7e37d04444a52e221e17f11aed44860494fdbacd5e298fc059ed189fd652b",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_dsmc/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw2_first_rr": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw2_first_rr_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "fc03ec71189b1f2dae0f5281d12e9fb69e078f198e327861b1f1637320e706ce",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_first_rr/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw2_second_rr": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw2_second_rr_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "f299527aa7fa5066f8090d5b663398910376e7a4ce5f694ed29117bff17d2fb1",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_second_rr/step_1.json",
+      "reused_llama2_indices": false
+    },
+    "l32_draw2_randk": {
+      "jsonl": "/jizhicfs/karonhe/dataflex_saves/sft_subsets/l32_draw2_randk_sel.jsonl",
+      "n": 2707,
+      "jsonl_sha256": "356a3ee1114e57deae1bb6620dacfadd4a5a7858373b83621a141e3591902356",
+      "selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw2_randk/step_1.json",
+      "reused_llama2_indices": true
+    }
+  },
+  "loader_check": {
+    "l32_draw0_dsmc": 2707,
+    "l32_draw0_first_rr": 2707,
+    "l32_draw0_second_rr": 2707,
+    "l32_draw0_randk": 2707,
+    "l32_draw1_dsmc": 2707,
+    "l32_draw1_first_rr": 2707,
+    "l32_draw1_second_rr": 2707,
+    "l32_draw1_randk": 2707,
+    "l32_draw2_dsmc": 2707,
+    "l32_draw2_first_rr": 2707,
+    "l32_draw2_second_rr": 2707,
+    "l32_draw2_randk": 2707
+  }
+}
