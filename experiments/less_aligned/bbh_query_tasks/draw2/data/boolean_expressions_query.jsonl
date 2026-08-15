@@ -1,0 +1,2 @@
+{"input": "False and True and ( not False ) is", "target": "False"}
+{"input": "not True or not False and not False is", "target": "True"}

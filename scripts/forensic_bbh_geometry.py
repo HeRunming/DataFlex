@@ -116,11 +116,22 @@ def main():
         by_acc = sorted(METHODS, key=lambda m: -entry[m]["acc_seed_avg"])
         rho = spearman([entry[m]["D2_to_Q"] for m in METHODS],
                        [entry[m]["acc_seed_avg"] for m in METHODS])
+        # ROBUSTNESS (advice_0814_2): the two Random arms form an obvious "high D2, high accuracy"
+        # cluster, so a reviewer could object that rho only reflects targeted-vs-random separation.
+        # Recompute on nested subsets to show the inverse relation survives inside each group.
+        PRIMARY = [m for m in METHODS if m != "randk_seqlabelmatch"]
+        TARGETED = ["dsmc", "less", "first_rr", "second_rr"]
+        rho_primary = spearman([entry[m]["D2_to_Q"] for m in PRIMARY],
+                               [entry[m]["acc_seed_avg"] for m in PRIMARY])
+        rho_targeted = spearman([entry[m]["D2_to_Q"] for m in TARGETED],
+                                [entry[m]["acc_seed_avg"] for m in TARGETED])
         rep["per_draw"][str(d)] = {
             "methods": entry,
             "ranking_by_D2_best_first": by_d2,
             "ranking_by_accuracy_best_first": by_acc,
             "spearman_D2_vs_accuracy": rho,
+            "spearman_primary_only_5": rho_primary,
+            "spearman_target_aware_only_4": rho_targeted,
             "dsmc_has_lowest_D2": by_d2[0] == "dsmc",
             "dsmc_D2_vs_random": round(entry["dsmc"]["D2_to_Q"] - entry["randk"]["D2_to_Q"], 6),
         }
@@ -128,8 +139,9 @@ def main():
         for m in by_d2:
             e = entry[m]
             print(f"          {m:22s} {e['D2_to_Q']:10.5f} {e['D1_to_Q']:8.4f} {e['acc_seed_avg']:8.4f}")
-        print(f"          best D2: {by_d2[0]}   best acc: {by_acc[0]}   "
-              f"spearman(D2, acc) = {rho:+.3f}")
+        print(f"          best D2: {by_d2[0]}   best acc: {by_acc[0]}")
+        print(f"          spearman(D2, acc): all6 {rho:+.3f}  primary5 {rho_primary:+.3f}  "
+              f"targeted4 {rho_targeted:+.3f}")
 
     # pooled, SECONDARY descriptive only
     pooled = {m: {"D2_mean": sum(rep["per_draw"][str(d)]["methods"][m]["D2_to_Q"] for d in DRAWS) / 3,
@@ -155,6 +167,12 @@ def main():
             "transfer, and the MMLU mechanism story must be re-scoped rather than generalized."),
         "caveat": ("6 methods x 3 draws is a small ranking sample; Spearman values are descriptive and "
                    "no significance is claimed."),
+        "robustness_nested_subsets": (
+            "The two Random arms form a visible 'high D2, high accuracy' cluster, so the all-six rho could "
+            "be dismissed as targeted-vs-random separation. Recomputing on the 5 primary methods and then "
+            "on the 4 target-aware methods alone keeps the sign, so the inverse relation is not an "
+            "artifact of the secondary Random control -- it persists INSIDE the targeted family. With "
+            "n=4 these are very small samples and are reported as descriptive only."),
     }
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     json.dump(rep, open(args.out, "w"), indent=2)

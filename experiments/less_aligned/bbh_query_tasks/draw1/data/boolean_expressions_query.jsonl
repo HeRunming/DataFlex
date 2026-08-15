@@ -1,0 +1,1 @@
+{"input": "not True and False or False or True is", "target": "True"}

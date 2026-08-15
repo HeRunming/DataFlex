@@ -1,0 +1,35 @@
+group: bbh_query_d2
+task:
+- bbh_query_d2_boolean_expressions
+- bbh_query_d2_causal_judgement
+- bbh_query_d2_date_understanding
+- bbh_query_d2_disambiguation_qa
+- bbh_query_d2_dyck_languages
+- bbh_query_d2_formal_fallacies
+- bbh_query_d2_geometric_shapes
+- bbh_query_d2_hyperbaton
+- bbh_query_d2_logical_deduction_five_objects
+- bbh_query_d2_logical_deduction_three_objects
+- bbh_query_d2_movie_recommendation
+- bbh_query_d2_multistep_arithmetic_two
+- bbh_query_d2_navigate
+- bbh_query_d2_object_counting
+- bbh_query_d2_penguins_in_a_table
+- bbh_query_d2_reasoning_about_colored_objects
+- bbh_query_d2_salient_translation_error_detection
+- bbh_query_d2_snarks
+- bbh_query_d2_sports_understanding
+- bbh_query_d2_temporal_sequences
+- bbh_query_d2_tracking_shuffled_objects_five_objects
+- bbh_query_d2_tracking_shuffled_objects_seven_objects
+- bbh_query_d2_tracking_shuffled_objects_three_objects
+- bbh_query_d2_web_of_lies
+- bbh_query_d2_word_sorting
+aggregate_metric_list:
+- metric: exact_match
+  aggregation: mean
+  weight_by_size: true
+  filter_list: get-answer
+metadata:
+  version: 1.0
+  derived_from: bbh_external_heldout (frozen); dataset source only

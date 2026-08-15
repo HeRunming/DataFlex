@@ -20,12 +20,13 @@ Integrity, re-verified before unsealing: all 36 cells at exactly **84 optimizer 
 
 ## Headline
 
-> **Every targeted selector, including DSMC, loses to plain Random-K on BBH.** DSMC is not even the best
-> targeted selector here — both round-robin variants beat it. And the post-hoc geometry diagnostic shows
-> **DSMC achieves the lowest D2 to its own query set in 3/3 draws while ranking at the bottom
-> downstream**, with the query-loss diagnostic showing every targeted selector *improving* the surrogate
-> it optimizes while *losing* on the task. The MMLU surrogate/outcome dissociation therefore **replicates
-> externally and is much stronger here.**
+> **Matching the target is not enough.** Every targeted selector, including DSMC, loses to plain Random-K
+> on BBH, and DSMC is not even the best targeted selector here — both round-robin variants beat it. The
+> post-hoc diagnostics sharpen this into a double reversal: **DSMC attains the lowest D2 to its own query
+> set in 3/3 draws**, and all four target-aware selectors **reduce final-answer cross-entropy on their own
+> query sets**, yet they rank at the bottom downstream. On the *same 64 query items*, that CE improvement
+> produces **no** gain in CoT exact-match. The MMLU surrogate/outcome dissociation therefore **replicates
+> externally, is stronger here, and now has a same-item demonstration.**
 
 ## 1. Absolute performance (micro exact_match)
 
@@ -151,16 +152,30 @@ projected gradients, `D2(S, Q_d) = ‖M_S − M_{Q_d}‖²_F`.
 | randk | 0.11042 | 0.12155 | 0.09733 | **0.3925** |
 | randk_seqlabelmatch | 0.11109 | 0.12504 | 0.09953 | 0.3805 |
 
-**DSMC attains the lowest D2 in 3/3 draws**, and the D2 ordering is *identical* across all three draws.
-The accuracy ordering is close to its reverse: **Spearman(D2, accuracy) = +0.771 / +0.829 / +0.886**
-(pooled +0.829). Positive ρ means *lower D2 → lower accuracy*.
+**DSMC attains the lowest D2 in 3/3 draws**, and the D2 ordering is *identical* across all three draws,
+while the accuracy ordering is close to its reverse.
 
-> **The method that best matches the target second moment is the method that performs worst.** DSMC
-> demonstrably optimizes the geometry it claims to optimize — this is not a failure of the optimizer —
-> yet on a query-aligned external family better matching predicts *worse* downstream utility. On MMLU the
-> same anti-correlation was +0.389 (1%) and +0.112 (5%); on BBH it is +0.77 to +0.89.
+**Robustness — the relation is not a targeted-vs-random cluster artifact.** The two Random arms form a
+visible "high D2, high accuracy" group, so Spearman over all six could be dismissed as group separation.
+Recomputing on nested subsets:
 
-## D2. The selection surrogate is misaligned with the downstream objective
+| subset | draw0 | draw1 | draw2 |
+|---|---|---|---|
+| all 6 methods | +0.771 | +0.829 | +0.886 |
+| 5 primary only (drop SeqLabelMatched) | +0.700 | +0.800 | +0.900 |
+| **4 target-aware only** | **+0.400** | **+0.600** | **+0.800** |
+
+The sign survives *inside* the targeted family, where every arm uses gradient-based targeting. (n=4 is a
+very small ranking sample; descriptive only.) Positive ρ means *lower D2 → lower accuracy*. On MMLU the
+same quantity was +0.389 (1%) and +0.112 (5%).
+
+> **The method that best matches the target second moment performs worst.** DSMC demonstrably optimizes
+> the geometry it targets — this is not an optimizer failure — yet better matching predicts *worse*
+> downstream utility. Note the precise claim: we are not showing gradient representations are
+> uninformative, but that **minimizing a directly-optimized set distance can be the wrong downstream
+> surrogate**.
+
+## D2. Target-aware selection improves final-answer query loss while degrading the task metric
 
 `bbh_forensic_query_loss.json`. Query loss `L_Q` = CE of the final answer under *exactly* the supervision
 used for target-gradient extraction. Base `L_Q` ≈ 4.48–4.80.
@@ -174,38 +189,69 @@ used for target-gradient extraction. Base `L_Q` ≈ 4.48–4.80.
 | randk | **+0.329** | **0.3925** |
 | randk_seqlabelmatch | **+0.351** | 0.3805 |
 
-**A perfect sign split.** All four target-aware selectors *improve* the query final-answer loss; both
-Random variants *worsen* it — and the two that worsen it are the two that score best. Spearman(ΔL_Q,
-EM) = **+0.600**.
+**Stated precisely.** None of these methods optimizes post-training query CE as an objective — DSMC
+directly minimizes `D2`; RR and LESS use gradient-space similarity scores. So the accurate statement is:
 
-This is the most direct statement of the mechanism available from these artifacts:
+> **All four target-aware selectors reduce final-answer cross-entropy on the very query sets that define
+> their targeting signal, whereas both Random controls increase it** — and the two that increase it are
+> the two that score best downstream.
 
-> The selectors succeed at the objective they optimize (final-answer cross-entropy on the query set) and
-> fail at the objective the task rewards (generate a chain of thought, *then* answer). BBH targets are
-> single tokens like `(C)`, `14`, `Yes`, while evaluation scores generated CoT — so **final-answer CE
-> alignment is not reasoning-generation utility.** The negative transfer needs no appeal to anything
-> mysterious about gradient matching.
+The strong claim is this **categorical dissociation**, not a continuous law. Spearman(ΔL_Q, EM) = +0.600
+is reported for completeness but is largely produced by the 4-vs-2 group structure; *within* the four
+targeted methods there is no clean monotone relation between how much CE improves and how much accuracy
+falls. We do **not** claim "the mechanism has been found"; the results are **consistent with a
+surrogate-objective mismatch**.
 
-## D3. It is NOT task-level specialization
+## D2b. Same-item test: the mismatch is not finite-query overfitting
+
+`bbh_forensic_query_cot.json`. D2 compared query CE (64 items) against held-out EM (5,209 items), which
+changes **both** the metric and the examples. So the same 64 query items were re-evaluated with the frozen
+official BBH CoT generation/exact-match protocol — configs byte-identical to the held-out suite except the
+dataset source, and the rendered prompts verified identical to the frozen query prompts.
+
+| method | Δ final-answer CE | query CoT EM | Δ query CoT EM | Δ held-out EM |
+|---|---|---|---|---|
+| dsmc | −1.159 | 0.4375 | **−0.052** | −0.033 |
+| second_rr | −0.685 | 0.4375 | **−0.052** | −0.028 |
+| first_rr | −1.400 | 0.4531 | **−0.037** | −0.025 |
+| less | −1.356 | 0.4245 | **−0.065** | −0.036 |
+| randk | +0.329 | 0.4479 | −0.042 | −0.004 |
+| randk_seqlabelmatch | +0.351 | 0.4401 | −0.050 | −0.016 |
+
+Base query CoT EM: 0.500 / 0.500 / 0.469.
+
+> **On the same examples, the differentiable final-answer surrogate improves by 0.68–1.40 nats while the
+> task metric does not improve at all — it falls.** No method raises query CoT EM above base.
+
+This rules out the competing explanation. "Targeted methods merely overfit these 64 queries and fail to
+generalize" requires a query-level *gain* that fails to transfer; there is none. The improvement produced
+by the targeting signal is confined to the differentiable surrogate and never appears in the task metric,
+even on the very items that define the target.
+
+*Caveat*: 64 items per draw makes CoT EM coarse and noisy; the direction is consistent across all three
+draws and all six methods, but per-draw effect sizes should not be over-read.
+
+## D3. No evidence for task-level protection from query exposure
 
 `bbh_forensic_specialization.json`.
 
-**H1 — does query exposure protect a task?** Correlating query-draw task frequency `n_{d,t}` with
-seed-averaged subtask deltas gives Spearman **−0.210 / −0.280 / −0.224** vs Random (mean −0.238), and
-−0.164 vs base. Consistent in sign across all three draws — and **negative**, i.e. more exposure goes with
-slightly *more* damage.
+**H1.** Correlating query-draw task frequency `n_{d,t}` with seed-averaged subtask deltas gives Spearman
+**−0.210 / −0.280 / −0.224** vs Random (mean −0.238), and −0.164 vs base — consistent in sign, and
+negative.
 
-> This is the **opposite** of the task-level specialization prediction. If DSMC were narrowly specializing
-> toward the tasks its 64 queries happen to contain, those tasks should have been *protected*. They were
-> not. Whatever is being over-fit lives at the **format/response-style level**, not the BBH-task level —
-> consistent with the SeqLabelMatched control moving 41% of the gap while task exposure predicts nothing
-> protective.
+> **We find no evidence that greater query exposure protects a task.** A simple task-level specialization
+> hypothesis predicts the opposite: tasks the 64 queries actually contain should have been protected.
+> They were not.
 
-**H2 — does base accuracy predict degradation?** Spearman(base accuracy, post-SFT delta) = **−0.432** for
-DSMC and **−0.233** for Random. Higher-base tasks fall further, about twice as steeply for DSMC.
-**Heavily confounded** by ceiling effects and regression to the mean (a task at 0.90 has far more room to
-fall than one at 0.005), so this is a descriptive association only. The interesting part is that DSMC's
-coefficient is roughly double Random's despite both sharing the same ceiling structure.
+**This does not establish that the over-fitting is at the format level.** Task frequency is entangled with
+task identity, size, difficulty and answer format, and per-task exposure counts are tiny (0–13). Taken
+together with the SeqLabelMatched control, format/response-style specialization **remains a plausible
+explanation but is not causally identified.**
+
+**H2.** Spearman(base accuracy, post-SFT delta) = **−0.432** DSMC, **−0.233** Random. Higher-base tasks
+fall further, about twice as steeply for DSMC. **Heavily confounded** by ceiling effects and regression to
+the mean; descriptive only. The notable part is that DSMC's coefficient is roughly double Random's despite
+both sharing the same ceiling structure.
 
 ---
 
@@ -218,11 +264,13 @@ coefficient is roughly double Random's despite both sharing the same ceiling str
    round-robin variants. Scope that claim to the MMLU family.
 3. **All method means fall below base**, though Random stays within 0.39 pp and one Random cell exceeds
    base. Target-aware methods degrade an order of magnitude more.
-4. **The surrogate/outcome dissociation is now a cross-family result with a mechanism.** DSMC minimizes
-   D2 in 3/3 draws and still loses; every targeted selector improves query final-answer CE and still
-   loses. The selection objective is measurably achieved and measurably fails to transfer.
-5. **Format, not task, is the plausible locus.** Task exposure does not protect; length/format matching
-   moves ~41% of the gap. Neither is causally identified.
+4. **The surrogate/outcome dissociation is now a cross-family result, demonstrated on the same items.**
+   DSMC minimizes D2 in 3/3 draws and still loses; all four target-aware selectors reduce final-answer CE
+   on their own query sets and still lose; and on those same 64 items the CE gain yields no CoT-EM gain.
+   The selection objective is measurably achieved and measurably fails to become utility. This is
+   *consistent with* a surrogate-objective mismatch — we do not claim to have identified a mechanism.
+5. **Format is a plausible locus; task-level specialization is not supported.** Query exposure does not
+   protect a task, and length/format matching moves ~41% of the gap. Neither is causally identified.
 
 **What this does not show.** One pool, one budget, one model (Llama-2-7B), 3 draws × 2 seeds. The
 diagnostics are exploratory and post-hoc. Nothing here isolates a cause; D1–D3 are consistent evidence,

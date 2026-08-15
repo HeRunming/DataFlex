@@ -58,6 +58,8 @@
         "less"
       ],
       "spearman_D2_vs_accuracy": 0.7714285714285715,
+      "spearman_primary_only_5": 0.6999999999999998,
+      "spearman_target_aware_only_4": 0.3999999999999999,
       "dsmc_has_lowest_D2": true,
       "dsmc_D2_vs_random": -0.023872
     },
@@ -111,6 +113,8 @@
         "less"
       ],
       "spearman_D2_vs_accuracy": 0.8285714285714286,
+      "spearman_primary_only_5": 0.7999999999999998,
+      "spearman_target_aware_only_4": 0.5999999999999999,
       "dsmc_has_lowest_D2": true,
       "dsmc_D2_vs_random": -0.023208
     },
@@ -164,6 +168,8 @@
         "dsmc"
       ],
       "spearman_D2_vs_accuracy": 0.8857142857142857,
+      "spearman_primary_only_5": 0.8999999999999998,
+      "spearman_target_aware_only_4": 0.7999999999999998,
       "dsmc_has_lowest_D2": true,
       "dsmc_D2_vs_random": -0.023433
     }
@@ -202,6 +208,7 @@
     "dsmc_lowest_D2_in_n_draws": "3/3",
     "dsmc_accuracy_rank": "last or near-last among the six arms in every draw",
     "reading": "DSMC minimizes the target second moment it optimizes while ranking at/near the bottom downstream -> the MMLU surrogate/outcome dissociation REPLICATES on an external, query-aligned family. Better geometric matching does not imply better utility.",
-    "caveat": "6 methods x 3 draws is a small ranking sample; Spearman values are descriptive and no significance is claimed."
+    "caveat": "6 methods x 3 draws is a small ranking sample; Spearman values are descriptive and no significance is claimed.",
+    "robustness_nested_subsets": "The two Random arms form a visible 'high D2, high accuracy' cluster, so the all-six rho could be dismissed as targeted-vs-random separation. Recomputing on the 5 primary methods and then on the 4 target-aware methods alone keeps the sign, so the inverse relation is not an artifact of the secondary Random control -- it persists INSIDE the targeted family. With n=4 these are very small samples and are reported as descriptive only."
   }
 }

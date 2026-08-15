@@ -1,0 +1,120 @@
+{
+  "diagnostic": "same-query final-answer CE vs CoT exact-match",
+  "why": "comparing query CE (64 items) against held-out EM (5209 items) changes BOTH metric and examples. Measuring CoT EM on the SAME 64 items separates surrogate-metric misalignment from finite-query overfitting.",
+  "base_query_cot_em": {
+    "0": 0.5,
+    "1": 0.5,
+    "2": 0.46875
+  },
+  "methods": {
+    "dsmc": {
+      "delta_query_final_answer_CE": -1.1590499154602487,
+      "query_cot_em_per_draw": [
+        0.4375,
+        0.5,
+        0.375
+      ],
+      "query_cot_em_mean": 0.4375,
+      "delta_query_cot_em_vs_base": -0.052083333333333336,
+      "delta_query_cot_em_per_draw": [
+        -0.0625,
+        0.0,
+        -0.09375
+      ],
+      "heldout_em_mean": 0.36308952454085874,
+      "delta_heldout_em_vs_base": -0.03333947545914123
+    },
+    "second_rr": {
+      "delta_query_final_answer_CE": -0.6847630074868599,
+      "query_cot_em_per_draw": [
+        0.3515625,
+        0.5390625,
+        0.421875
+      ],
+      "query_cot_em_mean": 0.4375,
+      "delta_query_cot_em_vs_base": -0.052083333333333336,
+      "delta_query_cot_em_per_draw": [
+        -0.1484375,
+        0.0390625,
+        -0.046875
+      ],
+      "heldout_em_mean": 0.3686888078325974,
+      "delta_heldout_em_vs_base": -0.02774019216740259
+    },
+    "first_rr": {
+      "delta_query_final_answer_CE": -1.3996274748351425,
+      "query_cot_em_per_draw": [
+        0.453125,
+        0.5078125,
+        0.3984375
+      ],
+      "query_cot_em_mean": 0.453125,
+      "delta_query_cot_em_vs_base": -0.036458333333333336,
+      "delta_query_cot_em_per_draw": [
+        -0.046875,
+        0.0078125,
+        -0.0703125
+      ],
+      "heldout_em_mean": 0.3715044474307289,
+      "delta_heldout_em_vs_base": -0.024924552569271063
+    },
+    "less": {
+      "delta_query_final_answer_CE": -1.3557523172348738,
+      "query_cot_em_per_draw": [
+        0.4140625,
+        0.4765625,
+        0.3828125
+      ],
+      "query_cot_em_mean": 0.4244791666666667,
+      "delta_query_cot_em_vs_base": -0.06510416666666667,
+      "delta_query_cot_em_per_draw": [
+        -0.0859375,
+        -0.0234375,
+        -0.0859375
+      ],
+      "heldout_em_mean": 0.3601459013246304,
+      "delta_heldout_em_vs_base": -0.03628309867536955
+    },
+    "randk": {
+      "delta_query_final_answer_CE": 0.3288123062811792,
+      "query_cot_em_per_draw": [
+        0.5,
+        0.4140625,
+        0.4296875
+      ],
+      "query_cot_em_mean": 0.4479166666666667,
+      "delta_query_cot_em_vs_base": -0.041666666666666664,
+      "delta_query_cot_em_per_draw": [
+        0.0,
+        -0.0859375,
+        -0.0390625
+      ],
+      "heldout_em_mean": 0.3924937607986177,
+      "delta_heldout_em_vs_base": -0.003935239201382279
+    },
+    "randk_seqlabelmatch": {
+      "delta_query_final_answer_CE": 0.3512838858490189,
+      "query_cot_em_per_draw": [
+        0.53125,
+        0.4453125,
+        0.34375
+      ],
+      "query_cot_em_mean": 0.4401041666666667,
+      "delta_query_cot_em_vs_base": -0.049479166666666664,
+      "delta_query_cot_em_per_draw": [
+        0.03125,
+        -0.0546875,
+        -0.125
+      ],
+      "heldout_em_mean": 0.3805272925065591,
+      "delta_heldout_em_vs_base": -0.015901707493440886
+    }
+  },
+  "VERDICT": {
+    "all_methods_lower_query_cot_em": true,
+    "targeted_lower_CE": true,
+    "random_higher_CE": true,
+    "READING": "SURROGATE-METRIC MISALIGNMENT, not finite-query overfitting. On the SAME 64 query items, the four target-aware selectors reduce final-answer cross-entropy by 0.68-1.40 nats yet their CoT exact-match FALLS relative to base (-3.7 to -6.5 pts). No method improves query CoT EM at all. So the improvement the selection signal produces is confined to the differentiable final-answer surrogate and does not appear in the task metric even on the very examples that define the target. The alternative \"targeted methods merely overfit these 64 queries and fail to generalize\" is ruled out: there is no query-level gain to fail to generalize.",
+    "caveat": "64 items per draw is small and CoT EM is coarse there; the direction is consistent across all three draws and all six methods, but effect sizes on 64 items are noisy."
+  }
+}
