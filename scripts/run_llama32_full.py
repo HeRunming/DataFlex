@@ -15,6 +15,7 @@ pre-registered outcomes are reportable and none may trigger tuning.
 import argparse, hashlib, json, os, subprocess, sys, time
 
 ROOT = "/jizhicfs/karonhe/DataFlex_fa"
+TASKS = "/jizhicfs/karonhe/DataFlex_fa/experiments/less_aligned/bbh_external_tasks"
 EXP = f"{ROOT}/experiments/less_aligned"
 SAVES = "/jizhicfs/karonhe/dataflex_saves"
 SUBSETS = f"{SAVES}/sft_subsets"
@@ -173,9 +174,71 @@ def train_cell(c):
     return ok, log, meta
 
 
+def eval_result(out_dir):
+    """Return (path, parsed) for a completed lm-eval run, else None."""
+    import glob
+    for f in sorted(glob.glob(f"{out_dir}/**/results_*.json", recursive=True)):
+        try:
+            r = json.load(open(f))
+        except Exception:
+            continue
+        if "bbh_external_heldout" in r.get("results", {}):
+            return f, r
+    return None
+
+
+def eval_phase(st, groups):
+    """Frozen held-out BBH suite, identical task config and batch size to the Llama-2 arm.
+
+    Per-cell micro aggregates are stored under `_micro_sealed` and deliberately NOT compared or
+    printed here -- the comparison happens only after 24/24 train and 24/24 eval."""
+    for c in st["cells"]:
+        c.setdefault("eval_out", f"{SAVES}/eval_results/{c['adapter_id']}")
+    todo = [c for c in st["cells"] if eval_result(c["eval_out"]) is None]
+    print(f"[eval] {len(st['cells']) - len(todo)}/{len(st['cells'])} complete; {len(todo)} to run "
+          f"({len(groups)} at a time)", flush=True)
+    for i in range(0, len(todo), len(groups)):
+        procs = []
+        for c, g in zip(todo[i:i + len(groups)], groups):
+            os.makedirs(c["eval_out"], exist_ok=True)
+            log = f"{SAVES}/logs/l32_eval_{c['adapter_id']}.log"
+            print(f"[eval] {c['adapter_id']} on GPUs {g}", flush=True)
+            env = dict(os.environ, PATH=f"{ENVBIN}:{os.environ['PATH']}",
+                       CUDA_VISIBLE_DEVICES=g, HF_HUB_OFFLINE="1", HF_DATASETS_OFFLINE="1")
+            for v in ("RANK", "LOCAL_RANK", "WORLD_SIZE", "MASTER_ADDR", "MASTER_PORT",
+                      "LOCAL_WORLD_SIZE"):
+                env.pop(v, None)
+            lf = open(log, "w")
+            procs.append((c, subprocess.Popen(
+                [f"{ENVBIN}/lm_eval", "--model", "hf",
+                 "--model_args", f"pretrained={BASE},peft={c['sft_out']},dtype=bfloat16",
+                 "--tasks", "bbh_external_heldout", "--include_path", TASKS,
+                 "--batch_size", "16", "--output_path", c["eval_out"], "--log_samples"],
+                cwd=ROOT, env=env, stdout=lf, stderr=subprocess.STDOUT), lf))
+        for c, pr, lf in procs:
+            pr.wait()
+            lf.close()
+            got = eval_result(c["eval_out"])
+            if got is None:
+                raise SystemExit(f"EVAL FAILED {c['adapter_id']}; see "
+                                 f"{SAVES}/logs/l32_eval_{c['adapter_id']}.log")
+            rp, r = got
+            sub = {k: v for k, v in r["results"].items() if k.startswith("bbh_external_heldout_")}
+            c.update({"evaluated": True, "n_subtasks": len(sub),
+                      "n_examples": sum(r["n-samples"][k]["effective"] for k in sub),
+                      "results_json": rp, "results_sha256": sha_file(rp),
+                      "_micro_sealed": r["results"]["bbh_external_heldout"]["exact_match,get-answer"]})
+            save_state(st)
+            print(f"    ok  {c['adapter_id']}  {len(sub)} subtasks, {c['n_examples']} examples",
+                  flush=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--phase", default="all", choices=["materialize", "loader", "train", "all"])
+    ap.add_argument("--phase", default="all",
+                    choices=["materialize", "loader", "train", "eval", "all"])
+    ap.add_argument("--eval_gpus", default="0,1|2,3|4,5|6,7",
+                    help="GPU groups run concurrently, mirroring the Llama-2 arm")
     a = ap.parse_args()
     st = load_state()
 
@@ -209,6 +272,16 @@ def main():
         save_state(st)
         print(f"[train] done {c['adapter_id']} in {c['train_minutes']} min", flush=True)
     print(f"[train] all {len(st['cells'])} adapters trained")
+    if a.phase == "train":
+        return
+
+    eval_phase(st, a.eval_gpus.split("|"))
+    nt = sum(1 for c in st["cells"] if c["trained"])
+    ne = sum(1 for c in st["cells"] if c.get("evaluated"))
+    st["progress"] = {"trained": nt, "evaluated": ne, "total": len(st["cells"])}
+    save_state(st)
+    print(f"\nPROGRESS: trained {nt}/{len(st['cells'])}  evaluated {ne}/{len(st['cells'])}")
+    print("(comparative accuracy intentionally sealed until 24/24 and 24/24)")
 
 
 if __name__ == "__main__":

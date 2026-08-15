@@ -28,8 +28,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw0_dsmc",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_dsmc_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "b3c6a0e1017b8080ce207344f1ad339ceb747302ea7ed9609034036196ba23c7",
+      "train_minutes": 9.4
     },
     {
       "adapter_id": "l32_draw0_first_rr_seed42",
