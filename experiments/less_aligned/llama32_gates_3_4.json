@@ -1,0 +1,90 @@
+{
+  "arm": "Llama-3.2-3B second model-stack confirmation",
+  "scope": "ENGINEERING gates only; no BBH accuracy is read at any point",
+  "gate3": {
+    "draw0": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/llama32_draw0_output/target/1/all_projected_grads.pt",
+      "pass": false
+    },
+    "draw1": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/llama32_draw1_output/target/1/all_projected_grads.pt",
+      "pass": false
+    },
+    "draw2": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/llama32_draw2_output/target/1/all_projected_grads.pt",
+      "pass": false
+    },
+    "all_pass": false
+  },
+  "gate4": {
+    "draw0_dsmc": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_dsmc/step_1.json",
+      "pass": false
+    },
+    "draw0_first_rr": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_first_rr/step_1.json",
+      "pass": false
+    },
+    "draw0_second_rr": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw0_second_rr/step_1.json",
+      "pass": false
+    },
+    "draw0_randk_reuse": {
+      "frozen_llama2_selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw0_randk/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "idx_sha256": "e925dfcfec1ceef45c42c9dbe8a2646b5ea2d346956611eaefee8f72af8ff57d",
+      "random_k_seed": 5000,
+      "seed_reproducible": true,
+      "reuse_rationale": "Random-K is target-independent, so reusing the exact Llama-2 indices gives the two model stacks a genuinely constant data baseline. DSMC/First-RR/Second-RR must NOT be reused.",
+      "pass": true
+    },
+    "draw1_dsmc": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_dsmc/step_1.json",
+      "pass": false
+    },
+    "draw1_first_rr": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_first_rr/step_1.json",
+      "pass": false
+    },
+    "draw1_second_rr": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw1_second_rr/step_1.json",
+      "pass": false
+    },
+    "draw1_randk_reuse": {
+      "frozen_llama2_selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw1_randk/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "idx_sha256": "2d4642f96a4cfcd7361869b9c1657195a24f6a98e08cc9c912c36b8d53e1058a",
+      "random_k_seed": 5001,
+      "seed_reproducible": true,
+      "reuse_rationale": "Random-K is target-independent, so reusing the exact Llama-2 indices gives the two model stacks a genuinely constant data baseline. DSMC/First-RR/Second-RR must NOT be reused.",
+      "pass": true
+    },
+    "draw2_dsmc": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_dsmc/step_1.json",
+      "pass": false
+    },
+    "draw2_first_rr": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_first_rr/step_1.json",
+      "pass": false
+    },
+    "draw2_second_rr": {
+      "MISSING": "/jizhicfs/karonhe/dataflex_saves/sel_llama32_draw2_second_rr/step_1.json",
+      "pass": false
+    },
+    "draw2_randk_reuse": {
+      "frozen_llama2_selection": "/jizhicfs/karonhe/dataflex_saves/selbbhx_draw2_randk/step_1.json",
+      "K": 2707,
+      "K_ok": true,
+      "idx_sha256": "4bb6e9861a9ed615661b761440cf4bc42594bd0bbb80c8cb4766fc3a6a9507cf",
+      "random_k_seed": 5002,
+      "seed_reproducible": true,
+      "reuse_rationale": "Random-K is target-independent, so reusing the exact Llama-2 indices gives the two model stacks a genuinely constant data baseline. DSMC/First-RR/Second-RR must NOT be reused.",
+      "pass": true
+    },
+    "all_pass": false
+  },
+  "ALL_GATES_PASS": false,
+  "no_accuracy_inspected": true
+}
