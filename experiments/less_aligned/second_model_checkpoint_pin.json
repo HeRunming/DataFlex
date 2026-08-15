@@ -170,5 +170,27 @@
       "verdict": "PASS. Bitwise identity was NOT required per the pre-registered rule. The residual is the same low-level floating-point nondeterminism seen in the Llama-2 canary and is in fact SMALLER (251/256 rows identical vs 54/64; relative mean diff 1.65e-4 vs 1.38e-3), so it is not larger and does not trigger a stop."
     },
     "no_accuracy_inspected": true
+  },
+  "llama32_candidate_datastore": {
+    "path": "/jizhicfs/karonhe/dataflex_saves/llama32_less_output/train/1/all_projected_grads.pt",
+    "file_bytes": 8869611185,
+    "shape": [
+      270679,
+      8192
+    ],
+    "dtype": "torch.float32",
+    "shape_ok": true,
+    "all_finite": true,
+    "n_zero_rows": 0,
+    "row_norm_min": 0.9999994039535522,
+    "row_norm_max": 1.0000004768371582,
+    "tensor_content_sha256": "bcbb3a0f2f2b371fb28f0e56effde7c9d4c44f6018e6772233668800b10b2d99",
+    "gradient_type": "adam (Adam-aware, from the pinned Llama-3.2 warm-up optimizer state)",
+    "proj_dim": 8192,
+    "proj_seed": 123,
+    "cutoff_len": 2048,
+    "template": "llama3",
+    "config": "experiments/less_aligned/configs/select_llama32_cand_adam.yaml",
+    "note": "this 8.87 GB tensor is the core artifact behind both D2(S,Q_d) and selection reproducibility; only the 256-row canary was hash-pinned before. Not regenerated."
   }
 }

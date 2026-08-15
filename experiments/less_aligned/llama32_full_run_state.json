@@ -42,8 +42,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw0_first_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_first_rr_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "3719c02c4bccd9a784484d689ff765c7b73c29c8eef32ebb25d224350b2f96ba",
+      "train_minutes": 8.5
     },
     {
       "adapter_id": "l32_draw0_first_rr_seed1",
@@ -52,8 +56,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw0_first_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw0_first_rr_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "62bb50f15251ddcdecaaf9bc26a5b32f2f25953f8665b0bff477ca9b68395a36",
+      "train_minutes": 8.3
     },
     {
       "adapter_id": "l32_draw0_second_rr_seed42",
