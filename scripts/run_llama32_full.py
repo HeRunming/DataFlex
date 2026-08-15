@@ -30,6 +30,8 @@ DRAWS = [0, 1, 2]
 SEEDS = [42, 1]
 K = 2707
 N_POOL = 270679
+N_SUBTASKS = 27          # frozen held-out BBH suite
+N_EXAMPLES = 5209        # frozen 20/80 split
 
 
 def sha_file(p):
@@ -187,6 +189,66 @@ def eval_result(out_dir):
     return None
 
 
+def run_one_eval(aid, out_dir, peft, gpus, env_base):
+    """One lm-eval run. `peft=None` is the shared no-SFT reference; everything else -- task,
+    include_path, batch size, dtype -- is byte-identical to the adapter evals."""
+    os.makedirs(out_dir, exist_ok=True)
+    ma = f"pretrained={BASE},dtype=bfloat16" + (f",peft={peft}" if peft else "")
+    env = dict(env_base, CUDA_VISIBLE_DEVICES=gpus)
+    for v in ("RANK", "LOCAL_RANK", "WORLD_SIZE", "MASTER_ADDR", "MASTER_PORT",
+              "LOCAL_WORLD_SIZE"):
+        env.pop(v, None)
+    lf = open(f"{SAVES}/logs/l32_eval_{aid}.log", "w")
+    return subprocess.Popen(
+        [f"{ENVBIN}/lm_eval", "--model", "hf", "--model_args", ma,
+         "--tasks", "bbh_external_heldout", "--include_path", TASKS,
+         "--batch_size", "16", "--output_path", out_dir, "--log_samples"],
+        cwd=ROOT, env=env, stdout=lf, stderr=subprocess.STDOUT), lf
+
+
+def record_eval(aid, out_dir, into):
+    """Fail-loud: refuse anything that is not exactly 27 subtasks / 5209 effective examples.
+
+    Without these assertions a partially-registered task suite would be recorded as a valid
+    result and would silently enter the final comparison."""
+    got = eval_result(out_dir)
+    if got is None:
+        raise SystemExit(f"EVAL FAILED {aid}; see {SAVES}/logs/l32_eval_{aid}.log")
+    path, r = got
+    sub = {k: v for k, v in r["results"].items() if k.startswith("bbh_external_heldout_")}
+    n_ex = sum(r["n-samples"][k]["effective"] for k in sub)
+    if len(sub) != N_SUBTASKS:
+        raise SystemExit(f"EVAL {aid}: {len(sub)} subtasks, expected exactly {N_SUBTASKS}")
+    if n_ex != N_EXAMPLES:
+        raise SystemExit(f"EVAL {aid}: {n_ex} effective examples, expected exactly {N_EXAMPLES}")
+    into.update({"evaluated": True, "n_subtasks": len(sub), "n_examples": n_ex,
+                 "results_json": path, "results_sha256": sha_file(path),
+                 "_micro_sealed": r["results"]["bbh_external_heldout"]["exact_match,get-answer"]})
+    print(f"    ok  {aid}  {len(sub)}/{N_SUBTASKS} subtasks, {n_ex}/{N_EXAMPLES} examples",
+          flush=True)
+
+
+def base_eval_phase(st, gpus, env_base):
+    """The 25th pre-registered evaluation: the SHARED no-SFT reference for this model stack.
+
+    The prereg says "24 adapters + 1 shared no-SFT reference", and every method is reported as a
+    delta against the model's OWN base, since cross-model absolute accuracy is not comparable.
+    The driver previously evaluated only the 24 adapter cells, so this was a real gap."""
+    st.setdefault("base_cell", {"adapter_id": "l32_base_noSFT",
+                                "eval_out": f"{SAVES}/eval_results/l32_base_noSFT",
+                                "evaluated": False,
+                                "note": "no PEFT adapter; identical task/include_path/batch/dtype"})
+    b = st["base_cell"]
+    if eval_result(b["eval_out"]) is None:
+        print(f"[eval] {b['adapter_id']} (shared no-SFT reference) on GPUs {gpus}", flush=True)
+        pr, lf = run_one_eval(b["adapter_id"], b["eval_out"], None, gpus, env_base)
+        pr.wait()
+        lf.close()
+    record_eval(b["adapter_id"], b["eval_out"], b)
+    st["base_eval"] = True
+    save_state(st)
+
+
 def eval_phase(st, groups):
     """Frozen held-out BBH suite, identical task config and batch size to the Llama-2 arm.
 
@@ -194,49 +256,97 @@ def eval_phase(st, groups):
     printed here -- the comparison happens only after 24/24 train and 24/24 eval."""
     for c in st["cells"]:
         c.setdefault("eval_out", f"{SAVES}/eval_results/{c['adapter_id']}")
+    env_base = dict(os.environ, PATH=f"{ENVBIN}:{os.environ['PATH']}",
+                    HF_HUB_OFFLINE="1", HF_DATASETS_OFFLINE="1")
+
+    # the shared no-SFT reference first, so every later delta has its denominator on disk
+    if not st.get("base_eval"):
+        base_eval_phase(st, groups[0], env_base)
+
     todo = [c for c in st["cells"] if eval_result(c["eval_out"]) is None]
-    print(f"[eval] {len(st['cells']) - len(todo)}/{len(st['cells'])} complete; {len(todo)} to run "
-          f"({len(groups)} at a time)", flush=True)
+    print(f"[eval] {len(st['cells']) - len(todo)}/{len(st['cells'])} adapter evals complete; "
+          f"{len(todo)} to run ({len(groups)} at a time)", flush=True)
     for i in range(0, len(todo), len(groups)):
         procs = []
         for c, g in zip(todo[i:i + len(groups)], groups):
-            os.makedirs(c["eval_out"], exist_ok=True)
-            log = f"{SAVES}/logs/l32_eval_{c['adapter_id']}.log"
             print(f"[eval] {c['adapter_id']} on GPUs {g}", flush=True)
-            env = dict(os.environ, PATH=f"{ENVBIN}:{os.environ['PATH']}",
-                       CUDA_VISIBLE_DEVICES=g, HF_HUB_OFFLINE="1", HF_DATASETS_OFFLINE="1")
-            for v in ("RANK", "LOCAL_RANK", "WORLD_SIZE", "MASTER_ADDR", "MASTER_PORT",
-                      "LOCAL_WORLD_SIZE"):
-                env.pop(v, None)
-            lf = open(log, "w")
-            procs.append((c, subprocess.Popen(
-                [f"{ENVBIN}/lm_eval", "--model", "hf",
-                 "--model_args", f"pretrained={BASE},peft={c['sft_out']},dtype=bfloat16",
-                 "--tasks", "bbh_external_heldout", "--include_path", TASKS,
-                 "--batch_size", "16", "--output_path", c["eval_out"], "--log_samples"],
-                cwd=ROOT, env=env, stdout=lf, stderr=subprocess.STDOUT), lf))
+            procs.append((c,) + run_one_eval(c["adapter_id"], c["eval_out"], c["sft_out"],
+                                             g, env_base))
         for c, pr, lf in procs:
             pr.wait()
             lf.close()
-            got = eval_result(c["eval_out"])
-            if got is None:
-                raise SystemExit(f"EVAL FAILED {c['adapter_id']}; see "
-                                 f"{SAVES}/logs/l32_eval_{c['adapter_id']}.log")
-            rp, r = got
-            sub = {k: v for k, v in r["results"].items() if k.startswith("bbh_external_heldout_")}
-            c.update({"evaluated": True, "n_subtasks": len(sub),
-                      "n_examples": sum(r["n-samples"][k]["effective"] for k in sub),
-                      "results_json": rp, "results_sha256": sha_file(rp),
-                      "_micro_sealed": r["results"]["bbh_external_heldout"]["exact_match,get-answer"]})
+            record_eval(c["adapter_id"], c["eval_out"], c)
             save_state(st)
-            print(f"    ok  {c['adapter_id']}  {len(sub)} subtasks, {c['n_examples']} examples",
-                  flush=True)
+    # cells already on disk from an earlier run still need their assertions enforced
+    for c in st["cells"]:
+        if not c.get("evaluated"):
+            record_eval(c["adapter_id"], c["eval_out"], c)
+            save_state(st)
+
+
+def recipe_readback(st):
+    """Verify all 24 adapters from what is ON DISK, not from the CLI strings we passed.
+
+    code_review_0815: the base YAML still says alpha 256 / batch 16 / accum 8 / 3 epochs and the
+    driver overrides those on the command line, so the only trustworthy evidence is the written
+    trainer_state and adapter_config. Fail-loud before any unseal."""
+    import glob
+    out, ok = {}, True
+    for c in st["cells"]:
+        e = {}
+        ts_p = f"{c['sft_out']}/trainer_state.json"
+        ac_p = f"{c['sft_out']}/adapter_config.json"
+        ad_p = f"{c['sft_out']}/adapter_model.safetensors"
+        if not (os.path.exists(ts_p) and os.path.exists(ac_p) and os.path.exists(ad_p)):
+            out[c["adapter_id"]] = {"MISSING_ARTIFACTS": True, "pass": False}
+            ok = False
+            continue
+        ts, ac = json.load(open(ts_p)), json.load(open(ac_p))
+        e["global_step"] = ts["global_step"]
+        e["epoch"] = round(ts["epoch"], 3)
+        e["steps_ok"] = ts["global_step"] == 84
+        # 3.847, NOT 4.0: with 2707 examples and effective batch 128 (4 per_device x 4 accum x 8
+        # GPUs), 4 epochs of drop-last batching gives floor(2707/128)*4 = 84 steps, which the
+        # trainer reports as 84*128/2707 -> 3.847. This is the SAME value the Llama-2 36-cell arm
+        # recorded for its 84-step cells, so asserting 4.0 would fail on correct training. Checked
+        # against the Llama-2 figure rather than a guess.
+        e["epoch_ok"] = abs(ts["epoch"] - 3.847) < 0.01
+        e["r"] = ac.get("r")
+        e["lora_alpha"] = ac.get("lora_alpha")
+        e["lora_dropout"] = ac.get("lora_dropout")
+        e["target_modules"] = sorted(ac.get("target_modules") or [])
+        e["recipe_ok"] = (ac.get("r") == 128 and ac.get("lora_alpha") == 512
+                          and abs((ac.get("lora_dropout") or 0) - 0.05) < 1e-9
+                          and e["target_modules"] == ["k_proj", "o_proj", "q_proj", "v_proj"])
+        e["train_seed_expected"] = c["train_seed"]
+        e["adapter_sha256"] = sha_file(ad_p)
+        e["adapter_sha_present"] = bool(e["adapter_sha256"])
+        e["pass"] = bool(e["steps_ok"] and e["epoch_ok"] and e["recipe_ok"])
+        ok = ok and e["pass"]
+        out[c["adapter_id"]] = e
+    # every cell must have a DISTINCT adapter: identical hashes would mean a subset or seed
+    # silently failed to vary
+    shas = [v.get("adapter_sha256") for v in out.values() if v.get("adapter_sha256")]
+    uniq = len(set(shas)) == len(shas)
+    st["recipe_readback"] = {"cells": out, "n_cells": len(out),
+                             "all_pass": ok, "adapter_hashes_unique": uniq,
+                             "expected": {"global_step": 84, "epoch": 3.847, "r": 128,
+                                          "lora_alpha": 512, "lora_dropout": 0.05,
+                                          "target_modules": ["k_proj", "o_proj", "q_proj",
+                                                             "v_proj"]},
+                             "why": ("the CLI overrides alpha/batch/accum/epochs, so only the "
+                                     "written trainer_state and adapter_config are authoritative")}
+    save_state(st)
+    if not (ok and uniq):
+        raise SystemExit("RECIPE READBACK FAILED; see llama32_full_run_state.json")
+    print(f"[readback] {len(out)}/{len(out)} adapters: 84 steps, r128/alpha512/dropout0.05/qkvo, "
+          f"all adapter hashes distinct", flush=True)
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", default="all",
-                    choices=["materialize", "loader", "train", "eval", "all"])
+                    choices=["materialize", "loader", "train", "eval", "readback", "all"])
     ap.add_argument("--eval_gpus", default="0,1|2,3|4,5|6,7",
                     help="GPU groups run concurrently, mirroring the Llama-2 arm")
     a = ap.parse_args()
@@ -246,6 +356,10 @@ def main():
     if not gates.get("ALL_GATES_PASS"):
         raise SystemExit("refusing to run: engineering gates are not green")
     st["gates_verified"] = True
+
+    if a.phase == "readback":
+        recipe_readback(st)
+        return
 
     if not st["materialized"]:
         materialize(st)
@@ -272,15 +386,18 @@ def main():
         save_state(st)
         print(f"[train] done {c['adapter_id']} in {c['train_minutes']} min", flush=True)
     print(f"[train] all {len(st['cells'])} adapters trained")
+    recipe_readback(st)
     if a.phase == "train":
         return
 
     eval_phase(st, a.eval_gpus.split("|"))
     nt = sum(1 for c in st["cells"] if c["trained"])
     ne = sum(1 for c in st["cells"] if c.get("evaluated"))
+    nb = 1 if st.get("base_eval") else 0
     st["progress"] = {"trained": nt, "evaluated": ne, "total": len(st["cells"])}
     save_state(st)
-    print(f"\nPROGRESS: trained {nt}/{len(st['cells'])}  evaluated {ne}/{len(st['cells'])}")
+    print(f"\nPROGRESS: trained {nt}/{len(st['cells'])}  adapter evals {ne}/{len(st['cells'])}"
+          f"  base eval {nb}/1  (total evaluations {ne + nb}/{len(st['cells']) + 1})")
     print("(comparative accuracy intentionally sealed until 24/24 and 24/24)")
 
 
