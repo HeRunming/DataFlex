@@ -1,0 +1,75 @@
+{
+  "source": {
+    "provider": "ModelScope",
+    "repo_id": "LLM-Research/Llama-3.2-3B",
+    "local_path": "/jizhicfs/karonhe/models/modelscope/LLM-Research/Llama-3___2-3B",
+    "downloader": "modelscope 1.37.1 snapshot_download",
+    "why_modelscope": "the HuggingFace meta-llama/Llama-3.2-3B repo is gated (HTTP 401)"
+  },
+  "model_spec": {
+    "model_type": "llama",
+    "num_hidden_layers": 28,
+    "hidden_size": 3072,
+    "num_attention_heads": 24,
+    "num_key_value_heads": 8,
+    "max_position_embeddings": 131072,
+    "vocab_size": 128256,
+    "params_measured": "3.21B (bf16 load)"
+  },
+  "artifact_hashes": {
+    "LICENSE.txt": {
+      "sha256": "0b4284c1f87029e67654c7953afa16279961632cf73dcfe33374c4c2f298fa35",
+      "bytes": 7712
+    },
+    "config.json": {
+      "sha256": "35f063e9f381e8678eea34bc56c3ecef3c6d10149f6b2cbdf27b8ee1bad3073d",
+      "bytes": 844
+    },
+    "configuration.json": {
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "bytes": 2
+    },
+    "generation_config.json": {
+      "sha256": "da81b0dd4001a8e19fb5840d2b524f6957f44ddde6f5c3fe32b1f36cef5205bf",
+      "bytes": 185
+    },
+    "model-00001-of-00002.safetensors": {
+      "sha256": "584d8d3e3f82f7964955174dfe5e3b1cf117a9d859f022cfdf7fcb884856e002",
+      "bytes": 4965799096
+    },
+    "model-00002-of-00002.safetensors": {
+      "sha256": "4719a04514ec2f060240711b7c33ab21187cac730ecaba3040b7a0fd95a9cefb",
+      "bytes": 1459729952
+    },
+    "model.safetensors.index.json": {
+      "sha256": "0a57c30afc07c81610ae7fe013bea3b9d50365f9a8145ae98e8714220f3d7c7c",
+      "bytes": 20919
+    },
+    "special_tokens_map.json": {
+      "sha256": "cc2e013b7545f183ef03e079a3c91c6f364fa37e4068c512d7dd843e59024535",
+      "bytes": 301
+    },
+    "tokenizer.json": {
+      "sha256": "79e3e522635f3171300913bb421464a87de6222182a0570b9b2ccba2a964b2b4",
+      "bytes": 9085657
+    },
+    "tokenizer_config.json": {
+      "sha256": "8004530facf809ac432114de2a4dcc65fcb632da5ec16d666091aeb6a2ee444a",
+      "bytes": 50500
+    }
+  },
+  "NO_BIT_EQUIVALENCE_CLAIM": "We do NOT claim this checkpoint is bit-identical to Meta's gated HuggingFace checkpoint. That comparison is impossible here without access to the gated weights. The paper will say only: \"Llama-3.2-3B checkpoint obtained from the ModelScope LLM-Research mirror\", with the hashes below as our own provenance record. Meta's model card and the mirror metadata agree on the model spec (3.21B params, 128k context, base pretrained), which is what we state.",
+  "transformers_support": "Meta model card lists transformers >= 4.43; the frozen env is 4.50.0, in range",
+  "token_gate": {
+    "tokenizer": "Llama-3.2-3B (ModelScope mirror)",
+    "template": "llamafactory llama3",
+    "target_grad_cutoff": 3072,
+    "sft_cutoff": 2048,
+    "records_audited": 192,
+    "materially_truncated": 0,
+    "max_tokens": 2007,
+    "llama2_comparison_max_tokens": 2581,
+    "verdict": "PASS",
+    "note": "cutoffs deliberately UNCHANGED despite Llama-3.2 supporting 131k context \u2014 supporting a longer context is not a reason to widen the experiment budget. The Llama-3 tokenizer is more efficient than Llama-2 (2007 vs 2581 max), so headroom increases rather than shrinks."
+  }
+}
