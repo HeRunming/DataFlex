@@ -126,5 +126,49 @@
     },
     "why_hashed_now": "Adam-aware candidate gradients read exp_avg/exp_avg_sq from this optimizer state, so a drifted optimizer.pt would silently change the candidate feature space. Both are pinned before any gradient extraction.",
     "steps_ok": true
+  },
+  "gate2_candidate_gradient_canary": {
+    "status": "PASS",
+    "pool": "first 256 candidates of data/less_train_all.jsonl (readlines, never splitlines)",
+    "contract_verified": {
+      "shape": [
+        256,
+        8192
+      ],
+      "expected": [
+        256,
+        8192
+      ],
+      "dtype": "torch.float32",
+      "gradient_type": "adam (Adam-aware, from the pinned warm-up optimizer state)",
+      "proj_dim": 8192,
+      "proj_seed": 123,
+      "all_finite": true,
+      "n_zero_rows": 0,
+      "row_norms": {
+        "min": 0.9999997019767761,
+        "max": 1.0000003576278687
+      },
+      "verdict": "PASS - matches the frozen feature contract exactly"
+    },
+    "numerical_stability": {
+      "run1_sha256": "3d46c71928628ce2efaf2143cdd8262a65d70eb1dea0103c2e7ecc996755c80c",
+      "run2_sha256": "f9dd49f3e864b4cc3f7b6a8bd662859a4202643f2355e5ee9476ecb12d8b1a19",
+      "bit_identical": false,
+      "rows_bit_identical": 251,
+      "n_rows": 256,
+      "row_cosine_min": 0.9999270439147949,
+      "row_cosine_mean": 0.9999992251396179,
+      "max_abs_diff": 0.0005315141752362251,
+      "relative_mean_diff": 0.00016524271632079035,
+      "llama2_reference": {
+        "rows_identical": "54/64",
+        "row_cosine_min": 0.9999151,
+        "max_abs_diff": 0.0007196,
+        "relative_mean_diff": 0.00138
+      },
+      "verdict": "PASS. Bitwise identity was NOT required per the pre-registered rule. The residual is the same low-level floating-point nondeterminism seen in the Llama-2 canary and is in fact SMALLER (251/256 rows identical vs 54/64; relative mean diff 1.65e-4 vs 1.38e-3), so it is not larger and does not trigger a stop."
+    },
+    "no_accuracy_inspected": true
   }
 }
