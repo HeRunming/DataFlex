@@ -28,6 +28,10 @@ train_step: 2
 train_type: dynamic_select
 components_cfg_file: src/dataflex/configs/components_llama32_draws.yaml
 component_name: llama32_draw1
+warmup_step: 1
+update_step: 1
+update_times: 1
+selection_ratio: 0.05
 optimizer_state_path: /jizhicfs/karonhe/dataflex_saves/sft_results/warmup_llama32_seed42/checkpoint-1692
 target_dataset: bbhx_draw1_target
 eval_dataset: bbhx_draw1_target

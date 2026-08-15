@@ -9,6 +9,7 @@ selectors:
       target_gradient_type: sgd
       proj_dim: 8192
       seed: 123
+      candidate_subsample: -1
       greedy_device: auto
       save_interval: 16
   llama32_draw1:
@@ -21,6 +22,7 @@ selectors:
       target_gradient_type: sgd
       proj_dim: 8192
       seed: 123
+      candidate_subsample: -1
       greedy_device: auto
       save_interval: 16
   llama32_draw2:
@@ -33,5 +35,6 @@ selectors:
       target_gradient_type: sgd
       proj_dim: 8192
       seed: 123
+      candidate_subsample: -1
       greedy_device: auto
       save_interval: 16

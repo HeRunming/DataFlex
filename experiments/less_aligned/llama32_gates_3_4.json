@@ -3,18 +3,138 @@
   "scope": "ENGINEERING gates only; no BBH accuracy is read at any point",
   "gate3": {
     "draw0": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/llama32_draw0_output/target/1/all_projected_grads.pt",
-      "pass": false
+      "shape": [
+        64,
+        8192
+      ],
+      "shape_ok": true,
+      "all_finite": true,
+      "n_zero_rows": 0,
+      "row_norm_min": 0.9999997615814209,
+      "row_norm_max": 1.000000238418579,
+      "sha256": "836a596d6d5d7cd406bff746ca85c1bc7f77a72d435a8c1d3bdaada5afccb822",
+      "candidate_gradient_type": "adam",
+      "target_gradient_type": "sgd",
+      "proj_dim": 8192,
+      "proj_seed": 123,
+      "contract_ok": true,
+      "cutoff_len": 3072,
+      "cutoff_ok": true,
+      "selection_schedule": {
+        "warmup_step": 1,
+        "update_step": 1,
+        "update_times": 1,
+        "selection_ratio": 0.05,
+        "train_step": 2,
+        "train_type": "dynamic_select"
+      },
+      "schedule_ok": true,
+      "unexpected_drift_vs_llama2_config": [],
+      "no_drift": true,
+      "query_file": "/jizhicfs/karonhe/DataFlex_fa/data/bbh_external/query_prompts/bbh_query_draw0_prompts.jsonl",
+      "n_query_rows": 64,
+      "query_rows_ok": true,
+      "query_file_sha256": "240521f4a9b6bd4663b733c46cb64cdb2121b26d79b0a56f23be70f753c51098",
+      "n_unique_query_ids": 64,
+      "query_ids_unique": true,
+      "contract_query_prompts": "data/bbh_external/query_prompts/bbh_query_draw0_prompts.jsonl",
+      "query_identical_to_llama2": true,
+      "expected_shape_from_contract": [
+        64,
+        8192
+      ],
+      "shape_matches_contract": true,
+      "pass": true
     },
     "draw1": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/llama32_draw1_output/target/1/all_projected_grads.pt",
-      "pass": false
+      "shape": [
+        64,
+        8192
+      ],
+      "shape_ok": true,
+      "all_finite": true,
+      "n_zero_rows": 0,
+      "row_norm_min": 0.9999997615814209,
+      "row_norm_max": 1.000000238418579,
+      "sha256": "08b2bf89b80b17158e10f9da149824c1f1477897e2cca475ff4c64fc70bd6b53",
+      "candidate_gradient_type": "adam",
+      "target_gradient_type": "sgd",
+      "proj_dim": 8192,
+      "proj_seed": 123,
+      "contract_ok": true,
+      "cutoff_len": 3072,
+      "cutoff_ok": true,
+      "selection_schedule": {
+        "warmup_step": 1,
+        "update_step": 1,
+        "update_times": 1,
+        "selection_ratio": 0.05,
+        "train_step": 2,
+        "train_type": "dynamic_select"
+      },
+      "schedule_ok": true,
+      "unexpected_drift_vs_llama2_config": [],
+      "no_drift": true,
+      "query_file": "/jizhicfs/karonhe/DataFlex_fa/data/bbh_external/query_prompts/bbh_query_draw1_prompts.jsonl",
+      "n_query_rows": 64,
+      "query_rows_ok": true,
+      "query_file_sha256": "2dc9bbdfffa29f24306a3db52ab6ad0958554c55807252c5b8383cf01dce5c24",
+      "n_unique_query_ids": 64,
+      "query_ids_unique": true,
+      "contract_query_prompts": "data/bbh_external/query_prompts/bbh_query_draw1_prompts.jsonl",
+      "query_identical_to_llama2": true,
+      "expected_shape_from_contract": [
+        64,
+        8192
+      ],
+      "shape_matches_contract": true,
+      "pass": true
     },
     "draw2": {
-      "MISSING": "/jizhicfs/karonhe/dataflex_saves/llama32_draw2_output/target/1/all_projected_grads.pt",
-      "pass": false
+      "shape": [
+        64,
+        8192
+      ],
+      "shape_ok": true,
+      "all_finite": true,
+      "n_zero_rows": 0,
+      "row_norm_min": 0.9999997019767761,
+      "row_norm_max": 1.000000238418579,
+      "sha256": "ba4258ddba7fda382aba8a995124dedc200df4a88a1ec728c929da98964612af",
+      "candidate_gradient_type": "adam",
+      "target_gradient_type": "sgd",
+      "proj_dim": 8192,
+      "proj_seed": 123,
+      "contract_ok": true,
+      "cutoff_len": 3072,
+      "cutoff_ok": true,
+      "selection_schedule": {
+        "warmup_step": 1,
+        "update_step": 1,
+        "update_times": 1,
+        "selection_ratio": 0.05,
+        "train_step": 2,
+        "train_type": "dynamic_select"
+      },
+      "schedule_ok": true,
+      "unexpected_drift_vs_llama2_config": [],
+      "no_drift": true,
+      "query_file": "/jizhicfs/karonhe/DataFlex_fa/data/bbh_external/query_prompts/bbh_query_draw2_prompts.jsonl",
+      "n_query_rows": 64,
+      "query_rows_ok": true,
+      "query_file_sha256": "85dffdeb586f54459e7d9adf4e54a2392ab4135d91ea0f353d92ef86b95ed08d",
+      "n_unique_query_ids": 64,
+      "query_ids_unique": true,
+      "contract_query_prompts": "data/bbh_external/query_prompts/bbh_query_draw2_prompts.jsonl",
+      "query_identical_to_llama2": true,
+      "expected_shape_from_contract": [
+        64,
+        8192
+      ],
+      "shape_matches_contract": true,
+      "pass": true
     },
-    "all_pass": false
+    "all_pass": true
   },
   "gate4": {
     "draw0_dsmc": {
@@ -86,5 +206,10 @@
     "all_pass": false
   },
   "ALL_GATES_PASS": false,
-  "no_accuracy_inspected": true
+  "no_accuracy_inspected": true,
+  "tamper_check": {
+    "gate3_flips_to_fail": true,
+    "gate4_flips_to_fail": true,
+    "note": "negative control: dropping one target-gradient row and one selected index, and corrupting the Random-K hash, must each make the gate FAIL. If a gate still passed here it would be vacuous."
+  }
 }

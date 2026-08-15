@@ -83,6 +83,22 @@ def gate3(rep, tamper=False):
         e["cutoff_len"] = cfg["cutoff_len"]
         e["cutoff_ok"] = cfg["cutoff_len"] == 3072
 
+        # Non-vacuity guard. A missing dynamic-selection schedule key makes LlamaFactory train two
+        # steps and exit 0 WITHOUT ever invoking the selector -- a silent no-op that produced no
+        # target gradients at all on the first attempt. Assert the schedule is present, and that
+        # every non-model-stack key still equals the working Llama-2 config for this draw.
+        sched = {k: cfg.get(k) for k in ("warmup_step", "update_step", "update_times",
+                                        "selection_ratio", "train_step", "train_type")}
+        e["selection_schedule"] = sched
+        e["schedule_ok"] = all(v is not None for v in sched.values())
+        ref = yaml.safe_load(open(f"{EXP}/configs/draws/select_bbhx_draw{d}.yaml"))
+        STACK_ONLY = {"model_name_or_path", "template", "adapter_name_or_path",
+                      "optimizer_state_path", "output_dir", "component_name",
+                      "components_cfg_file"}
+        drift = sorted({k for k in set(ref) | set(cfg) if ref.get(k) != cfg.get(k)} - STACK_ONLY)
+        e["unexpected_drift_vs_llama2_config"] = drift
+        e["no_drift"] = not drift
+
         # the query set behind the extraction must be the frozen draw, unchanged
         di = json.load(open(f"{ROOT}/data/dataset_info.json"))
         qf = di[f"bbhx_draw{d}_target"]["file_name"]
@@ -108,7 +124,7 @@ def gate3(rep, tamper=False):
         e["pass"] = bool(e["shape_ok"] and e["all_finite"] and e["n_zero_rows"] == 0
                          and e["contract_ok"] and e["cutoff_ok"] and e["query_rows_ok"]
                          and e["query_ids_unique"] and e["query_identical_to_llama2"]
-                         and e["shape_matches_contract"])
+                         and e["shape_matches_contract"] and e["schedule_ok"] and e["no_drift"])
         ok = ok and e["pass"]
         rep["gate3"][f"draw{d}"] = e
     rep["gate3"]["all_pass"] = ok
