@@ -97,6 +97,20 @@ budgets. Cutoffs stay at 3072/2048, and the 192-query truncation audit was re-ru
 tokenizer: **192/192 records clean, 0 materially truncated, max 2,007 tokens** (the Llama-3 tokenizer is
 more efficient than Llama-2's 2,581 max, so headroom increases).
 
+**A useful consequence.** At 2,007 max these queries would fit even under the 2048 SFT cutoff, so on this
+stack the 3072 target-gradient cutoff grants **no extra information** — it is retained purely to keep the
+frozen BBH extraction contract identical. The Llama-2 controversy where the 3072 fix itself changed what
+the query contained therefore cannot recur here, which makes the cross-stack comparison cleaner.
+
+## The primary question (framing, fixed now)
+
+The primary question is **not** "does DSMC lose to Random again?" It is:
+
+> **Does better target alignment reliably imply better downstream utility across model stacks?**
+
+Framing it this way is what makes all four pre-registered outcomes interpretable rather than only one of
+them being "success".
+
 ## Outcomes: all four pre-registered before any training
 
 | # | outcome | interpretation |
@@ -114,6 +128,9 @@ reportable.
 - **Primary outcome**: held-out BBH **micro exact_match** on the frozen 5,209-example split.
 - **Primary statistical unit**: the query/selection **draw (n=3)** — seeds averaged within draw first, as
   in the Llama-2 arm. Six seed-level cells are secondary stability evidence.
+  **The 24 adapter cells are NOT 24 independent scientific replicates**, and n=6 must never be written as
+  six independent draws: the two SFT seeds share a draw *and* a selected subset, and exist only to show
+  SFT stochasticity.
 - **Diagnostics (exactly four, all theory-motivated and pre-specified):**
   1. `D2(S, Q_d)` — second-moment geometry;
   2. **operational wrapped** query CE;

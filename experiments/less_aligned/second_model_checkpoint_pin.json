@@ -71,5 +71,60 @@
     "llama2_comparison_max_tokens": 2581,
     "verdict": "PASS",
     "note": "cutoffs deliberately UNCHANGED despite Llama-3.2 supporting 131k context \u2014 supporting a longer context is not a reason to widen the experiment budget. The Llama-3 tokenizer is more efficient than Llama-2 (2007 vs 2581 max), so headroom increases rather than shrinks."
+  },
+  "gate1_warmup": {
+    "status": "COMPLETE",
+    "config": "experiments/less_aligned/configs/warmup_llama32_seed42.yaml",
+    "recipe_identical_to_llama2_except": [
+      "model_name_or_path",
+      "template (llama2 -> llama3)",
+      "dataset split key (same raw warm-up data)",
+      "output_dir"
+    ],
+    "frozen_recipe": {
+      "lora_rank": 128,
+      "lora_alpha": 512,
+      "lora_dropout": 0.1,
+      "lora_target": "q_proj,k_proj,v_proj,o_proj",
+      "cutoff_len": 2048,
+      "epochs": 4,
+      "per_device_train_batch_size": 4,
+      "gradient_accumulation_steps": 1,
+      "lr": 2e-05,
+      "scheduler": "linear",
+      "warmup_ratio": 0.03,
+      "bf16": true,
+      "seed": 42,
+      "train_type": "static"
+    },
+    "lora_module_verification": {
+      "trainable_params_observed": 73400320,
+      "all_params": 3286150144,
+      "trainable_pct": 2.2336,
+      "arithmetic_check": "28 layers x (q 786,432 + k 524,288 + v 524,288 + o 786,432) = 73,400,320 - EXACT match, and the k/v figures confirm GQA (8 KV heads x 128 = 1024) was handled correctly rather than silently matching the wrong projections",
+      "verdict": "PASS - LoRA matched exactly the intended q,k,v,o layers",
+      "llama2_comparison": "134,217,728 trainable / 6,872,633,344 all (1.95%) on Llama-2-7B"
+    },
+    "note": "the reviewer flagged that \"the model loads\" does not imply LoRA matched the expected layers; this is the explicit check, done by arithmetic rather than assumption",
+    "checkpoint": "/jizhicfs/karonhe/dataflex_saves/sft_results/warmup_llama32_seed42/checkpoint-1692",
+    "global_step": 1692,
+    "epoch": 4.0,
+    "adapter_sha256": "6300e3cd062142d3e485ed88495959acb7af018dbba5424a5227834d4123faa2",
+    "optimizer_sha256": "8d7398182bcb4f01a5a9c8be2decf49e296f8ca9ab2c6f272e57b60179bb943b",
+    "adapter_bytes": 293631984,
+    "optimizer_bytes": 587391883,
+    "adapter_config_readback": {
+      "r": 128,
+      "lora_alpha": 512,
+      "lora_dropout": 0.1,
+      "target_modules": [
+        "v_proj",
+        "q_proj",
+        "k_proj",
+        "o_proj"
+      ]
+    },
+    "why_hashed_now": "Adam-aware candidate gradients read exp_avg/exp_avg_sq from this optimizer state, so a drifted optimizer.pt would silently change the candidate feature space. Both are pinned before any gradient extraction.",
+    "steps_ok": true
   }
 }
