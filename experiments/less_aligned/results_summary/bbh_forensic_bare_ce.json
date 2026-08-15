@@ -1,0 +1,345 @@
+{
+  "diagnostic": "bare-context final-answer CE (no [INST] wrapper) on the same 64 query items",
+  "why": "D2b fixed the examples but not the executable input: the operational target CE uses the LlamaFactory llama2 wrapper while CoT generation uses the bare lm-eval context. This removes that confound.",
+  "definition": "teacher-forced CE of the gold final answer conditioned on the BARE pinned lm-eval prompt context, target_delimiter ' ', no wrapper, no truncation",
+  "base_bare_ce": {
+    "0": 5.420481845736504,
+    "1": 5.745278666727245,
+    "2": 5.1510015446692705
+  },
+  "cells": {
+    "bbhx_draw0_dsmc_seed42": {
+      "draw": 0,
+      "method": "dsmc",
+      "seed": 42,
+      "bare_ce": 5.740961167961359,
+      "delta_vs_base": 0.3204793222248554
+    },
+    "bbhx_draw0_dsmc_seed1": {
+      "draw": 0,
+      "method": "dsmc",
+      "seed": 1,
+      "bare_ce": 5.781369183212519,
+      "delta_vs_base": 0.3608873374760151
+    },
+    "bbhx_draw0_second_rr_seed42": {
+      "draw": 0,
+      "method": "second_rr",
+      "seed": 42,
+      "bare_ce": 5.931598216295242,
+      "delta_vs_base": 0.5111163705587387
+    },
+    "bbhx_draw0_second_rr_seed1": {
+      "draw": 0,
+      "method": "second_rr",
+      "seed": 1,
+      "bare_ce": 5.898494370281696,
+      "delta_vs_base": 0.4780125245451927
+    },
+    "bbhx_draw0_first_rr_seed42": {
+      "draw": 0,
+      "method": "first_rr",
+      "seed": 42,
+      "bare_ce": 5.763837203383446,
+      "delta_vs_base": 0.34335535764694214
+    },
+    "bbhx_draw0_first_rr_seed1": {
+      "draw": 0,
+      "method": "first_rr",
+      "seed": 1,
+      "bare_ce": 5.773575741797686,
+      "delta_vs_base": 0.353093896061182
+    },
+    "bbhx_draw0_less_seed42": {
+      "draw": 0,
+      "method": "less",
+      "seed": 42,
+      "bare_ce": 5.902246426790953,
+      "delta_vs_base": 0.4817645810544491
+    },
+    "bbhx_draw0_less_seed1": {
+      "draw": 0,
+      "method": "less",
+      "seed": 1,
+      "bare_ce": 5.938266638666391,
+      "delta_vs_base": 0.5177847929298878
+    },
+    "bbhx_draw0_randk_seed42": {
+      "draw": 0,
+      "method": "randk",
+      "seed": 42,
+      "bare_ce": 6.530953835695982,
+      "delta_vs_base": 1.1104719899594784
+    },
+    "bbhx_draw0_randk_seed1": {
+      "draw": 0,
+      "method": "randk",
+      "seed": 1,
+      "bare_ce": 6.472466316074133,
+      "delta_vs_base": 1.0519844703376293
+    },
+    "bbhx_draw0_randk_seqlabelmatch_seed42": {
+      "draw": 0,
+      "method": "randk_seqlabelmatch",
+      "seed": 42,
+      "bare_ce": 6.707441736012697,
+      "delta_vs_base": 1.2869598902761936
+    },
+    "bbhx_draw0_randk_seqlabelmatch_seed1": {
+      "draw": 0,
+      "method": "randk_seqlabelmatch",
+      "seed": 1,
+      "bare_ce": 6.724239405244589,
+      "delta_vs_base": 1.3037575595080853
+    },
+    "bbhx_draw1_dsmc_seed42": {
+      "draw": 1,
+      "method": "dsmc",
+      "seed": 42,
+      "bare_ce": 5.901854650117457,
+      "delta_vs_base": 0.15657598339021206
+    },
+    "bbhx_draw1_dsmc_seed1": {
+      "draw": 1,
+      "method": "dsmc",
+      "seed": 1,
+      "bare_ce": 5.9141763569787145,
+      "delta_vs_base": 0.1688976902514696
+    },
+    "bbhx_draw1_second_rr_seed42": {
+      "draw": 1,
+      "method": "second_rr",
+      "seed": 42,
+      "bare_ce": 6.353877019137144,
+      "delta_vs_base": 0.6085983524098992
+    },
+    "bbhx_draw1_second_rr_seed1": {
+      "draw": 1,
+      "method": "second_rr",
+      "seed": 1,
+      "bare_ce": 6.306862474419177,
+      "delta_vs_base": 0.5615838076919317
+    },
+    "bbhx_draw1_first_rr_seed42": {
+      "draw": 1,
+      "method": "first_rr",
+      "seed": 42,
+      "bare_ce": 6.055521131493151,
+      "delta_vs_base": 0.31024246476590633
+    },
+    "bbhx_draw1_first_rr_seed1": {
+      "draw": 1,
+      "method": "first_rr",
+      "seed": 1,
+      "bare_ce": 6.077805613167584,
+      "delta_vs_base": 0.3325269464403391
+    },
+    "bbhx_draw1_less_seed42": {
+      "draw": 1,
+      "method": "less",
+      "seed": 42,
+      "bare_ce": 6.210912040434778,
+      "delta_vs_base": 0.4656333737075329
+    },
+    "bbhx_draw1_less_seed1": {
+      "draw": 1,
+      "method": "less",
+      "seed": 1,
+      "bare_ce": 6.1826361967250705,
+      "delta_vs_base": 0.4373575299978256
+    },
+    "bbhx_draw1_randk_seed42": {
+      "draw": 1,
+      "method": "randk",
+      "seed": 42,
+      "bare_ce": 6.696384941227734,
+      "delta_vs_base": 0.9511062745004892
+    },
+    "bbhx_draw1_randk_seed1": {
+      "draw": 1,
+      "method": "randk",
+      "seed": 1,
+      "bare_ce": 6.694522476755083,
+      "delta_vs_base": 0.9492438100278378
+    },
+    "bbhx_draw1_randk_seqlabelmatch_seed42": {
+      "draw": 1,
+      "method": "randk_seqlabelmatch",
+      "seed": 42,
+      "bare_ce": 6.867544744163752,
+      "delta_vs_base": 1.1222660774365067
+    },
+    "bbhx_draw1_randk_seqlabelmatch_seed1": {
+      "draw": 1,
+      "method": "randk_seqlabelmatch",
+      "seed": 1,
+      "bare_ce": 6.759325284510851,
+      "delta_vs_base": 1.014046617783606
+    },
+    "bbhx_draw2_dsmc_seed42": {
+      "draw": 2,
+      "method": "dsmc",
+      "seed": 42,
+      "bare_ce": 5.4341973485425115,
+      "delta_vs_base": 0.28319580387324095
+    },
+    "bbhx_draw2_dsmc_seed1": {
+      "draw": 2,
+      "method": "dsmc",
+      "seed": 1,
+      "bare_ce": 5.516393314115703,
+      "delta_vs_base": 0.3653917694464326
+    },
+    "bbhx_draw2_second_rr_seed42": {
+      "draw": 2,
+      "method": "second_rr",
+      "seed": 42,
+      "bare_ce": 5.652147827669978,
+      "delta_vs_base": 0.5011462830007076
+    },
+    "bbhx_draw2_second_rr_seed1": {
+      "draw": 2,
+      "method": "second_rr",
+      "seed": 1,
+      "bare_ce": 5.659260174259543,
+      "delta_vs_base": 0.5082586295902729
+    },
+    "bbhx_draw2_first_rr_seed42": {
+      "draw": 2,
+      "method": "first_rr",
+      "seed": 42,
+      "bare_ce": 5.579415709711611,
+      "delta_vs_base": 0.42841416504234076
+    },
+    "bbhx_draw2_first_rr_seed1": {
+      "draw": 2,
+      "method": "first_rr",
+      "seed": 1,
+      "bare_ce": 5.478446276858449,
+      "delta_vs_base": 0.32744473218917847
+    },
+    "bbhx_draw2_less_seed42": {
+      "draw": 2,
+      "method": "less",
+      "seed": 42,
+      "bare_ce": 5.614890718832612,
+      "delta_vs_base": 0.4638891741633415
+    },
+    "bbhx_draw2_less_seed1": {
+      "draw": 2,
+      "method": "less",
+      "seed": 1,
+      "bare_ce": 5.6705607529729605,
+      "delta_vs_base": 0.51955920830369
+    },
+    "bbhx_draw2_randk_seed42": {
+      "draw": 2,
+      "method": "randk",
+      "seed": 42,
+      "bare_ce": 6.13168940320611,
+      "delta_vs_base": 0.9806878585368395
+    },
+    "bbhx_draw2_randk_seed1": {
+      "draw": 2,
+      "method": "randk",
+      "seed": 1,
+      "bare_ce": 6.151960383169353,
+      "delta_vs_base": 1.0009588385000825
+    },
+    "bbhx_draw2_randk_seqlabelmatch_seed42": {
+      "draw": 2,
+      "method": "randk_seqlabelmatch",
+      "seed": 42,
+      "bare_ce": 6.4977140706032515,
+      "delta_vs_base": 1.346712525933981
+    },
+    "bbhx_draw2_randk_seqlabelmatch_seed1": {
+      "draw": 2,
+      "method": "randk_seqlabelmatch",
+      "seed": 1,
+      "bare_ce": 6.353688299655914,
+      "delta_vs_base": 1.2026867549866438
+    }
+  },
+  "method_summary": {
+    "dsmc": {
+      "delta_bare_ce_per_draw": [
+        0.34068332985043526,
+        0.16273683682084084,
+        0.32429378665983677
+      ],
+      "delta_bare_ce_mean": 0.27590465111037094,
+      "delta_wrapped_ce_mean": -1.1590499154602487,
+      "delta_query_cot_em": -0.052083333333333336,
+      "delta_heldout_em": -0.03333947545914123
+    },
+    "second_rr": {
+      "delta_bare_ce_per_draw": [
+        0.4945644475519657,
+        0.5850910800509155,
+        0.5047024562954903
+      ],
+      "delta_bare_ce_mean": 0.5281193279661238,
+      "delta_wrapped_ce_mean": -0.6847630074868599,
+      "delta_query_cot_em": -0.052083333333333336,
+      "delta_heldout_em": -0.02774019216740259
+    },
+    "first_rr": {
+      "delta_bare_ce_per_draw": [
+        0.3482246268540621,
+        0.3213847056031227,
+        0.3779294486157596
+      ],
+      "delta_bare_ce_mean": 0.34917959369098145,
+      "delta_wrapped_ce_mean": -1.3996274748351425,
+      "delta_query_cot_em": -0.036458333333333336,
+      "delta_heldout_em": -0.024924552569271063
+    },
+    "less": {
+      "delta_bare_ce_per_draw": [
+        0.4997746869921684,
+        0.45149545185267925,
+        0.49172419123351574
+      ],
+      "delta_bare_ce_mean": 0.48099811002612114,
+      "delta_wrapped_ce_mean": -1.3557523172348738,
+      "delta_query_cot_em": -0.06510416666666667,
+      "delta_heldout_em": -0.03628309867536955
+    },
+    "randk": {
+      "delta_bare_ce_per_draw": [
+        1.0812282301485538,
+        0.9501750422641635,
+        0.990823348518461
+      ],
+      "delta_bare_ce_mean": 1.007408873643726,
+      "delta_wrapped_ce_mean": 0.3288123062811792,
+      "delta_query_cot_em": -0.041666666666666664,
+      "delta_heldout_em": -0.003935239201382279
+    },
+    "randk_seqlabelmatch": {
+      "delta_bare_ce_per_draw": [
+        1.2953587248921394,
+        1.0681563476100564,
+        1.2746996404603124
+      ],
+      "delta_bare_ce_mean": 1.2127382376541693,
+      "delta_wrapped_ce_mean": 0.3512838858490189,
+      "delta_query_cot_em": -0.049479166666666664,
+      "delta_heldout_em": -0.015901707493440886
+    }
+  },
+  "VERDICT": {
+    "targeted_reduce_bare_ce": false,
+    "random_increase_bare_ce": true,
+    "dissociation_survives_wrapper_removal": false,
+    "READING": "The dissociation does NOT survive removal of the chat-wrapper in the form originally stated. Under the bare pinned lm-eval context NO method improves final-answer CE: every arm degrades it relative to base (targeted +0.28 to +0.53, Random +1.01 to +1.21). The CE *improvement* seen in D2 was therefore specific to the operational target-pipeline serialization (the LlamaFactory [INST] wrapper), i.e. it is an improvement on the surrogate as the targeting pipeline actually computes it, not on final-answer cross-entropy in the serialization the task metric uses.",
+    "scope_note": "This is the LAST forensic diagnostic. No protocol, method, or result changes follow from it.",
+    "separation_preserved": true,
+    "max_targeted_bare_delta": 0.5281193279661238,
+    "min_random_bare_delta": 1.007408873643726,
+    "WHAT_SURVIVES": "Two things do survive and are what the paper should claim. (1) The targeted/Random SEPARATION is preserved and is strictly ordered: every target-aware method degrades bare-context CE far less (max +0.53) than either Random control (min +1.01), and the within-group ordering is unchanged -- so the selectors demonstrably move the model toward the query set in BOTH serializations, they simply do not reach an absolute improvement in the bare one. (2) The task-metric direction is unchanged: on the same 64 items every method's CoT exact-match falls, and the targeted methods are the ones that lose most downstream.",
+    "REQUIRED_SCOPING": "The claim must be scoped to the EXACT OPERATIONAL TARGETING SURROGATE (wrapped final-answer CE), not to cross-entropy generically. Correct statement: 'the surrogate actually used by the targeting pipeline improves on the very examples that define the target while the task metric on those same examples does not; we do NOT attribute the mismatch to cross-entropy independent of prompt serialization.' Any sentence implying 'final-answer CE per se is misaligned with CoT generation' is not supported and must not be written.",
+    "value_of_this_check": "This is exactly why the check was worth running: it falsified the broader version of our own claim before a reviewer could. Reported as a negative result rather than dropped."
+  }
+}

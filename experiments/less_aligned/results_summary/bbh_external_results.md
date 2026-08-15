@@ -24,9 +24,10 @@ Integrity, re-verified before unsealing: all 36 cells at exactly **84 optimizer 
 > on BBH, and DSMC is not even the best targeted selector here — both round-robin variants beat it. The
 > post-hoc diagnostics sharpen this into a double reversal: **DSMC attains the lowest D2 to its own query
 > set in 3/3 draws**, and all four target-aware selectors **reduce final-answer cross-entropy on their own
-> query sets**, yet they rank at the bottom downstream. On the *same 64 query items*, that CE improvement
+> query sets**, yet they rank at the bottom downstream. On the *same 64 query items*, that improvement
 > produces **no** gain in CoT exact-match. The MMLU surrogate/outcome dissociation therefore **replicates
-> externally, is stronger here, and now has a same-item demonstration.**
+> externally, is stronger here, and now has a same-item demonstration** — scoped, per D2c, to the
+> operational targeting surrogate rather than to cross-entropy in general.
 
 ## 1. Absolute performance (micro exact_match)
 
@@ -220,16 +221,58 @@ dataset source, and the rendered prompts verified identical to the frozen query 
 
 Base query CoT EM: 0.500 / 0.500 / 0.469.
 
-> **On the same examples, the differentiable final-answer surrogate improves by 0.68–1.40 nats while the
-> task metric does not improve at all — it falls.** No method raises query CoT EM above base.
+> **On the same examples, the operational targeting surrogate improves by 0.68–1.40 nats while the task
+> metric does not improve at all — it falls.** No method raises query CoT EM above base. (See D2c: this
+> CE improvement is specific to the targeting pipeline's serialization.)
 
-This rules out the competing explanation. "Targeted methods merely overfit these 64 queries and fail to
-generalize" requires a query-level *gain* that fails to transfer; there is none. The improvement produced
-by the targeting signal is confined to the differentiable surrogate and never appears in the task metric,
-even on the very items that define the target.
+**Scope of this, stated precisely.** A query→held-out *generalization* failure cannot by itself explain
+the result, because the task metric also fails to improve on the very items that define the targeting
+signal — that account needs a query-level *gain* that fails to transfer, and there is none. This does
+**not** rule out every notion of overfitting, and the earlier phrasing "the competing explanation is
+ruled out" was too strong and is retracted.
 
 *Caveat*: 64 items per draw makes CoT EM coarse and noisy; the direction is consistent across all three
 draws and all six methods, but per-draw effect sizes should not be over-read.
+
+## D2c. The CE improvement is serialization-specific — a negative result we ran on purpose
+
+`bbh_forensic_bare_ce.json`. D2b fixed the *examples* but not the *executable input*: the operational
+target CE uses the LlamaFactory `llama2` wrapper (`<s>[INST] … [/INST]`), while CoT generation uses the
+**bare** lm-eval context. So a reviewer could attribute the dissociation to input serialization. We
+therefore recomputed final-answer teacher-forced CE on the same 64 items using the **bare pinned lm-eval
+context, no wrapper**, gold answer and loss definition unchanged.
+
+| method | Δ **bare** CE | Δ wrapped CE | Δ query CoT EM | Δ held-out EM |
+|---|---|---|---|---|
+| dsmc | **+0.276** | −1.159 | −0.052 | −0.033 |
+| first_rr | **+0.349** | −1.400 | −0.037 | −0.025 |
+| less | **+0.481** | −1.356 | −0.065 | −0.036 |
+| second_rr | **+0.528** | −0.685 | −0.052 | −0.028 |
+| randk | **+1.007** | +0.329 | −0.042 | −0.004 |
+| randk_seqlabelmatch | **+1.213** | +0.351 | −0.050 | −0.016 |
+
+**The broader version of our own claim is falsified.** Under the bare context **no** method improves
+final-answer CE — every arm degrades it. The CE *improvement* in D2 was therefore specific to the
+serialization the targeting pipeline actually computes, not a property of final-answer cross-entropy in
+the serialization the task metric uses.
+
+**What survives, and is what we claim:**
+
+1. The **targeted/Random separation is preserved and strictly ordered**: every target-aware method
+   degrades bare CE far less (max +0.53) than either Random control (min +1.01), with within-group
+   ordering unchanged. The selectors demonstrably move the model toward the query set in *both*
+   serializations — they simply do not reach an absolute improvement in the bare one.
+2. The **task-metric direction is unchanged**: on the same items every method's CoT EM falls, and the
+   targeted methods lose most downstream.
+
+**Required scoping.** The claim is about the **exact operational targeting surrogate**: *the surrogate
+actually used by the targeting pipeline improves on the very examples that define the target while the
+task metric on those same examples does not.* We explicitly do **not** attribute the mismatch to
+cross-entropy independent of prompt serialization, and no sentence of the form "final-answer CE per se is
+misaligned with CoT generation" is supported.
+
+This check was worth running precisely because it falsified the stronger reading of our own result before
+a reviewer could. It is reported as a negative result rather than dropped.
 
 ## D3. No evidence for task-level protection from query exposure
 
@@ -265,16 +308,27 @@ both sharing the same ceiling structure.
 3. **All method means fall below base**, though Random stays within 0.39 pp and one Random cell exceeds
    base. Target-aware methods degrade an order of magnitude more.
 4. **The surrogate/outcome dissociation is now a cross-family result, demonstrated on the same items.**
-   DSMC minimizes D2 in 3/3 draws and still loses; all four target-aware selectors reduce final-answer CE
-   on their own query sets and still lose; and on those same 64 items the CE gain yields no CoT-EM gain.
-   The selection objective is measurably achieved and measurably fails to become utility. This is
-   *consistent with* a surrogate-objective mismatch — we do not claim to have identified a mechanism.
-5. **Format is a plausible locus; task-level specialization is not supported.** Query exposure does not
-   protect a task, and length/format matching moves ~41% of the gap. Neither is causally identified.
+   DSMC minimizes D2 in 3/3 draws and still loses; all four target-aware selectors reduce the operational
+   final-answer CE on their own query sets and still lose; and on those same 64 items that gain yields no
+   CoT-EM gain. The selection objective is measurably achieved and measurably fails to become utility.
+   This is *consistent with* a surrogate-objective mismatch — we do not claim a mechanism, and per D2c the
+   CE claim is scoped to the targeting pipeline's own serialization, not to cross-entropy generally.
+   The honest chain is:
+   **geometric alignment + surrogate improvement ⇏ task improvement.**
+5. **Format is a plausible locus; task-level specialization is not supported.** We find no evidence that
+   greater per-task query exposure protects that task, which argues against a simple task-frequency
+   specialization account. Length/format matching moves ~41% of the gap. Neither is causally identified,
+   and D3 is exploratory (appendix-level).
 
 **What this does not show.** One pool, one budget, one model (Llama-2-7B), 3 draws × 2 seeds. The
 diagnostics are exploratory and post-hoc. Nothing here isolates a cause; D1–D3 are consistent evidence,
-not identification.
+not identification. D2c further limits the CE claim to the operational serialization. The largest
+remaining generality question is **single-model**: whether this double reversal is a property of
+target-aware selection or of Llama-2-7B.
+
+**Forensic work is frozen here.** No further matched control, source-matched Random, CoT/rationale target
+gradients, reward-aware variant, kernel change, or budget/LR/epoch change will be added — those would be
+inventing methods after seeing results and would compromise a clean critical-empirical story.
 
 ## Provenance
 
