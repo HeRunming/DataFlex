@@ -1,0 +1,46 @@
+{
+  "audit": "second base model \u2014 ENGINEERING-ONLY feasibility (choice_0814)",
+  "rule": "model choice may NOT use BBH base accuracy or any SFT downstream result. Criteria are purely environmental/engineering.",
+  "frozen_env": {
+    "transformers": "4.50.0",
+    "llamafactory": "0.9.3",
+    "torch": "2.10.0+cu128",
+    "peft": "0.15.2",
+    "policy": "the DataFlex env is FROZEN \u2014 the Llama-2-7B arm was produced with it and must stay reproducible"
+  },
+  "candidates": {
+    "Qwen3-4B-Base": {
+      "preferred_by_review": true,
+      "huggingface": "open (HTTP 307 -> 200), model_type=qwen3, 36 layers, hidden 2560, 32k ctx",
+      "BLOCKER": "requires transformers >= 4.51; the frozen env is 4.50.0 and 'qwen3' is absent from CONFIG_MAPPING_NAMES, so it raises KeyError: 'qwen3'",
+      "would_require": "a separate environment, plus re-validating the whole candidate-gradient / LoRA / lm-eval pipeline on a different transformers build",
+      "verdict": "REJECTED for this round on engineering risk, not on any scientific ground"
+    },
+    "Llama-3.2-3B": {
+      "huggingface": "GATED (HTTP 401, 'Access ... is restricted')",
+      "modelscope": "UNGATED via LLM-Research/Llama-3.2-3B (user's suggestion); modelscope 1.37.1 already installed; downloaded 8.8GB to /jizhicfs/karonhe/models/modelscope",
+      "model_type": "llama -> natively supported by the FROZEN transformers 4.50.0, no upgrade needed",
+      "load_test": "PASSED \u2014 3.21B params, bf16, device_map=cuda, offline",
+      "tokenizer": "PASSED \u2014 vocab 128,256 (vs Llama-2's 32k), loads offline",
+      "llamafactory_template": "PASSED \u2014 'llama3' template present; SupervisedDatasetProcessor encodes and masks correctly",
+      "verdict": "SELECTED"
+    }
+  },
+  "SELECTED_MODEL": {
+    "name": "Llama-3.2-3B",
+    "path": "/jizhicfs/karonhe/models/modelscope/LLM-Research/Llama-3___2-3B",
+    "why": "only candidate that runs in the FROZEN environment with zero dependency changes, so the Llama-2-7B arm stays bit-reproducible and the model axis is the only thing that moves. Different generation (2023 Llama-2 vs 2024 Llama-3.2), different tokenizer (32k vs 128k vocab), different scale (7B vs 3B) \u2014 enough to test whether the double reversal is a Llama-2-7B pathology. It is also the model the neighbouring Critical Look study used for its additional-model BBH experiments, so the comparison is natural.",
+    "caveat": "same Llama family, so it is a weaker generality test than a cross-family model would be. This must be stated as a limitation rather than glossed."
+  },
+  "cost_estimate": {
+    "warm_up_checkpoint": "~1.5 h (must be rebuilt: warm-up is model-specific)",
+    "candidate_gradient_datastore": "~6-8 h for 270,679 candidates at proj_dim 8192 \u2014 the dominant cost; MUST be rebuilt because the central claim is about model-specific gradient geometry",
+    "target_gradients_3_draws": "~1 h",
+    "selections_DSMC_First_RR_Second_RR": "~1.5 h (Random-K reuses the frozen candidate indices)",
+    "training_24_adapters": "~6 h (3B is faster than 7B)",
+    "evaluation_25_runs": "24 adapters + 1 no-SFT reference, ~60-70 min each at 3B => ~26-29 h",
+    "TOTAL": "~45-50 GPU-h, parallelizable across the 8 H20s"
+  },
+  "must_not_do": "do NOT train the second model on Llama-2-selected subsets and call it replication \u2014 that is cross-model transfer of Llama-2 selections, a different scientific question. The new model rebuilds its own warm-up, candidate gradients, target gradients and target-aware selections. Random-K DOES reuse the same frozen candidate indices so the model axis stays clean.",
+  "no_accuracy_used": "no BBH accuracy or SFT result informed this choice"
+}
