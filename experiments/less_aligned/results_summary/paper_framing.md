@@ -1,0 +1,115 @@
+# Paper framing: "Matching the Target Is Not Enough"
+
+**Status: framing document, not the paper.** This fixes the claim structure, the evidence chain, and —
+most importantly — the **boundaries** of each claim, so that drafting cannot silently re-inflate anything
+we have already retracted. Target venue ICLR 2027 (deadline **2026-09-16**, 9-page main text).
+
+Written per `advice_0814_3` ("stop looking for results, start writing the conclusion") and `choice_0814_3`
+("the paper can start in parallel; the second model is now confirmation, not a precondition for having a
+story").
+
+---
+
+## 1. The one sentence
+
+> **Target-aware selection can improve the differentiable target surrogate on the very examples used to
+> define the target, while simultaneously degrading the task metric on those same examples.**
+
+The organizing principle is a **phenomenon**, not our method. DSMC is the *instrument* that makes the test
+sharp — it is the method that most successfully minimizes the geometry it optimizes, which is precisely
+what makes its downstream failure informative. The paper is **not** "our method wins."
+
+## 2. The honest logical chain
+
+$$\text{geometric alignment} \;+\; \text{surrogate improvement} \;\;\not\Longrightarrow\;\; \text{task improvement}$$
+
+Both antecedents are **measured and confirmed**, not assumed. That is the contribution: not "CE and reward
+can disagree" (ROSE already argued that), and not "Random is a strong baseline" (already known), but that
+**successfully optimizing set-level gradient geometry — verifiably — still fails to deliver utility.**
+
+## 3. Evidence chain, with each link's scope
+
+| # | claim | evidence | scope limit |
+|---|---|---|---|
+| 1 | DSMC really does minimize the geometry it targets | lowest $D_2(S,Q_d)$ in **3/3** draws | $D_2$ is *our* objective; not a claim about all geometries |
+| 2 | Better geometry tracks **worse** accuracy | Spearman($D_2$, acc) = **+0.771 / +0.829 / +0.886** (all-6); **+0.700 / +0.800 / +0.900** (primary-5); **+0.400 / +0.600 / +0.800** (targeted-4) | 6 methods × 3 draws is a small ranking sample; **descriptive only, no p-values** |
+| 3 | The operational surrogate genuinely improves | all 4 targeted methods reduce wrapped query CE (**−0.685 … −1.400**); both Random arms *increase* it (**+0.329 / +0.351**) — a perfect sign split | this is the *operational* wrapped surrogate |
+| 4 | Task metric falls on the **same 64 items** | query CoT EM drops for every method; targeted **−0.037 … −0.065** | rules out *pure* query→held-out shift; does **not** exclude every notion of overfitting |
+| 5 | The CE gain is serialization-dependent | bare-context CE improves for **no** method (dsmc **+0.276** … randk **+1.007**) | **retracted**: we do *not* claim CE per se is misaligned with CoT |
+| 6 | Not simple task specialization | exposure correlations **−0.210 / −0.280 / −0.224** | absence of one mechanism ≠ evidence for another |
+
+**Headline BBH result** (micro EM, no-SFT base **0.396429**): randk 0.3925, seqlabelmatch 0.3805,
+first_rr 0.3715, second_rr 0.3687, dsmc 0.3631, less 0.3601. **Every method is below base**;
+DSMC − Random = **−2.94 pp** (0/3 draw blocks favour DSMC).
+
+## 4. Retractions that must not creep back
+
+Each of these was claimed by us at some point and **falsified by our own diagnostics**:
+
+- ❌ "format explains 41%" — unsupported decomposition.
+- ❌ "we found the mechanism" — no mechanism is identified.
+- ❌ "the competing explanation is ruled out" → ✅ *"query→held-out generalization failure cannot by
+  itself explain the result, because the task metric also fails on the very items defining the signal."*
+- ❌ "cross-entropy is misaligned with CoT generation" → ✅ scoped to the **operational** surrogate (D2c).
+- ❌ "it's not dropout" — never established.
+- ❌ "DSMC is the best targeted selector" — true on MMLU, **does not generalize** to BBH.
+- ⚠️ D3 stays **exploratory, appendix**. Main text gets at most one sentence: *"We find no evidence that
+  greater per-task query exposure protects that task, arguing against a simple task-frequency
+  specialization account."*
+
+## 5. Contributions, in order
+
+1. **Directional second-moment matching (DSMC)** — exact marginal greedy on $k(u,v)=\langle u,v\rangle^2$;
+   on MMLU controlled attribution it clearly beats first-order targeted selection.
+2. That advantage is **not** a target-awareness advantage: Random is competitive on MMLU and
+   **significantly better on BBH**.
+3. **Core**: better target-gradient geometry does not guarantee better downstream utility; on BBH the
+   ranking is *reversed*, with the geometry–accuracy association pointing the wrong way in 3/3 draws.
+4. **Same-item dissociation**: on the identical 64 query items, targeted methods lower final-answer CE yet
+   lower CoT exact-match — so this is not merely distribution shift from query to test.
+5. **Serialization is load-bearing**: the CE improvement disappears under the bare evaluation
+   serialization, which *narrows* our own claim rather than supporting it.
+6. Base/no-SFT and Seq×Label controls show targeted SFT can **negatively transfer**; format composition
+   explains part but not all of the variation.
+
+## 6. Position relative to neighbours
+
+- ***A Critical Look at Targeted Instruction Selection*** (2026): gradient distance is the most predictive
+  representation, but lower query loss does not always give the best downstream result, and trends differ
+  across models. **We differ**: they measure predictiveness of a distance; we *successfully optimize* a
+  set-level geometry and show the optimization itself does not transfer.
+- **ROSE**: CE is an unreliable surrogate, hence reward-oriented selection. **We differ**: we don't propose
+  a new objective; we show the failure persists even when the matching objective is optimized as intended.
+- **Large-scale data selection for instruction tuning**: selector gains are setting-dependent and Random is
+  often hard to beat. We supply a *mechanistic-level* counterexample chain, not another leaderboard.
+
+## 7. Structure for 9 pages
+
+1. Intro — the one sentence, the chain, what is *not* claimed.
+2. DSMC and the $D_2$ objective (compact; it is the instrument).
+3. MMLU controlled attribution — where matching *does* help.
+4. External BBH — the reversal. **Main-text table.**
+5. Geometry/outcome dissociation ($D_2$ vs accuracy, 3/3).
+6. Same-item surrogate/task dissociation, **including** the negative bare-CE result.
+7. Second model stack (Llama-3.2-3B) — **main text, per `choice_0814`**, not appendix.
+8. Limitations, then conclusion.
+
+Appendix: D3 exposure, Seq×Label, contamination audits, prompt-parity gates, all pins/hashes.
+
+## 8. Limitations we state ourselves
+
+- Two model stacks (Llama-2-7B, Llama-3.2-3B) — better than one, still not a broad sweep; and the second
+  is a **model-stack** move (model + tokenizer + template together), not an architecture-only ablation.
+- One candidate pool (Tulu V2), two target tasks (MMLU, BBH), $K$ fixed at 2707 for BBH.
+- Rank statistics are descriptive; 6 methods × 3 draws does not support inference.
+- No mechanism is identified. We show *when* the surrogate assumption fails, not *why*.
+- Second-model framing note: the draw ($n=3$) is the statistical unit; the 24 adapter cells are **not** 24
+  independent replicates.
+
+## 9. What the second model can and cannot change
+
+Per the frozen prereg, **all four outcomes are reportable** and none may trigger tuning, a third model, or
+any method change. Outcome C (DSMC beats Random on Llama-3.2) would **not** invalidate the paper — it
+would change claim 3 from "unreliable in general" to "**model-dependent** rather than reliable," which is
+itself consistent with the cross-model inconsistency reported next door. The story does not depend on
+which outcome we get; **only the wording of claim 3 does.** That is why drafting proceeds now.
