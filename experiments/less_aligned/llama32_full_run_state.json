@@ -140,8 +140,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw1_dsmc",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_dsmc_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "c6511ffdaa8c0bc82caae4b4fa2505e70350d8fe02b3eb3df3315d57d3a38ae3",
+      "train_minutes": 9.3
     },
     {
       "adapter_id": "l32_draw1_first_rr_seed42",
@@ -150,8 +154,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw1_first_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_first_rr_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "1dfb9f7b32e9fd8e65649ca2abbe652b6ff79dc11b75ff19f46a84c88e4bfefd",
+      "train_minutes": 8.5
     },
     {
       "adapter_id": "l32_draw1_first_rr_seed1",
@@ -160,8 +168,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw1_first_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_first_rr_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "082c23ccf3ac8e50102b133a06939c447c97c45f7b2a6c54cd6bdfe44e249f38",
+      "train_minutes": 8.4
     },
     {
       "adapter_id": "l32_draw1_second_rr_seed42",
@@ -170,8 +182,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw1_second_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_second_rr_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "83593484ed97afe3281b0c9560c776df50e28422ba41b73888493687c4c30a60",
+      "train_minutes": 8.3
     },
     {
       "adapter_id": "l32_draw1_second_rr_seed1",
@@ -180,8 +196,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw1_second_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_second_rr_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "271514e51288a942125494da2078e44f7501ec7abe08974e78e3050970e64cdc",
+      "train_minutes": 8.3
     },
     {
       "adapter_id": "l32_draw1_randk_seed42",
@@ -190,8 +210,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw1_randk",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_randk_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "b1f654a436e199d7754cc91837d9bbee37cec5685acbb47b3f7f6ff199f5e79b",
+      "train_minutes": 7.4
     },
     {
       "adapter_id": "l32_draw1_randk_seed1",
@@ -200,8 +224,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw1_randk",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw1_randk_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "a4976e911cdabd5812ab6ccb0bf9320a72c1aab59bfb2257f68747b2201bcb2d",
+      "train_minutes": 7.4
     },
     {
       "adapter_id": "l32_draw2_dsmc_seed42",
@@ -210,8 +238,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw2_dsmc",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_dsmc_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "3632ff6b954956c8791dec43ad8b3731a59fa516d481452fb42f33b02b1bfaec",
+      "train_minutes": 9.4
     },
     {
       "adapter_id": "l32_draw2_dsmc_seed1",
@@ -220,8 +252,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw2_dsmc",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_dsmc_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "77109ea2ed613c8f12a53df16080d079841894e04cb06473258c9c73cba7bf7c",
+      "train_minutes": 9.3
     },
     {
       "adapter_id": "l32_draw2_first_rr_seed42",
@@ -230,8 +266,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw2_first_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_first_rr_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "2fab677c4a3598496aa7bebca1e567321e5856b482bbf65b4243e79e0a59e1e8",
+      "train_minutes": 8.5
     },
     {
       "adapter_id": "l32_draw2_first_rr_seed1",
@@ -240,8 +280,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw2_first_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_first_rr_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "d624938c7e8ab3dacfdf932c76f89642e07ee5c73896bc93048d9472ee0f9f92",
+      "train_minutes": 8.5
     },
     {
       "adapter_id": "l32_draw2_second_rr_seed42",
@@ -250,8 +294,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw2_second_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_second_rr_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "cd22551bf1f5f2b59f69513c6efcc4862a20563e8765cc00e95e6b4bb79a8c35",
+      "train_minutes": 9.7
     },
     {
       "adapter_id": "l32_draw2_second_rr_seed1",
@@ -260,8 +308,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw2_second_rr",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_second_rr_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "f5c712ba103ff984f89bbe3019f121149cb8b44bf43fdf30f123f2babc922a96",
+      "train_minutes": 8.5
     },
     {
       "adapter_id": "l32_draw2_randk_seed42",
@@ -270,8 +322,12 @@
       "train_seed": 42,
       "dataset_key": "l32_draw2_randk",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_randk_seed42",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "fd17638740257426a37ed89d83548c3128207457567fb54e0bdaf2cc7a4eb6e6",
+      "train_minutes": 8.0
     },
     {
       "adapter_id": "l32_draw2_randk_seed1",
@@ -280,8 +336,12 @@
       "train_seed": 1,
       "dataset_key": "l32_draw2_randk",
       "sft_out": "/jizhicfs/karonhe/dataflex_saves/sft_results/l32_draw2_randk_seed1",
-      "trained": false,
-      "evaluated": false
+      "trained": true,
+      "evaluated": false,
+      "global_step": 84,
+      "epoch": 3.847,
+      "adapter_sha256": "7f7b0e9745d57cbeccbce0b13636798f8d2d84bc5411ad489471ef8efaf15ead",
+      "train_minutes": 7.7
     }
   ],
   "base_eval": false,
@@ -385,5 +445,506 @@
     "l32_draw2_first_rr": 2707,
     "l32_draw2_second_rr": 2707,
     "l32_draw2_randk": 2707
+  },
+  "recipe_readback": {
+    "cells": {
+      "l32_draw0_dsmc_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "5d578e1d115cb9a033612aaee4a863e82b3b33805f6cb376c644b7dc2607f04d",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw0_dsmc_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "b3c6a0e1017b8080ce207344f1ad339ceb747302ea7ed9609034036196ba23c7",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw0_first_rr_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "3719c02c4bccd9a784484d689ff765c7b73c29c8eef32ebb25d224350b2f96ba",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw0_first_rr_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "62bb50f15251ddcdecaaf9bc26a5b32f2f25953f8665b0bff477ca9b68395a36",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw0_second_rr_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "19bf038b6be72ed574066b81b6634bc210f7432fdb6fb239124e991d7375baad",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw0_second_rr_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "e5c8bb2d85354225072e89bcadfc92f7b30c01100721b7d804735111b9f38773",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw0_randk_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "76bfa862b70f103e3c1b8727d3ad490db6315bb8c381d4fee9d0f9729cf0c8d0",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw0_randk_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "a9d051ebb5b406b5390eab3a5b95ae2ad1dad5a1c1f039acd88391780e15fbac",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_dsmc_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "c45ae0280ef8160e70aee0b13d475634d9dad4d08fcb91f8ca3a479383d4b803",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_dsmc_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "c6511ffdaa8c0bc82caae4b4fa2505e70350d8fe02b3eb3df3315d57d3a38ae3",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_first_rr_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "1dfb9f7b32e9fd8e65649ca2abbe652b6ff79dc11b75ff19f46a84c88e4bfefd",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_first_rr_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "082c23ccf3ac8e50102b133a06939c447c97c45f7b2a6c54cd6bdfe44e249f38",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_second_rr_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "83593484ed97afe3281b0c9560c776df50e28422ba41b73888493687c4c30a60",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_second_rr_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "271514e51288a942125494da2078e44f7501ec7abe08974e78e3050970e64cdc",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_randk_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "b1f654a436e199d7754cc91837d9bbee37cec5685acbb47b3f7f6ff199f5e79b",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw1_randk_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "a4976e911cdabd5812ab6ccb0bf9320a72c1aab59bfb2257f68747b2201bcb2d",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_dsmc_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "3632ff6b954956c8791dec43ad8b3731a59fa516d481452fb42f33b02b1bfaec",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_dsmc_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "77109ea2ed613c8f12a53df16080d079841894e04cb06473258c9c73cba7bf7c",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_first_rr_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "2fab677c4a3598496aa7bebca1e567321e5856b482bbf65b4243e79e0a59e1e8",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_first_rr_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "d624938c7e8ab3dacfdf932c76f89642e07ee5c73896bc93048d9472ee0f9f92",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_second_rr_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "cd22551bf1f5f2b59f69513c6efcc4862a20563e8765cc00e95e6b4bb79a8c35",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_second_rr_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "f5c712ba103ff984f89bbe3019f121149cb8b44bf43fdf30f123f2babc922a96",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_randk_seed42": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 42,
+        "adapter_sha256": "fd17638740257426a37ed89d83548c3128207457567fb54e0bdaf2cc7a4eb6e6",
+        "adapter_sha_present": true,
+        "pass": true
+      },
+      "l32_draw2_randk_seed1": {
+        "global_step": 84,
+        "epoch": 3.847,
+        "steps_ok": true,
+        "epoch_ok": true,
+        "r": 128,
+        "lora_alpha": 512,
+        "lora_dropout": 0.05,
+        "target_modules": [
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "v_proj"
+        ],
+        "recipe_ok": true,
+        "train_seed_expected": 1,
+        "adapter_sha256": "7f7b0e9745d57cbeccbce0b13636798f8d2d84bc5411ad489471ef8efaf15ead",
+        "adapter_sha_present": true,
+        "pass": true
+      }
+    },
+    "n_cells": 24,
+    "all_pass": true,
+    "adapter_hashes_unique": true,
+    "expected": {
+      "global_step": 84,
+      "epoch": 3.847,
+      "r": 128,
+      "lora_alpha": 512,
+      "lora_dropout": 0.05,
+      "target_modules": [
+        "k_proj",
+        "o_proj",
+        "q_proj",
+        "v_proj"
+      ]
+    },
+    "why": "the CLI overrides alpha/batch/accum/epochs, so only the written trainer_state and adapter_config are authoritative"
   }
 }
