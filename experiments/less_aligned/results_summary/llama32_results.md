@@ -1,8 +1,16 @@
 # Llama-3.2-3B second model-stack confirmation: RESULTS
 
-**Outcome A — the strongest pre-registered replication.** DSMC minimizes the target second-moment
+**The core geometry→utility conditions of Outcome A replicate.** DSMC minimizes the target second-moment
 geometry it optimizes in **3/3 draws** and is nonetheless **last** downstream, while **Random-K is best**.
-The double dissociation reported on Llama-2-7B is **not a Llama-2 pathology.**
+The geometry–utility reversal reported on Llama-2-7B is **not a Llama-2 pathology.**
+
+> ⚠️ **RETRACTION (advice_0817).** An earlier version of this document, and commit `e0ec06d`, claimed that
+> "pre-registered Outcome A fired". **That was overstated.** The prereg defines Outcome A as
+> D2(DSMC) < D2(Random) **and** Acc(DSMC) < Acc(Random) **and the operational query surrogate improving**.
+> Only the first two were computed here. The third pre-registered condition — wrapped query CE — plus the
+> same-query CoT EM and bare-context CE diagnostics had **not been run for Llama-3.2** when that claim was
+> made. Until they are, the correct statement is the one above: *the core geometry→utility conditions
+> replicate*, not *full Outcome A fired*. See `llama32_diagnostics.md`.
 
 All numbers were sealed until 24/24 adapter evals + 1/1 base eval completed. Zero failures, zero driver
 restarts, every evaluation gated at exactly 27 subtasks / 5,209 effective examples.
@@ -48,19 +56,22 @@ ranking sample and these are descriptive statistics.
 
 | # | pre-registered condition | fired? |
 |---|---|---|
-| **A** | D2(DSMC) < D2(Random) **and** Acc(DSMC) < Acc(Random) | ✅ **YES, 3/3 draws** |
+| **A** | D2(DSMC) < D2(Random) **and** Acc(DSMC) < Acc(Random) **and** the operational query surrogate improves | ⚠️ **first two conditions YES (3/3 draws); the surrogate condition was not yet computed** |
 | B | DSMC best on D2 but downstream ≈ Random | no — DSMC is clearly worse |
 | C | DSMC beats Random | no |
 | D | DSMC no longer minimizes D2 | no — it still does, in 3/3 |
 
-**Outcome A** was pre-specified as the *strongest replication*: better target alignment is not sufficient
-for downstream utility, **across two model stacks**.
+Outcome A was pre-specified as the *strongest replication*. Its **geometry→utility** half is confirmed on
+3/3 draws; its **operational-surrogate** half is pending the three evaluation-only diagnostics. B/C/D are
+already excluded: DSMC is clearly worse than Random and still minimizes D2.
 
 ## What this does and does not license
 
-**Does:** the central claim is no longer a single-model case study. Across Llama-2-7B (7B, 32k vocab,
-`llama2` template) and Llama-3.2-3B (3.2B, 128k vocab, `llama3` template), the method that best minimizes
-the target second moment is the worst downstream, and the target-independent baseline is best.
+**Does:** the central claim is no longer a single-model case study. Across the **two tested model stacks** —
+Llama-2-7B (7B, 32k vocab, `llama2` template) and Llama-3.2-3B (3.2B, 128k vocab, `llama3` template) — the
+method that best minimizes the target second moment is the worst downstream, and the target-independent
+baseline is best. Wording: *better target-gradient alignment does **not reliably translate** into better
+downstream utility*, **not** "unreliable in general".
 
 **Does not:**
 
@@ -89,5 +100,6 @@ the target second moment is the worst downstream, and the target-independent bas
 ## Stop rule
 
 Per the prereg: **all large experiments stop here.** No third model, no third task, no LR sweep, no new
-selector, no method or hyperparameter change — outcome A does not license any of them either.
-Remaining work is writing.
+selector, no method or hyperparameter change — whatever the diagnostics show does not license any of them
+either. The only remaining scientific work is the three pre-registered evaluation-only diagnostics
+(wrapped query CE, same-query CoT EM, bare-context CE); after that, writing.

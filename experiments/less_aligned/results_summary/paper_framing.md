@@ -62,20 +62,36 @@ Each of these was claimed by us at some point and **falsified by our own diagnos
 1. **Directional second-moment matching (DSMC)** — exact marginal greedy on $k(u,v)=\langle u,v\rangle^2$;
    on MMLU controlled attribution it clearly beats first-order targeted selection.
 2. That advantage is **not** a target-awareness advantage: Random is competitive on MMLU and
-   **significantly better on BBH**.
+   **consistently better in the observed BBH draw-level comparisons**. (Not "significantly" — no
+   inferential test was pre-registered or run.)
 3. **Core**: better target-gradient geometry does not guarantee better downstream utility; on BBH the
    ranking is *reversed*, with the geometry–accuracy association pointing the wrong way in 3/3 draws.
 4. **Same-item dissociation**: on the identical 64 query items, targeted methods lower final-answer CE yet
    lower CoT exact-match — so this is not merely distribution shift from query to test.
 5. **Serialization is load-bearing**: the CE improvement disappears under the bare evaluation
    serialization, which *narrows* our own claim rather than supporting it.
-6. Base/no-SFT and Seq×Label controls show targeted SFT can **negatively transfer**; format composition
-   explains part but not all of the variation.
+6. Base/no-SFT and Seq×Label controls show targeted SFT can **negatively transfer**. On format: *the
+   Seq×Label-matched Random control shifts performance partway toward the targeted subsets, making
+   instruction-format/provenance composition a plausible contributor, but it does **not** identify a
+   causal decomposition.* (The earlier "format explains part but not all" phrasing had quietly
+   reintroduced the retracted causal reading.)
 
 ## 5b. Cross-stack status (Llama-3.2-3B, outcome A — complete)
 
-The second model stack **replicated the direction** and settles claim 3's wording: it is *unreliable in
-general*, not merely model-dependent.
+The second model stack **replicated the direction** of the geometry→utility reversal.
+
+**Claim wording, fixed (advice_0817).** Use:
+
+> **Across the two tested model stacks, better target-gradient alignment does not reliably translate into
+> better downstream utility.**
+
+or, equivalently safe but stronger:
+
+> **Better target-gradient alignment is not sufficient for downstream improvement: we observe the same
+> geometry–utility reversal on two model stacks.**
+
+Do **not** write "unreliable in general" — we ran two stacks with n=3 draw blocks each and no inferential
+test, so a universal claim outruns the evidence.
 
 | | Llama-2-7B | Llama-3.2-3B |
 |---|---|---|
@@ -90,8 +106,10 @@ general*, not merely model-dependent.
 **Report honestly: the direction replicates, the magnitude is attenuated** (−0.89 vs −2.94 pp; on the 3B
 stack every method sits within 1 pp of base). Do not present the two stacks as equally dramatic.
 
-Because outcome A fired, the paper does **not** need the outcome-C hedge. Claim 3 stands as: better
-target-gradient geometry does not guarantee better downstream utility, demonstrated on two model stacks.
+Outcomes B/C/D are excluded. Outcome A's **geometry→utility** half is confirmed 3/3; its
+**operational-surrogate** half awaits the three evaluation-only diagnostics
+(`llama32_diagnostics.md`). Claim 3 therefore stands as: better target-gradient geometry does not
+guarantee better downstream utility, demonstrated on two model stacks.
 
 ## 6. Position relative to neighbours
 
