@@ -1,16 +1,17 @@
 # Llama-3.2-3B second model-stack confirmation: RESULTS
 
-**The core geometry→utility conditions of Outcome A replicate.** DSMC minimizes the target second-moment
+**Full pre-registered Outcome A replicates** (all three conditions; the surrogate condition was
+confirmed separately in `llama32_diagnostics.md`). DSMC minimizes the target second-moment
 geometry it optimizes in **3/3 draws** and is nonetheless **last** downstream, while **Random-K is best**.
 The geometry–utility reversal reported on Llama-2-7B is **not a Llama-2 pathology.**
 
-> ⚠️ **RETRACTION (advice_0817).** An earlier version of this document, and commit `e0ec06d`, claimed that
-> "pre-registered Outcome A fired". **That was overstated.** The prereg defines Outcome A as
-> D2(DSMC) < D2(Random) **and** Acc(DSMC) < Acc(Random) **and the operational query surrogate improving**.
-> Only the first two were computed here. The third pre-registered condition — wrapped query CE — plus the
-> same-query CoT EM and bare-context CE diagnostics had **not been run for Llama-3.2** when that claim was
-> made. Until they are, the correct statement is the one above: *the core geometry→utility conditions
-> replicate*, not *full Outcome A fired*. See `llama32_diagnostics.md`.
+> ⚠️ **RETRACTION AND RESOLUTION (advice_0817).** Commit `e0ec06d` claimed "pre-registered Outcome A
+> fired" while having computed only **two** of its **three** conditions — D2(DSMC) < D2(Random) and
+> Acc(DSMC) < Acc(Random), but **not** "the operational query surrogate improves". That claim was
+> unsupported when made. The missing diagnostic has since been run (`llama32_diagnostics.md`): the targeted
+> selectors reduce wrapped query CE by **−3.19 … −3.40** nats, so the third condition **is** met and full
+> Outcome A does replicate. The overclaim is recorded rather than erased, because it was asserted before
+> the evidence existed.
 
 All numbers were sealed until 24/24 adapter evals + 1/1 base eval completed. Zero failures, zero driver
 restarts, every evaluation gated at exactly 27 subtasks / 5,209 effective examples.
@@ -56,14 +57,16 @@ ranking sample and these are descriptive statistics.
 
 | # | pre-registered condition | fired? |
 |---|---|---|
-| **A** | D2(DSMC) < D2(Random) **and** Acc(DSMC) < Acc(Random) **and** the operational query surrogate improves | ⚠️ **first two conditions YES (3/3 draws); the surrogate condition was not yet computed** |
+| **A** | D2(DSMC) < D2(Random) **and** Acc(DSMC) < Acc(Random) **and** the operational query surrogate improves | ✅ **all three met**: D2 lowest 3/3, DSMC last downstream, wrapped CE −3.26 |
 | B | DSMC best on D2 but downstream ≈ Random | no — DSMC is clearly worse |
 | C | DSMC beats Random | no |
 | D | DSMC no longer minimizes D2 | no — it still does, in 3/3 |
 
-Outcome A was pre-specified as the *strongest replication*. Its **geometry→utility** half is confirmed on
-3/3 draws; its **operational-surrogate** half is pending the three evaluation-only diagnostics. B/C/D are
-already excluded: DSMC is clearly worse than Random and still minimizes D2.
+Outcome A was pre-specified as the *strongest replication*, and **all three of its conditions now hold**:
+DSMC minimizes D2 in 3/3 draws, ranks last downstream, and the targeted selectors genuinely improve the
+operational surrogate. B/C/D are excluded. Two secondary sub-checks came out differently from Llama-2
+(Random's wrapped CE now falls rather than rises; bare CE now improves for targeted methods) — neither is
+part of Outcome A, and both are reported in `llama32_diagnostics.md`.
 
 ## What this does and does not license
 
@@ -102,4 +105,4 @@ downstream utility*, **not** "unreliable in general".
 Per the prereg: **all large experiments stop here.** No third model, no third task, no LR sweep, no new
 selector, no method or hyperparameter change — whatever the diagnostics show does not license any of them
 either. The only remaining scientific work is the three pre-registered evaluation-only diagnostics
-(wrapped query CE, same-query CoT EM, bare-context CE); after that, writing.
+(wrapped query CE, same-query CoT EM, bare-context CE) — **now complete**. Only writing remains.

@@ -35,7 +35,7 @@ can disagree" (ROSE already argued that), and not "Random is a strong baseline" 
 | 2 | Better geometry tracks **worse** accuracy | Spearman($D_2$, acc) = **+0.771 / +0.829 / +0.886** (all-6); **+0.700 / +0.800 / +0.900** (primary-5); **+0.400 / +0.600 / +0.800** (targeted-4) | 6 methods × 3 draws is a small ranking sample; **descriptive only, no p-values** |
 | 3 | The operational surrogate genuinely improves | all 4 targeted methods reduce wrapped query CE (**−0.685 … −1.400**); both Random arms *increase* it (**+0.329 / +0.351**) — a perfect sign split | this is the *operational* wrapped surrogate |
 | 4 | Task metric falls on the **same 64 items** | query CoT EM drops for every method; targeted **−0.037 … −0.065** | rules out *pure* query→held-out shift; does **not** exclude every notion of overfitting |
-| 5 | The CE gain is serialization-dependent | bare-context CE improves for **no** method (dsmc **+0.276** … randk **+1.007**) | **retracted**: we do *not* claim CE per se is misaligned with CoT |
+| 5 | The CE gain is serialization-dependent | Llama-2: bare-context CE improves for **no** method (dsmc **+0.276** … randk **+1.007**). Llama-3.2: it *does* improve for targeted arms (**−0.41 … −0.57**) | **retracted and stays retracted**: we do *not* claim CE per se is misaligned with CoT. The cross-stack flip shows serialization sensitivity is itself stack-dependent |
 | 6 | Not simple task specialization | exposure correlations **−0.210 / −0.280 / −0.224** | absence of one mechanism ≠ evidence for another |
 
 **Headline BBH result** (micro EM, no-SFT base **0.396429**): randk 0.3925, seqlabelmatch 0.3805,
@@ -106,10 +106,18 @@ test, so a universal claim outruns the evidence.
 **Report honestly: the direction replicates, the magnitude is attenuated** (−0.89 vs −2.94 pp; on the 3B
 stack every method sits within 1 pp of base). Do not present the two stacks as equally dramatic.
 
-Outcomes B/C/D are excluded. Outcome A's **geometry→utility** half is confirmed 3/3; its
-**operational-surrogate** half awaits the three evaluation-only diagnostics
-(`llama32_diagnostics.md`). Claim 3 therefore stands as: better target-gradient geometry does not
-guarantee better downstream utility, demonstrated on two model stacks.
+Outcomes B/C/D are excluded and **all three Outcome A conditions hold** on this stack: DSMC lowest D2 3/3,
+DSMC last downstream, and wrapped query CE **−3.26** nats for the targeted selectors. Claim 3 therefore
+stands as: better target-gradient geometry does not guarantee better downstream utility, demonstrated on
+two model stacks — and on both, the *surrogate the pipeline optimizes* improved while utility fell.
+
+Two secondary sub-checks differ from Llama-2 and belong in the appendix, stated plainly:
+Random-K's wrapped CE now **falls** (−1.37) rather than rising, so on this stack it is a **magnitude**
+split (Random improves the surrogate far less, 3/3 draws) rather than Llama-2's **sign** split; and
+bare-context CE now improves for the targeted arms. The latter may **not** be used to un-retract
+"cross-entropy per se is misaligned with CoT" — per the frozen prereg bare CE stays a
+serialization-sensitivity diagnostic, and the cross-stack difference instead shows that *how much
+serialization matters is itself model-stack dependent*.
 
 ## 6. Position relative to neighbours
 
