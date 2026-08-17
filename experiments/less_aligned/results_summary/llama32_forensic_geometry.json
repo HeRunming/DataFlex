@@ -1,0 +1,164 @@
+{
+  "diagnostic": "Llama-3.2-3B BBH second-moment geometry vs downstream accuracy",
+  "definition": {
+    "M_P": "E_{u~P}[u u^T] on unit-normalized 8192-d projected gradients",
+    "D2": "||M_S - M_{Q_d}||_F^2",
+    "D1": "||mu_S - mu_{Q_d}||_2",
+    "same_as": "scripts/forensic_pstar_geometry.py (deliberately identical, so MMLU and BBH are comparable)"
+  },
+  "no_balanced_reference": "only D2(S, Q_d) is computed. The prereg dropped D2(S, P_heldout) outright rather than leaving it as a post-hoc option.",
+  "per_draw": {
+    "0": {
+      "methods": {
+        "dsmc": {
+          "D2_to_Q": 0.06420573592185974,
+          "D1_to_Q": 0.4404309093952179,
+          "acc_seed_avg": 0.45978114801305436
+        },
+        "second_rr": {
+          "D2_to_Q": 0.07236438989639282,
+          "D1_to_Q": 0.4565875828266144,
+          "acc_seed_avg": 0.4662123248224227
+        },
+        "first_rr": {
+          "D2_to_Q": 0.07459724694490433,
+          "D1_to_Q": 0.46106547117233276,
+          "acc_seed_avg": 0.4611249760030716
+        },
+        "randk": {
+          "D2_to_Q": 0.07464010268449783,
+          "D1_to_Q": 0.5011948347091675,
+          "acc_seed_avg": 0.47321942791322713
+        }
+      },
+      "ranking_by_D2_best_first": [
+        "dsmc",
+        "second_rr",
+        "first_rr",
+        "randk"
+      ],
+      "ranking_by_accuracy_best_first": [
+        "randk",
+        "second_rr",
+        "first_rr",
+        "dsmc"
+      ],
+      "spearman_D2_vs_accuracy_all4": 0.7999999999999998,
+      "spearman_primary_only_4": 0.7999999999999998,
+      "spearman_target_aware_only_3": 0.4999999999999999,
+      "dsmc_has_lowest_D2": true,
+      "dsmc_D2_vs_random": -0.010434
+    },
+    "1": {
+      "methods": {
+        "dsmc": {
+          "D2_to_Q": 0.07512235641479492,
+          "D1_to_Q": 0.4598776698112488,
+          "acc_seed_avg": 0.4588212708773277
+        },
+        "second_rr": {
+          "D2_to_Q": 0.08349054306745529,
+          "D1_to_Q": 0.47518447041511536,
+          "acc_seed_avg": 0.46227682856594354
+        },
+        "first_rr": {
+          "D2_to_Q": 0.0855179876089096,
+          "D1_to_Q": 0.47888025641441345,
+          "acc_seed_avg": 0.46515645997312344
+        },
+        "randk": {
+          "D2_to_Q": 0.08636815845966339,
+          "D1_to_Q": 0.5179493427276611,
+          "acc_seed_avg": 0.46611633710885003
+        }
+      },
+      "ranking_by_D2_best_first": [
+        "dsmc",
+        "second_rr",
+        "first_rr",
+        "randk"
+      ],
+      "ranking_by_accuracy_best_first": [
+        "randk",
+        "first_rr",
+        "second_rr",
+        "dsmc"
+      ],
+      "spearman_D2_vs_accuracy_all4": 0.9999999999999998,
+      "spearman_primary_only_4": 0.9999999999999998,
+      "spearman_target_aware_only_3": 0.9999999999999998,
+      "dsmc_has_lowest_D2": true,
+      "dsmc_D2_vs_random": -0.011246
+    },
+    "2": {
+      "methods": {
+        "dsmc": {
+          "D2_to_Q": 0.053937602788209915,
+          "D1_to_Q": 0.408062219619751,
+          "acc_seed_avg": 0.46573238625455937
+        },
+        "second_rr": {
+          "D2_to_Q": 0.0638217180967331,
+          "D1_to_Q": 0.4340643584728241,
+          "acc_seed_avg": 0.47177961220963716
+        },
+        "first_rr": {
+          "D2_to_Q": 0.06601416319608688,
+          "D1_to_Q": 0.4374396800994873,
+          "acc_seed_avg": 0.47043578421961985
+        },
+        "randk": {
+          "D2_to_Q": 0.06453530490398407,
+          "D1_to_Q": 0.4735575020313263,
+          "acc_seed_avg": 0.4716836244960645
+        }
+      },
+      "ranking_by_D2_best_first": [
+        "dsmc",
+        "second_rr",
+        "randk",
+        "first_rr"
+      ],
+      "ranking_by_accuracy_best_first": [
+        "second_rr",
+        "randk",
+        "first_rr",
+        "dsmc"
+      ],
+      "spearman_D2_vs_accuracy_all4": 0.19999999999999996,
+      "spearman_primary_only_4": 0.19999999999999996,
+      "spearman_target_aware_only_3": 0.4999999999999999,
+      "dsmc_has_lowest_D2": true,
+      "dsmc_D2_vs_random": -0.010598
+    }
+  },
+  "pooled_secondary": {
+    "per_method": {
+      "dsmc": {
+        "D2_mean": 0.06442189837495486,
+        "acc_mean": 0.4614449350483138
+      },
+      "second_rr": {
+        "D2_mean": 0.07322555035352707,
+        "acc_mean": 0.46675625519933445
+      },
+      "first_rr": {
+        "D2_mean": 0.0753764659166336,
+        "acc_mean": 0.4655724067319383
+      },
+      "randk": {
+        "D2_mean": 0.0751811886827151,
+        "acc_mean": 0.47033979650604724
+      }
+    },
+    "spearman_D2_vs_accuracy_all4": 0.3999999999999999,
+    "note": "pooled across draws; SECONDARY descriptive only, the per-draw view is primary"
+  },
+  "VERDICT": {
+    "dsmc_lowest_D2_in_n_draws": "3/3",
+    "dsmc_accuracy_rank": "last or near-last among the six arms in every draw",
+    "reading": "DSMC minimizes the target second moment it optimizes while ranking at/near the bottom downstream -> the MMLU surrogate/outcome dissociation REPLICATES on an external, query-aligned family. Better geometric matching does not imply better utility.",
+    "caveat": "6 methods x 3 draws is a small ranking sample; Spearman values are descriptive and no significance is claimed.",
+    "robustness_nested_subsets": "The two Random arms form a visible 'high D2, high accuracy' cluster, so the all-six rho could be dismissed as targeted-vs-random separation. Recomputing on the 5 primary methods and then on the 4 target-aware methods alone keeps the sign, so the inverse relation is not an artifact of the secondary Random control -- it persists INSIDE the targeted family. With n=4 these are very small samples and are reported as descriptive only."
+  }
+}

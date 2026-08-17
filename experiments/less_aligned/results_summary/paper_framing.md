@@ -72,6 +72,27 @@ Each of these was claimed by us at some point and **falsified by our own diagnos
 6. Base/no-SFT and Seq×Label controls show targeted SFT can **negatively transfer**; format composition
    explains part but not all of the variation.
 
+## 5b. Cross-stack status (Llama-3.2-3B, outcome A — complete)
+
+The second model stack **replicated the direction** and settles claim 3's wording: it is *unreliable in
+general*, not merely model-dependent.
+
+| | Llama-2-7B | Llama-3.2-3B |
+|---|---|---|
+| base (no-SFT) micro EM | 0.396429 | 0.471108 |
+| best method | Random-K | Random-K |
+| worst method | (LESS) then DSMC | DSMC |
+| DSMC − Random | **−2.94 pp** | **−0.89 pp** |
+| draw blocks favouring DSMC | 0/3 | 0/3 |
+| DSMC lowest D2 | 3/3 | 3/3 |
+| all methods below base | yes | yes |
+
+**Report honestly: the direction replicates, the magnitude is attenuated** (−0.89 vs −2.94 pp; on the 3B
+stack every method sits within 1 pp of base). Do not present the two stacks as equally dramatic.
+
+Because outcome A fired, the paper does **not** need the outcome-C hedge. Claim 3 stands as: better
+target-gradient geometry does not guarantee better downstream utility, demonstrated on two model stacks.
+
 ## 6. Position relative to neighbours
 
 - ***A Critical Look at Targeted Instruction Selection*** (2026): gradient distance is the most predictive
@@ -100,16 +121,17 @@ Appendix: D3 exposure, Seq×Label, contamination audits, prompt-parity gates, al
 
 - Two model stacks (Llama-2-7B, Llama-3.2-3B) — better than one, still not a broad sweep; and the second
   is a **model-stack** move (model + tokenizer + template together), not an architecture-only ablation.
+- The 3B effect is **small in absolute terms** (all methods within 1 pp of base) and draw 2 has Random-K
+  and Second-RR essentially tied, so that draw's ranking is fragile. Descriptive statistics only.
 - One candidate pool (Tulu V2), two target tasks (MMLU, BBH), $K$ fixed at 2707 for BBH.
 - Rank statistics are descriptive; 6 methods × 3 draws does not support inference.
 - No mechanism is identified. We show *when* the surrogate assumption fails, not *why*.
 - Second-model framing note: the draw ($n=3$) is the statistical unit; the 24 adapter cells are **not** 24
   independent replicates.
 
-## 9. What the second model can and cannot change
+## 9. Second model: resolved
 
-Per the frozen prereg, **all four outcomes are reportable** and none may trigger tuning, a third model, or
-any method change. Outcome C (DSMC beats Random on Llama-3.2) would **not** invalidate the paper — it
-would change claim 3 from "unreliable in general" to "**model-dependent** rather than reliable," which is
-itself consistent with the cross-model inconsistency reported next door. The story does not depend on
-which outcome we get; **only the wording of claim 3 does.** That is why drafting proceeds now.
+**Outcome A fired** (see §5b). Of the four pre-registered outcomes this was the strongest replication, so
+claim 3 keeps its general form rather than retreating to "model-dependent". Nothing about the protocol
+changed in response to the result, and the stop rule now binds: no third model, no third task, no LR
+sweep, no new selector. Remaining work is writing.
