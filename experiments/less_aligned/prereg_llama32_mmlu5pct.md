@@ -75,6 +75,12 @@ exactly this seed mapping.
 | target-gradient format | the **original MMLU** single-example supervised form, `num_fewshot=0` |
 | downstream eval | the **original 5-shot** MMLU |
 | serialization | Llama-3.2's own **`llama3`** template |
+| RR permutation seed | **`3000 + draw_index`**, shared by First-RR and Second-RR and by the STEM/HUM directions of an index |
+
+**Recovered, not guessed.** The MMLU RR seed is `3000+i`, **not** the BBH arm's `6000+d`; verified by
+reading `perm_seed` out of all ten frozen Llama-2 MMLU selections (3000…3004 for both directions, with
+First-RR and Second-RR sharing a byte-identical `query_order` within each draw). Reusing the BBH seed here
+would silently change the RR arms.
 
 > ⚠️ **Explicitly forbidden:** "fixing" the MMLU target-gradient format to a 5-shot form because the BBH
 > work later taught us about prompt alignment. That would change the **stack and the target protocol at the
