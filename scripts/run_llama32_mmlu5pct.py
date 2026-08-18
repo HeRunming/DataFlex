@@ -216,9 +216,16 @@ def materialize(st):
 
 
 def loader_check(st):
-    """Load every key through the REAL LlamaFactory SFT path under the llama3 template."""
+    """Load every key through the REAL LlamaFactory SFT path under the llama3 template.
+
+    Must run with a SINGLE visible GPU: with 8 visible, HF sets parallel_mode to NOT_DISTRIBUTED
+    and llamafactory/hparams/parser.py:244 refuses to build train args outside
+    llamafactory-cli/torchrun. Pinning one device makes this a plain single-process load, which is
+    all a dataset-count check needs.
+    """
     import warnings
     warnings.filterwarnings("ignore")
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     from transformers import AutoTokenizer
     from llamafactory.data.loader import get_dataset
     from llamafactory.data.template import get_template_and_fix_tokenizer
