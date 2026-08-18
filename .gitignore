@@ -14,3 +14,13 @@ data/less_warmup_5pct.jsonl
 data/less_warmup_5pct_indices.npy
 *.npy
 data/less_warmup_5pct_seed*.jsonl
+
+# LaTeX build products
+paper/iclr2027/*.aux
+paper/iclr2027/*.bbl
+paper/iclr2027/*.blg
+paper/iclr2027/*.fdb_latexmk
+paper/iclr2027/*.fls
+paper/iclr2027/*.log
+paper/iclr2027/*.out
+paper/iclr2027/*.synctex.gz
