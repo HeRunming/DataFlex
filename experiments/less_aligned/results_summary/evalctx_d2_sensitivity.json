@@ -1,0 +1,265 @@
+{
+  "analysis": "POST-HOC sensitivity: D2 ranking under bare/evaluation-matched target serialization vs the operational chat wrapper",
+  "scope": "target-side gradients only; no new adapters, selections or SFT. May NOT redefine any primary result.",
+  "definition": "D2(S,Q) = ||M_S - M_Q||_F^2 on unit-normalized 8192-d projected gradients",
+  "serialization": {
+    "operational": "LlamaFactory llama2 (Llama-2) / llama3 (Llama-3.2) wrapper",
+    "eval_matched": "LlamaFactory `empty` template = bare prompt, the serialization the task metric actually uses"
+  },
+  "stacks": {
+    "llama2": {
+      "per_draw": {
+        "0": {
+          "target_tensors_identical": false,
+          "mean_row_cosine_operational_vs_evalctx": 0.33461496233940125,
+          "D2_between_the_two_target_moments": 0.1293114721775055,
+          "methods": {
+            "dsmc": {
+              "D2_operational": 0.08654475212097168,
+              "D2_evalctx": 0.06674739718437195
+            },
+            "second_rr": {
+              "D2_operational": 0.09062270820140839,
+              "D2_evalctx": 0.07102100551128387
+            },
+            "first_rr": {
+              "D2_operational": 0.08840566128492355,
+              "D2_evalctx": 0.06830474734306335
+            },
+            "randk": {
+              "D2_operational": 0.11041678488254547,
+              "D2_evalctx": 0.08874914050102234
+            }
+          },
+          "ranking_operational_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_lowest_operational": true,
+          "ranking_evalctx_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_lowest_evalctx": true,
+          "ranking_changed": false
+        },
+        "1": {
+          "target_tensors_identical": false,
+          "mean_row_cosine_operational_vs_evalctx": 0.3422510623931885,
+          "D2_between_the_two_target_moments": 0.15114733576774597,
+          "methods": {
+            "dsmc": {
+              "D2_operational": 0.09834671765565872,
+              "D2_evalctx": 0.0823047012090683
+            },
+            "second_rr": {
+              "D2_operational": 0.1017088070511818,
+              "D2_evalctx": 0.08585737645626068
+            },
+            "first_rr": {
+              "D2_operational": 0.10019516944885254,
+              "D2_evalctx": 0.0839303582906723
+            },
+            "randk": {
+              "D2_operational": 0.1215549036860466,
+              "D2_evalctx": 0.1035761684179306
+            }
+          },
+          "ranking_operational_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_lowest_operational": true,
+          "ranking_evalctx_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_lowest_evalctx": true,
+          "ranking_changed": false
+        },
+        "2": {
+          "target_tensors_identical": false,
+          "mean_row_cosine_operational_vs_evalctx": 0.36336684226989746,
+          "D2_between_the_two_target_moments": 0.10540151596069336,
+          "methods": {
+            "dsmc": {
+              "D2_operational": 0.07390087097883224,
+              "D2_evalctx": 0.05655265599489212
+            },
+            "second_rr": {
+              "D2_operational": 0.07713837921619415,
+              "D2_evalctx": 0.05989377200603485
+            },
+            "first_rr": {
+              "D2_operational": 0.07558049261569977,
+              "D2_evalctx": 0.05799844115972519
+            },
+            "randk": {
+              "D2_operational": 0.09733405709266663,
+              "D2_evalctx": 0.0783051997423172
+            }
+          },
+          "ranking_operational_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_lowest_operational": true,
+          "ranking_evalctx_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_lowest_evalctx": true,
+          "ranking_changed": false
+        }
+      },
+      "dsmc_lowest_D2_operational": "3/3",
+      "dsmc_lowest_D2_evalctx": "3/3",
+      "rankings_changed_in_n_draws": 0
+    },
+    "llama32": {
+      "per_draw": {
+        "0": {
+          "target_tensors_identical": false,
+          "mean_row_cosine_operational_vs_evalctx": 0.2486874759197235,
+          "D2_between_the_two_target_moments": 0.1270214021205902,
+          "methods": {
+            "dsmc": {
+              "D2_operational": 0.06420573592185974,
+              "D2_evalctx": 0.07985293865203857
+            },
+            "second_rr": {
+              "D2_operational": 0.07236438989639282,
+              "D2_evalctx": 0.08920776098966599
+            },
+            "first_rr": {
+              "D2_operational": 0.07459724694490433,
+              "D2_evalctx": 0.09133625030517578
+            },
+            "randk": {
+              "D2_operational": 0.07464010268449783,
+              "D2_evalctx": 0.08846631646156311
+            }
+          },
+          "ranking_operational_best_first": [
+            "dsmc",
+            "second_rr",
+            "first_rr",
+            "randk"
+          ],
+          "dsmc_lowest_operational": true,
+          "ranking_evalctx_best_first": [
+            "dsmc",
+            "randk",
+            "second_rr",
+            "first_rr"
+          ],
+          "dsmc_lowest_evalctx": true,
+          "ranking_changed": true
+        },
+        "1": {
+          "target_tensors_identical": false,
+          "mean_row_cosine_operational_vs_evalctx": 0.26951953768730164,
+          "D2_between_the_two_target_moments": 0.13228540122509003,
+          "methods": {
+            "dsmc": {
+              "D2_operational": 0.07512235641479492,
+              "D2_evalctx": 0.07660476863384247
+            },
+            "second_rr": {
+              "D2_operational": 0.08349054306745529,
+              "D2_evalctx": 0.08618520200252533
+            },
+            "first_rr": {
+              "D2_operational": 0.0855179876089096,
+              "D2_evalctx": 0.08809439837932587
+            },
+            "randk": {
+              "D2_operational": 0.08636815845966339,
+              "D2_evalctx": 0.0859786868095398
+            }
+          },
+          "ranking_operational_best_first": [
+            "dsmc",
+            "second_rr",
+            "first_rr",
+            "randk"
+          ],
+          "dsmc_lowest_operational": true,
+          "ranking_evalctx_best_first": [
+            "dsmc",
+            "randk",
+            "second_rr",
+            "first_rr"
+          ],
+          "dsmc_lowest_evalctx": true,
+          "ranking_changed": true
+        },
+        "2": {
+          "target_tensors_identical": false,
+          "mean_row_cosine_operational_vs_evalctx": 0.27231717109680176,
+          "D2_between_the_two_target_moments": 0.10704221576452255,
+          "methods": {
+            "dsmc": {
+              "D2_operational": 0.053937602788209915,
+              "D2_evalctx": 0.07124341279268265
+            },
+            "second_rr": {
+              "D2_operational": 0.0638217180967331,
+              "D2_evalctx": 0.08202749490737915
+            },
+            "first_rr": {
+              "D2_operational": 0.06601416319608688,
+              "D2_evalctx": 0.08414236456155777
+            },
+            "randk": {
+              "D2_operational": 0.06453530490398407,
+              "D2_evalctx": 0.08051229268312454
+            }
+          },
+          "ranking_operational_best_first": [
+            "dsmc",
+            "second_rr",
+            "randk",
+            "first_rr"
+          ],
+          "dsmc_lowest_operational": true,
+          "ranking_evalctx_best_first": [
+            "dsmc",
+            "randk",
+            "second_rr",
+            "first_rr"
+          ],
+          "dsmc_lowest_evalctx": true,
+          "ranking_changed": true
+        }
+      },
+      "dsmc_lowest_D2_operational": "3/3",
+      "dsmc_lowest_D2_evalctx": "3/3",
+      "rankings_changed_in_n_draws": 3
+    }
+  },
+  "VERDICT": {
+    "dsmc_lowest_evalctx_both_stacks_3of3": true,
+    "READING": "The D2 ranking is ROBUST to target serialization: DSMC still minimizes the eval-matched target discrepancy in 3/3 draws on BOTH model stacks, while remaining worse than Random downstream in 3/3 draws on both. The geometry-utility counterexample therefore does not depend on the chat wrapper used to extract target gradients.",
+    "status": "POST-HOC sensitivity analysis. It does not redefine the primary result, and no further experiment follows from it whatever it shows.",
+    "nuance_full_ranking_not_invariant": {
+      "llama2_rankings_changed": "0/3",
+      "llama32_rankings_changed": "3/3",
+      "what_changes": "on Llama-3.2 Random-K moves from LAST to SECOND on eval-matched D2, so the MAGNITUDE of its geometric disadvantage largely disappears under the bare serialization",
+      "what_does_not_change": "DSMC is the D2 minimizer under BOTH serializations on BOTH stacks (6/6 stack-draw cells), which is the only part the counterexample needs",
+      "therefore": "we do NOT claim a serialization-invariant ordering of all four methods; only that the DSMC minimum, and hence the counterexample, is serialization-robust. Consistent with D2c and the cross-stack bare-CE result: serialization is load-bearing, just not for the DSMC minimum."
+    }
+  }
+}
