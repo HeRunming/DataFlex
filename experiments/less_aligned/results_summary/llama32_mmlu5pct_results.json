@@ -1,0 +1,580 @@
+{
+  "arm": "Llama-3.2-3B x MMLU 5% (stop-rule amendment #1)",
+  "prereg": "experiments/less_aligned/prereg_llama32_mmlu5pct.md",
+  "primary_metric": "balanced MMLU = (mmlu_stem + mmlu_humanities) / 2",
+  "statistical_unit": "the FIVE draw-index blocks; the stem-majority and hum-majority directions are averaged WITHIN an index first. n=10 is NOT claimed -- the two directions share a training seed, and Random-K shares one adapter between them.",
+  "base_noSFT": {
+    "mmlu": 0.5608887622845748,
+    "stem": 0.474151601649223,
+    "hum": 0.5151965993623805,
+    "balanced": 0.49467410050580174
+  },
+  "per_direction": {
+    "stem80_draw0_dsmc": {
+      "adapter_id": "l32_stem80_draw0_dsmc_seed42",
+      "mmlu": 0.5462897023216066,
+      "stem": 0.4484617824294323,
+      "hum": 0.4975557917109458,
+      "balanced": 0.47300878707018906
+    },
+    "stem80_draw0_first_rr": {
+      "adapter_id": "l32_stem80_draw0_first_rr_seed42",
+      "mmlu": 0.5528414755732801,
+      "stem": 0.45448778940691403,
+      "hum": 0.5054197662061637,
+      "balanced": 0.47995377780653886
+    },
+    "stem80_draw0_second_rr": {
+      "adapter_id": "l32_stem80_draw0_second_rr_seed42",
+      "mmlu": 0.5487822247543085,
+      "stem": 0.4538534728829686,
+      "hum": 0.5011689691817216,
+      "balanced": 0.4775112210323451
+    },
+    "stem80_draw0_randk": {
+      "adapter_id": "l32_randk_drawidx0_seed42",
+      "mmlu": 0.5465033471015525,
+      "stem": 0.45734221376466855,
+      "hum": 0.491817215727949,
+      "balanced": 0.4745797147463088
+    },
+    "stem80_draw1_dsmc": {
+      "adapter_id": "l32_stem80_draw1_dsmc_seed1",
+      "mmlu": 0.5458624127617149,
+      "stem": 0.4484617824294323,
+      "hum": 0.5013815090329437,
+      "balanced": 0.474921645731188
+    },
+    "stem80_draw1_first_rr": {
+      "adapter_id": "l32_stem80_draw1_first_rr_seed1",
+      "mmlu": 0.5440108246688506,
+      "stem": 0.4424357754519505,
+      "hum": 0.5011689691817216,
+      "balanced": 0.4718023723168361
+    },
+    "stem80_draw1_second_rr": {
+      "adapter_id": "l32_stem80_draw1_second_rr_seed1",
+      "mmlu": 0.5479988605611736,
+      "stem": 0.45290199809705045,
+      "hum": 0.49946865037194477,
+      "balanced": 0.4761853242344976
+    },
+    "stem80_draw1_randk": {
+      "adapter_id": "l32_randk_drawidx1_seed1",
+      "mmlu": 0.5470018515880929,
+      "stem": 0.45734221376466855,
+      "hum": 0.4926673751328374,
+      "balanced": 0.475004794448753
+    },
+    "stem80_draw2_dsmc": {
+      "adapter_id": "l32_stem80_draw2_dsmc_seed2",
+      "mmlu": 0.5470730665147415,
+      "stem": 0.45036473200126864,
+      "hum": 0.5039319872476089,
+      "balanced": 0.4771483596244388
+    },
+    "stem80_draw2_first_rr": {
+      "adapter_id": "l32_stem80_draw2_first_rr_seed2",
+      "mmlu": 0.543939609742202,
+      "stem": 0.44687599111956866,
+      "hum": 0.5013815090329437,
+      "balanced": 0.47412875007625616
+    },
+    "stem80_draw2_second_rr": {
+      "adapter_id": "l32_stem80_draw2_second_rr_seed2",
+      "mmlu": 0.5524854009400371,
+      "stem": 0.45448778940691403,
+      "hum": 0.5039319872476089,
+      "balanced": 0.47920988832726147
+    },
+    "stem80_draw2_randk": {
+      "adapter_id": "l32_randk_drawidx2_seed2",
+      "mmlu": 0.5464321321749038,
+      "stem": 0.45607358071677767,
+      "hum": 0.48841657810839534,
+      "balanced": 0.47224507941258653
+    },
+    "stem80_draw3_dsmc": {
+      "adapter_id": "l32_stem80_draw3_dsmc_seed3",
+      "mmlu": 0.5467169918814984,
+      "stem": 0.4525848398350777,
+      "hum": 0.5015940488841658,
+      "balanced": 0.47708944435962175
+    },
+    "stem80_draw3_first_rr": {
+      "adapter_id": "l32_stem80_draw3_first_rr_seed3",
+      "mmlu": 0.5438683948155534,
+      "stem": 0.4392641928322233,
+      "hum": 0.5028692879914984,
+      "balanced": 0.47106674041186086
+    },
+    "stem80_draw3_second_rr": {
+      "adapter_id": "l32_stem80_draw3_second_rr_seed3",
+      "mmlu": 0.5517732516735507,
+      "stem": 0.4554392641928322,
+      "hum": 0.5007438894792774,
+      "balanced": 0.4780915768360548
+    },
+    "stem80_draw3_randk": {
+      "adapter_id": "l32_randk_drawidx3_seed3",
+      "mmlu": 0.5524141860133884,
+      "stem": 0.4551221059308595,
+      "hum": 0.5007438894792774,
+      "balanced": 0.4779329977050685
+    },
+    "stem80_draw4_dsmc": {
+      "adapter_id": "l32_stem80_draw4_dsmc_seed4",
+      "mmlu": 0.5485685799743626,
+      "stem": 0.46209958769425946,
+      "hum": 0.5013815090329437,
+      "balanced": 0.4817405483636016
+    },
+    "stem80_draw4_first_rr": {
+      "adapter_id": "l32_stem80_draw4_first_rr_seed4",
+      "mmlu": 0.5464321321749038,
+      "stem": 0.4509990485252141,
+      "hum": 0.50201912858661,
+      "balanced": 0.47650908855591206
+    },
+    "stem80_draw4_second_rr": {
+      "adapter_id": "l32_stem80_draw4_second_rr_seed4",
+      "mmlu": 0.5504201680672269,
+      "stem": 0.46305106248017763,
+      "hum": 0.49351753453772584,
+      "balanced": 0.4782842985089517
+    },
+    "stem80_draw4_randk": {
+      "adapter_id": "l32_randk_drawidx4_seed4",
+      "mmlu": 0.5492095143142003,
+      "stem": 0.4589280050745322,
+      "hum": 0.49309245483528164,
+      "balanced": 0.47601022995490694
+    },
+    "hum80_draw0_dsmc": {
+      "adapter_id": "l32_hum80_draw0_dsmc_seed42",
+      "mmlu": 0.5494231590941462,
+      "stem": 0.45956232159847765,
+      "hum": 0.4971307120085016,
+      "balanced": 0.4783465168034896
+    },
+    "hum80_draw0_first_rr": {
+      "adapter_id": "l32_hum80_draw0_first_rr_seed42",
+      "mmlu": 0.5576840905853867,
+      "stem": 0.461465271170314,
+      "hum": 0.5151965993623805,
+      "balanced": 0.48833093526634724
+    },
+    "hum80_draw0_second_rr": {
+      "adapter_id": "l32_hum80_draw0_second_rr_seed42",
+      "mmlu": 0.5534824099131178,
+      "stem": 0.4617824294322867,
+      "hum": 0.49968119022316687,
+      "balanced": 0.4807318098277268
+    },
+    "hum80_draw0_randk": {
+      "adapter_id": "l32_randk_drawidx0_seed42",
+      "mmlu": 0.5465033471015525,
+      "stem": 0.45734221376466855,
+      "hum": 0.491817215727949,
+      "balanced": 0.4745797147463088
+    },
+    "hum80_draw1_dsmc": {
+      "adapter_id": "l32_hum80_draw1_dsmc_seed1",
+      "mmlu": 0.5401652186298248,
+      "stem": 0.45068189026324135,
+      "hum": 0.4926673751328374,
+      "balanced": 0.4716746326980394
+    },
+    "hum80_draw1_first_rr": {
+      "adapter_id": "l32_hum80_draw1_first_rr_seed1",
+      "mmlu": 0.542016806722689,
+      "stem": 0.43799555978433236,
+      "hum": 0.5062699256110521,
+      "balanced": 0.47213274269769223
+    },
+    "hum80_draw1_second_rr": {
+      "adapter_id": "l32_hum80_draw1_second_rr_seed1",
+      "mmlu": 0.5507050277738214,
+      "stem": 0.45607358071677767,
+      "hum": 0.5032943676939426,
+      "balanced": 0.47968397420536013
+    },
+    "hum80_draw1_randk": {
+      "adapter_id": "l32_randk_drawidx1_seed1",
+      "mmlu": 0.5470018515880929,
+      "stem": 0.45734221376466855,
+      "hum": 0.4926673751328374,
+      "balanced": 0.475004794448753
+    },
+    "hum80_draw2_dsmc": {
+      "adapter_id": "l32_hum80_draw2_dsmc_seed2",
+      "mmlu": 0.544509329155391,
+      "stem": 0.45353631462099586,
+      "hum": 0.499893730074389,
+      "balanced": 0.4767150223476924
+    },
+    "hum80_draw2_first_rr": {
+      "adapter_id": "l32_hum80_draw2_first_rr_seed2",
+      "mmlu": 0.5527702606466315,
+      "stem": 0.461465271170314,
+      "hum": 0.5088204038257174,
+      "balanced": 0.4851428374980157
+    },
+    "hum80_draw2_second_rr": {
+      "adapter_id": "l32_hum80_draw2_second_rr_seed2",
+      "mmlu": 0.5554052129326307,
+      "stem": 0.45956232159847765,
+      "hum": 0.5109458023379384,
+      "balanced": 0.48525406196820803
+    },
+    "hum80_draw2_randk": {
+      "adapter_id": "l32_randk_drawidx2_seed2",
+      "mmlu": 0.5464321321749038,
+      "stem": 0.45607358071677767,
+      "hum": 0.48841657810839534,
+      "balanced": 0.47224507941258653
+    },
+    "hum80_draw3_dsmc": {
+      "adapter_id": "l32_hum80_draw3_dsmc_seed3",
+      "mmlu": 0.5467169918814984,
+      "stem": 0.45321915635902316,
+      "hum": 0.5011689691817216,
+      "balanced": 0.47719406277037235
+    },
+    "hum80_draw3_first_rr": {
+      "adapter_id": "l32_hum80_draw3_first_rr_seed3",
+      "mmlu": 0.5518444666001994,
+      "stem": 0.4668569616238503,
+      "hum": 0.499893730074389,
+      "balanced": 0.4833753458491197
+    },
+    "hum80_draw3_second_rr": {
+      "adapter_id": "l32_hum80_draw3_second_rr_seed3",
+      "mmlu": 0.5480700754878223,
+      "stem": 0.45448778940691403,
+      "hum": 0.4975557917109458,
+      "balanced": 0.4760217905589299
+    },
+    "hum80_draw3_randk": {
+      "adapter_id": "l32_randk_drawidx3_seed3",
+      "mmlu": 0.5524141860133884,
+      "stem": 0.4551221059308595,
+      "hum": 0.5007438894792774,
+      "balanced": 0.4779329977050685
+    },
+    "hum80_draw4_dsmc": {
+      "adapter_id": "l32_hum80_draw4_dsmc_seed4",
+      "mmlu": 0.544509329155391,
+      "stem": 0.45670789724072314,
+      "hum": 0.4954303931987248,
+      "balanced": 0.476069145219724
+    },
+    "hum80_draw4_first_rr": {
+      "adapter_id": "l32_hum80_draw4_first_rr_seed4",
+      "mmlu": 0.5494943740207947,
+      "stem": 0.4548049476688868,
+      "hum": 0.5045696068012753,
+      "balanced": 0.47968727723508103
+    },
+    "hum80_draw4_second_rr": {
+      "adapter_id": "l32_hum80_draw4_second_rr_seed4",
+      "mmlu": 0.5554052129326307,
+      "stem": 0.4582936885505867,
+      "hum": 0.510308182784272,
+      "balanced": 0.4843009356674294
+    },
+    "hum80_draw4_randk": {
+      "adapter_id": "l32_randk_drawidx4_seed4",
+      "mmlu": 0.5492095143142003,
+      "stem": 0.4589280050745322,
+      "hum": 0.49309245483528164,
+      "balanced": 0.47601022995490694
+    }
+  },
+  "per_block": {
+    "0": {
+      "dsmc": {
+        "direction_values": [
+          0.47300878707018906,
+          0.4783465168034896
+        ],
+        "block_mean": 0.4756776519368393,
+        "delta_vs_base": -0.018996448568962432
+      },
+      "first_rr": {
+        "direction_values": [
+          0.47995377780653886,
+          0.48833093526634724
+        ],
+        "block_mean": 0.48414235653644305,
+        "delta_vs_base": -0.010531743969358687
+      },
+      "second_rr": {
+        "direction_values": [
+          0.4775112210323451,
+          0.4807318098277268
+        ],
+        "block_mean": 0.47912151543003595,
+        "delta_vs_base": -0.01555258507576579
+      },
+      "randk": {
+        "direction_values": [
+          0.4745797147463088,
+          0.4745797147463088
+        ],
+        "block_mean": 0.4745797147463088,
+        "delta_vs_base": -0.02009438575949296
+      },
+      "best_method_this_block": "first_rr"
+    },
+    "1": {
+      "dsmc": {
+        "direction_values": [
+          0.474921645731188,
+          0.4716746326980394
+        ],
+        "block_mean": 0.4732981392146137,
+        "delta_vs_base": -0.021375961291188017
+      },
+      "first_rr": {
+        "direction_values": [
+          0.4718023723168361,
+          0.47213274269769223
+        ],
+        "block_mean": 0.47196755750726416,
+        "delta_vs_base": -0.022706542998537582
+      },
+      "second_rr": {
+        "direction_values": [
+          0.4761853242344976,
+          0.47968397420536013
+        ],
+        "block_mean": 0.4779346492199289,
+        "delta_vs_base": -0.01673945128587284
+      },
+      "randk": {
+        "direction_values": [
+          0.475004794448753,
+          0.475004794448753
+        ],
+        "block_mean": 0.475004794448753,
+        "delta_vs_base": -0.019669306057048752
+      },
+      "best_method_this_block": "second_rr"
+    },
+    "2": {
+      "dsmc": {
+        "direction_values": [
+          0.4771483596244388,
+          0.4767150223476924
+        ],
+        "block_mean": 0.4769316909860656,
+        "delta_vs_base": -0.017742409519736158
+      },
+      "first_rr": {
+        "direction_values": [
+          0.47412875007625616,
+          0.4851428374980157
+        ],
+        "block_mean": 0.47963579378713594,
+        "delta_vs_base": -0.015038306718665795
+      },
+      "second_rr": {
+        "direction_values": [
+          0.47920988832726147,
+          0.48525406196820803
+        ],
+        "block_mean": 0.48223197514773475,
+        "delta_vs_base": -0.012442125358066991
+      },
+      "randk": {
+        "direction_values": [
+          0.47224507941258653,
+          0.47224507941258653
+        ],
+        "block_mean": 0.47224507941258653,
+        "delta_vs_base": -0.022429021093215207
+      },
+      "best_method_this_block": "second_rr"
+    },
+    "3": {
+      "dsmc": {
+        "direction_values": [
+          0.47708944435962175,
+          0.47719406277037235
+        ],
+        "block_mean": 0.47714175356499705,
+        "delta_vs_base": -0.01753234694080469
+      },
+      "first_rr": {
+        "direction_values": [
+          0.47106674041186086,
+          0.4833753458491197
+        ],
+        "block_mean": 0.4772210431304903,
+        "delta_vs_base": -0.017453057375311443
+      },
+      "second_rr": {
+        "direction_values": [
+          0.4780915768360548,
+          0.4760217905589299
+        ],
+        "block_mean": 0.4770566836974923,
+        "delta_vs_base": -0.017617416808309416
+      },
+      "randk": {
+        "direction_values": [
+          0.4779329977050685,
+          0.4779329977050685
+        ],
+        "block_mean": 0.4779329977050685,
+        "delta_vs_base": -0.016741102800733265
+      },
+      "best_method_this_block": "randk"
+    },
+    "4": {
+      "dsmc": {
+        "direction_values": [
+          0.4817405483636016,
+          0.476069145219724
+        ],
+        "block_mean": 0.4789048467916628,
+        "delta_vs_base": -0.015769253714138953
+      },
+      "first_rr": {
+        "direction_values": [
+          0.47650908855591206,
+          0.47968727723508103
+        ],
+        "block_mean": 0.47809818289549655,
+        "delta_vs_base": -0.01657591761030519
+      },
+      "second_rr": {
+        "direction_values": [
+          0.4782842985089517,
+          0.4843009356674294
+        ],
+        "block_mean": 0.48129261708819054,
+        "delta_vs_base": -0.013381483417611195
+      },
+      "randk": {
+        "direction_values": [
+          0.47601022995490694,
+          0.47601022995490694
+        ],
+        "block_mean": 0.47601022995490694,
+        "delta_vs_base": -0.0186638705508948
+      },
+      "best_method_this_block": "second_rr"
+    }
+  },
+  "methods": {
+    "dsmc": {
+      "per_block": [
+        0.4756776519368393,
+        0.4732981392146137,
+        0.4769316909860656,
+        0.47714175356499705,
+        0.4789048467916628
+      ],
+      "mean_over_blocks": 0.4763908164988357,
+      "delta_vs_base": -0.01828328400696605,
+      "sd_over_blocks": 0.0020766593653241245,
+      "n_blocks": 5
+    },
+    "first_rr": {
+      "per_block": [
+        0.48414235653644305,
+        0.47196755750726416,
+        0.47963579378713594,
+        0.4772210431304903,
+        0.47809818289549655
+      ],
+      "mean_over_blocks": 0.478212986771366,
+      "delta_vs_base": -0.01646111373443576,
+      "sd_over_blocks": 0.004392730484124372,
+      "n_blocks": 5
+    },
+    "second_rr": {
+      "per_block": [
+        0.47912151543003595,
+        0.4779346492199289,
+        0.48223197514773475,
+        0.4770566836974923,
+        0.48129261708819054
+      ],
+      "mean_over_blocks": 0.4795274881166765,
+      "delta_vs_base": -0.015146612389125236,
+      "sd_over_blocks": 0.0021929862310552024,
+      "n_blocks": 5
+    },
+    "randk": {
+      "per_block": [
+        0.4745797147463088,
+        0.475004794448753,
+        0.47224507941258653,
+        0.4779329977050685,
+        0.47601022995490694
+      ],
+      "mean_over_blocks": 0.47515456325352473,
+      "delta_vs_base": -0.01951953725227701,
+      "sd_over_blocks": 0.0020778499240315185,
+      "n_blocks": 5
+    }
+  },
+  "comparisons": {
+    "delta_rep_dsmc_minus_first_rr": {
+      "per_block_diff": [
+        -0.008464704599603745,
+        0.0013305817073495652,
+        -0.0027041028010703627,
+        -7.928956549324573e-05,
+        0.0008066638961662376
+      ],
+      "mean_diff": -0.00182217027253031,
+      "mean_diff_pp": -0.182,
+      "blocks_favouring_dsmc": 2,
+      "n_blocks": 5
+    },
+    "delta_mmd_dsmc_minus_second_rr": {
+      "per_block_diff": [
+        -0.0034438634931966416,
+        -0.004636510005315175,
+        -0.0053002841616691665,
+        8.506986750472789e-05,
+        -0.002387770296527758
+      ],
+      "mean_diff": -0.0031366716178408026,
+      "mean_diff_pp": -0.314,
+      "blocks_favouring_dsmc": 1,
+      "n_blocks": 5
+    },
+    "delta_rand_dsmc_minus_randk": {
+      "per_block_diff": [
+        0.001097937190530529,
+        -0.001706655234139265,
+        0.004686611573479049,
+        -0.0007912441400714232,
+        0.002894616836755848
+      ],
+      "mean_diff": 0.0012362532453109476,
+      "mean_diff_pp": 0.124,
+      "blocks_favouring_dsmc": 3,
+      "n_blocks": 5
+    }
+  },
+  "ranking_best_to_worst": [
+    "second_rr",
+    "first_rr",
+    "dsmc",
+    "randk"
+  ],
+  "all_below_base": true,
+  "outcome": {
+    "fired": "3: First-RR or Second-RR >= DSMC -- DSMC's MMLU method advantage is itself model-stack dependent; lower the method claim further",
+    "tie_threshold_pp": 0.2,
+    "tie_threshold_note": "the prereg wrote outcome 2 as 'DSMC ~ Second-RR' without a numeric band; 0.2 pp is declared here as the reading rule and applies symmetrically, so it cannot be tuned to favour an interpretation",
+    "outcome_4_random_ge_targeted": false,
+    "binding": "no outcome may trigger tuning, a 1% follow-up, a new method, or any change to the paper's central framing"
+  }
+}

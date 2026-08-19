@@ -59,11 +59,15 @@ Each of these was claimed by us at some point and **falsified by our own diagnos
 
 ## 5. Contributions, in order
 
-1. **Directional second-moment matching (DSMC)** — exact marginal greedy on $k(u,v)=\langle u,v\rangle^2$;
-   on MMLU controlled attribution it clearly beats first-order targeted selection.
-2. That advantage is **not** a target-awareness advantage: Random is competitive on MMLU and
-   **consistently better in the observed BBH draw-level comparisons**. (Not "significantly" — no
-   inferential test was pre-registered or run.)
+1. **Directional second-moment matching (DSMC)** — exact marginal greedy on $k(u,v)=\langle u,v\rangle^2$.
+   On MMLU with **Llama-2-7B** it beat first-order round-robin in 10/10 replicates (+1.55 pp) and
+   second-order in 10/10 (+0.88 pp). **That advantage does NOT transfer to Llama-3.2-3B** (−0.18 pp, 2/5
+   blocks; −0.31 pp, 1/5) — so the method-level benefit is **model-stack dependent** and must always be
+   stated with its stack. DSMC is the paper's *instrument*, not a contribution to be defended.
+2. That advantage is **not** a target-awareness advantage: Random is competitive on MMLU (DSMC − Random
+   ≈ 0 on **both** stacks: −0.01 pp on Llama-2, +0.12 pp on Llama-3.2) and **consistently better in the
+   observed BBH draw-level comparisons**. (Not "significantly" — no inferential test was pre-registered
+   or run.)
 3. **Core**: better target-gradient geometry does not guarantee better downstream utility; on BBH the
    ranking is *reversed*, with the geometry–accuracy association pointing the wrong way in 3/3 draws.
 4. **Same-item dissociation**: on the identical 64 query items, targeted methods lower final-answer CE yet
@@ -119,6 +123,21 @@ bare-context CE now improves for the targeted arms. The latter may **not** be us
 serialization-sensitivity diagnostic, and the cross-stack difference instead shows that *how much
 serialization matters is itself model-stack dependent*.
 
+## 5c. The evidence structure is now symmetric (MMLU 5% cross-stack, Outcome 3)
+
+The final scoped arm (stop-rule amendment #1) tested the *one* place our evidence was lopsided, and the
+result went **against our own method**:
+
+| axis | survives a model-stack change? |
+|---|---|
+| geometry→utility failure (BBH) | **yes** — two stacks, full Outcome A |
+| DSMC's own method advantage (MMLU) | **no** — Llama-2 only |
+
+This is the paper's most credible single fact about its own construction: *what replicates robustly is the
+failure of geometric target alignment to guarantee utility — not the method that best achieves that
+alignment.* Reporting a result adverse to our own method is the strongest available evidence that the
+central claim was not reverse-engineered from a favourable setting. **Main text**, not appendix.
+
 ## 6. Position relative to neighbours
 
 - ***A Critical Look at Targeted Instruction Selection*** (2026): gradient distance is the most predictive
@@ -134,7 +153,8 @@ serialization matters is itself model-stack dependent*.
 
 1. Intro — the one sentence, the chain, what is *not* claimed.
 2. DSMC and the $D_2$ objective (compact; it is the instrument).
-3. MMLU controlled attribution — where matching *does* help.
+3. MMLU controlled attribution — where matching helps **on Llama-2**, plus the 5% cross-stack check
+   showing that this method-level help does **not** transfer.
 4. External BBH — the reversal. **Main-text table.**
 5. Geometry/outcome dissociation ($D_2$ vs accuracy, 3/3).
 6. Same-item surrogate/task dissociation, **including** the negative bare-CE result.
@@ -147,6 +167,9 @@ Appendix: D3 exposure, Seq×Label, contamination audits, prompt-parity gates, al
 
 - Two model stacks (Llama-2-7B, Llama-3.2-3B) — better than one, still not a broad sweep; and the second
   is a **model-stack** move (model + tokenizer + template together), not an architecture-only ablation.
+- The MMLU method-level differences are **small in absolute terms** (all four methods within 0.43 pp of one
+  another, all 1.5–2.0 pp below base on Llama-3.2). The *consistency* contrast (10/10 on Llama-2 vs 1–2/5
+  on Llama-3.2) carries the reading, not the pp gap. Descriptive only; n=5 blocks.
 - The 3B effect is **small in absolute terms** (all methods within 1 pp of base) and draw 2 has Random-K
   and Second-RR essentially tied, so that draw's ranking is fragile. Descriptive statistics only.
 - One candidate pool (Tulu V2), two target tasks (MMLU, BBH), $K$ fixed at 2707 for BBH.
