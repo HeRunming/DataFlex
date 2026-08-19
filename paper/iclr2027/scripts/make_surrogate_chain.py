@@ -23,7 +23,7 @@ def esc(text: str) -> str:
 
 
 class PDF:
-    def __init__(self, width: int = 1000, height: int = 430):
+    def __init__(self, width: int = 1000, height: int = 570):
         self.width = width
         self.height = height
         self.ops: list[str] = []
@@ -151,7 +151,18 @@ def load_numbers():
     l2_cot = json.loads((SUMMARY / "bbh_forensic_query_cot.json").read_text())
     l32 = json.loads((SUMMARY / "llama32_results.json").read_text())
     l32_diag = json.loads((SUMMARY / "llama32_diagnostics.json").read_text())
+    l32_mmlu = json.loads((SUMMARY / "llama32_mmlu5pct_results.json").read_text())
     return {
+        "mmlu": {
+            "l2_first": 1.55,
+            "l2_second": 0.88,
+            "l32_first": l32_mmlu["comparisons"][
+                "delta_rep_dsmc_minus_first_rr"
+            ]["mean_diff_pp"],
+            "l32_second": l32_mmlu["comparisons"][
+                "delta_mmd_dsmc_minus_second_rr"
+            ]["mean_diff_pp"],
+        },
         "l2": {
             "d2": l2_geom["pooled_secondary"]["per_method"]["dsmc"]["D2_mean"],
             "d2_random": l2_geom["pooled_secondary"]["per_method"]["randk"]["D2_mean"],
@@ -181,14 +192,41 @@ def main() -> None:
     red = (174, 54, 52)
     gray = (92, 92, 92)
 
-    p.text(35, 398, "Targeted instruction selection assumes a surrogate chain", 22, bold=True)
+    p.text(35, 540, "(a) MMLU: the method gain is stack-dependent", 21, bold=True)
+    p.text(35, 508, "DSMC - First-RR", 16, rgb=gray, bold=True)
+    p.text(35, 475, "DSMC - Second-RR", 16, rgb=gray, bold=True)
+    p.text(225, 530, "Llama-2-7B", 16, rgb=blue, bold=True, align="center")
+    p.text(505, 530, "Llama-3.2-3B", 16, rgb=green, bold=True, align="center")
+    for x, value, color in [
+        (225, n["mmlu"]["l2_first"], blue),
+        (505, n["mmlu"]["l32_first"], green),
+    ]:
+        fill = (239, 248, 239) if value > 0 else (253, 239, 237)
+        stroke = green if value > 0 else red
+        p.rect(x - 85, 490, 170, 31, fill=fill, stroke=stroke)
+        p.text(x, 500, f"{value:+.2f} pp", 15, rgb=stroke, bold=True, align="center")
+    for x, value, color in [
+        (225, n["mmlu"]["l2_second"], blue),
+        (505, n["mmlu"]["l32_second"], green),
+    ]:
+        fill = (239, 248, 239) if value > 0 else (253, 239, 237)
+        stroke = green if value > 0 else red
+        p.rect(x - 85, 457, 170, 31, fill=fill, stroke=stroke)
+        p.text(x, 467, f"{value:+.2f} pp", 15, rgb=stroke, bold=True, align="center")
+    p.text(700, 500, "gain present", 17, rgb=green, bold=True, align="center")
+    p.text(700, 467, "gain absent", 17, rgb=red, bold=True, align="center")
+    p.arrow(610, 505, 650, 505, rgb=gray)
+    p.arrow(610, 472, 650, 472, rgb=gray)
+    p.line(25, 438, 975, 438, rgb=(190, 190, 190), width=1.2)
+
+    p.text(35, 408, "(b) BBH: the surrogate chain breaks on both stacks", 21, bold=True)
 
     labels = [
-        ("Query set", 35, 315, 150),
-        ("Target-gradient", 225, 315, 165),
-        ("Selected subset", 430, 315, 165),
-        ("Operational", 635, 315, 150),
-        ("Task utility", 825, 315, 140),
+        ("Query set", 35, 325, 150),
+        ("Target-gradient", 225, 325, 165),
+        ("Selected subset", 430, 325, 165),
+        ("Operational", 635, 325, 150),
+        ("Task utility", 825, 325, 140),
     ]
     fills = [
         (239, 244, 250),
@@ -200,27 +238,27 @@ def main() -> None:
     for (label, x, y, w), fill in zip(labels, fills):
         p.rect(x, y, w, 62, fill=fill, stroke=blue if x < 600 else (green if x < 800 else red))
         p.text(x + w / 2, y + 37, label, 16, bold=True, align="center")
-    p.text(307, 330, "geometry", 16, bold=True, align="center")
-    p.text(710, 330, "query CE", 16, bold=True, align="center")
-    p.text(895, 330, "exact match", 15, bold=True, align="center")
+    p.text(307, 340, "geometry", 16, bold=True, align="center")
+    p.text(710, 340, "query CE", 16, bold=True, align="center")
+    p.text(895, 340, "exact match", 15, bold=True, align="center")
 
-    p.arrow(185, 346, 220, 346, rgb=gray)
-    p.arrow(390, 346, 425, 346, rgb=gray)
-    p.arrow(595, 346, 630, 346, rgb=gray)
-    p.arrow(785, 346, 820, 346, rgb=red, dashed=True)
-    p.text(802, 365, "not sufficient", 14, rgb=red, bold=True, align="center")
+    p.arrow(185, 356, 220, 356, rgb=gray)
+    p.arrow(390, 356, 425, 356, rgb=gray)
+    p.arrow(595, 356, 630, 356, rgb=gray)
+    p.arrow(785, 356, 820, 356, rgb=red, dashed=True)
+    p.text(802, 375, "not sufficient", 14, rgb=red, bold=True, align="center")
 
-    p.text(35, 270, "BBH: DSMC relative to no-SFT (three draw means)", 19, bold=True)
+    p.text(35, 280, "DSMC relative to no-SFT (three draw means)", 18, bold=True)
     x_positions = [95, 310, 520, 735]
     headings = ["Target D2", "Wrapped CE", "Same-item EM", "Held-out EM"]
     for x, h in zip(x_positions, headings):
-        p.text(x, 236, h, 16, rgb=gray, bold=True, align="center")
+        p.text(x, 246, h, 16, rgb=gray, bold=True, align="center")
 
     rows = [
         ("Llama-2-7B", n["l2"], blue),
         ("Llama-3.2-3B", n["l32"], green),
     ]
-    ys = [175, 100]
+    ys = [185, 110]
     for (name, vals, color), y in zip(rows, ys):
         p.text(25, y + 10, name, 17, rgb=color, bold=True)
         p.rect(165, y - 10, 180, 52, fill=(247, 247, 247), stroke=color)
@@ -245,7 +283,7 @@ def main() -> None:
 
     p.text(
         35,
-        36,
+        46,
         "Geometry and the operational surrogate improve; the task metric does not.",
         18,
         rgb=red,

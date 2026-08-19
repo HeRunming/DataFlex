@@ -1,4 +1,4 @@
-# ICLR 2027 submission requirements checked on 2026-08-18
+# ICLR 2027 submission requirements checked on 2026-08-19
 
 Official pages checked:
 

@@ -72,8 +72,10 @@ Each of these was claimed by us at some point and **falsified by our own diagnos
    ranking is *reversed*, with the geometry–accuracy association pointing the wrong way in 3/3 draws.
 4. **Same-item dissociation**: on the identical 64 query items, targeted methods lower final-answer CE yet
    lower CoT exact-match — so this is not merely distribution shift from query to test.
-5. **Serialization is load-bearing**: the CE improvement disappears under the bare evaluation
-   serialization, which *narrows* our own claim rather than supporting it.
+5. **Serialization is load-bearing, but its effect is model-stack dependent**: bare-context CE reverses
+   the wrapped-CE result on Llama-2 but not on Llama-3.2. A target-gradient sensitivity further shows that
+   among the frozen compared subsets DSMC remains the closest under the evaluation-matched serialization,
+   while the finer non-DSMC ranking changes on Llama-3.2.
 6. Base/no-SFT and Seq×Label controls show targeted SFT can **negatively transfer**. On format: *the
    Seq×Label-matched Random control shifts performance partway toward the targeted subsets, making
    instruction-format/provenance composition a plausible contributor, but it does **not** identify a
@@ -147,7 +149,7 @@ central claim was not reverse-engineered from a favourable setting. **Main text*
 - **ROSE**: CE is an unreliable surrogate, hence reward-oriented selection. **We differ**: we don't propose
   a new objective; we show the failure persists even when the matching objective is optimized as intended.
 - **Large-scale data selection for instruction tuning**: selector gains are setting-dependent and Random is
-  often hard to beat. We supply a *mechanistic-level* counterexample chain, not another leaderboard.
+  often hard to beat. We supply an *instrumented empirical counterexample chain*, not another leaderboard.
 
 ## 7. Structure for 9 pages
 
