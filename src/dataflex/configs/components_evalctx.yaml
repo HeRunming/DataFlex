@@ -1,0 +1,79 @@
+selectors:
+  evalctx_l2_draw0:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/evalctx_l2_draw0_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  evalctx_l32_draw0:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/evalctx_l32_draw0_output
+      kernel_type: grad_cov
+      sigma: null
+      gradient_type: adam
+      target_gradient_type: sgd
+      proj_dim: 8192
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      save_interval: 16
+  evalctx_l2_draw1:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/evalctx_l2_draw1_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  evalctx_l32_draw1:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/evalctx_l32_draw1_output
+      kernel_type: grad_cov
+      sigma: null
+      gradient_type: adam
+      target_gradient_type: sgd
+      proj_dim: 8192
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      save_interval: 16
+  evalctx_l2_draw2:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/evalctx_l2_draw2_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  evalctx_l32_draw2:
+    name: mmd
+    params:
+      cache_dir: /jizhicfs/karonhe/dataflex_saves/evalctx_l32_draw2_output
+      kernel_type: grad_cov
+      sigma: null
+      gradient_type: adam
+      target_gradient_type: sgd
+      proj_dim: 8192
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      save_interval: 16
