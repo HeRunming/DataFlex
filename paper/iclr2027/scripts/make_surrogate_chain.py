@@ -23,7 +23,7 @@ def esc(text: str) -> str:
 
 
 class PDF:
-    def __init__(self, width: int = 1000, height: int = 570):
+    def __init__(self, width: int = 1000, height: int = 400):
         self.width = width
         self.height = height
         self.ops: list[str] = []
@@ -151,34 +151,47 @@ def load_numbers():
     l2_cot = json.loads((SUMMARY / "bbh_forensic_query_cot.json").read_text())
     l32 = json.loads((SUMMARY / "llama32_results.json").read_text())
     l32_diag = json.loads((SUMMARY / "llama32_diagnostics.json").read_text())
-    l32_mmlu = json.loads((SUMMARY / "llama32_mmlu5pct_results.json").read_text())
     return {
-        "mmlu": {
-            "l2_first": 1.55,
-            "l2_second": 0.88,
-            "l32_first": l32_mmlu["comparisons"][
-                "delta_rep_dsmc_minus_first_rr"
-            ]["mean_diff_pp"],
-            "l32_second": l32_mmlu["comparisons"][
-                "delta_mmd_dsmc_minus_second_rr"
-            ]["mean_diff_pp"],
-        },
         "l2": {
-            "d2": l2_geom["pooled_secondary"]["per_method"]["dsmc"]["D2_mean"],
-            "d2_random": l2_geom["pooled_secondary"]["per_method"]["randk"]["D2_mean"],
-            "ce": l2_loss["method_summary"]["dsmc"]["delta_query_loss_mean"],
-            "qem": l2_cot["methods"]["dsmc"]["delta_query_cot_em_vs_base"] * 100,
-            "hem": l2_cot["methods"]["dsmc"]["delta_heldout_em_vs_base"] * 100,
+            "d2": (
+                l2_geom["pooled_secondary"]["per_method"]["dsmc"]["D2_mean"]
+                - l2_geom["pooled_secondary"]["per_method"]["randk"]["D2_mean"]
+            ),
+            "ce": (
+                l2_loss["method_summary"]["dsmc"]["delta_query_loss_mean"]
+                - l2_loss["method_summary"]["randk"]["delta_query_loss_mean"]
+            ),
+            "qem": (
+                l2_cot["methods"]["dsmc"]["delta_query_cot_em_vs_base"]
+                - l2_cot["methods"]["randk"]["delta_query_cot_em_vs_base"]
+            )
+            * 100,
+            "hem": (
+                l2_cot["methods"]["dsmc"]["heldout_em_mean"]
+                - l2_cot["methods"]["randk"]["heldout_em_mean"]
+            )
+            * 100,
         },
         "l32": {
-            "d2": l32["methods"]["dsmc"].get(
-                "D2_mean",
-                sum(x["D2"]["dsmc"] for x in l32["geometry"].values()) / 3,
+            "d2": sum(
+                x["D2"]["dsmc"] - x["D2"]["randk"]
+                for x in l32["geometry"].values()
+            )
+            / 3,
+            "ce": (
+                l32_diag["method_summary"]["dsmc"]["d_wrapped_ce_mean"]
+                - l32_diag["method_summary"]["randk"]["d_wrapped_ce_mean"]
             ),
-            "d2_random": sum(x["D2"]["randk"] for x in l32["geometry"].values()) / 3,
-            "ce": l32_diag["method_summary"]["dsmc"]["d_wrapped_ce_mean"],
-            "qem": l32_diag["method_summary"]["dsmc"]["d_cot_em_mean"] * 100,
-            "hem": l32["methods"]["dsmc"]["delta_vs_base"] * 100,
+            "qem": (
+                l32_diag["method_summary"]["dsmc"]["d_cot_em_mean"]
+                - l32_diag["method_summary"]["randk"]["d_cot_em_mean"]
+            )
+            * 100,
+            "hem": (
+                l32["methods"]["dsmc"]["mean_over_draws"]
+                - l32["methods"]["randk"]["mean_over_draws"]
+            )
+            * 100,
         },
     }
 
@@ -192,99 +205,50 @@ def main() -> None:
     red = (174, 54, 52)
     gray = (92, 92, 92)
 
-    p.text(35, 540, "(a) MMLU: the method gain is stack-dependent", 21, bold=True)
-    p.text(35, 508, "DSMC - First-RR", 16, rgb=gray, bold=True)
-    p.text(35, 475, "DSMC - Second-RR", 16, rgb=gray, bold=True)
-    p.text(225, 530, "Llama-2-7B", 16, rgb=blue, bold=True, align="center")
-    p.text(505, 530, "Llama-3.2-3B", 16, rgb=green, bold=True, align="center")
-    for x, value, color in [
-        (225, n["mmlu"]["l2_first"], blue),
-        (505, n["mmlu"]["l32_first"], green),
-    ]:
-        fill = (239, 248, 239) if value > 0 else (253, 239, 237)
-        stroke = green if value > 0 else red
-        p.rect(x - 85, 490, 170, 31, fill=fill, stroke=stroke)
-        p.text(x, 500, f"{value:+.2f} pp", 15, rgb=stroke, bold=True, align="center")
-    for x, value, color in [
-        (225, n["mmlu"]["l2_second"], blue),
-        (505, n["mmlu"]["l32_second"], green),
-    ]:
-        fill = (239, 248, 239) if value > 0 else (253, 239, 237)
-        stroke = green if value > 0 else red
-        p.rect(x - 85, 457, 170, 31, fill=fill, stroke=stroke)
-        p.text(x, 467, f"{value:+.2f} pp", 15, rgb=stroke, bold=True, align="center")
-    p.text(700, 500, "gain present", 17, rgb=green, bold=True, align="center")
-    p.text(700, 467, "gain absent", 17, rgb=red, bold=True, align="center")
-    p.arrow(610, 505, 650, 505, rgb=gray)
-    p.arrow(610, 472, 650, 472, rgb=gray)
-    p.line(25, 438, 975, 438, rgb=(190, 190, 190), width=1.2)
-
-    p.text(35, 408, "(b) BBH: the surrogate chain breaks on both stacks", 21, bold=True)
-
-    labels = [
-        ("Query set", 35, 325, 150),
-        ("Target-gradient", 225, 325, 165),
-        ("Selected subset", 430, 325, 165),
-        ("Operational", 635, 325, 150),
-        ("Task utility", 825, 325, 140),
-    ]
-    fills = [
-        (239, 244, 250),
-        (239, 244, 250),
-        (239, 244, 250),
-        (238, 248, 239),
-        (253, 239, 237),
-    ]
-    for (label, x, y, w), fill in zip(labels, fills):
-        p.rect(x, y, w, 62, fill=fill, stroke=blue if x < 600 else (green if x < 800 else red))
-        p.text(x + w / 2, y + 37, label, 16, bold=True, align="center")
-    p.text(307, 340, "geometry", 16, bold=True, align="center")
-    p.text(710, 340, "query CE", 16, bold=True, align="center")
-    p.text(895, 340, "exact match", 15, bold=True, align="center")
-
-    p.arrow(185, 356, 220, 356, rgb=gray)
-    p.arrow(390, 356, 425, 356, rgb=gray)
-    p.arrow(595, 356, 630, 356, rgb=gray)
-    p.arrow(785, 356, 820, 356, rgb=red, dashed=True)
-    p.text(802, 375, "not sufficient", 14, rgb=red, bold=True, align="center")
-
-    p.text(35, 280, "DSMC relative to no-SFT (three draw means)", 18, bold=True)
-    x_positions = [95, 310, 520, 735]
-    headings = ["Target D2", "Wrapped CE", "Same-item EM", "Held-out EM"]
+    p.text(35, 365, "BBH: three-draw mean DSMC - Random contrasts", 23, bold=True)
+    p.text(
+        35,
+        335,
+        "Lower is better for D2 and targeting loss; higher is better for exact match.",
+        16,
+        rgb=gray,
+    )
+    x_positions = [235, 440, 640, 835]
+    headings = ["Target D2", "Targeting loss", "Same-item EM", "Held-out EM"]
     for x, h in zip(x_positions, headings):
-        p.text(x, 246, h, 16, rgb=gray, bold=True, align="center")
+        p.text(x, 290, h, 16, rgb=gray, bold=True, align="center")
 
     rows = [
         ("Llama-2-7B", n["l2"], blue),
         ("Llama-3.2-3B", n["l32"], green),
     ]
-    ys = [185, 110]
+    ys = [205, 115]
     for (name, vals, color), y in zip(rows, ys):
-        p.text(25, y + 10, name, 17, rgb=color, bold=True)
-        p.rect(165, y - 10, 180, 52, fill=(247, 247, 247), stroke=color)
+        p.text(30, y + 10, name, 17, rgb=color, bold=True)
+        p.rect(150, y - 10, 170, 52, fill=(239, 248, 239), stroke=green)
         p.text(
-            255,
+            235,
             y + 11,
-            f"{vals['d2']:.3f} < Random {vals['d2_random']:.3f}",
-            14,
-            rgb=color,
+            f"{vals['d2']:+.3f}",
+            16,
+            rgb=green,
             bold=True,
             align="center",
         )
-        p.rect(375, y - 10, 150, 52, fill=(239, 248, 239), stroke=green)
-        p.text(450, y + 11, f"{vals['ce']:+.2f} nats", 16, rgb=green, bold=True, align="center")
-        p.rect(555, y - 10, 150, 52, fill=(253, 239, 237), stroke=red)
-        p.text(630, y + 11, f"{vals['qem']:+.2f} pp", 16, rgb=red, bold=True, align="center")
-        p.rect(735, y - 10, 150, 52, fill=(253, 239, 237), stroke=red)
-        p.text(810, y + 11, f"{vals['hem']:+.2f} pp", 16, rgb=red, bold=True, align="center")
-        p.arrow(345, y + 16, 370, y + 16, rgb=orange)
+        p.rect(355, y - 10, 170, 52, fill=(239, 248, 239), stroke=green)
+        p.text(440, y + 11, f"{vals['ce']:+.2f} nats", 16, rgb=green, bold=True, align="center")
+        p.rect(555, y - 10, 170, 52, fill=(253, 239, 237), stroke=red)
+        p.text(640, y + 11, f"{vals['qem']:+.2f} pp", 16, rgb=red, bold=True, align="center")
+        p.rect(750, y - 10, 170, 52, fill=(253, 239, 237), stroke=red)
+        p.text(835, y + 11, f"{vals['hem']:+.2f} pp", 16, rgb=red, bold=True, align="center")
+        p.arrow(320, y + 16, 350, y + 16, rgb=orange)
         p.arrow(525, y + 16, 550, y + 16, rgb=red, dashed=True)
-        p.arrow(705, y + 16, 730, y + 16, rgb=red, dashed=True)
+        p.arrow(725, y + 16, 745, y + 16, rgb=red, dashed=True)
 
     p.text(
         35,
-        46,
-        "Geometry and the operational surrogate improve; the task metric does not.",
+        45,
+        "DSMC is closer in geometry and targeting loss, but worse in both task metrics.",
         18,
         rgb=red,
         bold=True,
