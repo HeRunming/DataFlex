@@ -22,7 +22,7 @@
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 
 \title{Matching the Target Is Not Enough:\\
-Surrogate Failure in Gradient-Based Targeted Instruction Selection}
+An Ordering Reversal in Gradient-Based Targeted Instruction Selection}
 
 % Keep author identities out of the submission source. The style file inserts
 % anonymous authors while \iclrfinalcopy remains commented out.
@@ -49,9 +49,11 @@ $-0.89$ on Llama-3.2-3B). Rescoring the frozen subsets with
 evaluation-matched target gradients preserves this \method{}--Random
 discrepancy ordering, although finer geometry rankings change. On the same
 query items used to define the targeting signal, post-SFT teacher-forced loss
-also decreases without corresponding gains in chain-of-thought exact match.
-Thus, in the studied gradient-based targeting pipeline, stronger target
-alignment is not sufficient for better downstream utility.
+also decreases without corresponding gains in chain-of-thought exact match;
+a signed first-moment selector exhibits the same qualitative
+alignment--utility reversal. Thus, in the studied gradient-based targeting
+pipeline, stronger target alignment is not sufficient for better downstream
+utility.
 \end{abstract}
 
 \section{Introduction}
@@ -65,10 +67,15 @@ set to identify candidate examples that should be most useful for a target
 task. Existing approaches construct query-derived proxies using distribution
 alignment \citep{liu2024tsds}, optimizer-aware gradient similarity and
 influence approximations \citep{xia2024less,wang2025nice}, target subspaces
-\citep{min2026gist}, or task-specific rewards \citep{wang2025nice}.
+\citep{min2026gist}, or task-metric and reward signals
+\citep{wang2025nice,wu2025rose}.
 These methods differ in how they define the targeting signal. We ask a narrower
-question: when a query-derived proxy can be measured directly, is stronger
-optimization of that proxy sufficient for greater downstream utility?
+question: when a query-derived proxy can be measured directly, does attaining a
+better value of that proxy imply greater downstream utility?
+Recent controlled work asks which representations and selectors are predictive
+across settings \citep{nayak2026critical}; our question is conditional and
+stronger: when a selected set actually attains a better measurable target
+discrepancy, does that ordering imply greater downstream utility?
 
 Answering this question requires more than observing that one selector loses to
 another: a weak downstream result could simply mean that the selector failed to
@@ -90,7 +97,8 @@ rather than inferring such movement from downstream performance.
 Method gains are stack-dependent, while the central failure mode is not. On
 Llama-2-7B MMLU at the 5\% budget, \method{} outperforms First-RR and
 Second-RR by 1.55 and 0.88 points, with wins in all ten target-direction cells.
-Repeating the pre-registered comparison on Llama-3.2-3B reverses these small
+Repeating a protocol frozen in a timestamped commit before the second-model
+computations reverses these small
 observed differences ($-0.18$ and $-0.31$ points over five
 direction-averaged blocks), while \method{} and Random remain nearly tied on
 both stacks. We therefore treat \method{} as a diagnostic instrument rather
@@ -120,7 +128,7 @@ misaligned with chain-of-thought evaluation.
     \item We introduce \method{}, an exact-marginal greedy coreset construction
     with a directly measurable directional second-moment target discrepancy.
     \item Controlled MMLU experiments show a \method{} advantage over
-    round-robin baselines on Llama-2-7B, followed by a pre-registered
+    round-robin baselines on Llama-2-7B, followed by a pre-specified
     Llama-3.2-3B check in which that method-level advantage does not transfer.
     \item On BBH, \method{} attains the lowest observed $\dsecond$ among the
     compared subsets in every draw yet underperforms Random in every draw on
@@ -392,7 +400,7 @@ An equal-step sensitivity repeats the 1\% subsets to 420 steps; both \method{}
 and Random fall to approximately 38.3\%, so extra optimization does not rescue
 the targeted subset (Appendix~\ref{app:sensitivities}).
 
-\subsection{Pre-registered cross-stack check}
+\subsection{Pre-specified cross-stack check}
 
 \begin{table}[t]
 \caption{\textbf{Cross-stack MMLU comparison at the 5\% budget.}
@@ -537,7 +545,9 @@ yet its held-out BBH mean is lower than Random by 2.10 points on Llama-2 and
 0.48 points on Llama-3.2. The observed alignment--utility reversal is
 therefore not confined to the sign-invariant second moment. This diagnostic
 does not establish failure for every sign-sensitive representation; full
-draw-level values are in Appendix~\ref{app:geometry}.
+draw-level values are in Appendix~\ref{app:geometry}. Averaged across draws,
+First-RR versus Random has $D_1=0.471$ versus $0.591$ on Llama-2 and
+$0.459$ versus $0.498$ on Llama-3.2, so the ordering is not an epsilon effect.
 
 \paragraph{Evaluation-matched target serialization.}
 To test whether the \method{} minimum is induced by the chat serialization
@@ -592,35 +602,6 @@ respectively. Thus the Llama-2 gap is broad across subtasks, whereas the
 smaller Llama-3.2 effect is more heterogeneous. Regrouping size variants into
 the 23 conceptual BBH families gives the same reading: 20/23 and 14/23
 families favour Random.
-
-\paragraph{Task-level breadth.}
-The draw remains the primary experimental unit, but a secondary 27-subtask
-breakdown shows that the Llama-2 gap is broad: \method{} trails Random on 23
-subtasks and leads on four, with a macro difference of $-2.89$ points. On
-Llama-3.2 it trails on 17 and leads on ten, with a smaller macro difference of
-$-1.10$ points. A descriptive task bootstrap gives intervals of
-$[-4.68,-1.41]$ and $[-2.57,+0.27]$ points, respectively. The second-stack
-aggregate is therefore less uniform across tasks, consistent with its
-attenuated draw-level effect.
-
-\begin{table}[t]
-\caption{\textbf{The BBH proxy chain for \method{} relative to no-SFT.}
-$\Delta$CE and same-item exact match use the 64 query items; held-out exact
-match uses 5,209 examples. ``$\dsecond$ wins'' counts draws in which \method{}
-has the lowest discrepancy among the compared subsets; CE and EM entries are
-changes relative to no-SFT.}
-\label{tab:chain_numbers}
-\centering
-\small
-\begin{tabular}{lrrrr}
-\toprule
-Stack & $\dsecond$ wins & $\Delta$ wrapped CE & $\Delta$ query EM & $\Delta$ held-out EM \\
-\midrule
-Llama-2-7B & 3/3 & $-1.159$ & $-5.21$ & $-3.33$ \\
-Llama-3.2-3B & 3/3 & $-3.255$ & $-6.51$ & $-0.97$ \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \subsection{Serialization narrows the loss-based diagnostic}
 
@@ -732,12 +713,13 @@ metric has been independently validated.
 \subsection*{AI use statement}
 
 Generative AI tools were used to summarize and cross-check existing literature,
-inspect repository artifacts, suggest paper structure and wording, and draft
-and edit parts of the manuscript. Earlier in the research workflow, generative
-AI tools were also used to provide feedback on experimental design,
-interpretation, and code. The authors reviewed all AI-assisted text and claims
-against the underlying code, configurations, manifests, and result files; all
-reported numerical results were taken from experiment artifacts rather than
+inspect repository artifacts, suggest paper structure and wording, draft and
+edit parts of the manuscript, and assist with software implementation and
+analysis scripts. Earlier in the research workflow, generative AI tools also
+provided feedback on experimental design and result interpretation. The
+authors reviewed all AI-assisted text, code, and claims against the underlying
+implementations, configurations, manifests, and result files; all reported
+numerical results were computed from experiment artifacts rather than
 generated by an AI system. The authors take responsibility for the final
 content, including all AI-assisted material.
 
@@ -758,7 +740,8 @@ construction, feature protocol, selection rules, training hyperparameters,
 evaluation pins, statistical units, and integrity checks. The supplementary
 material will include anonymized code, exact run configurations, frozen
 manifests and hashes, paper tables generated from committed result files, and
-the pre-registered protocols for the BBH and second-model experiments.
+the timestamped, pre-outcome protocol specifications for the BBH and
+second-model experiments.
 
 \bibliography{references}
 \bibliographystyle{iclr2027_conference}
@@ -827,14 +810,15 @@ Length-matched Random & \textbf{40.42} & 40.80 \\
 \end{tabular}
 \end{table}
 
-\paragraph{Pre-registered Llama-3.2 outcome.}
+\paragraph{Pre-specified Llama-3.2 outcome.}
 The 5\% cross-stack arm completed 35/35 adapters and 36/36 evaluations with no
 failures. The statistical unit is five direction-averaged draw-index blocks.
-The no-SFT balanced reference is 49.47; mean balanced accuracy is 47.95 for
+The protocol was committed before the second-model computations. The no-SFT
+balanced reference is 49.47; mean balanced accuracy is 47.95 for
 Second-RR, 47.82 for First-RR, 47.64 for \method{}, and 47.52 for Random.
 \method{} minus First-RR is $-0.18$ points (2/5 blocks), minus Second-RR is
 $-0.31$ (1/5), and minus Random is $+0.12$ (3/5). This is the
-pre-registered outcome in which the Llama-2 method advantage does not transfer.
+pre-specified outcome in which the Llama-2 method advantage does not transfer.
 
 \paragraph{Lower budget and equal-step sensitivity.}
 On Llama-2, \method{} minus Random changes from $-0.01$ points at 5\% to
@@ -882,7 +866,7 @@ Llama-3.2 & 0 & \textbf{0.4404} & 0.4611 & 0.5012 \\
 \caption{\textbf{Task-level DSMC--Random heterogeneity.}
 Win/tie/loss counts and macro statistics average SFT seeds and query draws
 within each of the 27 harness subtasks. Bootstrap intervals resample subtasks
-and are descriptive; they do not replace the pre-registered draw-level unit.}
+and are descriptive; they do not replace the pre-specified draw-level unit.}
 \label{tab:taskwise}
 \centering
 \small
