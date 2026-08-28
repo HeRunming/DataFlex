@@ -45,97 +45,87 @@ does not transfer to Llama-3.2-3B. The central result is a stronger BBH
 counterexample: across three query/selection draws on each of two model stacks,
 \method{} attains the lowest observed target discrepancy among the compared
 subsets yet underperforms Random in every draw ($-2.94$ points on Llama-2-7B;
-$-0.89$ on Llama-3.2-3B). Rescoring the frozen subsets with
-evaluation-matched target gradients preserves this \method{}--Random
-discrepancy ordering, although finer geometry rankings change. On the same
-query items used to define the targeting signal, post-SFT teacher-forced loss
-also decreases without corresponding gains in chain-of-thought exact match;
-a signed first-moment selector exhibits the same qualitative
-alignment--utility reversal. Thus, in the studied gradient-based targeting
-pipeline, stronger target alignment is not sufficient for better downstream
-utility.
+$-0.89$ on Llama-3.2-3B). Evaluation-matched rescoring and a 256-example
+proxy set disjoint from every selection query both preserve this
+\method{}--Random discrepancy ordering. On the same query items used to define
+the targeting signal, post-SFT teacher-forced loss also decreases without
+corresponding gains in chain-of-thought exact match; a signed first-moment
+selector exhibits the same qualitative alignment--utility reversal. Thus,
+for the studied operational first- and second-moment gradient discrepancies,
+stronger target alignment is not sufficient for better downstream utility.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
 
-Instruction tuning \citep{wei2022finetuned} draws from increasingly large and
-heterogeneous pools, while a deployment often requires only a narrower set of
-capabilities.
-Targeted instruction selection addresses this mismatch by using a small query
-set to identify candidate examples that should be most useful for a target
-task. Existing approaches construct query-derived proxies using distribution
-alignment \citep{liu2024tsds}, optimizer-aware gradient similarity and
-influence approximations \citep{xia2024less,wang2025nice}, target subspaces
-\citep{min2026gist}, or task-metric and reward signals
-\citep{wang2025nice,wu2025rose}.
-These methods differ in how they define the targeting signal. We ask a narrower
-question: when a query-derived proxy can be measured directly, does attaining a
-better value of that proxy imply greater downstream utility?
-Recent controlled work asks which representations and selectors are predictive
-across settings \citep{nayak2026critical}; our question is conditional and
-stronger: when a selected set actually attains a better measurable target
-discrepancy, does that ordering imply greater downstream utility?
+Instruction tuning \citep{wei2022finetuned} draws from heterogeneous pools,
+whereas deployment may require a narrow capability. Targeted selection uses a
+small query set to score candidate data through distribution alignment
+\citep{liu2024tsds}, gradient similarity or influence
+\citep{xia2024less,wang2025nice}, target subspaces \citep{min2026gist}, or
+task-metric signals \citep{wang2025nice,wu2025rose}. We ask a narrower question
+than which representation or selector is predictive on average
+\citep{nayak2026critical}: when one selected set attains a better measurable
+target discrepancy, does that ordering imply greater utility? For a fixed
+pool, budget, and training procedure $A$, this requires
+\begin{equation}
+    D(S_1,Q)<D(S_2,Q)
+    \quad\Longrightarrow\quad
+    U(A(S_1))\ge U(A(S_2)).
+    \label{eq:ordering}
+\end{equation}
+Prior methods need not state Equation~\ref{eq:ordering} as a theorem, but some
+predictive relationship is necessary to interpret better matching as evidence
+of greater data utility.
 
-Answering this question requires more than observing that one selector loses to
-another: a weak downstream result could simply mean that the selector failed to
-reduce its intended target discrepancy. We therefore construct a measurable
-instrument. Given unit-normalized projected gradients $u$, we represent a set
-by its directional second moment,
+Merely observing that a selector loses is insufficient: it may have failed to
+improve its own proxy. We therefore construct a measurable instrument. For
+unit-normalized projected gradients $u$, represent a set by
 \begin{equation}
     M_P = \mathbb{E}_{u\sim P}[uu^\top].
 \end{equation}
 Under the quadratic kernel $k_2(u,v)=(u^\top v)^2$, empirical maximum mean
 discrepancy (MMD) is exactly the squared Frobenius distance between directional
-second moments \citep{gretton2012mmd,muandet2017kme}. Our method,
-\emph{Directional Second-Moment Coreset}
-(\method{}), uses the exact one-step marginal to greedily reduce this set-level
-discrepancy. It consequently
-lets us measure whether the selected subset moves toward the target geometry
-rather than inferring such movement from downstream performance.
+second moments \citep{gretton2012mmd,muandet2017kme}. Directional Second-Moment
+Coreset (\method{}) greedily reduces this discrepancy using its exact one-step
+marginal, letting us verify target-geometry movement independently of utility.
 
 Method gains are stack-dependent, while the central failure mode is not. On
 Llama-2-7B MMLU at the 5\% budget, \method{} outperforms First-RR and
 Second-RR by 1.55 and 0.88 points, with wins in all ten target-direction cells.
-Repeating a protocol frozen in a timestamped commit before the second-model
-computations reverses these small
-observed differences ($-0.18$ and $-0.31$ points over five
-direction-averaged blocks), while \method{} and Random remain nearly tied on
-both stacks. We therefore treat \method{} as a diagnostic instrument rather
-than a generally superior selector.
+Under a protocol frozen before the second-model computations, these differences
+reverse on Llama-3.2-3B ($-0.18$ and $-0.31$ points over five paired blocks);
+\method{} and Random are nearly tied on both stacks. We therefore treat
+\method{} as an instrument rather than a generally superior selector.
 
 In contrast, the BBH geometry--utility reversal transfers across both tested
 model stacks. Across three query/selection draws, \method{} attains the lowest
 operational second-moment discrepancy yet loses to Random in every draw on each
 stack. Llama-2-7B shows a $-2.94$ percentage-point \method{}--Random gap and
 Llama-3.2-3B a smaller $-0.89$ point gap. All BBH SFT means are below their
-corresponding no-SFT references; the experiment therefore tests the narrower
-ordering question of whether better target alignment implies better utility
-among equally trained subsets, not whether SFT improves the base model.
+corresponding no-SFT references, so BBH tests ordering among equally trained
+subsets rather than whether SFT beats the base model. The discrepancy ordering
+also survives on a 256-example proxy set disjoint from every selection query.
 
-Finally, we separate three quantities that can otherwise be conflated:
-the \emph{targeting loss} used to obtain query gradients, the
-\emph{selection objective} $\dsecond$, and the downstream chain-of-thought
-exact-match metric. On the same 64 query items used to define the targeting
-signal, post-SFT teacher-forced targeting loss decreases while exact match does
-not improve. Query-to-test shift therefore cannot by itself explain the
-result. The behavior of the loss under a bare evaluation serialization differs
-across model stacks, so we do not claim that cross-entropy is generically
-misaligned with chain-of-thought evaluation.
+We further separate targeting loss, selection discrepancy, and downstream
+exact match. On the same 64 query items used to define the signal, post-SFT
+teacher-forced loss decreases while chain-of-thought exact match does not,
+ruling out a purely query-to-test account. Because bare-serialization loss
+behaves differently across stacks, we make no generic claim about
+cross-entropy.
 
 \paragraph{Contributions.}
 \begin{itemize}
     \item We introduce \method{}, an exact-marginal greedy coreset construction
     with a directly measurable directional second-moment target discrepancy.
-    \item Controlled MMLU experiments show a \method{} advantage over
-    round-robin baselines on Llama-2-7B, followed by a pre-specified
-    Llama-3.2-3B check in which that method-level advantage does not transfer.
+    \item MMLU shows a \method{} advantage over round-robin baselines on
+    Llama-2-7B that does not transfer in a pre-specified Llama-3.2-3B check.
     \item On BBH, \method{} attains the lowest observed $\dsecond$ among the
     compared subsets in every draw yet underperforms Random in every draw on
     both model stacks. When the frozen subsets are rescored with
-    evaluation-matched target gradients, \method{} remains closer than Random
-    in every draw; same-item loss and task-metric diagnostics further localize
-    the failed implication without claiming a unique causal mechanism.
+    evaluation-matched or query-disjoint proxy gradients, \method{} remains
+    closer than Random in every draw; same-item, parser, and task diagnostics
+    localize the failure without claiming a unique mechanism.
 \end{itemize}
 
 \begin{figure*}[t]
@@ -255,13 +245,19 @@ approximation \citep{chen2010herding,bach2012herding}, but
 Equation~\ref{eq:greedy} is the exact marginal of the finite-sample objective
 used here.
 
+\paragraph{Why proxy ordering need not survive training.}
+For one small SGD step on the same query loss,
+$L_Q(\theta-\eta g_S)-L_Q(\theta)\approx-\eta g_Q^\top g_S$ motivates
+alignment locally. Our pipeline additionally applies role-specific transforms,
+greedy construction, multi-step Adam in a LoRA subspace, generation, and exact
+match. Equation~\ref{eq:ordering} would require this chain to preserve subset
+order; our results do not contradict the local Taylor approximation.
+
 \paragraph{Role in this paper.}
-\method{} is not claimed to optimize downstream utility. Its purpose is to
-construct a strong, measurable intervention on target geometry. If
-\method{} attains a lower observed $\dsecond$ than the compared subsets but
-utility fails to improve, the reversal cannot be attributed merely to
-\method{} failing to reduce its intended discrepancy relative to those
-subsets.
+\method{} is a measurement instrument, not a claim of general selector
+superiority. If it lowers $\dsecond$ relative to compared subsets without
+improving utility, the reversal cannot be dismissed as failure to move its own
+proxy.
 
 \section{Experimental Design}
 \label{sec:setup}
@@ -393,9 +389,12 @@ the \method{}--Random gap becomes $-0.77$ points and no query-direction cell
 favours \method{}. The extra MMD gain over Second-RR also contracts to $0.17$
 points and five of ten cells.
 
-The no-SFT line changes the interpretation of the targeted leaderboard. Most
-targeted methods fall below the base reference at both budgets. \method{} stays
-slightly above it, but Random is the strongest absolute method at 1\%.
+Most targeted methods fall below no-SFT at both budgets. However, the 1\% arm
+is a positive-transfer ordering reversal in observed means: \method{} (40.17)
+and Random (40.95) both exceed no-SFT (40.03), while \method{} is closer to
+the leave-one-draw-out balanced target geometry in all ten draws. Thus the
+ordering failure is not restricted to harmful SFT, although this deliberately
+skewed stress test complements rather than replaces same-family BBH validation.
 An equal-step sensitivity repeats the 1\% subsets to 420 steps; both \method{}
 and Random fall to approximately 38.3\%, so extra optimization does not rescue
 the targeted subset (Appendix~\ref{app:sensitivities}).
@@ -530,6 +529,14 @@ ten draws at both budgets (Appendix~\ref{app:geometry}). Thus the observed
 failure is not simply that \method{} follows a skewed query away from the
 balanced reference.
 
+\paragraph{Query-disjoint proxy geometry.}
+We post-hoc score frozen subsets against 256 examples sampled after excluding
+all selection queries, under a protocol frozen before proxy-gradient
+extraction. Without reselection or SFT, \method{} remains closer than Random
+under $\dsecond$, and First-RR under signed $D_1$, in all three draws on both
+stacks; both remain worse downstream. The reversal therefore extends beyond
+selection-example geometry (Appendix~\ref{app:proxy_geometry}).
+
 \paragraph{Sign-sensitive first-moment diagnostic.}
 The quadratic kernel is invariant to $u\mapsto -u$, so we also examine the
 signed first-moment discrepancy
@@ -545,24 +552,18 @@ yet its held-out BBH mean is lower than Random by 2.10 points on Llama-2 and
 0.48 points on Llama-3.2. The observed alignment--utility reversal is
 therefore not confined to the sign-invariant second moment. This diagnostic
 does not establish failure for every sign-sensitive representation; full
-draw-level values are in Appendix~\ref{app:geometry}. Averaged across draws,
-First-RR versus Random has $D_1=0.471$ versus $0.591$ on Llama-2 and
-$0.459$ versus $0.498$ on Llama-3.2, so the ordering is not an epsilon effect.
+draw-level values are in Appendix~\ref{app:geometry}; the mean gaps
+($0.471$ vs.\ $0.591$ and $0.459$ vs.\ $0.498$) are not epsilon effects.
 
 \paragraph{Evaluation-matched target serialization.}
 To test whether the \method{} minimum is induced by the chat serialization
-used for target-gradient extraction, we re-extract only the target gradients
-under the evaluation-matched bare serialization and rescore the frozen
-subsets. The change is nontrivial: mean row cosine between operational and
-evaluation-matched target gradients is only 0.25--0.36. Among the frozen
-compared subsets, \method{} retains the lowest evaluation-matched $\dsecond$
-in all three draws on both stacks, while remaining worse than Random
-downstream in all three draws. The finer ranking is not invariant: on
-Llama-3.2, the four-method geometry ordering changes in every draw and Random
-moves from last to second. We therefore claim robustness of the
-\method{}--Random counterexample to this tested target-serialization change,
-not serialization-invariant target-space rankings. Full values appear in
-Appendix~\ref{app:evalctx}.
+used for target extraction, we re-extract only target gradients under the bare
+evaluation serialization and rescore frozen subsets. Despite low cross-context
+row cosine (0.25--0.36), \method{} retains the lowest $\dsecond$ in all draws
+on both stacks while losing to Random downstream. The full Llama-3.2 ranking
+changes in every draw, so we claim robustness only of the \method{}--Random
+counterexample, not serialization-invariant rankings
+(Appendix~\ref{app:evalctx}).
 
 \subsection{The query loss underlying the targeting signal also improves}
 
@@ -602,6 +603,13 @@ respectively. Thus the Llama-2 gap is broad across subtasks, whereas the
 smaller Llama-3.2 effect is more heterogeneous. Regrouping size variants into
 the 23 conceptual BBH families gives the same reading: 20/23 and 14/23
 families favour Random.
+
+\paragraph{Parser-validity audit.}
+A post-hoc audit of all frozen generations finds invalid-rate contrasts of
+$+0.03$ points on Llama-2 and $-0.78$ on Llama-3.2. \method{} remains below
+Random conditional on standard-valid outputs ($-3.13$, $-1.36$ points) and
+under frozen conservative recovery ($-3.08$, $-0.84$), so parsing does not
+explain the gap (Appendix~\ref{app:parser}).
 
 \subsection{Serialization narrows the loss-based diagnostic}
 
@@ -674,41 +682,36 @@ not yield higher task utility.
 \section{Limitations}
 \label{sec:limitations}
 
-The study covers two model stacks (Llama-2-7B and Llama-3.2-3B), one candidate
-pool, and two target families. A model stack changes model, tokenizer, and
-serialization together; it is not an architecture-only ablation. BBH has only
-three independent query/selection draws, and the effect on the 3B stack is
-small. The MMLU method differences on Llama-3.2 are also small: all four methods
-are within 0.44 points and below the shared no-SFT reference. MMLU couples draw
-index to SFT seed, so direction-averaged blocks rather than ten cells carry
-comparisons shared across directions.
+The study covers two model stacks, one candidate pool, and two target families;
+a stack changes model, tokenizer, and serialization together. BBH has only
+three query/selection draws and the 3B effect is small. On Llama-3.2 MMLU, all
+methods are within 0.44 points and below no-SFT. MMLU also couples draw index
+to SFT seed, so five direction-averaged blocks, not ten cells, carry shared
+comparisons.
 
-Candidates and queries use role-specific gradient transforms: candidate
-features are Adam-aware, whereas query features use raw SGD gradients. Our
-claims therefore concern the resulting operational push-forward geometry,
-rather than symmetric raw-gradient distribution matching in general. The
-evaluation-matched sensitivity changes target serialization but does not remove
-this asymmetry or answer how an SGD/SGD construction would behave. Moreover,
-although the frozen \method{} subsets remain closest under the tested bare
-serialization, the finer Llama-3.2 geometry ranking changes in every draw.
+Candidates use Adam-aware features whereas queries use raw SGD gradients, so
+claims concern this operational push-forward geometry rather than symmetric
+raw-gradient matching. Evaluation-matched rescoring does not remove this
+asymmetry, and the finer Llama-3.2 ranking changes in every draw.
 
-Several baselines are controlled adaptations on a common datastore, not full
-official end-to-end reproductions. The contamination audit includes exact,
-fuzzy, and long n-gram lexical checks but not a semantic nearest-neighbor audit.
-Finally, the diagnostics do not identify a unique mechanism. Format and
-provenance are plausible contributors, while a simple task-frequency
-specialization account is unsupported, but neither conclusion is causal.
+Several baselines are controlled adaptations rather than full end-to-end
+reproductions. Contamination checks are lexical, not semantic. The diagnostics
+do not identify a unique causal mechanism: format and provenance remain
+plausible, the query-disjoint proxy only rescores frozen subsets from the query
+reservoir, and the parser audit tests extraction rather than semantic
+correctness.
 
 \section{Conclusion}
 
 What transfers across the two tested model stacks is not \method{}'s method
 advantage, but a counterexample to the sufficiency of the studied selection
 objective.
-In these settings, lower second-moment discrepancy under the operational
-gradient-based targeting construction does not guarantee higher downstream
-utility. A better value of a query-derived selection objective should therefore
-be treated as progress only after its relationship to the downstream task
-metric has been independently validated.
+Across the positive-transfer MMLU 1\% comparison and the negative-transfer BBH
+regime, lower values of the studied operational first- and second-moment
+gradient discrepancies do not guarantee higher downstream utility. A better
+value of a query-derived selection objective should therefore be treated as
+progress only after its relationship to the downstream task metric has been
+independently validated.
 
 \subsection*{AI use statement}
 
@@ -886,6 +889,51 @@ regrouped into the 23 conceptual BBH families, \method{} wins/ties/loses
 are $-2.94$ and $-1.23$ points, with descriptive task-family bootstrap
 intervals $[-4.94,-1.25]$ and $[-2.91,+0.26]$.
 
+\section{Query-Disjoint Proxy Geometry}
+\label{app:proxy_geometry}
+
+This post-hoc target-only analysis follows a protocol frozen before the proxy
+gradients were extracted. Starting from the 1,302-example BBH query reservoir,
+we exclude the 185 distinct examples appearing in any selection query and
+sample 256 examples by deterministic proportional stratification over the 27
+harness subtasks (seed 20260827). The resulting proxy set is disjoint from
+every selection query. We rescore only the frozen subsets; no selection,
+training, or downstream evaluation is rerun.
+
+\begin{table}[h]
+\caption{\textbf{Geometry against the query-disjoint BBH proxy set.}
+Lower is better. The frozen \method{} subset is closer than Random under
+$D_2$ in every stack--draw cell; First-RR is closer than Random under signed
+$D_1$ in every cell.}
+\label{tab:proxy_geometry}
+\centering
+\small
+\begin{tabular}{lllrrrr}
+\toprule
+Stack & Draw & Metric & \method{} & First-RR & Second-RR & Random \\
+\midrule
+Llama-2 & 0 & $D_1$ & 0.46684 & \textbf{0.45508} & 0.50589 & 0.57679 \\
+        &   & $D_2$ & \textbf{0.07067} & 0.07250 & 0.07482 & 0.09445 \\
+        & 1 & $D_1$ & 0.46540 & \textbf{0.45579} & 0.50108 & 0.57522 \\
+        &   & $D_2$ & \textbf{0.07069} & 0.07256 & 0.07409 & 0.09360 \\
+        & 2 & $D_1$ & 0.46524 & \textbf{0.45562} & 0.50093 & 0.57786 \\
+        &   & $D_2$ & \textbf{0.07067} & 0.07237 & 0.07392 & 0.09412 \\
+\midrule
+Llama-3.2 & 0 & $D_1$ & \textbf{0.41998} & 0.44544 & 0.43849 & 0.48214 \\
+          &   & $D_2$ & \textbf{0.05035} & 0.06087 & 0.05868 & 0.06056 \\
+          & 1 & $D_1$ & \textbf{0.42084} & 0.44568 & 0.43871 & 0.48190 \\
+          &   & $D_2$ & \textbf{0.05037} & 0.06083 & 0.05886 & 0.06132 \\
+          & 2 & $D_1$ & \textbf{0.41935} & 0.44450 & 0.44258 & 0.48403 \\
+          &   & $D_2$ & \textbf{0.05034} & 0.06230 & 0.06010 & 0.06103 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The proxy comes from the held-out query reservoir, not the 5,209-example
+downstream evaluation partition. These results establish frozen-subset
+geometry ordering only and do not show what would happen after selecting and
+training directly against the proxy target.
+
 \section{Evaluation-Matched Target-Geometry Sensitivity}
 \label{app:evalctx}
 
@@ -945,6 +993,45 @@ three draws). We find no evidence for a simple account in which greater query
 exposure protects a BBH task. This diagnostic is exploratory and does not
 identify an alternative mechanism.
 
+\section{Parser-Validity Audit}
+\label{app:parser}
+
+We audit every saved BBH generation without regenerating outputs. Conditional
+EM is computed only over examples accepted by the standard harness parser.
+For standard-invalid outputs, a frozen conservative rule inspects only the
+final 500 characters and extracts a type-constrained final candidate: the last
+parenthesized option, boolean/yes--no token, or standalone number when
+applicable, otherwise the last explicit answer marker or nonempty line.
+Unrecovered outputs remain incorrect. This secondary rule is not a replacement
+for the primary metric.
+
+\begin{table}[h]
+\caption{\textbf{BBH parser-validity audit.}
+Rates first average the two SFT seeds within each draw and then the three
+draws. Conservative EM applies the frozen recovery rule only to
+standard-invalid outputs.}
+\label{tab:parser}
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+Stack & Method & Standard valid & Conditional EM & Conservative EM \\
+\midrule
+Llama-2 & \method{} & 93.46 & 38.85 & 36.42 \\
+        & Random & 93.50 & 41.98 & 39.50 \\
+Llama-3.2 & \method{} & 94.42 & 48.87 & 46.77 \\
+          & Random & 93.64 & 50.23 & 47.61 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The \method{}--Random invalid-rate difference is $+0.03$ percentage points on
+Llama-2 and $-0.78$ on Llama-3.2. The corresponding conditional-EM
+differences are $-3.13$ and $-1.36$ points, and conservative-EM differences
+are $-3.08$ and $-0.84$. Thus the observed utility ordering is not produced
+merely by more \method{} outputs failing the standard parser. The audit does
+not establish semantic correctness beyond these extraction rules.
+
 \section{Baseline Implementations}
 \label{app:baselines}
 
@@ -981,7 +1068,8 @@ subsets, adapters, and evaluation-result hashes. All BBH evaluations pass
 27-subtask/5,209-example gates, and all Llama-3.2 MMLU evaluations pass
 57-subject gates. Selection-level stability was checked after target-gradient
 non-bit-reproducibility was observed; the worst selector changed 5 of 2,707
-indices.
+indices. A paper-level artifact manifest maps each major figure and table to
+its committed result files, analysis code, and frozen protocol.
 
 \subsection{Compute and selection overhead}
 

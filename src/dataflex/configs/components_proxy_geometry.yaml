@@ -1,0 +1,27 @@
+selectors:
+  proxy_l2:
+    name: mmd
+    params:
+      cache_dir: ../dataflex_saves/proxy_l2_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd
+  proxy_l32:
+    name: mmd
+    params:
+      cache_dir: ../dataflex_saves/proxy_l32_output
+      proj_dim: 8192
+      save_interval: 16
+      seed: 123
+      candidate_subsample: -1
+      greedy_device: auto
+      gradient_type: adam
+      sigma: null
+      kernel_type: grad_cov
+      target_gradient_type: sgd

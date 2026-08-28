@@ -1,0 +1,355 @@
+{
+  "analysis": "held-out BBH proxy geometry on frozen selected subsets",
+  "status": "post-hoc target-only analysis; proxy protocol frozen before gradient extraction; no reselection or SFT",
+  "proxy_manifest": "data/bbh_external/bbh_proxy_test_manifest.json",
+  "proxy_size": 256,
+  "proxy_selected_ids_sha256": "051744fd7e4e69c1ed8091539a3043730bdee8b849dff3f75f9e0c9945b331c6",
+  "definition": {
+    "D1_proxy": "||mean(U_S)-mean(U_Qproxy)||_2",
+    "D2_proxy": "||M_S-M_Qproxy||_F^2"
+  },
+  "stacks": {
+    "llama2": {
+      "candidate_tensor_sha256": "4bef1bf85e774c768300a7700540049276a94e9937d53e90bda232cb03d12654",
+      "proxy_tensor_sha256": "932546347ef32c32d41838c738f9be71adc6c85f3c3f13cfc2e44ec273ca1ba7",
+      "proxy_shape": [
+        256,
+        8192
+      ],
+      "per_draw": {
+        "0": {
+          "methods": {
+            "dsmc": {
+              "D1_proxy": 0.46684378385543823,
+              "D2_proxy": 0.07066763937473297,
+              "selection_cache": "selbbhx_draw0_dsmc/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3636014590132463
+            },
+            "first_rr": {
+              "D1_proxy": 0.455077588558197,
+              "D2_proxy": 0.07249702513217926,
+              "selection_cache": "selbbhx_draw0_first_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3623536187368017
+            },
+            "second_rr": {
+              "D1_proxy": 0.5058879256248474,
+              "D2_proxy": 0.07482147961854935,
+              "selection_cache": "selbbhx_draw0_second_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3680168938375888
+            },
+            "randk": {
+              "D1_proxy": 0.5767899751663208,
+              "D2_proxy": 0.0944509506225586,
+              "selection_cache": "selbbhx_draw0_randk/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3929736993664811
+            }
+          },
+          "ranking_D1_proxy_best_first": [
+            "first_rr",
+            "dsmc",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D1_proxy": true,
+          "first_rr_closer_than_random_D1_proxy": true,
+          "ranking_D2_proxy_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D2_proxy": true,
+          "first_rr_closer_than_random_D2_proxy": true
+        },
+        "1": {
+          "methods": {
+            "dsmc": {
+              "D1_proxy": 0.46540138125419617,
+              "D2_proxy": 0.07069472223520279,
+              "selection_cache": "selbbhx_draw1_dsmc/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.36465732386254557
+            },
+            "first_rr": {
+              "D1_proxy": 0.4557878375053406,
+              "D2_proxy": 0.07256093621253967,
+              "selection_cache": "selbbhx_draw1_first_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3760798617776925
+            },
+            "second_rr": {
+              "D1_proxy": 0.5010800361633301,
+              "D2_proxy": 0.07409399002790451,
+              "selection_cache": "selbbhx_draw1_second_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3700326358226147
+            },
+            "randk": {
+              "D1_proxy": 0.5752153396606445,
+              "D2_proxy": 0.09360170364379883,
+              "selection_cache": "selbbhx_draw1_randk/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3877903628335573
+            }
+          },
+          "ranking_D1_proxy_best_first": [
+            "first_rr",
+            "dsmc",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D1_proxy": true,
+          "first_rr_closer_than_random_D1_proxy": true,
+          "ranking_D2_proxy_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D2_proxy": true,
+          "first_rr_closer_than_random_D2_proxy": true
+        },
+        "2": {
+          "methods": {
+            "dsmc": {
+              "D1_proxy": 0.4652375280857086,
+              "D2_proxy": 0.07067232578992844,
+              "selection_cache": "selbbhx_draw2_dsmc/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3610097907467844
+            },
+            "first_rr": {
+              "D1_proxy": 0.45561695098876953,
+              "D2_proxy": 0.07237443327903748,
+              "selection_cache": "selbbhx_draw2_first_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3760798617776925
+            },
+            "second_rr": {
+              "D1_proxy": 0.5009335875511169,
+              "D2_proxy": 0.07391873002052307,
+              "selection_cache": "selbbhx_draw2_second_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3680168938375888
+            },
+            "randk": {
+              "D1_proxy": 0.5778648853302002,
+              "D2_proxy": 0.09411764144897461,
+              "selection_cache": "selbbhx_draw2_randk/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.3967172201958149
+            }
+          },
+          "ranking_D1_proxy_best_first": [
+            "first_rr",
+            "dsmc",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D1_proxy": true,
+          "first_rr_closer_than_random_D1_proxy": true,
+          "ranking_D2_proxy_best_first": [
+            "dsmc",
+            "first_rr",
+            "second_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D2_proxy": true,
+          "first_rr_closer_than_random_D2_proxy": true
+        }
+      },
+      "summary": {
+        "D1_proxy": {
+          "dsmc_closer_than_random": "3/3",
+          "first_rr_closer_than_random": "3/3",
+          "dsmc_mean_minus_random": -0.11079583565394084,
+          "first_rr_mean_minus_random": -0.12112927436828613
+        },
+        "D2_proxy": {
+          "dsmc_closer_than_random": "3/3",
+          "first_rr_closer_than_random": "3/3",
+          "dsmc_mean_minus_random": -0.023378536105155945,
+          "first_rr_mean_minus_random": -0.02157930036385854
+        }
+      }
+    },
+    "llama32": {
+      "candidate_tensor_sha256": "bcbb3a0f2f2b371fb28f0e56effde7c9d4c44f6018e6772233668800b10b2d99",
+      "proxy_tensor_sha256": "d4380291f619da14999a93a9d25af3d5375ede60364691cc644e01dbc97d4680",
+      "proxy_shape": [
+        256,
+        8192
+      ],
+      "per_draw": {
+        "0": {
+          "methods": {
+            "dsmc": {
+              "D1_proxy": 0.4199812412261963,
+              "D2_proxy": 0.0503462478518486,
+              "selection_cache": "sel_llama32_draw0_dsmc/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.45978114801305436
+            },
+            "first_rr": {
+              "D1_proxy": 0.4454360604286194,
+              "D2_proxy": 0.06086810678243637,
+              "selection_cache": "sel_llama32_draw0_first_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.4611249760030716
+            },
+            "second_rr": {
+              "D1_proxy": 0.43848690390586853,
+              "D2_proxy": 0.058680832386016846,
+              "selection_cache": "sel_llama32_draw0_second_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.4662123248224227
+            },
+            "randk": {
+              "D1_proxy": 0.4821411073207855,
+              "D2_proxy": 0.06055831536650658,
+              "selection_cache": "selbbhx_draw0_randk/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.47321942791322713
+            }
+          },
+          "ranking_D1_proxy_best_first": [
+            "dsmc",
+            "second_rr",
+            "first_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D1_proxy": true,
+          "first_rr_closer_than_random_D1_proxy": true,
+          "ranking_D2_proxy_best_first": [
+            "dsmc",
+            "second_rr",
+            "randk",
+            "first_rr"
+          ],
+          "dsmc_closer_than_random_D2_proxy": true,
+          "first_rr_closer_than_random_D2_proxy": false
+        },
+        "1": {
+          "methods": {
+            "dsmc": {
+              "D1_proxy": 0.42083945870399475,
+              "D2_proxy": 0.050371043384075165,
+              "selection_cache": "sel_llama32_draw1_dsmc/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.4588212708773277
+            },
+            "first_rr": {
+              "D1_proxy": 0.44568195939064026,
+              "D2_proxy": 0.06082744151353836,
+              "selection_cache": "sel_llama32_draw1_first_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.46515645997312344
+            },
+            "second_rr": {
+              "D1_proxy": 0.43871113657951355,
+              "D2_proxy": 0.05886298045516014,
+              "selection_cache": "sel_llama32_draw1_second_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.46227682856594354
+            },
+            "randk": {
+              "D1_proxy": 0.4818972051143646,
+              "D2_proxy": 0.06132351607084274,
+              "selection_cache": "selbbhx_draw1_randk/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.46611633710885003
+            }
+          },
+          "ranking_D1_proxy_best_first": [
+            "dsmc",
+            "second_rr",
+            "first_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D1_proxy": true,
+          "first_rr_closer_than_random_D1_proxy": true,
+          "ranking_D2_proxy_best_first": [
+            "dsmc",
+            "second_rr",
+            "first_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D2_proxy": true,
+          "first_rr_closer_than_random_D2_proxy": true
+        },
+        "2": {
+          "methods": {
+            "dsmc": {
+              "D1_proxy": 0.4193496108055115,
+              "D2_proxy": 0.050339482724666595,
+              "selection_cache": "sel_llama32_draw2_dsmc/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.46573238625455937
+            },
+            "first_rr": {
+              "D1_proxy": 0.44449958205223083,
+              "D2_proxy": 0.06229740008711815,
+              "selection_cache": "sel_llama32_draw2_first_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.47043578421961985
+            },
+            "second_rr": {
+              "D1_proxy": 0.44257962703704834,
+              "D2_proxy": 0.06010355427861214,
+              "selection_cache": "sel_llama32_draw2_second_rr/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.47177961220963716
+            },
+            "randk": {
+              "D1_proxy": 0.4840276837348938,
+              "D2_proxy": 0.061028651893138885,
+              "selection_cache": "selbbhx_draw2_randk/step_1.json",
+              "n_selected": 2707,
+              "heldout_accuracy": 0.4716836244960645
+            }
+          },
+          "ranking_D1_proxy_best_first": [
+            "dsmc",
+            "second_rr",
+            "first_rr",
+            "randk"
+          ],
+          "dsmc_closer_than_random_D1_proxy": true,
+          "first_rr_closer_than_random_D1_proxy": true,
+          "ranking_D2_proxy_best_first": [
+            "dsmc",
+            "second_rr",
+            "randk",
+            "first_rr"
+          ],
+          "dsmc_closer_than_random_D2_proxy": true,
+          "first_rr_closer_than_random_D2_proxy": false
+        }
+      },
+      "summary": {
+        "D1_proxy": {
+          "dsmc_closer_than_random": "3/3",
+          "first_rr_closer_than_random": "3/3",
+          "dsmc_mean_minus_random": -0.06263189514478047,
+          "first_rr_mean_minus_random": -0.03748279809951782
+        },
+        "D2_proxy": {
+          "dsmc_closer_than_random": "3/3",
+          "first_rr_closer_than_random": "1/3",
+          "dsmc_mean_minus_random": -0.01061790312329928,
+          "first_rr_mean_minus_random": 0.0003608216842015584
+        }
+      }
+    }
+  },
+  "VERDICT": {
+    "dsmc_D2_closer_than_random_both_stacks": true,
+    "first_rr_D1_closer_than_random_both_stacks": true,
+    "reading": "On a proxy-test set disjoint from every selection query, the frozen DSMC subsets remain closer than Random under D2 in every draw on both stacks, while the frozen First-RR subsets remain closer under signed D1. Both targeted subsets nevertheless have lower held-out BBH utility than Random. The ordering reversal therefore is not limited to measuring geometry on the examples used for selection.",
+    "scope": "The proxy set is sampled from the held-out query reservoir rather than the 5,209-example task-evaluation partition. This post-hoc analysis establishes frozen-subset geometry ordering only; it does not evaluate a selector trained against the proxy set."
+  }
+}

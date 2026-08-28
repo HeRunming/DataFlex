@@ -7152,5 +7152,18 @@
       "user_tag": "user",
       "assistant_tag": "assistant"
     }
+  },
+  "bbhx_proxy_target": {
+    "file_name": "bbh_external/query_prompts/bbh_proxy_test_prompts.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant"
+    }
   }
 }

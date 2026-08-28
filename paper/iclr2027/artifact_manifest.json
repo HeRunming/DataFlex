@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "paper_source": {
+    "path": "paper/iclr2027/main.tex",
+    "sha256": "cc1de39fbdec29d58dc8af6d2e94617dae61cd55077ce73c240960f05bebb2a9",
+    "bytes": 52622
+  },
+  "scope": "Portable mapping from each major paper figure/table to committed result artifacts, analysis code, frozen protocols, and run metadata.",
+  "notes": [
+    "Paths are repository-relative; external model, gradient, adapter, and generation caches are not included.",
+    "Post-hoc analyses are labelled as such in the paper and their protocol files.",
+    "Hashes identify the exact repository files used when this manifest was generated."
+  ],
+  "objects": [
+    {
+      "label": "fig:chain",
+      "paper_object": "Figure 1: BBH surrogate chain",
+      "claim": "DSMC improves measured geometry and targeting loss while same-item and held-out exact match decline relative to Random.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_forensic_geometry.json",
+          "sha256": "17236a463dec918ce31e72bf6c008145d8100bc7797a8c5415e3a244c927c10e",
+          "bytes": 7118
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_forensic_query_loss.json",
+          "sha256": "25cfcb561a0dec0c63d3f1fe8728cd2e9f2bd56208ced8937d2d639480640eed",
+          "bytes": 12038
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_forensic_query_cot.json",
+          "sha256": "df98b6d9ca1b3d3b428d392964dbf27ad28de748ca698d89f336236dba84d8aa",
+          "bytes": 4217
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/llama32_results.json",
+          "sha256": "118cef58cff8b013609cfe7b40eabb2d0574049e93f2b5e6384d3f97efc3d715",
+          "bytes": 7364
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/llama32_diagnostics.json",
+          "sha256": "17ffa55087160a201f8b044e0e69c576db73ae9f0b7f514d9a7e37a402001abb",
+          "bytes": 10988
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "paper/iclr2027/scripts/make_surrogate_chain.py",
+          "sha256": "2ad3caebd3b1042355171ad9d03c09d168948a79c0bac92f352ed7fe978e2bc8",
+          "bytes": 8490
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_external.md",
+          "sha256": "019c726e6aff030c0f2681ca36ad44b7b149970dbcd70b4e3143873279196a04",
+          "bytes": 60172
+        },
+        {
+          "path": "experiments/less_aligned/prereg_second_model.md",
+          "sha256": "24d2e2f079c79ab963679cf6c88d6cdbfa3256679698c64d9fd5d313b0a62867",
+          "bytes": 9000
+        }
+      ],
+      "configs_or_manifests": [
+        {
+          "path": "experiments/less_aligned/bbh_external_launch_manifest.json",
+          "sha256": "0cd56bacfbddd26f1f533b25ae5de1e9049476b247f5711b0dd004fa29f449ad",
+          "bytes": 27592
+        },
+        {
+          "path": "experiments/less_aligned/bbh_eval_pin_manifest.json",
+          "sha256": "c5d916afd889847302bf5d28a8aace8fcd086ea9b2abf50551b62c81bc79ba74",
+          "bytes": 33710
+        }
+      ]
+    },
+    {
+      "label": "tab:attribution",
+      "paper_object": "Table 1: Llama-2 MMLU representation by selector attribution",
+      "claim": "The second-moment representation and MMD-style selector contribute separately in the controlled 2x2 comparison.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/attribution_2x2_results.csv",
+          "sha256": "d0956fa2f0506cd6cb9aa16362e0bb6750a889319b1d8084670ccd2fe322ff8f",
+          "bytes": 438
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/attribution_2x2_summary.md",
+          "sha256": "d0d2c30e03bd6b7b030280e499f74c3b7039a87b01df813cdaa330a524d93650",
+          "bytes": 4224
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "experiments/less_aligned/run_attribution_2x2.sh",
+          "sha256": "38067488297a3202db3ebcec69012bd7416df651f3d71ce6af7c765aaca22f0a",
+          "bytes": 8531
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/target_draw_protocol.md",
+          "sha256": "397308c86233f12a470b08ce69a719785d6660b45645da6d1aab269cd33c2745",
+          "bytes": 14527
+        }
+      ],
+      "configs_or_manifests": []
+    },
+    {
+      "label": "tab:mmlu_crossstack",
+      "paper_object": "Table 2: cross-stack MMLU comparison",
+      "claim": "The Llama-2 method-level advantage over round-robin selectors does not transfer to Llama-3.2.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/full5draw_5pct_aggregate.csv",
+          "sha256": "79008b3892a79669c4bd9f362c42de670e05bd5fd35ed24aa5e7db0f2a0a0558",
+          "bytes": 7867
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/full5draw_5pct_results.md",
+          "sha256": "b43568d42c627071ff6d388b0c36746e6fb7d62ddacca4dbbe7c009f8cf71cf7",
+          "bytes": 4204
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/llama32_mmlu5pct_results.json",
+          "sha256": "8229a1f7f5bc1fffa3d9f865e7537a96cf1b37a4b8a039306702af64c0e7535f",
+          "bytes": 17615
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/analyse_llama32_mmlu5pct.py",
+          "sha256": "5da9613f70731d9b791e173b6f2bcfd894f0554acd1ae5751806766f899212fc",
+          "bytes": 7819
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/target_draw_protocol.md",
+          "sha256": "397308c86233f12a470b08ce69a719785d6660b45645da6d1aab269cd33c2745",
+          "bytes": 14527
+        },
+        {
+          "path": "experiments/less_aligned/prereg_llama32_mmlu5pct.md",
+          "sha256": "d54ee0897296ad24f339c27e55e107a0e43a00d96042541cdb520acd922369b5",
+          "bytes": 7578
+        }
+      ],
+      "configs_or_manifests": [
+        {
+          "path": "experiments/less_aligned/full5draw_launch_manifest.json",
+          "sha256": "3b05be8e5ed4c51579ae61f101307a89b6c3d08c88faa221a1bd6be61ca134c3",
+          "bytes": 548
+        },
+        {
+          "path": "experiments/less_aligned/llama32_mmlu5pct_run_state.json",
+          "sha256": "d309856689094ccca41fd97ea6434217939d2ad5480bace58ce128799daf7480",
+          "bytes": 66684
+        }
+      ]
+    },
+    {
+      "label": "tab:bbh",
+      "paper_object": "Table 3: held-out BBH exact match",
+      "claim": "DSMC underperforms Random in every query/selection draw on both model stacks.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_external_results.md",
+          "sha256": "411635562ac498d54ecf7b5cebf140489d0cc601f4cc6ce652e86f79f79e41d0",
+          "bytes": 19579
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/llama32_results.json",
+          "sha256": "118cef58cff8b013609cfe7b40eabb2d0574049e93f2b5e6384d3f97efc3d715",
+          "bytes": 7364
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/run_bbh_full.py",
+          "sha256": "3e1fd27adc313fcd17b894cb3da3517bf39e65843e55da9b80155569d9798f15",
+          "bytes": 8256
+        },
+        {
+          "path": "scripts/analyse_llama32_results.py",
+          "sha256": "b45df7ac357889fdf52b6f398961035648e2de53196b4eac5177c2973df6e25a",
+          "bytes": 6657
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_external.md",
+          "sha256": "019c726e6aff030c0f2681ca36ad44b7b149970dbcd70b4e3143873279196a04",
+          "bytes": 60172
+        },
+        {
+          "path": "experiments/less_aligned/prereg_second_model.md",
+          "sha256": "24d2e2f079c79ab963679cf6c88d6cdbfa3256679698c64d9fd5d313b0a62867",
+          "bytes": 9000
+        }
+      ],
+      "configs_or_manifests": [
+        {
+          "path": "experiments/less_aligned/bbh_full_run_state.json",
+          "sha256": "3a249b9a561ae3d094c76f729b0ecb3cf585124784842a216f6cce68136b1793",
+          "bytes": 23078
+        },
+        {
+          "path": "experiments/less_aligned/llama32_full_run_state.json",
+          "sha256": "d709d04be7ed7b360d7797c2fbcd1870bfb5ceadb4a744c917d399259dd16509",
+          "bytes": 42595
+        }
+      ]
+    },
+    {
+      "label": "tab:mmlu_main",
+      "paper_object": "Appendix: Llama-2 MMLU budgets",
+      "claim": "At 1%, DSMC and Random both exceed the no-SFT mean while DSMC is geometrically closer and lower utility.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/full5draw_5pct_aggregate.csv",
+          "sha256": "79008b3892a79669c4bd9f362c42de670e05bd5fd35ed24aa5e7db0f2a0a0558",
+          "bytes": 7867
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/full1pct_aggregate.csv",
+          "sha256": "6b5010ac252a6f83921bca2afe25b9040a848fa63a3791d80ac72933402fde53",
+          "bytes": 8696
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/full1pct_budget_interaction_results.md",
+          "sha256": "3e4394d6af4e9194770fcd387c1c25fb99bd0d6abf823e1e7e2013ba8d7ae2f3",
+          "bytes": 5342
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/base_model_reference.json",
+          "sha256": "52356af87b67fcbc48ac274df31acf41eb527c6acc4a4564702b0b0bc0c1f410",
+          "bytes": 364
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/forensic_mechanism_analysis.md",
+          "sha256": "de5091349b1ff22fde2cf0ee68c4da0cf2c46653aeaaf308f6452c7feba1d911",
+          "bytes": 6480
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/forensic_robustness.py",
+          "sha256": "a4f020fb58104b87c03d81ed4f9fd0b8a3210a178c0e306869f3139eff7730f6",
+          "bytes": 5873
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/target_draw_protocol.md",
+          "sha256": "397308c86233f12a470b08ce69a719785d6660b45645da6d1aab269cd33c2745",
+          "bytes": 14527
+        },
+        {
+          "path": "experiments/less_aligned/prereg_1pct_equalstep.md",
+          "sha256": "a3b4026e9519bc4192bfe7558571dabf04e9634ea06e29b223da9a314ae1e9f7",
+          "bytes": 3933
+        }
+      ],
+      "configs_or_manifests": [
+        {
+          "path": "experiments/less_aligned/full5draw_launch_manifest.json",
+          "sha256": "3b05be8e5ed4c51579ae61f101307a89b6c3d08c88faa221a1bd6be61ca134c3",
+          "bytes": 548
+        },
+        {
+          "path": "experiments/less_aligned/full1pct_launch_manifest.json",
+          "sha256": "5c99c39f2c7fd079c4806136a881d297db7e0ea32e0c10544cc60e019ef1869f",
+          "bytes": 1121
+        },
+        {
+          "path": "experiments/less_aligned/targetdraw_10draw_master_manifest.json",
+          "sha256": "5b1a02437b9fe24ccfcc4d6e8c45f637611c350dacbc1d8fbde1ca93af08c913",
+          "bytes": 39158
+        }
+      ]
+    },
+    {
+      "label": "tab:signed_d1",
+      "paper_object": "Appendix: signed first-moment BBH discrepancy",
+      "claim": "First-RR is closer than Random under signed D1 in every draw on both stacks but has lower downstream utility.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_signed_d1_taskwise.json",
+          "sha256": "062b896c2a84a502114ca1168838180082b6d147be63530cd6df6293c03c2f43",
+          "bytes": 24936
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/analyse_bbh_signed_and_taskwise.py",
+          "sha256": "343a87f72f9cc7a6296e3727c732a0d380011a7a9aa71de2a0f399b5b1fc212e",
+          "bytes": 13506
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_external.md",
+          "sha256": "019c726e6aff030c0f2681ca36ad44b7b149970dbcd70b4e3143873279196a04",
+          "bytes": 60172
+        },
+        {
+          "path": "experiments/less_aligned/prereg_second_model.md",
+          "sha256": "24d2e2f079c79ab963679cf6c88d6cdbfa3256679698c64d9fd5d313b0a62867",
+          "bytes": 9000
+        }
+      ],
+      "configs_or_manifests": []
+    },
+    {
+      "label": "tab:taskwise",
+      "paper_object": "Appendix: task-level BBH heterogeneity",
+      "claim": "The Llama-2 gap is broad across subtasks; the smaller Llama-3.2 gap is more heterogeneous.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_signed_d1_taskwise.json",
+          "sha256": "062b896c2a84a502114ca1168838180082b6d147be63530cd6df6293c03c2f43",
+          "bytes": 24936
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/analyse_bbh_signed_and_taskwise.py",
+          "sha256": "343a87f72f9cc7a6296e3727c732a0d380011a7a9aa71de2a0f399b5b1fc212e",
+          "bytes": 13506
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_external.md",
+          "sha256": "019c726e6aff030c0f2681ca36ad44b7b149970dbcd70b4e3143873279196a04",
+          "bytes": 60172
+        },
+        {
+          "path": "experiments/less_aligned/prereg_second_model.md",
+          "sha256": "24d2e2f079c79ab963679cf6c88d6cdbfa3256679698c64d9fd5d313b0a62867",
+          "bytes": 9000
+        }
+      ],
+      "configs_or_manifests": []
+    },
+    {
+      "label": "tab:proxy_geometry",
+      "paper_object": "Appendix: query-disjoint proxy geometry",
+      "claim": "Frozen DSMC remains closer than Random under D2 in every draw on both stacks on a proxy set disjoint from all selection queries.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_proxy_geometry.json",
+          "sha256": "0684a638d6705c23e48f5f5950b175b10cfaef9c923792f0cd97994b3f075f40",
+          "bytes": 13356
+        },
+        {
+          "path": "data/bbh_external/bbh_proxy_test_manifest.json",
+          "sha256": "38d86cd0a3c585b69919790a8fb01488f7921cdc39e25281a7e8aac9608ccc1f",
+          "bytes": 77068
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/build_bbh_proxy_test.py",
+          "sha256": "7cedbbdd33459f9f4709112ee76fb700a6350a62b8b3b6b8289da4a8ef9881f8",
+          "bytes": 6342
+        },
+        {
+          "path": "scripts/analyse_bbh_proxy_geometry.py",
+          "sha256": "3f286eb344fb9bedd65e6578282880ef88f2509c2e7d5d4d9c0c2b22d8dbdd55",
+          "bytes": 8913
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_proxy_geometry.md",
+          "sha256": "5c8413fd4deee180c45976463b234988d5bb6daa4b7246993ccf3b8b7efedc19",
+          "bytes": 2331
+        }
+      ],
+      "configs_or_manifests": [
+        {
+          "path": "experiments/less_aligned/configs/draws/select_proxy_l2.yaml",
+          "sha256": "e37a80705da454c7f1bcbb599caa437f7343ea5ba1f5de8b90059549634616ce",
+          "bytes": 1130
+        },
+        {
+          "path": "experiments/less_aligned/configs/draws/select_proxy_l32.yaml",
+          "sha256": "ec3de7943ab210da54ea38b1becfda6f686cae0d7433a2b61b83c5c683139e14",
+          "bytes": 1163
+        },
+        {
+          "path": "src/dataflex/configs/components_proxy_geometry.yaml",
+          "sha256": "7e555bc00dff7e0a94593d873d1eaad3375ea84c033d84d73b532487afa8124f",
+          "bytes": 633
+        },
+        {
+          "path": "data/dataset_info.json",
+          "sha256": "d66be69b36b9258a3fb6762cc34ae26a48fa56bee6821c42af02dbeda66125cc",
+          "bytes": 195120
+        }
+      ]
+    },
+    {
+      "label": "tab:evalctx",
+      "paper_object": "Appendix: evaluation-matched target-geometry sensitivity",
+      "claim": "Frozen DSMC remains closer than Random under evaluation-matched D2 in every draw on both stacks.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/evalctx_d2_sensitivity.json",
+          "sha256": "1b70aa174cbadd8acb54a05544e134ddb087f8ca5c61c01ed314240737f40769",
+          "bytes": 9567
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/forensic_evalctx_d2_sensitivity.py",
+          "sha256": "f373aa4372eb098a6cdce463d8e2465231f2412ccc664069fa62669d974fcefa",
+          "bytes": 8199
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_external.md",
+          "sha256": "019c726e6aff030c0f2681ca36ad44b7b149970dbcd70b4e3143873279196a04",
+          "bytes": 60172
+        },
+        {
+          "path": "experiments/less_aligned/prereg_second_model.md",
+          "sha256": "24d2e2f079c79ab963679cf6c88d6cdbfa3256679698c64d9fd5d313b0a62867",
+          "bytes": 9000
+        }
+      ],
+      "configs_or_manifests": []
+    },
+    {
+      "label": "tab:parser",
+      "paper_object": "Appendix: BBH parser-validity audit",
+      "claim": "The DSMC–Random utility gap persists conditional on parser-valid outputs and under conservative recovery.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_parser_validity.json",
+          "sha256": "6665ac34ff8a17a8148f8fcce369bba845085a997cf6b35d03e61be2b124f686",
+          "bytes": 20877
+        }
+      ],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/analyse_bbh_parser_validity.py",
+          "sha256": "068bdf766cbd4d2f89cad28d65e271da565bb746fa9ad279bf4dcdab5ddb01fd",
+          "bytes": 10905
+        }
+      ],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_parser_audit.md",
+          "sha256": "4283925bfdbf34dd93b91e734249dac1eea4d328760c22ce12e63f045f0791ad",
+          "bytes": 2073
+        }
+      ],
+      "configs_or_manifests": [
+        {
+          "path": "experiments/less_aligned/bbh_eval_pin_manifest.json",
+          "sha256": "c5d916afd889847302bf5d28a8aace8fcd086ea9b2abf50551b62c81bc79ba74",
+          "bytes": 33710
+        },
+        {
+          "path": "experiments/less_aligned/bbh_full_run_state.json",
+          "sha256": "3a249b9a561ae3d094c76f729b0ecb3cf585124784842a216f6cce68136b1793",
+          "bytes": 23078
+        },
+        {
+          "path": "experiments/less_aligned/llama32_full_run_state.json",
+          "sha256": "d709d04be7ed7b360d7797c2fbcd1870bfb5ceadb4a744c917d399259dd16509",
+          "bytes": 42595
+        }
+      ]
+    },
+    {
+      "label": "tab:cost",
+      "paper_object": "Appendix: compute and selection overhead",
+      "claim": "Reports measured training minutes and coarse stage-level accounting without treating them as microbenchmarks.",
+      "result_files": [
+        {
+          "path": "experiments/less_aligned/bbh_full_run_state.json",
+          "sha256": "3a249b9a561ae3d094c76f729b0ecb3cf585124784842a216f6cce68136b1793",
+          "bytes": 23078
+        },
+        {
+          "path": "experiments/less_aligned/llama32_full_run_state.json",
+          "sha256": "d709d04be7ed7b360d7797c2fbcd1870bfb5ceadb4a744c917d399259dd16509",
+          "bytes": 42595
+        },
+        {
+          "path": "experiments/less_aligned/llama32_mmlu5pct_run_state.json",
+          "sha256": "d309856689094ccca41fd97ea6434217939d2ad5480bace58ce128799daf7480",
+          "bytes": 66684
+        }
+      ],
+      "analysis_or_rendering": [],
+      "protocols": [
+        {
+          "path": "experiments/less_aligned/prereg_bbh_external.md",
+          "sha256": "019c726e6aff030c0f2681ca36ad44b7b149970dbcd70b4e3143873279196a04",
+          "bytes": 60172
+        },
+        {
+          "path": "experiments/less_aligned/prereg_second_model.md",
+          "sha256": "24d2e2f079c79ab963679cf6c88d6cdbfa3256679698c64d9fd5d313b0a62867",
+          "bytes": 9000
+        },
+        {
+          "path": "experiments/less_aligned/prereg_llama32_mmlu5pct.md",
+          "sha256": "d54ee0897296ad24f339c27e55e107a0e43a00d96042541cdb520acd922369b5",
+          "bytes": 7578
+        }
+      ],
+      "configs_or_manifests": []
+    }
+  ]
+}

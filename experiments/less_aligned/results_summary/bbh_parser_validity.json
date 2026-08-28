@@ -1,0 +1,460 @@
+{
+  "analysis": "BBH parser validity and conservative recovery",
+  "protocol": "experiments/less_aligned/prereg_bbh_parser_audit.md",
+  "status": "offline frozen-generation analysis; no regeneration or training",
+  "stacks": {
+    "llama2": {
+      "cells": {
+        "bbhx_draw0_dsmc_seed42": {
+          "n": 5209,
+          "standard_correct": 1901,
+          "standard_accuracy": 0.36494528700326356,
+          "standard_valid": 4868,
+          "standard_valid_rate": 0.934536379343444,
+          "conditional_accuracy_given_standard_valid": 0.39050944946589977,
+          "standard_invalid": 341,
+          "recovered_invalid_correct": 6,
+          "conservative_recovered_accuracy": 0.36609713956613554,
+          "invalid_with_gold_literal_in_final_500": 32,
+          "results_json": "bbhx_draw0_dsmc_seed42/results_2026-08-11T15-51-58.735933.json"
+        },
+        "bbhx_draw0_dsmc_seed1": {
+          "n": 5209,
+          "standard_correct": 1887,
+          "standard_accuracy": 0.36225763102322905,
+          "standard_valid": 4871,
+          "standard_valid_rate": 0.93511230562488,
+          "conditional_accuracy_given_standard_valid": 0.3873947854649969,
+          "standard_invalid": 338,
+          "recovered_invalid_correct": 4,
+          "conservative_recovered_accuracy": 0.3630255327318103,
+          "invalid_with_gold_literal_in_final_500": 25,
+          "results_json": "bbhx_draw0_dsmc_seed1/results_2026-08-12T08-41-35.857281.json"
+        },
+        "bbhx_draw0_randk_seed42": {
+          "n": 5209,
+          "standard_correct": 2044,
+          "standard_accuracy": 0.3923977730850451,
+          "standard_valid": 4849,
+          "standard_valid_rate": 0.9308888462276829,
+          "conditional_accuracy_given_standard_valid": 0.42153021241493094,
+          "standard_invalid": 360,
+          "recovered_invalid_correct": 16,
+          "conservative_recovered_accuracy": 0.3954693799193703,
+          "invalid_with_gold_literal_in_final_500": 37,
+          "results_json": "bbhx_draw0_randk_seed42/results_2026-08-11T15-54-57.584058.json"
+        },
+        "bbhx_draw0_randk_seed1": {
+          "n": 5209,
+          "standard_correct": 2050,
+          "standard_accuracy": 0.39354962564791707,
+          "standard_valid": 4873,
+          "standard_valid_rate": 0.9354962564791707,
+          "conditional_accuracy_given_standard_valid": 0.42068540939872767,
+          "standard_invalid": 336,
+          "recovered_invalid_correct": 10,
+          "conservative_recovered_accuracy": 0.3954693799193703,
+          "invalid_with_gold_literal_in_final_500": 34,
+          "results_json": "bbhx_draw0_randk_seed1/results_2026-08-12T15-18-46.167490.json"
+        },
+        "bbhx_draw1_dsmc_seed42": {
+          "n": 5209,
+          "standard_correct": 1917,
+          "standard_accuracy": 0.3680168938375888,
+          "standard_valid": 4881,
+          "standard_valid_rate": 0.9370320598963333,
+          "conditional_accuracy_given_standard_valid": 0.3927473878303626,
+          "standard_invalid": 328,
+          "recovered_invalid_correct": 2,
+          "conservative_recovered_accuracy": 0.36840084469187945,
+          "invalid_with_gold_literal_in_final_500": 25,
+          "results_json": "bbhx_draw1_dsmc_seed42/results_2026-08-12T19-27-37.994949.json"
+        },
+        "bbhx_draw1_dsmc_seed1": {
+          "n": 5209,
+          "standard_correct": 1882,
+          "standard_accuracy": 0.3612977538875024,
+          "standard_valid": 4871,
+          "standard_valid_rate": 0.93511230562488,
+          "conditional_accuracy_given_standard_valid": 0.3863683021966742,
+          "standard_invalid": 338,
+          "recovered_invalid_correct": 5,
+          "conservative_recovered_accuracy": 0.36225763102322905,
+          "invalid_with_gold_literal_in_final_500": 31,
+          "results_json": "bbhx_draw1_dsmc_seed1/results_2026-08-12T19-28-38.791297.json"
+        },
+        "bbhx_draw1_randk_seed42": {
+          "n": 5209,
+          "standard_correct": 2043,
+          "standard_accuracy": 0.3922057976578998,
+          "standard_valid": 4828,
+          "standard_valid_rate": 0.926857362257631,
+          "conditional_accuracy_given_standard_valid": 0.4231565865782933,
+          "standard_invalid": 381,
+          "recovered_invalid_correct": 22,
+          "conservative_recovered_accuracy": 0.39642925705509696,
+          "invalid_with_gold_literal_in_final_500": 55,
+          "results_json": "bbhx_draw1_randk_seed42/results_2026-08-13T04-18-54.156787.json"
+        },
+        "bbhx_draw1_randk_seed1": {
+          "n": 5209,
+          "standard_correct": 1997,
+          "standard_accuracy": 0.3833749280092148,
+          "standard_valid": 4857,
+          "standard_valid_rate": 0.9324246496448455,
+          "conditional_accuracy_given_standard_valid": 0.41115915173975703,
+          "standard_invalid": 352,
+          "recovered_invalid_correct": 15,
+          "conservative_recovered_accuracy": 0.3862545594163947,
+          "invalid_with_gold_literal_in_final_500": 45,
+          "results_json": "bbhx_draw1_randk_seed1/results_2026-08-13T04-18-31.057135.json"
+        },
+        "bbhx_draw2_dsmc_seed42": {
+          "n": 5209,
+          "standard_correct": 1883,
+          "standard_accuracy": 0.36148972931464773,
+          "standard_valid": 4852,
+          "standard_valid_rate": 0.9314647725091189,
+          "conditional_accuracy_given_standard_valid": 0.3880873866446826,
+          "standard_invalid": 357,
+          "recovered_invalid_correct": 9,
+          "conservative_recovered_accuracy": 0.36321750815895565,
+          "invalid_with_gold_literal_in_final_500": 38,
+          "results_json": "bbhx_draw2_dsmc_seed42/results_2026-08-13T08-28-54.377222.json"
+        },
+        "bbhx_draw2_dsmc_seed1": {
+          "n": 5209,
+          "standard_correct": 1878,
+          "standard_accuracy": 0.3605298521789211,
+          "standard_valid": 4868,
+          "standard_valid_rate": 0.934536379343444,
+          "conditional_accuracy_given_standard_valid": 0.38578471651602303,
+          "standard_invalid": 341,
+          "recovered_invalid_correct": 8,
+          "conservative_recovered_accuracy": 0.3620656555960837,
+          "invalid_with_gold_literal_in_final_500": 35,
+          "results_json": "bbhx_draw2_dsmc_seed1/results_2026-08-13T08-30-59.063940.json"
+        },
+        "bbhx_draw2_randk_seed42": {
+          "n": 5209,
+          "standard_correct": 2070,
+          "standard_accuracy": 0.39738913419082356,
+          "standard_valid": 4903,
+          "standard_valid_rate": 0.9412555192935305,
+          "conditional_accuracy_given_standard_valid": 0.42219049561492966,
+          "standard_invalid": 306,
+          "recovered_invalid_correct": 8,
+          "conservative_recovered_accuracy": 0.3989249376079862,
+          "invalid_with_gold_literal_in_final_500": 37,
+          "results_json": "bbhx_draw2_randk_seed42/results_2026-08-13T17-14-04.104673.json"
+        },
+        "bbhx_draw2_randk_seed1": {
+          "n": 5209,
+          "standard_correct": 2063,
+          "standard_accuracy": 0.3960453062008063,
+          "standard_valid": 4911,
+          "standard_valid_rate": 0.942791322710693,
+          "conditional_accuracy_given_standard_valid": 0.42007737731622885,
+          "standard_invalid": 298,
+          "recovered_invalid_correct": 8,
+          "conservative_recovered_accuracy": 0.3975811096179689,
+          "invalid_with_gold_literal_in_final_500": 32,
+          "results_json": "bbhx_draw2_randk_seed1/results_2026-08-13T17-14-44.951691.json"
+        }
+      },
+      "per_draw": {
+        "0": {
+          "dsmc": {
+            "standard_accuracy": 0.3636014590132463,
+            "standard_valid_rate": 0.934824342484162,
+            "conditional_accuracy_given_standard_valid": 0.38895211746544833,
+            "conservative_recovered_accuracy": 0.3645613361489729
+          },
+          "randk": {
+            "standard_accuracy": 0.3929736993664811,
+            "standard_valid_rate": 0.9331925513534267,
+            "conditional_accuracy_given_standard_valid": 0.4211078109068293,
+            "conservative_recovered_accuracy": 0.3954693799193703
+          }
+        },
+        "1": {
+          "dsmc": {
+            "standard_accuracy": 0.36465732386254557,
+            "standard_valid_rate": 0.9360721827606067,
+            "conditional_accuracy_given_standard_valid": 0.3895578450135184,
+            "conservative_recovered_accuracy": 0.3653292378575542
+          },
+          "randk": {
+            "standard_accuracy": 0.3877903628335573,
+            "standard_valid_rate": 0.9296410059512383,
+            "conditional_accuracy_given_standard_valid": 0.4171578691590252,
+            "conservative_recovered_accuracy": 0.39134190823574583
+          }
+        },
+        "2": {
+          "dsmc": {
+            "standard_accuracy": 0.3610097907467844,
+            "standard_valid_rate": 0.9330005759262814,
+            "conditional_accuracy_given_standard_valid": 0.3869360515803528,
+            "conservative_recovered_accuracy": 0.3626415818775197
+          },
+          "randk": {
+            "standard_accuracy": 0.3967172201958149,
+            "standard_valid_rate": 0.9420234210021117,
+            "conditional_accuracy_given_standard_valid": 0.4211339364655793,
+            "conservative_recovered_accuracy": 0.39825302361297754
+          }
+        }
+      },
+      "method_summary": {
+        "dsmc": {
+          "standard_accuracy": 0.36308952454085874,
+          "standard_valid_rate": 0.9346323670570167,
+          "conditional_accuracy_given_standard_valid": 0.38848200468643984,
+          "conservative_recovered_accuracy": 0.3641773852946823
+        },
+        "randk": {
+          "standard_accuracy": 0.39249376079861775,
+          "standard_valid_rate": 0.9349523261022589,
+          "conditional_accuracy_given_standard_valid": 0.4197998721771446,
+          "conservative_recovered_accuracy": 0.3950214372560312
+        }
+      },
+      "dsmc_minus_random": {
+        "standard_accuracy": -0.02940423625775901,
+        "invalid_rate": 0.00031995904524217966,
+        "conditional_accuracy_given_standard_valid": -0.031317867490704754,
+        "conservative_recovered_accuracy": -0.03084405196134893
+      }
+    },
+    "llama32": {
+      "cells": {
+        "l32_draw0_dsmc_seed42": {
+          "n": 5209,
+          "standard_correct": 2381,
+          "standard_accuracy": 0.4570934920330198,
+          "standard_valid": 4898,
+          "standard_valid_rate": 0.9402956421578038,
+          "conditional_accuracy_given_standard_valid": 0.486116782360147,
+          "standard_invalid": 311,
+          "recovered_invalid_correct": 33,
+          "conservative_recovered_accuracy": 0.4634286811288155,
+          "invalid_with_gold_literal_in_final_500": 77,
+          "results_json": "l32_draw0_dsmc_seed42/results_2026-08-16T16-52-59.908349.json"
+        },
+        "l32_draw0_dsmc_seed1": {
+          "n": 5209,
+          "standard_correct": 2409,
+          "standard_accuracy": 0.4624688039930889,
+          "standard_valid": 4916,
+          "standard_valid_rate": 0.9437511998464196,
+          "conditional_accuracy_given_standard_valid": 0.4900325467860049,
+          "standard_invalid": 293,
+          "recovered_invalid_correct": 33,
+          "conservative_recovered_accuracy": 0.4688039930888846,
+          "invalid_with_gold_literal_in_final_500": 77,
+          "results_json": "l32_draw0_dsmc_seed1/results_2026-08-16T16-55-06.696238.json"
+        },
+        "l32_draw0_randk_seed42": {
+          "n": 5209,
+          "standard_correct": 2480,
+          "standard_accuracy": 0.47609905932040697,
+          "standard_valid": 4876,
+          "standard_valid_rate": 0.9360721827606067,
+          "conditional_accuracy_given_standard_valid": 0.5086136177194421,
+          "standard_invalid": 333,
+          "recovered_invalid_correct": 31,
+          "conservative_recovered_accuracy": 0.4820502975619121,
+          "invalid_with_gold_literal_in_final_500": 85,
+          "results_json": "l32_draw0_randk_seed42/results_2026-08-16T19-29-41.246919.json"
+        },
+        "l32_draw0_randk_seed1": {
+          "n": 5209,
+          "standard_correct": 2450,
+          "standard_accuracy": 0.47033979650604724,
+          "standard_valid": 4832,
+          "standard_valid_rate": 0.9276252639662124,
+          "conditional_accuracy_given_standard_valid": 0.5070364238410596,
+          "standard_invalid": 377,
+          "recovered_invalid_correct": 31,
+          "conservative_recovered_accuracy": 0.4762910347475523,
+          "invalid_with_gold_literal_in_final_500": 84,
+          "results_json": "l32_draw0_randk_seed1/results_2026-08-16T19-04-18.856506.json"
+        },
+        "l32_draw1_dsmc_seed42": {
+          "n": 5209,
+          "standard_correct": 2394,
+          "standard_accuracy": 0.459589172585909,
+          "standard_valid": 4911,
+          "standard_valid_rate": 0.942791322710693,
+          "conditional_accuracy_given_standard_valid": 0.48747709224190594,
+          "standard_invalid": 298,
+          "recovered_invalid_correct": 37,
+          "conservative_recovered_accuracy": 0.466692263390286,
+          "invalid_with_gold_literal_in_final_500": 85,
+          "results_json": "l32_draw1_dsmc_seed42/results_2026-08-16T21-10-35.456595.json"
+        },
+        "l32_draw1_dsmc_seed1": {
+          "n": 5209,
+          "standard_correct": 2386,
+          "standard_accuracy": 0.4580533691687464,
+          "standard_valid": 4902,
+          "standard_valid_rate": 0.9410635438663851,
+          "conditional_accuracy_given_standard_valid": 0.48674010607915136,
+          "standard_invalid": 307,
+          "recovered_invalid_correct": 32,
+          "conservative_recovered_accuracy": 0.4641965828373968,
+          "invalid_with_gold_literal_in_final_500": 77,
+          "results_json": "l32_draw1_dsmc_seed1/results_2026-08-16T21-13-02.477329.json"
+        },
+        "l32_draw1_randk_seed42": {
+          "n": 5209,
+          "standard_correct": 2446,
+          "standard_accuracy": 0.4695718947974659,
+          "standard_valid": 4855,
+          "standard_valid_rate": 0.9320406987905548,
+          "conditional_accuracy_given_standard_valid": 0.5038105046343976,
+          "standard_invalid": 354,
+          "recovered_invalid_correct": 29,
+          "conservative_recovered_accuracy": 0.4751391821846804,
+          "invalid_with_gold_literal_in_final_500": 79,
+          "results_json": "l32_draw1_randk_seed42/results_2026-08-17T00-01-22.444823.json"
+        },
+        "l32_draw1_randk_seed1": {
+          "n": 5209,
+          "standard_correct": 2410,
+          "standard_accuracy": 0.4626607794202342,
+          "standard_valid": 4842,
+          "standard_valid_rate": 0.9295450182376656,
+          "conditional_accuracy_given_standard_valid": 0.49772821148285834,
+          "standard_invalid": 367,
+          "recovered_invalid_correct": 26,
+          "conservative_recovered_accuracy": 0.46765214052601267,
+          "invalid_with_gold_literal_in_final_500": 73,
+          "results_json": "l32_draw1_randk_seed1/results_2026-08-17T00-00-57.013147.json"
+        },
+        "l32_draw2_dsmc_seed42": {
+          "n": 5209,
+          "standard_correct": 2409,
+          "standard_accuracy": 0.4624688039930889,
+          "standard_valid": 4944,
+          "standard_valid_rate": 0.9491265118064888,
+          "conditional_accuracy_given_standard_valid": 0.48725728155339804,
+          "standard_invalid": 265,
+          "recovered_invalid_correct": 31,
+          "conservative_recovered_accuracy": 0.468420042234594,
+          "invalid_with_gold_literal_in_final_500": 74,
+          "results_json": "l32_draw2_dsmc_seed42/results_2026-08-17T01-46-29.328140.json"
+        },
+        "l32_draw2_dsmc_seed1": {
+          "n": 5209,
+          "standard_correct": 2443,
+          "standard_accuracy": 0.4689959685160299,
+          "standard_valid": 4938,
+          "standard_valid_rate": 0.9479746592436168,
+          "conditional_accuracy_given_standard_valid": 0.4947347104090725,
+          "standard_invalid": 271,
+          "recovered_invalid_correct": 30,
+          "conservative_recovered_accuracy": 0.4747552313303897,
+          "invalid_with_gold_literal_in_final_500": 66,
+          "results_json": "l32_draw2_dsmc_seed1/results_2026-08-17T01-44-05.291105.json"
+        },
+        "l32_draw2_randk_seed42": {
+          "n": 5209,
+          "standard_correct": 2457,
+          "standard_accuracy": 0.4716836244960645,
+          "standard_valid": 4933,
+          "standard_valid_rate": 0.9470147821078901,
+          "conditional_accuracy_given_standard_valid": 0.49807419420231097,
+          "standard_invalid": 276,
+          "recovered_invalid_correct": 29,
+          "conservative_recovered_accuracy": 0.47725091188327895,
+          "invalid_with_gold_literal_in_final_500": 77,
+          "results_json": "l32_draw2_randk_seed42/results_2026-08-17T04-48-40.129141.json"
+        },
+        "l32_draw2_randk_seed1": {
+          "n": 5209,
+          "standard_correct": 2457,
+          "standard_accuracy": 0.4716836244960645,
+          "standard_valid": 4928,
+          "standard_valid_rate": 0.9460549049721636,
+          "conditional_accuracy_given_standard_valid": 0.49857954545454547,
+          "standard_invalid": 281,
+          "recovered_invalid_correct": 35,
+          "conservative_recovered_accuracy": 0.4784027644461509,
+          "invalid_with_gold_literal_in_final_500": 83,
+          "results_json": "l32_draw2_randk_seed1/results_2026-08-17T04-59-13.545084.json"
+        }
+      },
+      "per_draw": {
+        "0": {
+          "dsmc": {
+            "standard_accuracy": 0.45978114801305436,
+            "standard_valid_rate": 0.9420234210021117,
+            "conditional_accuracy_given_standard_valid": 0.4880746645730759,
+            "conservative_recovered_accuracy": 0.46611633710885003
+          },
+          "randk": {
+            "standard_accuracy": 0.47321942791322713,
+            "standard_valid_rate": 0.9318487233634095,
+            "conditional_accuracy_given_standard_valid": 0.5078250207802508,
+            "conservative_recovered_accuracy": 0.4791706661547322
+          }
+        },
+        "1": {
+          "dsmc": {
+            "standard_accuracy": 0.4588212708773277,
+            "standard_valid_rate": 0.941927433288539,
+            "conditional_accuracy_given_standard_valid": 0.4871085991605286,
+            "conservative_recovered_accuracy": 0.4654444231138414
+          },
+          "randk": {
+            "standard_accuracy": 0.46611633710885003,
+            "standard_valid_rate": 0.9307928585141102,
+            "conditional_accuracy_given_standard_valid": 0.500769358058628,
+            "conservative_recovered_accuracy": 0.4713956613553465
+          }
+        },
+        "2": {
+          "dsmc": {
+            "standard_accuracy": 0.46573238625455937,
+            "standard_valid_rate": 0.9485505855250528,
+            "conditional_accuracy_given_standard_valid": 0.4909959959812353,
+            "conservative_recovered_accuracy": 0.4715876367824918
+          },
+          "randk": {
+            "standard_accuracy": 0.4716836244960645,
+            "standard_valid_rate": 0.9465348435400269,
+            "conditional_accuracy_given_standard_valid": 0.4983268698284282,
+            "conservative_recovered_accuracy": 0.47782683816471494
+          }
+        }
+      },
+      "method_summary": {
+        "dsmc": {
+          "standard_accuracy": 0.4614449350483138,
+          "standard_valid_rate": 0.9441671466052345,
+          "conditional_accuracy_given_standard_valid": 0.4887264199049466,
+          "conservative_recovered_accuracy": 0.4677161323350611
+        },
+        "randk": {
+          "standard_accuracy": 0.47033979650604724,
+          "standard_valid_rate": 0.9363921418058488,
+          "conditional_accuracy_given_standard_valid": 0.5023070828891023,
+          "conservative_recovered_accuracy": 0.4761310552249312
+        }
+      },
+      "dsmc_minus_random": {
+        "standard_accuracy": -0.008894861457733438,
+        "invalid_rate": -0.007775004799385643,
+        "conditional_accuracy_given_standard_valid": -0.013580662984155722,
+        "conservative_recovered_accuracy": -0.008414922889870113
+      }
+    }
+  },
+  "VERDICT": {
+    "conditional_accuracy_ordering_persists_both_stacks": true,
+    "dsmc_lower_under_conservative_recovery_both_stacks": true,
+    "reading": "The standard-parser invalid-rate difference is negligible on Llama-2 (+0.03 percentage points for DSMC) and favours DSMC on Llama-3.2 (-0.78 points). More importantly, DSMC remains below Random both conditional on standard-valid outputs and under the frozen conservative recovery rule on both stacks. The observed utility gap is therefore not explained by DSMC merely producing more unparseable answers. This audit does not establish semantic correctness beyond the tested extraction rules."
+  }
+}
