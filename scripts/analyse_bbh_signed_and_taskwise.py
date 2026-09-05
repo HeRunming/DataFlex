@@ -12,7 +12,6 @@ No model loading, selection, or training is performed.
 from __future__ import annotations
 
 import argparse
-import glob
 import json
 import random
 import statistics as st
@@ -68,23 +67,9 @@ def aggregate_task_differences(state_path: Path, id_prefix: str):
             for seed in SEEDS:
                 aid = f"{id_prefix}_draw{draw}_{method}_seed{seed}"
                 row = cells.get(aid)
-                if row is not None:
-                    result_path = row["results_json"]
-                elif id_prefix == "bbhx":
-                    # Two draw-0 seed-42 cells were completed during the
-                    # pre-launch canary and are not duplicated in the final
-                    # run-state file. They are nevertheless frozen result
-                    # artifacts used by the committed aggregate.
-                    pattern = (
-                        f"/jizhicfs/karonhe/dataflex_saves/eval_results/"
-                        f"bbh_external/{aid}/**/results_*.json"
-                    )
-                    hits = sorted(glob.glob(pattern, recursive=True))
-                    if len(hits) != 1:
-                        raise KeyError(f"{aid}: expected one canary result, got {hits}")
-                    result_path = hits[0]
-                else:
+                if row is None:
                     raise KeyError(aid)
+                result_path = row["results_json"]
                 scores_i, counts = load_subtasks(result_path)
                 if counts_ref is None:
                     counts_ref = counts

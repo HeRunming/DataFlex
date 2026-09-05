@@ -84,10 +84,13 @@ OBJECTS = [
         (
             "experiments/less_aligned/results_summary/bbh_external_results.md",
             "experiments/less_aligned/results_summary/llama32_results.json",
+            "experiments/less_aligned/results_summary/bbh_draw_uncertainty.json",
         ),
         (
             "scripts/run_bbh_full.py",
             "scripts/analyse_llama32_results.py",
+            "scripts/analyse_bbh_draw_uncertainty.py",
+            "scripts/validate_bbh_run_state.py",
         ),
         (
             "experiments/less_aligned/prereg_bbh_external.md",
@@ -96,6 +99,7 @@ OBJECTS = [
         (
             "experiments/less_aligned/bbh_full_run_state.json",
             "experiments/less_aligned/llama32_full_run_state.json",
+            "experiments/less_aligned/results_summary/bbh_run_state_validation.json",
         ),
     ),
     entry(
@@ -189,13 +193,14 @@ OBJECTS = [
     entry(
         "tab:cost",
         "Appendix: compute and selection overhead",
-        "Reports measured training minutes and coarse stage-level accounting without treating them as microbenchmarks.",
+        "Reports summed per-adapter elapsed time and coarse stage-level accelerator accounting without treating either as a microbenchmark.",
         (
             "experiments/less_aligned/bbh_full_run_state.json",
             "experiments/less_aligned/llama32_full_run_state.json",
             "experiments/less_aligned/llama32_mmlu5pct_run_state.json",
+            "experiments/less_aligned/results_summary/bbh_run_state_validation.json",
         ),
-        (),
+        ("scripts/validate_bbh_run_state.py",),
         (
             "experiments/less_aligned/prereg_bbh_external.md",
             "experiments/less_aligned/prereg_second_model.md",

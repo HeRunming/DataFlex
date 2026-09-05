@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the paper's conceptual/result figure as a dependency-free PDF."""
+"""Generate the paper's draw-level paired-slope figure as a vector PDF."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ def esc(text: str) -> str:
 
 
 class PDF:
-    def __init__(self, width: int = 1000, height: int = 400):
+    def __init__(self, width: int = 1120, height: int = 460):
         self.width = width
         self.height = height
         self.ops: list[str] = []
@@ -65,6 +65,30 @@ class PDF:
             f"{x:.1f} {y:.1f} {w:.1f} {h:.1f} re B Q"
         )
 
+    def circle(
+        self,
+        x: float,
+        y: float,
+        radius: float,
+        fill=(255, 255, 255),
+        stroke=(50, 50, 50),
+        width=1.5,
+    ) -> None:
+        # Four cubic Bézier arcs approximate a circle.
+        k = 0.5522847498 * radius
+        self.ops.append(
+            f"q {self.color(fill)} rg {self.color(stroke)} RG {width} w "
+            f"{x + radius:.1f} {y:.1f} m "
+            f"{x + radius:.1f} {y + k:.1f} {x + k:.1f} {y + radius:.1f} "
+            f"{x:.1f} {y + radius:.1f} c "
+            f"{x - k:.1f} {y + radius:.1f} {x - radius:.1f} {y + k:.1f} "
+            f"{x - radius:.1f} {y:.1f} c "
+            f"{x - radius:.1f} {y - k:.1f} {x - k:.1f} {y - radius:.1f} "
+            f"{x:.1f} {y - radius:.1f} c "
+            f"{x + k:.1f} {y - radius:.1f} {x + radius:.1f} {y - k:.1f} "
+            f"{x + radius:.1f} {y:.1f} c B Q"
+        )
+
     def text(
         self,
         x: float,
@@ -80,6 +104,8 @@ class PDF:
         # centering short labels.
         if align == "center":
             x -= len(text) * size * 0.26
+        elif align == "right":
+            x -= len(text) * size * 0.52
         self.ops.append(
             f"BT {self.color(rgb)} rg {font} {size:.1f} Tf "
             f"1 0 0 1 {x:.1f} {y:.1f} Tm ({esc(text)}) Tj ET"
@@ -123,7 +149,9 @@ class PDF:
         objects.append(b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>")
         objects.append(b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>")
 
-        data = bytearray(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n")
+        # Include a NUL in the binary marker so version-control tools classify
+        # the generated asset as binary rather than line-oriented text.
+        data = bytearray(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\x00\n")
         offsets = [0]
         for i, obj in enumerate(objects, 1):
             offsets.append(len(data))
@@ -145,114 +173,166 @@ class PDF:
         path.write_bytes(data)
 
 
+def mean_cell(cells, prefix, draw, method, key):
+    return sum(cells[f"{prefix}_draw{draw}_{method}_seed{s}"][key] for s in (42, 1)) / 2
+
+
 def load_numbers():
     l2_geom = json.loads((SUMMARY / "bbh_forensic_geometry.json").read_text())
     l2_loss = json.loads((SUMMARY / "bbh_forensic_query_loss.json").read_text())
     l2_cot = json.loads((SUMMARY / "bbh_forensic_query_cot.json").read_text())
     l32 = json.loads((SUMMARY / "llama32_results.json").read_text())
     l32_diag = json.loads((SUMMARY / "llama32_diagnostics.json").read_text())
-    return {
-        "l2": {
-            "d2": (
-                l2_geom["pooled_secondary"]["per_method"]["dsmc"]["D2_mean"]
-                - l2_geom["pooled_secondary"]["per_method"]["randk"]["D2_mean"]
-            ),
-            "ce": (
-                l2_loss["method_summary"]["dsmc"]["delta_query_loss_mean"]
-                - l2_loss["method_summary"]["randk"]["delta_query_loss_mean"]
-            ),
-            "qem": (
-                l2_cot["methods"]["dsmc"]["delta_query_cot_em_vs_base"]
-                - l2_cot["methods"]["randk"]["delta_query_cot_em_vs_base"]
-            )
-            * 100,
-            "hem": (
-                l2_cot["methods"]["dsmc"]["heldout_em_mean"]
-                - l2_cot["methods"]["randk"]["heldout_em_mean"]
-            )
-            * 100,
-        },
-        "l32": {
-            "d2": sum(
-                x["D2"]["dsmc"] - x["D2"]["randk"]
-                for x in l32["geometry"].values()
-            )
-            / 3,
-            "ce": (
-                l32_diag["method_summary"]["dsmc"]["d_wrapped_ce_mean"]
-                - l32_diag["method_summary"]["randk"]["d_wrapped_ce_mean"]
-            ),
-            "qem": (
-                l32_diag["method_summary"]["dsmc"]["d_cot_em_mean"]
-                - l32_diag["method_summary"]["randk"]["d_cot_em_mean"]
-            )
-            * 100,
-            "hem": (
-                l32["methods"]["dsmc"]["mean_over_draws"]
-                - l32["methods"]["randk"]["mean_over_draws"]
-            )
-            * 100,
-        },
+    out = {"Llama-2-7B": {}, "Llama-3.2-3B": {}}
+
+    out["Llama-2-7B"]["d2"] = {
+        method: [
+            l2_geom["per_draw"][str(d)]["methods"][method]["D2_to_Q"]
+            for d in range(3)
+        ]
+        for method in ("randk", "dsmc")
     }
+    out["Llama-2-7B"]["query_ce"] = {
+        method: [
+            sum(
+                l2_loss["cells"][f"bbhx_draw{d}_{method}_seed{s}"]["query_loss"]
+                for s in (42, 1)
+            )
+            / 2
+            for d in range(3)
+        ]
+        for method in ("randk", "dsmc")
+    }
+    out["Llama-2-7B"]["same_item"] = {
+        method: [
+            x * 100
+            for x in l2_cot["methods"][method]["query_cot_em_per_draw"]
+        ]
+        for method in ("randk", "dsmc")
+    }
+    out["Llama-2-7B"]["heldout"] = {
+        method: [
+            l2_geom["per_draw"][str(d)]["methods"][method]["acc_seed_avg"] * 100
+            for d in range(3)
+        ]
+        for method in ("randk", "dsmc")
+    }
+
+    out["Llama-3.2-3B"]["d2"] = {
+        method: [l32["geometry"][str(d)]["D2"][method] for d in range(3)]
+        for method in ("randk", "dsmc")
+    }
+    out["Llama-3.2-3B"]["query_ce"] = {
+        method: [
+            mean_cell(l32_diag["cells"], "l32", d, method, "wrapped_ce")
+            for d in range(3)
+        ]
+        for method in ("randk", "dsmc")
+    }
+    out["Llama-3.2-3B"]["same_item"] = {
+        method: [
+            mean_cell(l32_diag["cells"], "l32", d, method, "cot_em") * 100
+            for d in range(3)
+        ]
+        for method in ("randk", "dsmc")
+    }
+    out["Llama-3.2-3B"]["heldout"] = {
+        method: [
+            l32["per_draw"][str(d)][method]["draw_mean"] * 100
+            for d in range(3)
+        ]
+        for method in ("randk", "dsmc")
+    }
+    return out
+
+
+PANELS = (
+    ("d2", "Target D2", "lower is better", lambda x: f"{x:.3f}"),
+    ("query_ce", "Wrapped query CE", "lower is better", lambda x: f"{x:.1f}"),
+    ("same_item", "Same-item EM", "higher is better", lambda x: f"{x:.0f}%"),
+    ("heldout", "Held-out EM", "higher is better", lambda x: f"{x:.1f}%"),
+)
+
+
+def draw_panel(p, x, y, width, height, values, formatter, draw_colors):
+    random_color = (218, 124, 48)
+    dsmc_color = (48, 92, 151)
+    grid = (210, 210, 210)
+    axis = (95, 95, 95)
+    x_rand = x + width * 0.34
+    x_dsmc = x + width * 0.78
+    y_bottom = y + 24
+    y_top = y + height - 15
+
+    all_values = values["randk"] + values["dsmc"]
+    lo, hi = min(all_values), max(all_values)
+    span = hi - lo
+    pad = max(span * 0.18, abs(hi) * 0.015, 1e-4)
+    lo, hi = lo - pad, hi + pad
+
+    def sy(v):
+        return y_bottom + (v - lo) / (hi - lo) * (y_top - y_bottom)
+
+    # Axes, three horizontal guides, and y tick labels.
+    p.line(x + 42, y_bottom, x + 42, y_top, rgb=axis, width=1)
+    p.line(x + 42, y_bottom, x + width - 8, y_bottom, rgb=axis, width=1)
+    for frac in (0.0, 0.5, 1.0):
+        yy = y_bottom + frac * (y_top - y_bottom)
+        p.line(x + 42, yy, x + width - 8, yy, rgb=grid, width=0.7)
+        p.text(x + 37, yy - 3, formatter(lo + frac * (hi - lo)), 9, rgb=axis, align="right")
+
+    for d, color in enumerate(draw_colors):
+        yr = sy(values["randk"][d])
+        yd = sy(values["dsmc"][d])
+        p.line(x_rand, yr, x_dsmc, yd, rgb=color, width=2.2)
+        p.circle(x_rand, yr, 4.5, fill=random_color, stroke=color, width=1.2)
+        p.circle(x_dsmc, yd, 4.5, fill=dsmc_color, stroke=color, width=1.2)
+
+    p.text(x_rand, y + 7, "Random", 9.5, rgb=random_color, bold=True, align="center")
+    p.text(x_dsmc, y + 7, "DSMC", 9.5, rgb=dsmc_color, bold=True, align="center")
 
 
 def main() -> None:
     n = load_numbers()
     p = PDF()
     blue = (48, 92, 151)
-    green = (74, 145, 84)
     orange = (218, 124, 48)
-    red = (174, 54, 52)
     gray = (92, 92, 92)
+    draw_colors = ((74, 85, 104), (116, 126, 145), (158, 166, 181))
 
-    p.text(35, 365, "BBH: three-draw mean DSMC - Random contrasts", 23, bold=True)
-    p.text(
-        35,
-        335,
-        "Lower is better for D2 and targeting loss; higher is better for exact match.",
-        16,
-        rgb=gray,
-    )
-    x_positions = [235, 440, 640, 835]
-    headings = ["Target D2", "Targeting loss", "Same-item EM", "Held-out EM"]
-    for x, h in zip(x_positions, headings):
-        p.text(x, 290, h, 16, rgb=gray, bold=True, align="center")
+    p.text(20, 435, "BBH paired Random-to-DSMC changes across three query draws", 20, bold=True)
+    p.text(20, 414, "Each panel uses its own y-scale; lines connect the same draw.", 11.5, rgb=gray)
+    p.circle(760, 421, 4, fill=orange, stroke=orange)
+    p.text(770, 417, "Random", 10, rgb=orange)
+    p.circle(835, 421, 4, fill=blue, stroke=blue)
+    p.text(845, 417, "DSMC", 10, rgb=blue)
+    for d, color in enumerate(draw_colors):
+        xx = 915 + d * 58
+        p.line(xx, 421, xx + 18, 421, rgb=color, width=2.2)
+        p.text(xx + 23, 417, f"D{d}", 9.5, rgb=color)
 
-    rows = [
-        ("Llama-2-7B", n["l2"], blue),
-        ("Llama-3.2-3B", n["l32"], green),
-    ]
-    ys = [205, 115]
-    for (name, vals, color), y in zip(rows, ys):
-        p.text(30, y + 10, name, 17, rgb=color, bold=True)
-        p.rect(150, y - 10, 170, 52, fill=(239, 248, 239), stroke=green)
-        p.text(
-            235,
-            y + 11,
-            f"{vals['d2']:+.3f}",
-            16,
-            rgb=green,
-            bold=True,
-            align="center",
-        )
-        p.rect(355, y - 10, 170, 52, fill=(239, 248, 239), stroke=green)
-        p.text(440, y + 11, f"{vals['ce']:+.2f} nats", 16, rgb=green, bold=True, align="center")
-        p.rect(555, y - 10, 170, 52, fill=(253, 239, 237), stroke=red)
-        p.text(640, y + 11, f"{vals['qem']:+.2f} pp", 16, rgb=red, bold=True, align="center")
-        p.rect(750, y - 10, 170, 52, fill=(253, 239, 237), stroke=red)
-        p.text(835, y + 11, f"{vals['hem']:+.2f} pp", 16, rgb=red, bold=True, align="center")
-        p.arrow(320, y + 16, 350, y + 16, rgb=orange)
-        p.arrow(525, y + 16, 550, y + 16, rgb=red, dashed=True)
-        p.arrow(725, y + 16, 745, y + 16, rgb=red, dashed=True)
+    panel_x = (65, 330, 595, 860)
+    row_y = {"Llama-2-7B": 225, "Llama-3.2-3B": 30}
+    panel_w, panel_h = 245, 150
 
-    p.text(
-        35,
-        45,
-        "DSMC is closer in geometry and targeting loss, but worse in both task metrics.",
-        18,
-        rgb=red,
-        bold=True,
-    )
+    for j, (_key, title, direction, _formatter) in enumerate(PANELS):
+        p.text(panel_x[j] + panel_w / 2, 394, title, 13, bold=True, align="center")
+        p.text(panel_x[j] + panel_w / 2, 379, direction, 9.5, rgb=gray, align="center")
+
+    for stack, y in row_y.items():
+        p.text(8, y + 78, stack, 11.5, rgb=blue, bold=True)
+        for j, (key, _title, _direction, formatter) in enumerate(PANELS):
+            draw_panel(
+                p,
+                panel_x[j],
+                y,
+                panel_w,
+                panel_h,
+                n[stack][key],
+                formatter,
+                draw_colors,
+            )
+
     p.save(OUT)
     print(f"wrote {OUT}")
 

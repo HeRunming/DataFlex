@@ -4,9 +4,7 @@
 from __future__ import annotations
 
 import argparse
-import glob
 import json
-import os
 import re
 import statistics as st
 from pathlib import Path
@@ -15,7 +13,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EXP = ROOT / "experiments" / "less_aligned"
 SUMMARY = EXP / "results_summary"
-SAVES = Path(os.environ.get("DATAFLEX_SAVES", ROOT.parent / "dataflex_saves"))
 METHODS = ("dsmc", "randk")
 DRAWS = (0, 1, 2)
 SEEDS = (42, 1)
@@ -33,16 +30,9 @@ def cells(path):
     return {x["adapter_id"]: x for x in obj}
 
 
-def result_path(cell_map, aid, l2=False):
+def result_path(cell_map, aid):
     if aid in cell_map:
         return Path(cell_map[aid]["results_json"])
-    if l2:
-        pattern = str(
-            SAVES / "eval_results" / "bbh_external" / aid / "**" / "results_*.json"
-        )
-        hits = sorted(glob.glob(pattern, recursive=True))
-        if len(hits) == 1:
-            return Path(hits[0])
     raise KeyError(aid)
 
 
@@ -203,12 +193,10 @@ def main():
         "llama2": (
             cells(EXP / "bbh_full_run_state.json"),
             "bbhx",
-            True,
         ),
         "llama32": (
             cells(EXP / "llama32_full_run_state.json"),
             "l32",
-            False,
         ),
     }
     rep = {
@@ -217,7 +205,7 @@ def main():
         "status": "offline frozen-generation analysis; no regeneration or training",
         "stacks": {},
     }
-    for stack, (cell_map, prefix, is_l2) in stacks.items():
+    for stack, (cell_map, prefix) in stacks.items():
         stack_rep = {"cells": {}, "per_draw": {}, "method_summary": {}}
         for draw in DRAWS:
             draw_row = {}
@@ -225,7 +213,7 @@ def main():
                 runs = []
                 for seed in SEEDS:
                     aid = f"{prefix}_draw{draw}_{method}_seed{seed}"
-                    path = result_path(cell_map, aid, l2=is_l2)
+                    path = result_path(cell_map, aid)
                     row = audit_run(path)
                     row["results_json"] = result_ref(path, aid)
                     stack_rep["cells"][aid] = row

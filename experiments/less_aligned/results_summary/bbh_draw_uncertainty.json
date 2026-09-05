@@ -1,0 +1,40 @@
+{
+  "analysis": "descriptive uncertainty for paired BBH DSMC-minus-Random draw effects",
+  "statistical_unit": "query/selection draw; two SFT seeds are averaged within each draw",
+  "scope": "The t intervals summarize dispersion over only three draws and are not treated as confirmatory population inference.",
+  "stacks": {
+    "llama2": {
+      "per_draw_difference_pp": [
+        -2.937224035323477,
+        -2.313303897101171,
+        -3.570742944903049
+      ],
+      "mean_difference_pp": -2.940423625775899,
+      "sample_sd_pp": 0.6287256299599381,
+      "descriptive_t_interval_95_pp": [
+        -4.5022646735621015,
+        -1.3785825779896965
+      ],
+      "same_sign_draws": 3,
+      "n_draws": 3,
+      "minimum_two_sided_sign_test_p": 0.25
+    },
+    "llama32": {
+      "per_draw_difference_pp": [
+        -1.3438279900172767,
+        -0.7295066231522318,
+        -0.5951238241505119
+      ],
+      "mean_difference_pp": -0.8894861457733402,
+      "sample_sd_pp": 0.39916734302810936,
+      "descriptive_t_interval_95_pp": [
+        -1.8810727959259381,
+        0.10210050437925777
+      ],
+      "same_sign_draws": 3,
+      "n_draws": 3,
+      "minimum_two_sided_sign_test_p": 0.25
+    }
+  },
+  "cross_stack_note": "Both stacks reuse the same three query draws, so the six stack-draw cells are not six independent selection draws."
+}

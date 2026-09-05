@@ -1,0 +1,32 @@
+{
+  "analysis": "Llama-2 BBH run-state completeness validation",
+  "expected_cell_count": 36,
+  "state_cell_count": 36,
+  "missing_cell_ids": [],
+  "extra_cell_ids": [],
+  "malformed_cells": {},
+  "progress_matches_plan": true,
+  "canary_cells": {
+    "bbhx_draw0_dsmc_seed42": {
+      "present_in_state": true,
+      "adapter_sha256_matches": true,
+      "results_sha256_matches": true,
+      "micro_matches": true,
+      "global_step_matches": true
+    },
+    "bbhx_draw0_randk_seed42": {
+      "present_in_state": true,
+      "adapter_sha256_matches": true,
+      "results_sha256_matches": true,
+      "micro_matches": true,
+      "global_step_matches": true
+    }
+  },
+  "canary_metadata_matches_state": true,
+  "training_time": {
+    "sum_per_adapter_elapsed_minutes": 817.9,
+    "sum_per_adapter_elapsed_hours": 13.631666666666666,
+    "aggregate_gpu_hours_at_8_gpus_per_job": 109.05333333333333
+  },
+  "PASS": true
+}

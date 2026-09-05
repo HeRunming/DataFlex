@@ -2,8 +2,8 @@
   "schema_version": 1,
   "paper_source": {
     "path": "paper/iclr2027/main.tex",
-    "sha256": "cc1de39fbdec29d58dc8af6d2e94617dae61cd55077ce73c240960f05bebb2a9",
-    "bytes": 52622
+    "sha256": "4610a12e18c5afe781161b8fbca2d8813e75fef4be1df860b33f6aadfb21d7cf",
+    "bytes": 52737
   },
   "scope": "Portable mapping from each major paper figure/table to committed result artifacts, analysis code, frozen protocols, and run metadata.",
   "notes": [
@@ -46,8 +46,8 @@
       "analysis_or_rendering": [
         {
           "path": "paper/iclr2027/scripts/make_surrogate_chain.py",
-          "sha256": "2ad3caebd3b1042355171ad9d03c09d168948a79c0bac92f352ed7fe978e2bc8",
-          "bytes": 8490
+          "sha256": "4a356d10ac3a55b92abf153e3b376694c340f6a2ae670b5cc231a53977dbcc4c",
+          "bytes": 11386
         }
       ],
       "protocols": [
@@ -174,6 +174,11 @@
           "path": "experiments/less_aligned/results_summary/llama32_results.json",
           "sha256": "118cef58cff8b013609cfe7b40eabb2d0574049e93f2b5e6384d3f97efc3d715",
           "bytes": 7364
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_draw_uncertainty.json",
+          "sha256": "90a34dab29c96a61b5accff2ecffeb43faea86e95e4b44e2b5c31f4c0dd8580e",
+          "bytes": 1350
         }
       ],
       "analysis_or_rendering": [
@@ -186,6 +191,16 @@
           "path": "scripts/analyse_llama32_results.py",
           "sha256": "b45df7ac357889fdf52b6f398961035648e2de53196b4eac5177c2973df6e25a",
           "bytes": 6657
+        },
+        {
+          "path": "scripts/analyse_bbh_draw_uncertainty.py",
+          "sha256": "27be00ef16eca64252dc403dac87564c577eb41ee1a832589eb682dff7f43a94",
+          "bytes": 2456
+        },
+        {
+          "path": "scripts/validate_bbh_run_state.py",
+          "sha256": "3b8b52c7fc6d9d6e3a39e79af2f2216a08e9f947f93e63aa06587a1af5f4af07",
+          "bytes": 4032
         }
       ],
       "protocols": [
@@ -203,13 +218,18 @@
       "configs_or_manifests": [
         {
           "path": "experiments/less_aligned/bbh_full_run_state.json",
-          "sha256": "3a249b9a561ae3d094c76f729b0ecb3cf585124784842a216f6cce68136b1793",
-          "bytes": 23078
+          "sha256": "e0ae940d3f8caa7e39c4ae62908c2566c6b5b3227780e5bc717e157fcbd1a8f3",
+          "bytes": 24593
         },
         {
           "path": "experiments/less_aligned/llama32_full_run_state.json",
           "sha256": "d709d04be7ed7b360d7797c2fbcd1870bfb5ceadb4a744c917d399259dd16509",
           "bytes": 42595
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_run_state_validation.json",
+          "sha256": "536127b4e759db7ced8df703a9c9fd750df86e2e474f9ed99badaab9b90cf990",
+          "bytes": 924
         }
       ]
     },
@@ -288,15 +308,15 @@
       "result_files": [
         {
           "path": "experiments/less_aligned/results_summary/bbh_signed_d1_taskwise.json",
-          "sha256": "062b896c2a84a502114ca1168838180082b6d147be63530cd6df6293c03c2f43",
-          "bytes": 24936
+          "sha256": "90bc7481b9c1b55ef513658f54d54785576497b61563c7e93a90e5678128f509",
+          "bytes": 24937
         }
       ],
       "analysis_or_rendering": [
         {
           "path": "scripts/analyse_bbh_signed_and_taskwise.py",
-          "sha256": "343a87f72f9cc7a6296e3727c732a0d380011a7a9aa71de2a0f399b5b1fc212e",
-          "bytes": 13506
+          "sha256": "b67c2a02ab5adb4e7a241bceb1d5b10e962a7fee2afea8613a2311dc6f1e6679",
+          "bytes": 12702
         }
       ],
       "protocols": [
@@ -320,15 +340,15 @@
       "result_files": [
         {
           "path": "experiments/less_aligned/results_summary/bbh_signed_d1_taskwise.json",
-          "sha256": "062b896c2a84a502114ca1168838180082b6d147be63530cd6df6293c03c2f43",
-          "bytes": 24936
+          "sha256": "90bc7481b9c1b55ef513658f54d54785576497b61563c7e93a90e5678128f509",
+          "bytes": 24937
         }
       ],
       "analysis_or_rendering": [
         {
           "path": "scripts/analyse_bbh_signed_and_taskwise.py",
-          "sha256": "343a87f72f9cc7a6296e3727c732a0d380011a7a9aa71de2a0f399b5b1fc212e",
-          "bytes": 13506
+          "sha256": "b67c2a02ab5adb4e7a241bceb1d5b10e962a7fee2afea8613a2311dc6f1e6679",
+          "bytes": 12702
         }
       ],
       "protocols": [
@@ -449,8 +469,8 @@
       "analysis_or_rendering": [
         {
           "path": "scripts/analyse_bbh_parser_validity.py",
-          "sha256": "068bdf766cbd4d2f89cad28d65e271da565bb746fa9ad279bf4dcdab5ddb01fd",
-          "bytes": 10905
+          "sha256": "718d5c8430823e33deeae600779b5937c9f85e28ca4227daf4fe11baef43b849",
+          "bytes": 10494
         }
       ],
       "protocols": [
@@ -468,8 +488,8 @@
         },
         {
           "path": "experiments/less_aligned/bbh_full_run_state.json",
-          "sha256": "3a249b9a561ae3d094c76f729b0ecb3cf585124784842a216f6cce68136b1793",
-          "bytes": 23078
+          "sha256": "e0ae940d3f8caa7e39c4ae62908c2566c6b5b3227780e5bc717e157fcbd1a8f3",
+          "bytes": 24593
         },
         {
           "path": "experiments/less_aligned/llama32_full_run_state.json",
@@ -481,12 +501,12 @@
     {
       "label": "tab:cost",
       "paper_object": "Appendix: compute and selection overhead",
-      "claim": "Reports measured training minutes and coarse stage-level accounting without treating them as microbenchmarks.",
+      "claim": "Reports summed per-adapter elapsed time and coarse stage-level accelerator accounting without treating either as a microbenchmark.",
       "result_files": [
         {
           "path": "experiments/less_aligned/bbh_full_run_state.json",
-          "sha256": "3a249b9a561ae3d094c76f729b0ecb3cf585124784842a216f6cce68136b1793",
-          "bytes": 23078
+          "sha256": "e0ae940d3f8caa7e39c4ae62908c2566c6b5b3227780e5bc717e157fcbd1a8f3",
+          "bytes": 24593
         },
         {
           "path": "experiments/less_aligned/llama32_full_run_state.json",
@@ -497,9 +517,20 @@
           "path": "experiments/less_aligned/llama32_mmlu5pct_run_state.json",
           "sha256": "d309856689094ccca41fd97ea6434217939d2ad5480bace58ce128799daf7480",
           "bytes": 66684
+        },
+        {
+          "path": "experiments/less_aligned/results_summary/bbh_run_state_validation.json",
+          "sha256": "536127b4e759db7ced8df703a9c9fd750df86e2e474f9ed99badaab9b90cf990",
+          "bytes": 924
         }
       ],
-      "analysis_or_rendering": [],
+      "analysis_or_rendering": [
+        {
+          "path": "scripts/validate_bbh_run_state.py",
+          "sha256": "3b8b52c7fc6d9d6e3a39e79af2f2216a08e9f947f93e63aa06587a1af5f4af07",
+          "bytes": 4032
+        }
+      ],
       "protocols": [
         {
           "path": "experiments/less_aligned/prereg_bbh_external.md",
